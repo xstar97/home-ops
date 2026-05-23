@@ -18,5 +18,4 @@ creation_rules:
 ## docker
   - path_regex: ^docker/[^/]+/.*\.enc\.env$
     age: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
-    unencrypted_regex: "^(#.*|[A-Za-z_][A-Za-z0-9_]*=)"
     format: dotenv
