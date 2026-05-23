@@ -1,0 +1,44 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:8080/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  gotify:
+    # scale: 1
+    image: ghcr.io/gotify/server:2.9.1
+    container_name: gotify
+    restart: on-failure
+    networks:
+      - network_internal
+    ports:
+      - 8080
+    healthcheck: *healthcheck
+    env_file:
+      - gotify.enc.env
+    volumes:
+      - /home/xstar97/docker/data/gotify/data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gotify.rule: Host(`gotify.${BASE_DOMAIN_0}`)
+      traefik.http.services.gotify.loadbalancer.server.port: 8080
+      traefik.http.routers.gotify.entrypoints: websecure
+      traefik.http.routers.gotify.tls: true
+      traefik.http.routers.gotify.tls.certResolver: cf
+      traefik.http.routers.gotify.middlewares: error-pages-middleware
+      homepage.group: Core
+      homepage.name: Gotify
+      homepage.icon: gotify.png
+      homepage.href: https://gotify.${BASE_DOMAIN_0}
+      homepage.widget.type: gotify
+      homepage.widget.url: http://gotify:8080
+      homepage.widget.key: "${GOTIFY_HP_WIDGET_KEY}"
+      homepage.description: Alert service
+      wud.tag.include: ^\d+\.\d+\.\d+$$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

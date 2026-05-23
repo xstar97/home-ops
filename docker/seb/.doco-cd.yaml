@@ -1,0 +1,13 @@
+name: gitops
+working_dir: ./docker/seb/apps
+auto_discovery:
+  enabled: true
+  depth: 0
+  delete: true
+env_files:
+  - ../../../secrets.enc.env
+  - ../../../base.enc.env
+force_recreate: false
+reconciliation:
+  enabled: true
+  interval: 3600
