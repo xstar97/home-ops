@@ -8,14 +8,14 @@ resources:
   - tautulli/ks.yaml
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
-  - tauticord/ks.yaml
-  # - muse/ks.yaml
-  # - checkrr/ks.yaml
-  - calendarr/ks.yaml
-  # - sonobarr/ks.yaml
-  - utilities
-  - indexers
-  - managers
-  - requests
-  - books
-  - downloaders
+  # - tauticord/ks.yaml
+  ## - muse/ks.yaml
+  ## - checkrr/ks.yaml
+  # - calendarr/ks.yaml
+  ## - sonobarr/ks.yaml
+  # - utilities
+  # - indexers
+  # - managers
+  # - requests
+  # - books
+  # - downloaders

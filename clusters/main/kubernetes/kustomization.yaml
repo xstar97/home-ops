@@ -13,5 +13,5 @@ resources:
   - assets
   - financial
   - games
-  # - media
+  - media
   - tools
