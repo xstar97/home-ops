@@ -1,0 +1,144 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tracearr
+  namespace: tracearr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 18.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-utilities
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/connorgallopo/tracearr
+      pullPolicy: IfNotPresent
+      tag: 1.4.28@sha256:ca93988326c26597e0d9c91d69c0f97e7ed23c517cf327c22bc7f188002af998
+    # postgresTimescaledb16Image:
+    #   repository: timescale/timescaledb-ha
+    #   pullPolicy: IfNotPresent
+    #   tag: pg16-ts2.26@sha256:ae70d94ec1c797e682f85aa38d5eef9960e862607c0e9aa7075792c35265ff3f
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-tracearr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 3000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                PORT: "{{ .Values.service.main.ports.main.port }}"
+                HOST: 0.0.0.0
+                DATABASE_URL:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: std
+                DB_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                REDIS_URL:
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                    key: url
+                JWT_SECRET: "${TRACEARR_JWT_SECRET}"
+                COOKIE_SECRET: "${TRACEARR_COOKIE_SECRET}"
+                CORS_ORIGIN: "{{ .Values.chartContext.appUrl }}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: tracearr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          homepage:
+            enabled: false
+            group: Monitoring
+            name: "Traceerr"
+            description: "Real-time monitoring for Plex, Jellyfin, and Emby servers."
+            icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/tracearr.webp"
+            # href: ""
+            widget:
+              type: "tracearr"
+              custom:
+                key: ${TRACEARR_KEY}
+                # url: http://tracearr.host.or.ip:3000
+                view: both # optional, "summary", "details", or "both", defaults to "details"
+                enableUser: true # optional, defaults to false
+                showEpisodeNumber: true # optional, defaults to false
+                expandOneStreamToTwoRows: false # optional, defaults to true
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    cnpg:
+      main:
+        enabled: true
+        # type: timescaledb # time-series data
+        # pgVersion: 16
+        user: tracearr
+        database: tracearr
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#50_0_*_*_*
+              schedule: "50 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
+    redis:
+      enabled: true

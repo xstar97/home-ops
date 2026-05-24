@@ -14,8 +14,3 @@ creation_rules:
   - path_regex: kubernetes/.*\.sops\.ya?ml
     age: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
     encrypted_regex: "^(data|stringData)$"
-
-## docker
-  - path_regex: ^docker/[^/]+/.*\.enc\.env$
-    age: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
-    format: dotenv
