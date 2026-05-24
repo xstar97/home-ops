@@ -15,3 +15,4 @@ resources:
   - prometheus-community.yaml
   - truecharts.yaml
 # more goes here!
+  - weave-gitops.yaml
