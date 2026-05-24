@@ -96,7 +96,7 @@ spec:
         enabled: false
     cnpg:
       main:
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
