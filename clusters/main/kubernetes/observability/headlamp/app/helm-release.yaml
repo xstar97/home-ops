@@ -88,29 +88,3 @@ spec:
             source: https://artifacthub.io/packages/headlamp/headlamp-plugins/headlamp_cert-manager
             # renovate: datasource=docker depName=ghcr.io/headlamp-k8s/headlamp-plugin-cert-manager
             version: 0.1.0
-
-    # service:
-    #   type: LoadBalancer
-    #   loadBalancerIP: ${HEADLAMP_IP}
-
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: general-le-prod
-        cert-manager.io/private-key-rotation-policy: Always
-        ingressClassName: internal
-        hosts:
-          - host: headlamp.${DOMAIN_2}
-            paths:
-              - pathType: Prefix
-                path: /
-                type: ImplementationSpecific
-                backend:
-                  service:
-                    name: headlamp
-                    port:
-                      number: 80
-      tls:
-        - secretName: headlamp-tls-0
-          hosts:
-            - headlamp.${DOMAIN_2}
