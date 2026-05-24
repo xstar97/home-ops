@@ -2,7 +2,7 @@ services:
   bedrockconnect:
     scale: 1
     container_name: bedrockconnect
-    image: pugmatt/bedrock-connect:1.66
+    image: pugmatt/bedrock-connect:1.66@sha256:6fbbe37a4d94af7d60fb399d0b55cd70a00c5dfee76dbb859844a48cf74ebcf6
     restart: unless-stopped
     ports:
       - "19132:19132/udp"

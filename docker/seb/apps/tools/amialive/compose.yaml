@@ -9,7 +9,7 @@ services:
   amialive:
     scale: 1
     container_name: amialive
-    image: ghcr.io/xstar97/amialive:0.0.3
+    image: ghcr.io/xstar97/amialive:0.0.3@sha256:5f619baba4cf073eece913c0be6ce2217abb816f6a403ff11ee079aef280e671
     restart: unless-stopped
     networks:
       - network_internal
