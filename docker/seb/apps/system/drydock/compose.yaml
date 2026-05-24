@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   drydock:
     scale: 1
-    image: ghcr.io/codeswhat/drydock:1.4.5
+    image: ghcr.io/codeswhat/drydock:1.4.5@sha256:850c1daefa5c7bdb32631f0ab3c6d4d73bf26b392ac20ea70fb2b937894e743a
     container_name: drydock
     restart: on-failure
     environment:

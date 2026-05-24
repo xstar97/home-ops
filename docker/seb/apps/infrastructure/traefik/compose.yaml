@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   traefik:
-    image: traefik:v3.7.1
+    image: traefik:v3.7.1@sha256:6b9cbca6fac42ab0075f5437d8dc1685cfd188626d8d515839ea94f8b6271c42
     container_name: traefik
     restart: on-failure
     healthcheck: *healthcheck
@@ -65,7 +65,7 @@ services:
       error-pages: {condition: service_healthy}
   error-pages:
     container_name: error-pages
-    image: ghcr.io/tarampampam/error-pages:4.2.0
+    image: ghcr.io/tarampampam/error-pages:4.2.0@sha256:7c57706501e6ad4ed91031c5b529591395d7cbd509a311f8210236bb608f6557
     networks:
       - internal
     environment:
