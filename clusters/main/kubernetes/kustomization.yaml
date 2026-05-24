@@ -9,9 +9,9 @@ resources:
   - networking
   - observability
   - system
-  # - assets
-  # - auth
-  # - financial
+  - auth
+  - assets
+  - financial
   # - games
   # - media
-  # - tools
+  - tools
