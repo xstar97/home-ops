@@ -94,7 +94,7 @@ spec:
     #   loadBalancerIP: ${HEADLAMP_IP}
 
     ingress:
-      enabled: false
+      enabled: true
       annotations:
         cert-manager.io/cluster-issuer: general-le-prod
         cert-manager.io/private-key-rotation-policy: Always
