@@ -3,3 +3,6 @@ kind: Kustomization
 namespace: nginx-internal
 resources:
   - helm-release.yaml
+components:
+  - ../../../../components/ns
+  - ../../../../components/gatus/service
