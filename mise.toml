@@ -1,0 +1,23 @@
+[tools]
+jq = "1.8.1"
+kubecolor = "0.5.3"
+
+[settings]
+auto_install = true
+
+[shell_alias]
+ll = "ls -la"
+la = "ls -A"
+gs = "git status"
+gc = "git commit"
+k = "kubecolor"
+h = "helm"
+t = "talosctl"
+gto = "gitops"
+ft = "forgetool"
+tcl = "talosctl"
+badPods = 'kubecolor get pods -A --field-selector=status.phase!=Running'
+badFlux = "flux get kustomizations -A --status-selector ready=false"
+stopAll = "mise chart:stop_all"
+vK = "viddy kubectl get pods,ingress,configmaps"
+getPods = "mise chart:pods"
