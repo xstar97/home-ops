@@ -93,7 +93,7 @@ spec:
       - clickvillagers
       # - smart-spawner-plugin
       # - coinsengine
-      - thegoldeconomy
+      # - thegoldeconomy
       # - towny
       # - axenvoys
       # - axrewards
