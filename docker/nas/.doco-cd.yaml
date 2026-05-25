@@ -6,7 +6,6 @@ auto_discovery:
   delete: true
 env_files:
   - ../../doco.enc.env
-  - ../../secrets.enc.env
 force_recreate: false
 reconciliation:
   enabled: true

@@ -19,7 +19,7 @@ services:
     networks:
       - network_internal
     ports:
-      - 30064
+      - 30064:30064
     healthcheck: *healthcheck
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

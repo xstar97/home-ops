@@ -13,7 +13,6 @@ services:
       - "9120:9120"
     env_file:
       - ../../doco.enc.env
-      - ../../secrets.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
