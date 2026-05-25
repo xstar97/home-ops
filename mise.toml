@@ -1,6 +1,7 @@
 [tools]
 jq = "1.8.1"
 kubecolor = "0.5.3"
+oxker = "latest"
 viddy = "latest"
 
 [settings]
