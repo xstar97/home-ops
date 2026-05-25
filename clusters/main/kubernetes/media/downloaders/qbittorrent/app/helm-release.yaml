@@ -27,7 +27,7 @@ spec:
     gatus:
       group: media-downloaders
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
