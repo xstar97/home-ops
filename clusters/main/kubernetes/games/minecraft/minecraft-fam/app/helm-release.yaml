@@ -91,9 +91,9 @@ spec:
       - auraskills
       - auramobs
       - clickvillagers
-      # - smart-spawner-plugin
+      - smart-spawner-plugin
       # - coinsengine
-      # - thegoldeconomy
+      - thegoldeconomy
       # - towny
       # - axenvoys
       # - axrewards
@@ -142,7 +142,7 @@ spec:
                 EULA: "TRUE"
                 GUI: "FALSE"
                 OVERRIDE_SERVER_PROPERTIES: true
-                VERSION: LATEST
+                VERSION: 1.21.11 # LATEST
                 TYPE: "PAPER"
                 # PAPER_BUILD: "138"
                 SEED: 569475130819 # cherry blossom village seed
