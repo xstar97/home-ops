@@ -1,0 +1,22 @@
+services:
+  apprise:
+    image: caronc/apprise:v1.4.1@sha256:25e0577915c2f06233ae1dce077f05c0fc9ba4f0ea89de5aee18a32b2ee9a75c
+    container_name: apprise
+    restart: unless-stopped
+    networks:
+      - internal
+    ports:
+      - "8000"
+    environment:
+      TZ: America/New_York
+      APPRISE_WORKER_COUNT: 1
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status || curl -fs http://localhost:8000/status | grep -q 'OK'"]
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$

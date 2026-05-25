@@ -1,38 +1,20 @@
 services:
-  apprise:
-    image: caronc/apprise:v1.4.1@sha256:25e0577915c2f06233ae1dce077f05c0fc9ba4f0ea89de5aee18a32b2ee9a75c
-    restart: unless-stopped
-    container_name: apprise
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status || curl -fs http://localhost:8000/status | grep -q 'OK'"]
-      start_period: 15s
-      interval: 30s
-      timeout: 5s
-      retries: 3
-    networks:
-      - internal
-    ports:
-      - "8000"
-    environment:
-      TZ: America/New_York
-      APPRISE_WORKER_COUNT: 1
-    labels:
-      - wud.tag.include=^\d+\.\d+\.\d+$
-  
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.89.0@sha256:38717384d9c46e366fd217e0104467f5fa62ebc72f7586f899645f92de989315
     container_name: doco-cd
     restart: unless-stopped
+    depends_on:
+      - apprise
     networks:
-      - network_internal
       - internal
+      - network_internal
     ports:
-      - "9080:9080" # Webhook endpoint
-      - "9120:9120" # Prometheus metrics
+      - "9080:9080"
+      - "9120:9120"
     env_file:
-      - ./secrets.enc.env
-      - ./doco.enc.env
-      - ./base.enc.env
+      - ../../base.enc.env
+      - ../../doco.enc.env
+      - ../../secrets.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
@@ -43,23 +25,18 @@ services:
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
-      PASS_ENV: false
+      PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 3600
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - data:/data
+      - doco_data:/data
       - /home/xstar97/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
       - /home/xstar97/home-ops/age.agekey:/run/secrets/sops_age_key:ro
-    depends_on:
-      - apprise
     healthcheck:
-      test:
-        - CMD
-        - /doco-cd
-        - healthcheck
+      test: ["CMD", "/doco-cd", "healthcheck"]
       start_period: 15s
       interval: 30s
       timeout: 5s
@@ -68,10 +45,3 @@ services:
       - no-new-privileges:true
     labels:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
-networks:
-  network_internal:
-    external: true
-  internal:
-    driver: bridge
-volumes:
-  data: {}
