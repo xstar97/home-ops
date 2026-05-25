@@ -91,7 +91,7 @@ spec:
       - auraskills
       - auramobs
       - clickvillagers
-      - smart-spawner-plugin
+      # - smart-spawner-plugin
       # - coinsengine
       - thegoldeconomy
       # - towny
