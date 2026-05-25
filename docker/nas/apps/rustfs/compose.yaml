@@ -21,8 +21,14 @@ services:
       - /mnt/kubernetes/backups:/data/rustfs0
       - logs:/app/logs
     networks:
-      - rustfs-network
+      - network_internal
     restart: unless-stopped
     healthcheck: *healthcheck
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
+
 volumes:
   logs:
