@@ -1,0 +1,28 @@
+x-healthcheck: &healthcheck
+  test: [
+          "CMD",
+          "sh", "-c",
+          "curl -f http://127.0.0.1:30292/health && curl -f http://127.0.0.1:30293/rustfs/console/health"
+        ]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+services:
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs-server
+    security_opt:
+      - "no-new-privileges:true"
+    ports:
+      - "30292:30292" # S3 API port
+      - "30293:30293" # Console port
+    volumes:
+      - /mnt/kubernetes/backups:/data/rustfs0
+      - logs:/app/logs
+    networks:
+      - rustfs-network
+    restart: unless-stopped
+    healthcheck: *healthcheck
+volumes:
+  logs:

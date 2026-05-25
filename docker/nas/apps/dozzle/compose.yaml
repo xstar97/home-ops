@@ -1,0 +1,32 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "/dozzle", "healthcheck"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  dozzle:
+    scale: 1
+    image: amir20/dozzle:v10.6.1@sha256:4a5e45a15120807294d0a896ec9f89e63d8d43da4e97480fe245454e2b00403e
+    container_name: dozzle
+    restart: on-failure
+    environment:
+      DOZZLE_ADDR: :30064
+      DOZZLE_ENABLE_ACTIONS: true
+      DOZZLE_ENABLE_SHELL: true
+      DOZZLE_NO_ANALYTICS: true
+    networks:
+      - network_internal
+    ports:
+      - 30064
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

@@ -1,0 +1,13 @@
+include:
+  - ./stacks/apprise.yaml
+  - ./stacks/doco-cd.yaml
+
+networks:
+  internal:
+    driver: bridge
+
+  network_internal:
+    external: true
+
+volumes:
+  doco_data: {}

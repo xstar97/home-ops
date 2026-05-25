@@ -1,0 +1,46 @@
+services:
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.89.0@sha256:38717384d9c46e366fd217e0104467f5fa62ebc72f7586f899645f92de989315
+    container_name: doco-cd
+    restart: unless-stopped
+    depends_on:
+      - apprise
+    networks:
+      - internal
+      - network_internal
+    ports:
+      - "9080:9080"
+      - "9120:9120"
+    env_file:
+      - ../../doco.enc.env
+      - ../../secrets.enc.env
+    environment:
+      TZ: America/New_York
+      HTTP_PORT: 9080
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      APPRISE_API_URL: http://apprise:8000/notify
+      APPRISE_NOTIFY_LEVEL: success
+      DOCKER_SWARM_FEATURES: "false"
+      DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
+      PASS_ENV: "false"
+      POLL_CONFIG: |
+        - url: https://github.com/xstar97/home-ops
+          reference: main
+          interval: 3600
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - doco_data:/data
+      - /mnt/SSD/users/admin/admin/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
+      - /mnt/SSD/apps/home-ops/age.agekey:/run/secrets/sops_age_key:ro
+    healthcheck:
+      test: ["CMD", "/doco-cd", "healthcheck"]
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
