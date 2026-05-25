@@ -10,7 +10,7 @@ x-healthcheck: &healthcheck
   start_period: 15s
 services:
   rustfs:
-    image: rustfs/rustfs:latest
+    image: rustfs/rustfs:1.0.0-beta.4@sha256:f7cb98ef492fa3c3ed0dbd65df3ce2dd205c666e24e7d7234d9402c9ed1001f9
     container_name: rustfs
     security_opt:
       - "no-new-privileges:true"
@@ -18,7 +18,7 @@ services:
       - "30292:30292" # S3 API port
       - "30293:30293" # Console port
     env_file:
-      - secrets.enc.env
+      - ./secrets.enc.env
     volumes:
       - /mnt/kubernetes/backups:/data/rustfs0
       - logs:/app/logs
