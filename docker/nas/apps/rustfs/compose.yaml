@@ -19,6 +19,14 @@ services:
       - "30293:30293" # Console port
     env_file:
       - ./secrets.enc.env
+    user: "568:568"
+    environment:
+      USER_ID: 568
+      PGID: 568
+      GROUP_ID: 568
+      GID: 568
+      PUID: 568
+      UID: 568
     volumes:
       - /mnt/kubernetes/backups:/data/rustfs0
       - logs:/app/logs
