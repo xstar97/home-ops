@@ -12,21 +12,19 @@ services:
   rustfs:
     image: rustfs/rustfs:1.0.0-beta.4@sha256:f7cb98ef492fa3c3ed0dbd65df3ce2dd205c666e24e7d7234d9402c9ed1001f9
     container_name: rustfs
-    security_opt:
-      - "no-new-privileges:true"
     ports:
       - "30292:30292" # S3 API port
       - "30293:30293" # Console port
     env_file:
       - ./secrets.enc.env
     user: "568:568"
-    environment:
-      USER_ID: 568
-      PGID: 568
-      GROUP_ID: 568
-      GID: 568
-      PUID: 568
-      UID: 568
+    # environment:
+    #  USER_ID: 568
+    #   PGID: 568
+    #   GROUP_ID: 568
+    #   GID: 568
+    #   PUID: 568
+    #   UID: 568
     volumes:
       - /mnt/kubernetes/backups:/rustfs/data0
       - logs:/app/logs
