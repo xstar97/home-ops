@@ -215,12 +215,9 @@ spec:
             # https://gethomepage.dev/configs/bookmarks/
 
             - Developer:
-                - GitHubCluster:
+                - Home-Ops:
                     - abbr: GH
-                      href: https://github.com/xstar97/cluster
-                - GitHubHomeOps:
-                    - abbr: HO
-                      href: https://github.com/xstar97/docker-home-ops
+                      href: https://github.com/xstar97/home-ops
                 - GitOps:
                     - abbr: GO
                       href: https://gitops.${DOMAIN_2}
