@@ -28,6 +28,7 @@ services:
       PUID: 568
       UID: 568
     volumes:
+      - rustfs-data:/rustfs
       - /mnt/kubernetes/backups:/data/rustfs0
       - logs:/app/logs
     networks:
@@ -42,3 +43,4 @@ networks:
 
 volumes:
   logs:
+  rustfs-data:
