@@ -21,6 +21,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/xstar97/docker/data/homepage/config:/app/config
+      - /home/xstar97/home-ops/docker/seb/apps/system/homepage/configs/bookmarks.yaml:/app/config/bookmarks.yaml:ro
     labels:
       traefik.enable: true
       traefik.http.routers.homepage.rule: Host(`homepage.${BASE_DOMAIN_0}`)

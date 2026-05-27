@@ -1,0 +1,20 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks
+
+- Developer:
+    - Home-Ops:
+        - abbr: XC
+          href: https://github.com/xstar97/home-ops
+    - code:
+        - abbr: CS
+          href: https://code.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}/?folder=/config
+    - prunemate:
+        - abbr: PM
+          href: https://prunemate.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}/
+    - wol:
+        - abbr: WL
+          href: https://wol.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}/
+    - wud:
+        - abbr: WD
+          href: https://wud.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}/
