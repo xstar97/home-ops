@@ -11,8 +11,8 @@ services:
     ports:
       - "9080:9080"
       - "9120:9120"
-    # env_file:
-      # - doco.enc.env
+    env_file:
+      - doco.enc.env
       # - ../../base.enc.env
       # - ../../secrets.enc.env
     environment:
@@ -28,6 +28,7 @@ services:
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
       # API_SECRET: "${API_SECRET}"
       # WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
@@ -38,6 +39,7 @@ services:
       - doco_data:/data
       - /home/xstar97/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
       - /home/xstar97/home-ops/age.agekey:/run/secrets/sops_age_key:ro
+      - /home/xstar97/home-ops/docker/seb/bootstrap/stacks/webhook.enc.txt:/run/secrets/webhook_secret:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       start_period: 15s
