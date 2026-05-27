@@ -1,0 +1,8 @@
+machines:
+  - name: wife-gaming-pc
+    mac: "${GAMING_PC_0_MAC}"
+    ip: "${GAMING_PC_0_IP}"
+server:
+  listen: ":7777"
+ping:
+  privileged: false

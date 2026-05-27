@@ -19,9 +19,11 @@ services:
     network_mode: host # needed for wol to function
     restart: on-failure
     healthcheck: *healthcheck
+    env_file:
+      - ./wol.enc.env
     command: serve
     volumes:
-      - /home/xstar97/docker/data/wol/config.yaml:/etc/wol/config.yaml
+      - ${BASE_HOME_OPS_DIR}/apps/system/wol/config.yaml:/etc/wol/config.yaml
     labels:
       traefik.enable: true
       traefik.http.routers.wol.rule: Host(`wol.${BASE_DOMAIN_0}`)
