@@ -6,10 +6,15 @@ services:
     networks:
       - internal
     ports:
-      - "8000"
+      - "8000:8000"
     environment:
       TZ: America/New_York
       APPRISE_WORKER_COUNT: 1
+      APPRISE_STATEFUL_MODE: simple
+      # APPRISE_ADMIN: "y"
+    volumes:
+      - /mnt/SSD/apps/apprise/config:/config
+      - /mnt/SSD/apps/apprise/attach:/attach
     healthcheck:
       test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status || curl -fs http://localhost:8000/status | grep -q 'OK'"]
       start_period: 15s
