@@ -1,0 +1,36 @@
+# base.compose.yaml
+
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+x-logging-defaults: &logging-defaults
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-service-defaults: &service-defaults
+  restart: unless-stopped
+
+  security_opt:
+    - no-new-privileges:true
+
+  networks:
+    - network_internal
+
+  logging: *logging-defaults
+
+  labels:
+    wud.tag.include: ^\d+\.\d+\.\d+$
+
+services:
+  # dummy service used only for extends
+  base:
+    <<: *service-defaults
+
+networks:
+  network_internal:
+    external: true

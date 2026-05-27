@@ -1,34 +1,29 @@
-x-healthcheck: &healthcheck
-  test: ["wget -q --spider http://localhost:2376/_hawser/health || exit 1"]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 15s
-
 services:
   hawser:
     scale: 1
+    extends:
+      file: ../../base.app.compose.yaml
+      service: base
     image: ghcr.io/finsys/hawser:0.2.43@sha256:a1773f9481c67d5d39e1261c004c76e2be05f601a9c04d751224fa14b59e7e1a
     container_name: hawser
-    restart: on-failure
     env_file:
       - hawser.enc.env
     environment:
       STACKS_DIR: "/opt/hawser-stacks"
-    networks:
-      - network_internal
     ports:
       - 2376:2376
-    healthcheck: *healthcheck
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --spider http://localhost:2376/_hawser/health || exit 1"
+        ]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - hawser_data:/opt/hawser-stacks
-    labels:
-      wud.tag.include: ^\d+\.\d+\.\d+$
+volumes:
+  hawser_data:
 networks:
   network_internal:
     external: true
-  internal:
-    driver: bridge
-volumes:
-  hawser_data: {}
