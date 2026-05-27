@@ -19,8 +19,6 @@ services:
     network_mode: host # needed for wol to function
     restart: on-failure
     healthcheck: *healthcheck
-    env_file:
-      - ./wol.enc.env
     environment:
       WOL_CONFIG: |
         machines:
