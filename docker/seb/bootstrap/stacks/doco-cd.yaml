@@ -12,7 +12,7 @@ services:
       - "9080:9080"
       - "9120:9120"
     env_file:
-      - doco.enc.env
+      # - doco.enc.env
       - ../../base.enc.env
       - ../../secrets.enc.env
     environment:
@@ -26,8 +26,8 @@ services:
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
-      API_SECRET: "${API_SECRET}"
-      WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
+      # API_SECRET: "${API_SECRET}"
+      # WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
