@@ -4,6 +4,8 @@ auto_discovery:
   enabled: true
   depth: 0
   delete: true
+env_files:
+  - ../../secrets.enc.env
 force_recreate: false
 reconciliation:
   enabled: true
