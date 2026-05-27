@@ -17,7 +17,7 @@ services:
       - 8080
     healthcheck: *healthcheck
     env_file:
-      - gotify.enc.env
+      - ./gotify.enc.env
     volumes:
       - /home/xstar97/docker/data/gotify/data:/app/data
     labels:
