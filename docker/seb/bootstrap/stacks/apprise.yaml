@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
+      - network_internal
     ports:
       - "8000"
     environment:
