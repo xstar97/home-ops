@@ -13,7 +13,7 @@ services:
       - "9120:9120"
     env_file:
       - ../../base.enc.env
-      - ../../doco.enc.env
+      - doco.enc.env
       - ../../secrets.enc.env
     environment:
       TZ: America/New_York

@@ -17,7 +17,7 @@ services:
       - 3000
     healthcheck: *healthcheck
     env_file:
-      - hp.enc.env
+      - ./hp.enc.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/xstar97/docker/data/homepage/config:/app/config

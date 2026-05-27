@@ -18,21 +18,10 @@ services:
     image: wol-custom:0.1.0
     network_mode: host # needed for wol to function
     restart: on-failure
-    # networks:
-    #   - network_internal
     healthcheck: *healthcheck
     command: serve
-    environment:
-      WOL_CONFIG: |
-        machines:
-          - name: wife-gaming-pc
-            mac: "${GAMING_PC_W_MAC}"
-            ip: "${GAMING_PC_W_IP}"
-        server:
-          listen: ":7777"
-        ping:
-          privileged: false
-
+    volumes:
+      - /home/xstar97/docker/data/wol/config.yaml:/etc/wol/config.yaml
     labels:
       traefik.enable: true
       traefik.http.routers.wol.rule: Host(`wol.${BASE_DOMAIN_0}`)
