@@ -18,8 +18,8 @@ services:
     healthcheck: *healthcheck
     env_file:
       - ./gotify.enc.env
-    # environment:
-    #   GOTIFY_HP_WIDGET_KEY: ${GOTIFY_HP_WIDGET_KEY}
+    environment:
+      GOTIFY_HP_WIDGET_KEY: ${GOTIFY_HP_WIDGET_KEY}
     volumes:
       - /home/xstar97/docker/data/gotify/data:/app/data
     labels:
