@@ -6,7 +6,7 @@ services:
     networks:
       - internal
     ports:
-      - "8000:8000"
+      - "8000"
     environment:
       TZ: America/New_York
       APPRISE_WORKER_COUNT: 1
