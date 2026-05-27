@@ -22,8 +22,6 @@ services:
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
-      # API_SECRET: "${API_SECRET}"
-      # WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       PASS_ENV: "false"
       POLL_CONFIG: |

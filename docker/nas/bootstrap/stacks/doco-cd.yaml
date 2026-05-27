@@ -11,8 +11,6 @@ services:
     ports:
       - "9080:9080"
       - "9120:9120"
-    # env_file:
-    #   - ./doco.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
@@ -24,6 +22,7 @@ services:
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
@@ -34,6 +33,7 @@ services:
       - doco_data:/data
       - /mnt/SSD/users/admin/admin/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
       - /mnt/SSD/apps/home-ops/age.agekey:/run/secrets/sops_age_key:ro
+      - /mnt/SSD/apps/home-ops/docker/seb/bootstrap/stacks/webhook.enc.txt:/run/secrets/webhook_secret:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       start_period: 15s
