@@ -1,0 +1,14 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+- Networking:
+    - opnsense:
+        icon: opnsense.png
+        href: "https://router.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}"
+        siteMonitor: "{{HOMEPAGE_VAR_OPNSENSE_URL_INTERNAL}}"
+        widget:
+          type: opnsense
+          url: "{{HOMEPAGE_VAR_OPNSENSE_URL_INTERNAL}}"
+          username: "{{HOMEPAGE_VAR_OPNSENSE_USER}}"
+          password: "{{HOMEPAGE_VAR_OPNSENSE_PASS}}"
+          # wan: opt1 # optional, defaults to wan
