@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": ["Block automerge for plex"],
+      "matchUpdateTypes": ["patch", "minor", "major"],
+      "automerge": false,
+      "matchPackageNames": ["oci.trueforge.org/containerforge/plex"],
+      "labels": ["type/patch", "type/minor", "type/major", "system-upgrade"],
+      "addLabels": null
+    }
+  ]
+  }
