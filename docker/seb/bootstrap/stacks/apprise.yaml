@@ -11,13 +11,16 @@ services:
     environment:
       TZ: America/New_York
       APPRISE_WORKER_COUNT: 1
+      APPRISE_STATEFUL_MODE: simple
+      # APPRISE_ADMIN: "y"
+    volumes:
+      - /home/xstar97/docker/data/apprise/config:/config
+      - /home/xstar97/docker/data/apprise/attach:/attach
     healthcheck:
-      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status || curl -fs http://localhost:8000/status | grep -q 'OK'"]
+      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
       start_period: 15s
       interval: 30s
       timeout: 5s
       retries: 3
-    security_opt:
-      - no-new-privileges:true
     labels:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
