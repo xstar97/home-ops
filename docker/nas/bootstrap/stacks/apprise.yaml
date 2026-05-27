@@ -16,12 +16,10 @@ services:
       - /mnt/SSD/apps/apprise/config:/config
       - /mnt/SSD/apps/apprise/attach:/attach
     healthcheck:
-      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status || curl -fs http://localhost:8000/status | grep -q 'OK'"]
+      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
       start_period: 15s
       interval: 30s
       timeout: 5s
       retries: 3
-    security_opt:
-      - no-new-privileges:true
     labels:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
