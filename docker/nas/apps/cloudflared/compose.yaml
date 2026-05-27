@@ -11,7 +11,8 @@ services:
     image: cloudflare/cloudflared:2026.5.1@sha256:a5b5e6fd9a372f054b9a843c219bfbcdceb54691605312a8b1ee72978bdf1aa1
     container_name: cloudflared
     restart: on-failure
-    command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_0}
+
+    # command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_0}
     networks:
       - network_internal
     ports:
@@ -20,6 +21,9 @@ services:
     healthcheck: *healthcheck
     env_file:
       - ./cf.enc.env
+    environment:
+      TUNNEL_TOKEN: "${CF_TUNNEL_TOKEN_0}"
+      TUNNEL_METRICS: "127.0.0.1:8080"
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
