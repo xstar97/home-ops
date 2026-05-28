@@ -18,8 +18,8 @@ services:
       DOZZLE_NO_ANALYTICS: true
     networks:
       - network_internal
-    ports:
-      - 8080
+    expose:
+      - "8080"
     healthcheck: *healthcheck
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
