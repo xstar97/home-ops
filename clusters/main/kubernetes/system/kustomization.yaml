@@ -5,6 +5,7 @@ resources:
   - cert-manager/ks.yaml
   - cloudnative-pg/ks.yaml
   - kubernetes-reflector/ks.yaml
+  - kube-prometheus-stack/ks.yaml
   - longhorn/ks.yaml
   - metallb/ks.yaml
   - openebs/ks.yaml
