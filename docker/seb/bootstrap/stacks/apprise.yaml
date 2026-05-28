@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-    ports:
+    expose:
       - "8000"
     environment:
       TZ: America/New_York
