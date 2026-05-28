@@ -11,7 +11,7 @@ default-core: &core
 endpoints:
   - name: truenas
     <<: *core
-    url: https://${TRUENAS_HOSTNAME_LOCAL}:444
+    url: https://${TRUENAS_HOSTNAME_LOCAL}:444/api/versions
   - name: talos
     <<: *core
     url: https://${TALOS_VIP_IP}:6443
