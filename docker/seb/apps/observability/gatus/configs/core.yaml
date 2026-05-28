@@ -1,0 +1,23 @@
+default-core: &core
+  group: core
+  interval: 1m
+  client:
+    insecure: true
+    timeout: 30s
+  conditions:
+    - "[CONNECTED] == true"
+  alerts:
+    - type: gotify
+endpoints:
+  - name: truenas
+    <<: *core
+    url: https://${TRUENAS_HOSTNAME_LOCAL}:444
+  - name: talos
+    <<: *core
+    url: https://${TALOS_VIP_IP}:6443
+  - name: cockpit
+    <<: *core
+    url: https://${SEB_HOSTNAME_LOCAL}:9090/
+  - name: gotify
+    <<: *core
+    url: http://gotify:8080/

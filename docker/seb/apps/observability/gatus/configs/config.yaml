@@ -37,5 +37,14 @@ ui:
       link: https://github.com/xstar97
     - name: Homelab
       link: https://github.com/xstar97/home-ops
+alerting:
+  gotify:
+    server-url: "http://gotify:80"
+    token: "${GOTIFY_TOKEN}"
+    default-alert:
+      description: "health check failed"
+      send-on-resolved: false
+      failure-threshold: 3
+      success-threshold: 3
 web:
   port: 8080
