@@ -14,9 +14,8 @@ services:
     command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_0}
     networks:
       - network_internal
-    ports:
-      # metrics
-      - "8080" 
+    expose:
+      - "8080"
     healthcheck: *healthcheck
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+$
