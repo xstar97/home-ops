@@ -13,8 +13,8 @@ services:
     restart: unless-stopped
     networks:
       - network_internal
-    ports:
-      - 6969
+    expose:
+      - "6969"
     healthcheck: *healthcheck
     environment:
       PORT: 6969

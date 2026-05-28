@@ -15,8 +15,8 @@ services:
       DD_SERVER_TRUSTPROXY: 1
     networks:
       - network_internal
-    ports:
-      - 3000
+    expose:
+      - "3000"
     healthcheck: *healthcheck
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

@@ -13,8 +13,8 @@ services:
     restart: on-failure
     networks:
       - network_internal
-    ports:
-      - 8080
+    expose:
+      - "8080"
     healthcheck: *healthcheck
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/code:/home/coder/.config

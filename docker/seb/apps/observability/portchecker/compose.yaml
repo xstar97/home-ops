@@ -45,8 +45,8 @@ services:
     healthcheck: *healthcheckApi
     networks:
       - internal
-    ports:
-      - "8080" 
+    expose:
+      - "8080"
     environment:
       ALLOW_PRIVATE: false  # Prevent usage of private IP addresses
     labels:

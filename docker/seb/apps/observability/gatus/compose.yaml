@@ -21,8 +21,8 @@ services:
       - GATUS_CONFIG_PATH=/config
     networks:
       - network_internal
-    ports:
-      - 8080
+    expose:
+      - "8080"
     healthcheck: *healthcheck
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/gatus/config:/config
