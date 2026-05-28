@@ -1,0 +1,14 @@
+default-networking: &networking
+  group: networking
+  interval: 1m
+  client:
+    insecure: true
+    timeout: 30s
+  conditions:
+    - "[CONNECTED] == true"
+  alerts:
+    - type: gotify
+endpoints:
+  - name: router
+    <<: *networking
+    url: http://${ROUTER_HOSTNAME_LOCAL}:444
