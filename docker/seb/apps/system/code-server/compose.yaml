@@ -17,8 +17,8 @@ services:
       - 8080
     healthcheck: *healthcheck
     volumes:
-      - /home/xstar97/docker/data/code:/home/coder/.config
-      - /home/xstar97/docker:/config
+      - ${BASE_DOCKER_DATA_DIR}/code:/home/coder/.config
+      - ${BASE_DOCKER_DATA_DIR}:/config
     labels:
       traefik.enable: true
       traefik.http.routers.code.rule: Host(`code.${BASE_DOMAIN_0}`)

@@ -27,8 +27,8 @@ services:
     healthcheck: *healthcheck
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/xstar97/docker/data/prunemate/config:/config
-      - /home/xstar97/docker/data/prunemate/logs:/var/log
+      - ${BASE_DOCKER_DATA_DIR}/prunemate/config:/config
+      - ${BASE_DOCKER_DATA_DIR}/prunemate/logs:/var/log
     labels:
       traefik.enable: true
       traefik.http.routers.prunemate.rule: Host(`prunemate.${BASE_DOMAIN_0}`)

@@ -43,8 +43,8 @@ services:
       - 443:443/udp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /home/xstar97/docker/data/traefik/certs:/certs
-      - /home/xstar97/docker/data/traefik/dynamic:/etc/traefik/dynamic
+      - ${BASE_DOCKER_DATA_DIR}/traefik/certs:/certs
+      - ${BASE_DOCKER_DATA_DIR}/traefik/dynamic:/etc/traefik/dynamic
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.rule: Host(`traefik.${BASE_DOMAIN_0}`)  # Expose dashboard

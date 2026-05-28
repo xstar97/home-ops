@@ -27,7 +27,7 @@ services:
       BC_GLOBAL_PACKET_LIMIT: 100000
       BC_CUSTOM_SERVERS: /app/custom_servers.json
     volumes:
-      - /home/xstar97/docker/data/bedrockconnect/config/custom_servers.json:/app/custom_servers.json
+      - ${BASE_DOCKER_DATA_DIR}/bedrockconnect/config/custom_servers.json:/app/custom_servers.json
 networks:
   network_internal:
     external: true

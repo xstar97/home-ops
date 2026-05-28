@@ -30,8 +30,6 @@ services:
         ping:
           privileged: false # Optional, set to true to use privileged ping
     command: serve
-    # volumes:
-      # - ${BASE_HOME_OPS_DIR}/apps/system/wol/configs/config.yaml:/etc/wol/config.yaml
     labels:
       traefik.enable: true
       traefik.http.routers.wol.rule: Host(`wol.${BASE_DOMAIN_0}`)

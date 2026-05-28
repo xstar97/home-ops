@@ -4,7 +4,7 @@ services:
     # networks:
     #   - internal # Assign to the custom network
     # volumes:
-    #   - /home/xstar97/docker/data/dockhand/db:/var/lib/postgresql/data
+    #   - ${BASE_DOCKER_DATA_DIR}/dockhand/db:/var/lib/postgresql/data
     # labels:
     #   - wud.tag.include=^\d+\.\d+\.\d+$
   dockhand:
@@ -18,7 +18,7 @@ services:
       - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/xstar97/docker/data/dockhand/data:/app/data
+      - ${BASE_DOCKER_DATA_DIR}/dockhand/data:/app/data
     labels:
       traefik.enable: true
       traefik.http.routers.dockhand.rule: Host(`dockhand.${BASE_DOMAIN_0}`)

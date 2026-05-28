@@ -22,7 +22,7 @@ services:
       GOTIFY_HP_WIDGET_KEY: "${GOTIFY_HP_WIDGET_KEY}"
       GOTIFY_DEFAULTUSER_PASS: "${GOTIFY_DEFAULTUSER_PASS}"
     volumes:
-      - /home/xstar97/docker/data/gotify/data:/app/data
+      - ${BASE_DOCKER_DATA_DIR}/gotify/data:/app/data
     labels:
       traefik.enable: true
       traefik.http.routers.gotify.rule: Host(`gotify.${BASE_DOMAIN_0}`)

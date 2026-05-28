@@ -25,8 +25,8 @@ services:
       - 8080
     healthcheck: *healthcheck
     volumes:
-      - /home/xstar97/docker/data/gatus/config:/config
-      - /home/xstar97/docker/data/gatus/data:/data
+      - ${BASE_DOCKER_DATA_DIR}/gatus/config:/config
+      - ${BASE_DOCKER_DATA_DIR}/gatus/data:/data
     labels:
       traefik.enable: true
       traefik.http.routers.gatus.rule: Host(`gatus.${BASE_DOMAIN_0}`)
