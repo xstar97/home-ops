@@ -20,6 +20,7 @@ services:
     environment:
       GATUS_CONFIG_PATH: /config
       SEB_HOSTNAME_LOCAL: "${SEB_HOSTNAME_LOCAL}"
+      TRUENAS_HOSTNAME_LOCAL: ${TRUENAS_HOSTNAME_LOCAL}
       TALOS_VIP_IP: ${TALOS_VIP_IP}
       GOTIFY_TOKEN: ${GOTIFY_TOKEN}
     networks:
