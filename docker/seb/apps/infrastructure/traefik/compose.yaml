@@ -13,9 +13,6 @@ services:
     healthcheck: *healthcheck
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_0}"
-      BASE_DOMAIN_0: "${BASE_DOMAIN_0}"
-      HOME_ASSISTANT_HOSTNAME_LOCAL: "${HOME_ASSISTANT_HOSTNAME_LOCAL}"
-
     command:
       - --certificatesresolvers.cf.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.cf.acme.dnsChallenge.delayBeforeCheck=0
