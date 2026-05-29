@@ -45,9 +45,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${BASE_DOCKER_DATA_DIR}/traefik/certs:/certs
       - ${BASE_DOCKER_DATA_DIR}/traefik/dynamic:/etc/traefik/dynamic
-      - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/middlewares.yaml:/etc/traefik/dynamic/middlewares.yaml:ro
-      - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/pi.ha.yaml:/etc/traefik/dynamic/pi.ha.yaml:ro
-      - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/router.adguard.yaml:/etc/traefik/dynamic/router.adguard.yaml:ro
+      # - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/middlewares.yaml:/etc/traefik/dynamic/middlewares.yaml:ro
+      # - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/pi.ha.yaml:/etc/traefik/dynamic/pi.ha.yaml:ro
+      # - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/router.adguard.yaml:/etc/traefik/dynamic/router.adguard.yaml:ro
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.rule: Host(`traefik.${BASE_DOMAIN_0}`)  # Expose dashboard
