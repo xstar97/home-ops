@@ -14,7 +14,6 @@ services:
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_0}"
       BASE_DOMAIN_0: "${BASE_DOMAIN_0}"
-      BASE_DOMAIN_00: $BASE_DOMAIN_0
     command:
       - --certificatesresolvers.cf.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.cf.acme.dnsChallenge.delayBeforeCheck=0
