@@ -12,7 +12,7 @@ http:
     seb-cockpit-service:
       loadBalancer:
         servers:
-          - url: 'http://{{ env "SEB_LOCAL_DOMAIN" }}:9090'
+          - url: 'https://{{ env "SEB_LOCAL_DOMAIN" }}:9090'
         serversTransport: cockpit-transport
 
   serversTransports:
