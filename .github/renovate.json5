@@ -1,13 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "schedule": ["before 06:00 AM"],
   "rebaseWhen": "conflicted",
   "prHourlyLimit": 0,
   "commitHourlyLimit": 0,
   "extends": [
     "config:recommended",
-    ":timezone(America/New_York)",    
+    ":timezone(America/New_York)",
     ":disableRateLimiting",
     ":semanticCommits",
     ":configMigration",
