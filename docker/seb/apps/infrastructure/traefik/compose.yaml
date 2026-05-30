@@ -50,8 +50,16 @@ services:
         target: /var/run/docker.sock
         read_only: true
       - type: bind
-        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs
-        target: /etc/traefik/dynamic
+        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/middlewares.yaml
+        target: /etc/traefik/dynamic/middlewares.yaml
+        read_only: true
+      - type: bind
+        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/pi.ha.yaml
+        target: /etc/traefik/dynamic/pi.ha.yaml
+        read_only: true
+      - type: bind
+        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/router.adguard.yaml
+        target: /etc/traefik/dynamic/router.adguard.yaml
         read_only: true
     labels:
       traefik.enable: true
