@@ -2,11 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "rebaseWhen": "conflicted",
-  "prHourlyLimit": 0,
-  "commitHourlyLimit": 0,
   "extends": [
     "config:recommended",
-    ":timezone(America/New_York)",
+    "github>trueforge-org/renovate-config",
+    //":timezone(America/New_York)",    
     ":disableRateLimiting",
     ":semanticCommits",
     ":configMigration",
