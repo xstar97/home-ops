@@ -1,7 +1,7 @@
 http:
   routers:
     ha:
-      rule: 'Host(`homeassistant.{{ env "BASE_DOMAIN_0" }}`)'
+      rule: 'Host(`homeassistant.{{ env "DOMAIN_0" }}`)'
       entryPoints:
         - websecure
       service: ha-service
@@ -11,4 +11,4 @@ http:
     ha-service:
       loadBalancer:
         servers:
-          - url: '{{ env "HOME_ASSISTANT_HOSTNAME_LOCAL" }}'
+          - url: '{{ env "HA_LOCAL_DOMAIN" }}'

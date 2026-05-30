@@ -1,0 +1,15 @@
+http:
+  routers:
+    truenas-dozzle:
+      rule: 'Host(`dozzle.truenas.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: truenas-dozzle-service
+      tls:
+        certResolver: cf
+
+  services:
+    truenas-dozzle-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "TRUENAS_LOCAL_DOMAIN" }}:30064'

@@ -1,7 +1,7 @@
 http:
   routers:
     router-adguard:
-      rule: 'Host(`adg.{{ env "BASE_DOMAIN_0" }}`)'
+      rule: 'Host(`adg.{{ env "DOMAIN_0" }}`)'
       entryPoints:
         - websecure
       service: router-adguard-service
@@ -12,4 +12,4 @@ http:
     router-adguard-service:
       loadBalancer:
         servers:
-          - url: 'http://{{ env "ROUTER_HOSTNAME_LOCAL" }}:3000'
+          - url: 'http://{{ env "ROUTER_LOCAL_DOMAIN" }}:3000'

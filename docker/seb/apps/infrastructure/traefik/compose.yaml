@@ -13,9 +13,11 @@ services:
     healthcheck: *healthcheck
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_0}"
-      BASE_DOMAIN_0: "$BASE_DOMAIN_0"
-      HOME_ASSISTANT_HOSTNAME_LOCAL: "$HOME_ASSISTANT_HOSTNAME_LOCAL"
-      ROUTER_HOSTNAME_LOCAL: $ROUTER_HOSTNAME_LOCAL
+      DOMAIN_0: "$BASE_DOMAIN_0"
+      HA_LOCAL_DOMAIN: "$HOME_ASSISTANT_HOSTNAME_LOCAL"
+      ROUTER_LOCAL_DOMAIN: $ROUTER_HOSTNAME_LOCAL
+      SEB_LOCAL_DOMAIN: $SEB_HOSTNAME_LOCAL
+      TRUENAS_LOCAL_DOMAIN: $TRUENAS_HOSTNAME_LOCAL
     command:
       - --certificatesresolvers.cf.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.cf.acme.dnsChallenge.delayBeforeCheck=0
@@ -45,24 +47,12 @@ services:
       - 443:443
       - 443:443/udp
     volumes:
-      - ${BASE_DOCKER_DATA_DIR}/traefik/certs:/certs
-      # - ${BASE_DOCKER_DATA_DIR}/traefik/dynamic:/etc/traefik/dynamic
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
-      - type: bind
-        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/middlewares.yaml
-        target: /etc/traefik/dynamic/middlewares.yaml
-        read_only: true
-      - type: bind
-        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/pi.ha.yaml
-        target: /etc/traefik/dynamic/pi.ha.yaml
-        read_only: true
-      - type: bind
-        source: ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/router.adguard.yaml
-        target: /etc/traefik/dynamic/router.adguard.yaml
-        read_only: true
+      - ${BASE_DOCKER_DATA_DIR}/traefik/certs:/certs
+      - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/:/etc/traefik/dynamic
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.rule: Host(`traefik.${BASE_DOMAIN_0}`)  # Expose dashboard
