@@ -18,6 +18,7 @@
 - { name: "type/minor",                  color: "ff9800" }
 - { name: "type/major",                  color: "f6412d" }
 - { name: "type/break",                  color: "f6412d" }
+- { name: "type/manual",                  color: "f6412d" }
 # Uncategorized
 - { name: "hold/upstream",               color: "ee0701" }
 - { name: "automerge",                   color: "0e8a16" }

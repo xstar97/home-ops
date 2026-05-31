@@ -1,0 +1,21 @@
+{
+   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+   "packageRules": [
+      {
+         "addLabels": ["type/manual"],
+         "automerge": false,
+         "description": ["Block automerge for plex"],
+         "labels": ["type/patch","type/minor","type/major"],
+         "matchPackageNames": ["oci.trueforge.org/containerforge/plex"],
+         "matchUpdateTypes": ["patch","minor","major"]
+      },
+      {
+         "addLabels": ["type/manual"],
+         "automerge": false,
+         "description": ["Block automerge for minecraft-java"],
+         "labels": ["type/patch","type/minor","type/major"],
+         "matchPackageNames": ["ghcr.io/itzg/minecraft-server"],
+         "matchUpdateTypes": ["patch","minor","major"]
+      }
+   ]
+}

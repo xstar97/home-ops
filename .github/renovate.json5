@@ -14,8 +14,7 @@
     "github>xstar97/home-ops//.github/renovate/labels.json5",
     "github>xstar97/home-ops//.github/renovate/autoMerge.json5",
     "github>xstar97/home-ops//.github/renovate/groups.json5",
-    "github>xstar97/home-ops//.github/renovate/minecraft-java.json5",
-    "github>xstar97/home-ops//.github/renovate/plex.json5"
+    "github>xstar97/home-ops//.github/renovate/manual.json5"
   ],
   "ignorePaths": [
     "**/*.sops.*",
