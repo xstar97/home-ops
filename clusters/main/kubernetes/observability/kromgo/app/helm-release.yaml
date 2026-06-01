@@ -136,3 +136,9 @@ spec:
             - { color: "green", min: 0, max: 0 }
             - { color: "red", min: 1, max: 9999 }
           title: Alerts
+        - name: plex_up
+          query: sum(kube_pod_status_ready{namespace="plex",condition="true"}) > 0
+          title: Plex Up
+          colors:
+            - { color: "green", min: 1, max: 1 }
+            - { color: "red", min: 0, max: 0 }
