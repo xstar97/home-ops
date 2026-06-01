@@ -36,14 +36,18 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        ingressClassName: "external"
         hosts:
           - host: kromgo.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
+          nginx:
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     kromgo:
       badge:
         font: Verdana.ttf  # Relative to /kromgo - Verdana.ttf is available in the container
