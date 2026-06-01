@@ -139,6 +139,5 @@ spec:
 
         - name: chart_status_plex
           query: kube_pod_status_phase{namespace="plex",phase="Running"}
-          label: Plex Status
-          # value: 'result > 0 ? "UP" : "DOWN"'
-          # color: 'result > 0 ? "green" : "red"'
+          value: 'labels["phase"]'
+          title: Plex Status
