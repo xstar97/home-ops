@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - talos.yaml
   - kubernetes.yaml
+components:
+  - ../../../../../components/notifications/discord
