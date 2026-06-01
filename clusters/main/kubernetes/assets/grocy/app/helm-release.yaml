@@ -22,7 +22,7 @@ spec:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-grocy"
       rfs-restic:
-        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-{{.Release.Name}}"
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-grocy"
     ingress:
       main:
         enabled: true
