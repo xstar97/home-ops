@@ -138,7 +138,7 @@ spec:
           title: Alerts
 
         - name: chart_status_plex
-          query: sum(kube_pod_status_ready{namespace="plex",condition="true"}) > 0
+          query: sum(kube_pod_status_ready{namespace="plex", condition="true"})
           label: Plex Status
-          value: 'result > 0 ? "UP" : "DOWN"'
+          # value: 'result > 0 ? "UP" : "DOWN"'
           color: 'result > 0 ? "green" : "red"'
