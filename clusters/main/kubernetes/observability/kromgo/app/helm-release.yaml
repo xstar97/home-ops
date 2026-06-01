@@ -141,4 +141,4 @@ spec:
           query: sum(kube_pod_status_ready{namespace="plex",condition="true"}) > 0
           value: 'result > 0 ? "UP" : "DOWN"'
           color: 'result > 0 ? "green" : "red"'
-          title: Plex Statusfix
+          title: Plex Status
