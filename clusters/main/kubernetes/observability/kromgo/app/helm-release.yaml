@@ -142,3 +142,4 @@ spec:
           format:
             0: DOWN
             1: UP
+          title: Plex Status
