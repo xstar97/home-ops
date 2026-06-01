@@ -7,24 +7,24 @@ replacements:
       kind: Namespace
       fieldPath: metadata.name
     targets:
-    - select:
-        kind: Provider
-        name: discord
-      fieldPaths:
-        - metadata.namespace
-      options:
-          create: true
-    - select:
-        kind: Alert
-        name: discord-info
-      fieldPaths:
-        - metadata.namespace
-      options:
-          create: true
-    - select:
-        kind: Alert
-        name: discord-error
-      fieldPaths:
-        - metadata.namespace
-      options:
-          create: true
+      - select:
+          kind: Provider
+          name: discord
+        fieldPaths:
+          - metadata.namespace
+        options:
+            create: true
+      - select:
+          kind: Alert
+          name: discord-info
+        fieldPaths:
+          - metadata.namespace
+        options:
+            create: true
+      - select:
+          kind: Alert
+          name: discord-error
+        fieldPaths:
+          - metadata.namespace
+        options:
+            create: true
