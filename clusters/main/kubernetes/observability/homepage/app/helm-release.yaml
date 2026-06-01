@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: dashboard
+      group: observability
     global:
       stopAll: false
     credentials:

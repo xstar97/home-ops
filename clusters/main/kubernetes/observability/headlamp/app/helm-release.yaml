@@ -28,9 +28,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-
   values:
-
+    gatus:
+      group: observability
     initContainers:
       - # Generate kubeconfig file. Can be removed when https://github.com/kubernetes-sigs/headlamp/issues/1826 is resolved
         command:
