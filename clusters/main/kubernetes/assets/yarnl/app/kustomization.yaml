@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: yarnl
 resources:
   - helm-release.yaml
-  - namespace.yamle
+  - namespace.yaml
 components:
   - ../../../../components/notifications/discord
   - ../../../../components/gatus/service

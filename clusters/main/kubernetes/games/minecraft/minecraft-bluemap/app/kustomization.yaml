@@ -3,6 +3,7 @@ kind: Kustomization
 # namespace: minecraft
 resources:
   - helm-release.yaml
+  - namespace.yaml
 components:
   - ../../../../../components/notifications/discord
   - ../../../../../components/gatus/service
