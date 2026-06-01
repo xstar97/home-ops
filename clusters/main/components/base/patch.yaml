@@ -15,22 +15,22 @@ spec:
       retries: 3
   timeout: 20m
   values:
-    gatus:
-      group: home-ops
-    global:
-      stopAll: false
+    # gatus:
+    #  group: home-ops
+    # global:
+    #   stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        # bucket: "${CF_S3_RESTIC_BUCKET}-${CHART}"
+        # bucket: "${CF_S3_RESTIC_BUCKET}-.metadata.name"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
       rfs-restic:
         type: s3
         url: "${RUSTFS_S3_RESTIC_URL}"
-        # bucket: "${RUSTFS_S3_RESTIC_BUCKET}-plex"
+        # bucket: "${RUSTFS_S3_RESTIC_BUCKET}-.metadata.name"
         accessKey: "${RUSTFS_S3_RESTIC_ID}"
         secretKey: "${RUSTFS_S3_RESTIC_KEY}"
         encrKey: "${RUSTFS_S3_RESTIC_KEY}"
