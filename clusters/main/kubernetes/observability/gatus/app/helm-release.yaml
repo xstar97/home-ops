@@ -68,7 +68,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "external"
+        ingressClassName: "internal"
         annotations:
           gatus.home-operations.com/enabled: "false"
         hosts:
