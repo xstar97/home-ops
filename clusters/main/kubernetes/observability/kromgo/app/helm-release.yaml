@@ -138,6 +138,6 @@ spec:
           title: Alerts
 
         - name: chart_status_plex
-          query: kube_pod_status_phase{namespace="plex",phase="Running"}
-          value: 'labels["phase"]'
+          query: label_replace(kube_pod_status_phase{namespace="plex"} == 1,"status","$1","phase","(.*)")
+          value: 'phase'
           title: Plex Status
