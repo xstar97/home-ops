@@ -5,5 +5,6 @@ resources:
   - helm-release.yaml
   - namespace.yaml
 components:
+  - ../../../../components/base
   - ../../../../components/notifications/discord
   - ../../../../components/gatus/service
