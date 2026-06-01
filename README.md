@@ -24,7 +24,7 @@
 
 <br>
 
-[![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fchart_status_plex&style=flat-square)](https://github.com/kashalls/kromgo)
+[![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fchart_status_plex)](https://github.com/kashalls/kromgo)
 
 </div>
 
