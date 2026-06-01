@@ -73,7 +73,7 @@ spec:
             certificateIssuer: general-le-prod
     cnpg:
       main:
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
@@ -94,16 +94,3 @@ spec:
       # FIXME: Metrics do not work yet
       servermetrics:
         enabled: false
-
-    redis:
-      backups:
-        enabled: true
-        credentials: cf-restic
-        retentionPolicy: "7d"
-        scheduledBackups:
-          - name: daily-backup
-            # https://crontab.guru/#10_0_*_*_*
-            schedule: "10 0 * * *"
-            backupOwnerReference: self
-            immediate: true
-            suspend: false

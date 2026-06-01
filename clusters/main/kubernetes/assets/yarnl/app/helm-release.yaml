@@ -122,7 +122,7 @@ spec:
         enabled: true
         user: yarnl
         database: yarnl
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:

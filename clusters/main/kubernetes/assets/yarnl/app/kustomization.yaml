@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: yarnl
 resources:
-- helm-release.yaml
+  - helm-release.yaml
+  - namespace.yamle
 components:
-- ../../../../components/ns
-- ../../../../components/notifications/discord
-- ../../../../components/gatus/service
+  - ../../../../components/notifications/discord
+  - ../../../../components/gatus/service

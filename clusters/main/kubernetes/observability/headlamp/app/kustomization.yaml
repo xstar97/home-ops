@@ -4,3 +4,5 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   - ingress.yaml
+components:
+  - ../../../../components/notifications/discord

@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: cloudflared
 resources:
   - helm-release.yaml
+  - namespace.yaml
 components:
-  - ../../../../components/ns
   - ../../../../components/notifications/discord

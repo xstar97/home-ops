@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: vaultwarden
 resources:
   - helm-release.yaml
+  - namespace.yaml
 components:
-  - ../../../../components/ns
   - ../../../../components/notifications/discord
   - ../../../../components/gatus/service
