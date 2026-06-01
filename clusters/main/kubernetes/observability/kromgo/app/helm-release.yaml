@@ -136,8 +136,3 @@ spec:
             - { color: "green", min: 0, max: 0 }
             - { color: "red", min: 1, max: 9999 }
           title: Alerts
-
-        - name: chart_status_plex
-          query: label_replace(kube_pod_status_phase{namespace="plex"} == 1,"status","$1","phase","(.*)")
-          value: 'phase'
-          title: Plex Status
