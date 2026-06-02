@@ -130,11 +130,11 @@ spec:
             - { color: "red", min: 360, max: 9999 }
           title: Uptime
 
-persistence:
-  configfile:
-    enabled: true
-    type: configmap
-    readOnly: true
-    objectName: kromgo-configfile
-    mountPath: /config/config.yaml
-    subPath: config.yaml
+    persistence:
+      configfile:
+        enabled: true
+        type: configmap
+        readOnly: true
+        objectName: kromgo-configfile
+        mountPath: /config/config.yaml
+        subPath: config.yaml
