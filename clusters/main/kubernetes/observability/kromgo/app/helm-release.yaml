@@ -117,9 +117,27 @@ spec:
 
         # chart status
         - id: chart_status_plex
-          query: kube_pod_status_phase{namespace="plex",pod!~"volsync-.*|restic-.*"}
+          query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
           title: Plex Status
-          value: labels["phase"]
+          value: labels[?"phase"].orValue("computing...")
+        - id: chart_status_authelia
+          query: kube_pod_status_phase{namespace="authelia", pod!~"volsync-.*|restic-.*"} == 1
+          title: Authelia Status
+          value: labels[?"phase"].orValue("computing...")
+        - id: chart_status_lldap
+          query: kube_pod_status_phase{namespace="lldap", pod!~"volsync-.*|restic-.*"} == 1
+          title: LLDAP Status
+          value: labels[?"phase"].orValue("computing...")
+        - id: chart_status_vaultwarden
+          query: kube_pod_status_phase{namespace="vaultwarden", pod!~"volsync-.*|restic-.*"} == 1
+          title: VaultWarden Status
+          value: labels[?"phase"].orValue("computing...")
+        - id: chart_status_nginx_external
+          query: kube_pod_status_phase{namespace="nginx",pod=~"nginx-external-controller.*"} == 1
+          title: Nginx External Status
+          value: labels[?"phase"].orValue("computing...")
+        
+        # testing....
         - id: chart_status_ytptube
           query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
           title: YTptube Status
