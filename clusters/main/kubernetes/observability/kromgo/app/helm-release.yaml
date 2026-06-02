@@ -54,9 +54,14 @@ spec:
             certificateIssuer: general-le-prod
     
     config:
-      badge:
-        font: Verdana.ttf  # Relative to /kromgo - Verdana.ttf is available in the container
-        size: 12
+      defaults:
+          cacheSeconds: 0 # Cache-Control max-age in seconds; 0 disables caching
+          badge:
+              font: go-regular # go-regular (default), go-bold, go-medium, go-mono
+              size: 11 # badge font size in points
+              style: flat # flat (default), flat-square, or plastic
+              gallery:
+                  hidden: false # list badges in the gallery (default); true hides them
       badges:
         - id: node_cpu_usage
           query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
