@@ -104,8 +104,7 @@ spec:
       - networks
     whitelist:
       - xstar97
-      - 17a120e6-6905-4ad7-995a-509c12ff5c98 # xstar97's UUID
-      - 
+      - 17a120e6-6905-4ad7-995a-509c12ff5c98 # xstar97's UUID 
 
     configmap:
       plugins:
