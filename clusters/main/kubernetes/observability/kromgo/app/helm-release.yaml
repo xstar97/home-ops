@@ -117,13 +117,12 @@ spec:
 
         # chart status
         - id: chart_status_plex
-          query: kube_pod_status_phase{namespace="plex",phase="Running",pod!~"volsync-.*|restic-.*"}
+          query: kube_pod_status_phase{namespace="plex",pod!~"volsync-.*|restic-.*"}
           title: Plex Status
           value: labels["phase"]
-        # chart status generic
-        - id: chart_status_running
-          query: kube_pod_status_phase{phase="Running",pod!~"volsync-.*|restic-.*"}
-          title: Chart Status
+        - id: chart_status_ytptube
+          query: kube_pod_status_phase{namespace="ytptube",pod!~"volsync-.*|restic-.*"}
+          title: YTptube Status
           value: labels["phase"]
 
     configmap:
