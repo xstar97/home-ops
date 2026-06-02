@@ -139,5 +139,5 @@ spec:
 
         - id: chart_status_plex
           query: kube_pod_status_phase{namespace="plex",phase="Running",pod!~"volsync-.*"}
-          value: labels[?"phase"].orValue("Not Running")
+          # value: labels[?"phase"].orValue("Not Running")
           title: Plex Status
