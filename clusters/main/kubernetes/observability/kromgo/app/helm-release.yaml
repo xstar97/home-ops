@@ -63,6 +63,7 @@ spec:
               gallery:
                   hidden: false # list badges in the gallery (default); true hides them
       badges:
+        # static versions
         - id: talos_version
           query: label_replace(node_os_info{name="Talos"}, "version_id", "$1", "version_id", "v(.+)")
           title: Talos
@@ -75,6 +76,14 @@ spec:
           query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "v(.+)@sha256:.+")
           title: Flux
           value: labels["revision"]
+
+        # usage      
+        - id: cluster_cpu_usage
+          query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
+          value: string(result) + "%"
+          color: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+
+        # chart status
         - id: chart_status_plex
           query: kube_pod_status_phase{namespace="plex",phase="Running",pod!~"volsync-.*|restic-.*"}
           title: Plex Status
