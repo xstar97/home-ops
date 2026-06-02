@@ -75,6 +75,10 @@ spec:
           query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "v(.+)@sha256:.+")
           title: Flux
           value: labels["revision"]
+        - id: chart_status_plex
+          query: kube_pod_status_phase{namespace="plex",phase="Running",pod!~"volsync-.*|restic-.*"}
+          title: Plex Status
+          # value: labels["revision"]
 
     configmap:
       kromgo-configfile:
