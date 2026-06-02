@@ -65,11 +65,11 @@ spec:
       badges:
         # static versions
         - id: talos_version
-          query: label_replace(node_os_info{name="Talos"}, "version_id", "$1", "version_id", "v(.+)")
+          query: node_os_info{ name="Talos"}
           title: Talos
           value: labels["version_id"]
         - id: kubernetes_version
-          query: label_replace(kubernetes_build_info{service="kubernetes"}, "git_version", "$1", "git_version", "v(.+)")
+          query: kubernetes_build_info{ service="kubernetes"}
           title: Kubernetes
           value: labels["git_version"]
         - id: flux_version
