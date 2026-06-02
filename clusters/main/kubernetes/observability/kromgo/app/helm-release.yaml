@@ -54,6 +54,9 @@ spec:
             certificateIssuer: general-le-prod
     
     config:
+      chartStatusDefaults: &chartStatusDefaults
+        color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
+        value: labels[?"phase"].orValue("computing...")
       defaults:
           cacheSeconds: 0 # Cache-Control max-age in seconds; 0 disables caching
           badge:
@@ -120,7 +123,8 @@ spec:
 
         # chart status
         - id: chart_status_plex
-          query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
+          <<: *chartStatusDefaults
+          query: kube_pod_status_phase{namespace="plex", pod!~"volsync-.*|restic-.*"} == 1
           title: Plex Status
           icon: mdi:plex
           color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
