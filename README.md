@@ -24,17 +24,17 @@
 
 The Base infracture for my homelab
 
-![Cloudflared Tunnel](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_cloudflared%3Fformat%3Dshields&logo=cloudflare)
+![Cloudflared Tunnel](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_cloudflared%3Fformat%3Dshields&logo=cloudflare&style=for-the-badge)
 
-![Nginx-External](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_nginx_external%3Fformat%3Dshields&logo=nginx)
+![Nginx-External](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_nginx_external%3Fformat%3Dshields&logo=nginx&style=for-the-badge)
 
-![Lldap](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_lldap%3Fformat%3Dshields&logo=authelia)
+![Lldap](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_lldap%3Fformat%3Dshields&logo=authelia&style=for-the-badge)
 
-![Authelia](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_authelia%3Fformat%3Dshields&logo=authelia)
+![Authelia](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_authelia%3Fformat%3Dshields&logo=authelia&style=for-the-badge)
 
-![Vaultwarden](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_vaultwarden%3Fformat%3Dshields&logo=vaultwarden)
+![Vaultwarden](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_vaultwarden%3Fformat%3Dshields&logo=vaultwarden&style=for-the-badge)
 
-![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields)
+![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields&logo=plex&style=for-the-badge)
 
 </div>
 
