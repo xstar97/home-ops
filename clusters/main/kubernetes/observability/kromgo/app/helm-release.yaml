@@ -66,26 +66,14 @@ spec:
         - id: node_cpu_usage
           query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
           suffix: "%"
-          colors:
-            - { color: "green", min: 0, max: 35 }
-            - { color: "orange", min: 35, max: 75 }
-            - { color: "red", min: 75, max: 9999 }
           title: CPU
         - id: cluster_cpu_usage
           query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
           suffix: "%"
-          colors:
-            - { color: "green", min: 0, max: 35 }
-            - { color: "orange", min: 35, max: 75 }
-            - { color: "red", min: 75, max: 9999 }
           title: CPU
         - id: cluster_memory_usage
           query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 0.1)
           suffix: "%"
-          colors:
-            - { color: green, min: 0, max: 35 }
-            - { color: orange, min: 35, max: 75 }
-            - { color: red, min: 75, max: 9999 }
           title: Memory
 
         - id: talos_version
@@ -103,37 +91,22 @@ spec:
           
         - id: cluster_node_count
           query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
-          colors:
-            - { color: "green", min: 0, max: 9999 }
           title: Nodes
         - id: cluster_pod_count
           query: sum(kube_pod_status_phase{phase="Running"})
-          colors:
-            - { color: "green", min: 0, max: 9999 }
           title: Pods
 
         - id: cluster_alert_count
           query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
-          colors:
-            - { color: "green", min: 0, max: 0 }
-            - { color: "red", min: 1, max: 9999 }
           title: Alerts
 
         - id: cluster_age_days
           query: round((time() - min(kube_node_created) ) / 86400)
           suffix: "d"
-          colors:
-            - { color: "green", min: 0, max: 180 }
-            - { color: "orange", min: 180, max: 360 }
-            - { color: "red", min: 360, max: 9999 }
           title: Age
         - id: cluster_uptime_days
           query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}) / 86400)
           suffix: "d"
-          colors:
-            - { color: "green", min: 0, max: 180 }
-            - { color: "orange", min: 180, max: 360 }
-            - { color: "red", min: 360, max: 9999 }
           title: Uptime
 
     configmap:
