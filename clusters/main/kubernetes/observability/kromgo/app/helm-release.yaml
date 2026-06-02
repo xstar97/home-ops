@@ -53,18 +53,30 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
     
+    chartStatus:
+      - chart: plex
+        namespace: plex
+        title: Plex Status
+        icon: si:plex
+      - chart: authelia
+        namespace: authelia
+        title: Authelia Status
+        icon: si:authelia
+      - chart: lldap
+        namespace: lldap
+        title: LLDAP Status
+        icon: si:lldap
+      - chart: vaultwarden
+        namespace: vaultwarden
+        title: Vaultwarden Status
+        icon: si:vaultwarden    
+      - chart: nginx_external
+        namespace: nginx
+        podRegex: nginx-external-controller.*
+        title: Nginx External Status
+        icon: si:nginx
+        
     config:
-      chartStatusDefaults: &chartStatusDefaults
-        color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-        value: labels[?"phase"].orValue("computing...")
-      defaults:
-          cacheSeconds: 0 # Cache-Control max-age in seconds; 0 disables caching
-          badge:
-              font: go-regular # go-regular (default), go-bold, go-medium, go-mono
-              size: 11 # badge font size in points
-              style: flat # flat (default), flat-square, or plastic
-              gallery:
-                  hidden: false # list badges in the gallery (default); true hides them
       badges:
         # static versions
         - id: talos_version
@@ -121,58 +133,32 @@ spec:
           color: 'result < 0 ? "green" : "red"'
           title: Alerts
 
-        # chart status
-        - id: chart_status_plex
-          <<: *chartStatusDefaults
-          query: kube_pod_status_phase{namespace="plex", pod!~"volsync-.*|restic-.*"} == 1
-          title: Plex Status
-          icon: mdi:plex
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-        - id: chart_status_authelia
-          query: kube_pod_status_phase{namespace="authelia", pod!~"volsync-.*|restic-.*"} == 1
-          title: Authelia Status
-          icon: si:authelia
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-        - id: chart_status_lldap
-          query: kube_pod_status_phase{namespace="lldap", pod!~"volsync-.*|restic-.*"} == 1
-          title: LLDAP Status
-          icon: si:authelia
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-        - id: chart_status_vaultwarden
-          query: kube_pod_status_phase{namespace="vaultwarden", pod!~"volsync-.*|restic-.*"} == 1
-          title: VaultWarden Status
-          icon: si:vaultwarden
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-        - id: chart_status_nginx_external
-          query: kube_pod_status_phase{namespace="nginx",pod=~"nginx-external-controller.*"} == 1
-          title: Nginx External Status
-          icon: si:nginx
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-        - id: chart_status_cloudflared
-          query: kube_pod_status_phase{namespace="cloudflared", pod!~"volsync-.*|restic-.*"} == 1
-          title: Cloudflared Status
-          icon: si:cloudflare
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-        
-        # testing....
-        - id: chart_status_ytptube
-          query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
-          title: YTptube Status
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
-
     configmap:
       kromgo-configfile:
         enabled: true
         data:
-          config.yaml: |
+          config.yaml: |            
+            defaults:
+                cacheSeconds: 0 # Cache-Control max-age in seconds; 0 disables caching
+                badge:
+                    font: go-regular # go-regular (default), go-bold, go-medium, go-mono
+                    size: 11 # badge font size in points
+                    style: flat # flat (default), flat-square, or plastic
+                    gallery:
+                        hidden: false # list badges in the gallery (default); true hides them
             {{- $.Values.config | toYaml | nindent 2 }}
+            {{- range .Values.chartStatus }}
+              - id: chart_status_{{ .chart }}
+                query: kube_pod_status_phase{
+                  namespace="{{ .namespace }}"
+                  {{- if .podRegex }},pod=~"{{ .podRegex }}"{{ else }},pod!~"volsync-.*|restic-.*"{{ end }}
+                } == 1
+                title: {{ .title | quote }}
+                icon: {{ .icon }}
+                color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
+                value: labels[?"phase"].orValue("computing...")
+            {{- end }}
+  
     persistence:
       configfile:
         enabled: true
