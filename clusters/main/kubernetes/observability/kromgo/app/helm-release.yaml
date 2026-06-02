@@ -78,7 +78,7 @@ spec:
         - id: chart_status_plex
           query: kube_pod_status_phase{namespace="plex",phase="Running",pod!~"volsync-.*|restic-.*"}
           title: Plex Status
-          # value: labels["revision"]
+          value: labels["phase"]
 
     configmap:
       kromgo-configfile:
