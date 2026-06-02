@@ -123,7 +123,7 @@ spec:
         - id: chart_status_ytptube
           query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
           title: YTptube Status
-          value: labels[?"phase"].orValue("Pending")
+          value: labels[?"phase"].orValue("computing...")
 
     configmap:
       kromgo-configfile:
