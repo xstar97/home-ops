@@ -67,14 +67,17 @@ spec:
         - id: talos_version
           query: node_os_info{ name="Talos"}
           title: Talos
+          icon: si:talos
           value: labels["version_id"]
         - id: kubernetes_version
           query: kubernetes_build_info{ service="kubernetes"}
           title: Kubernetes
+          icon: si:Kubernetes
           value: labels["git_version"]
         - id: flux_version
           query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "(.+)@sha256:.+")
           title: Flux
+          icon: si:flux
           value: labels["revision"]
 
         # usage      
