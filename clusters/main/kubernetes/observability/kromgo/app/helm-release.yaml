@@ -66,12 +66,15 @@ spec:
         - id: talos_version
           query: label_replace(node_os_info{name="Talos"}, "version_id", "$1", "version_id", "v(.+)")
           title: Talos
+          value: labels["version_id"]
         - id: kubernetes_version
           query: label_replace(kubernetes_build_info{service="kubernetes"}, "git_version", "$1", "git_version", "v(.+)")
           title: Kubernetes
+          value: labels["git_version"]
         - id: flux_version
           query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "v(.+)@sha256:.+")
           title: Flux
+          value: labels["revision"]
 
     configmap:
       kromgo-configfile:
