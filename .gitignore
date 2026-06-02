@@ -13,3 +13,4 @@ mounts/
 # decrypted temp files anywhere
 **/.decrypted~*
 .mise/
+logs/
