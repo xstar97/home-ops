@@ -119,32 +119,31 @@ spec:
         - id: chart_status_plex
           query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
           title: Plex Status
-          color: 'result == "Running" ? "green" : "red"'
           value: labels[?"phase"].orValue("computing...")
         - id: chart_status_authelia
           query: kube_pod_status_phase{namespace="authelia", pod!~"volsync-.*|restic-.*"} == 1
           title: Authelia Status
-          color: 'result == "Running" ? "green" : "red"'
           value: labels[?"phase"].orValue("computing...")
         - id: chart_status_lldap
           query: kube_pod_status_phase{namespace="lldap", pod!~"volsync-.*|restic-.*"} == 1
           title: LLDAP Status
-          color: 'result == "Running" ? "green" : "red"'
           value: labels[?"phase"].orValue("computing...")
         - id: chart_status_vaultwarden
           query: kube_pod_status_phase{namespace="vaultwarden", pod!~"volsync-.*|restic-.*"} == 1
           title: VaultWarden Status
-          color: 'result == "Running" ? "green" : "red"'
           value: labels[?"phase"].orValue("computing...")
         - id: chart_status_nginx_external
           query: kube_pod_status_phase{namespace="nginx",pod=~"nginx-external-controller.*"} == 1
           title: Nginx External Status
-          color: 'result == "Running" ? "green" : "red"'
           value: labels[?"phase"].orValue("computing...")
         - id: chart_status_cloudflared
           query: kube_pod_status_phase{namespace="cloudflared", pod!~"volsync-.*|restic-.*"} == 1
           title: Cloudflared Status
-          color: 'result == "Running" ? "green" : "red"'
+          color: >
+          labels["phase"] == "Running" ? "green" :
+          labels["phase"] == "Pending" ? "orange" :
+          labels["phase"] == "Succeeded" ? "blue" :
+          labels["phase"] == "Failed" ? "red" : "gray"
           value: labels[?"phase"].orValue("computing...")
         
         # testing....
