@@ -57,7 +57,6 @@ spec:
       badge:
         font: Verdana.ttf  # Relative to /kromgo - Verdana.ttf is available in the container
         size: 12
-      metrics: null
       badges:
         - id: node_cpu_usage
           query: round(avg(instance:node_cpu_utilisation:rate5m{pod!=""}) * 100, 0.1)
