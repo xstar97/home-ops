@@ -34,7 +34,7 @@ The Base infracture for my homelab
 
 ![Vaultwarden](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_vaultwarden%3Fformat%3Dshields&logo=vaultwarden)
 
-![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields&logo=plex)
+![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields)
 
 </div>
 
