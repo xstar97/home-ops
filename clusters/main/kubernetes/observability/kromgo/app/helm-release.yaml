@@ -136,6 +136,10 @@ spec:
           query: kube_pod_status_phase{namespace="nginx",pod=~"nginx-external-controller.*"} == 1
           title: Nginx External Status
           value: labels[?"phase"].orValue("computing...")
+        - id: chart_status_cloudflared
+          query: kube_pod_status_phase{namespace="cloudflared", pod!~"volsync-.*|restic-.*"} == 1
+          title: Cloudflared Status
+          value: labels[?"phase"].orValue("computing...")
         
         # testing....
         - id: chart_status_ytptube
