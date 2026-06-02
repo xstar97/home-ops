@@ -48,9 +48,10 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        capabilities:
-          add:
-            - CAP_NET_RAW
+        # https://docker-minecraft-server.readthedocs.io/en/latest/misc/autopause-autostop/autopause/#rootless-auto-pause
+        # capabilities:
+        #   add:
+        #     - CAP_NET_RAW
     service:
       main:
         enabled: true
