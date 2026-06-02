@@ -121,9 +121,9 @@ spec:
           title: Plex Status
           value: labels["phase"]
         - id: chart_status_ytptube
-          query: kube_pod_status_phase{namespace="ytptube",pod!~"volsync-.*|restic-.*"}
+          query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
           title: YTptube Status
-          value: labels["phase"]
+          value: labels[?"phase"].orValue("Pending")
 
     configmap:
       kromgo-configfile:
