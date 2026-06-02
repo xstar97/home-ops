@@ -227,7 +227,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         service:
           type: "ClusterIP"
           ports:
