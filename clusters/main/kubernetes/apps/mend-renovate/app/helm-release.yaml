@@ -14,19 +14,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
-  timeout: 20m
-  maxHistory: 3
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
     gatus:
       group: core
@@ -39,13 +26,7 @@ spec:
         runAsUser: 0
         runAsGroup: 0
     credentials:
-      cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}-renovate"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
     service:
       main:
         type: ClusterIP
