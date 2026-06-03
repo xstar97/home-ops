@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helm-release.yaml
-  # - alertmanagerconfig.yaml
+  - alertmanagerconfig.yaml
+  - alertmanager.secret.yaml
+  # - promethuesrule.yaml
 components:
   - ../../../../components/notifications/discord
