@@ -19,14 +19,17 @@ spec:
       group: core
     global:
       stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-renovate"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-renovate"
     securityContext:
       container:
         readOnlyRootFilesystem: false
         runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
-    credentials:
-        bucket: "${CF_S3_RESTIC_BUCKET}-renovate"
     service:
       main:
         type: ClusterIP
