@@ -1,6 +1,6 @@
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.89.0@sha256:38717384d9c46e366fd217e0104467f5fa62ebc72f7586f899645f92de989315
+    image: ghcr.io/kimdre/doco-cd:0.90@sha256:5d61ef8178a58bad26e2876aac19c236984d9bdce6fac22f24e098c65ea04ccf
     container_name: doco-cd
     restart: unless-stopped
     depends_on:
