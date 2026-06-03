@@ -58,7 +58,7 @@ services:
       - doco_data:/data
       - /home/xstar97/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
       - /home/xstar97/home-ops/age.agekey:/run/secrets/sops_age_key:ro
-      - /home/xstar97/home-ops/docker/seb/.doco-cd/stacks/webhook.enc.txt:/run/secrets/webhook_secret:ro
+      - /home/xstar97/home-ops/docker/seb/.doco-cd/webhook.enc.txt:/run/secrets/webhook_secret:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       interval: 30s
