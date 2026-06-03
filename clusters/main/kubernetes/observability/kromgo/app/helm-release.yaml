@@ -54,14 +54,6 @@ spec:
             certificateIssuer: general-le-prod
     
     config:
-      defaults:
-          cacheSeconds: 0 # Cache-Control max-age in seconds; 0 disables caching
-          badge:
-              font: go-regular # go-regular (default), go-bold, go-medium, go-mono
-              size: 11 # badge font size in points
-              style: flat # flat (default), flat-square, or plastic
-              gallery:
-                  hidden: false # list badges in the gallery (default); true hides them
       badges:
         # static versions
         - id: talos_version
@@ -168,6 +160,14 @@ spec:
         enabled: true
         data:
           config.yaml: |
+            defaults:
+                cacheSeconds: 0 # Cache-Control max-age in seconds; 0 disables caching
+                badge:
+                    font: go-regular # go-regular (default), go-bold, go-medium, go-mono
+                    size: 11 # badge font size in points
+                    style: flat # flat (default), flat-square, or plastic
+                    gallery:
+                        hidden: false # list badges in the gallery (default); true hides them
             {{- $.Values.config | toYaml | nindent 2 }}
     persistence:
       configfile:
