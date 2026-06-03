@@ -33,7 +33,7 @@ services:
       - doco_data:/data
       - /mnt/SSD/users/admin/admin/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
       - /mnt/SSD/apps/home-ops/age.agekey:/run/secrets/sops_age_key:ro
-      - /mnt/SSD/apps/home-ops/docker/seb/bootstrap/stacks/webhook.enc.txt:/run/secrets/webhook_secret:ro
+      - /mnt/SSD/apps/home-ops/docker/seb/.doco-cd/stacks/webhook.enc.txt:/run/secrets/webhook_secret:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       start_period: 15s
