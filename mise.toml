@@ -21,5 +21,6 @@ tcl = "talosctl"
 badPods = 'kubecolor get pods -A --field-selector=status.phase!=Running'
 badFlux = "flux get kustomizations -A --status-selector ready=false"
 stopAll = "mise chart:stop_all"
+kRes = "kubectl rollout restart deployment -n"
 vK = "viddy kubectl get pods,ingress,configmaps"
 getPods = "mise chart:pods"
