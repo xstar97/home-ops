@@ -13,7 +13,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
   install:
     createNamespace: true
     crds: CreateReplace

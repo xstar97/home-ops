@@ -20,10 +20,6 @@ spec:
     keepHistory: false
   timeout: 20m
   values:
-    # gatus:
-    #  group: home-ops
-    # global:
-    #   stopAll: false
     credentials:
       cf-restic:
         type: s3
