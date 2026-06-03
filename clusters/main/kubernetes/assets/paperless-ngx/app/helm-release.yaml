@@ -125,7 +125,7 @@ spec:
         cluster:
           singleNode: true
           walStorage:
-            size: 10Gi
+            size: 100Gi
         backups:
           enabled: true
           credentials: cf-restic
