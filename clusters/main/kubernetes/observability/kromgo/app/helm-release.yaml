@@ -166,12 +166,6 @@ spec:
                 PROMETHEUS_URL: "http://prometheus-operated.kube-prometheus-stack.svc.cluster.local:9090"
                 SERVER_PORT: "{{ $.Values.service.main.ports.main.port }}"
                 HEALTH_PORT: "{{ $.Values.service.main.ports.health.port }}"
-                # SERVER_LOGGING	no	false	Enable HTTP request access logging
-                # SERVER_READ_TIMEOUT	no	—	HTTP read timeout (e.g. 5s)
-                # SERVER_WRITE_TIMEOUT	no	—	HTTP write timeout (e.g. 10s)
-                # QUERY_TIMEOUT	no	30s	Timeout applied to each Prometheus query
-                # LOG_LEVEL	no	info	Log level: debug, info, warn, error
-                # LOG_FORMAT	no	json	Log format: json or text
               probes:
                 liveness:
                   type: http
