@@ -68,7 +68,14 @@ spec:
                 PLEX_CLAIM: "${PLEX_CLAIM_TOKEN}"
               resources:
                 limits:
-                  nvidia.com/gpu: 1
+                  nvidia.com/gpu: 1   
+    resources:
+      limits:
+        cpu: 8000m
+        memory: 8192Mi
+      requests:
+        cpu: 2000m
+        memory: 2048Mi
     ingress:
       main:
         enabled: true
