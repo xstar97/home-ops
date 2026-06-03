@@ -175,13 +175,6 @@ spec:
           icon: si:cloudflare
           color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
           value: labels[?"phase"].orValue("computing...")
-        
-        # testing....
-        - id: chart_status_ytptube
-          query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
-          title: YTptube Status
-          color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          value: labels[?"phase"].orValue("computing...")
 
     configmap:
       kromgo-configfile:
