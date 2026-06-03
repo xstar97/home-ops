@@ -1,4 +1,5 @@
 [tools]
+flux2 = "2.8.8"
 jq = "1.8.1"
 kubecolor = "0.5.3"
 oxker = "latest"
