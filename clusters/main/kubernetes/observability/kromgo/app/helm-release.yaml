@@ -125,31 +125,31 @@ spec:
           title: Plex Status
           icon: mdi:plex
           colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orvalueExpr("computing...")
+          valueExpr: labels[?"phase"].orValue("computing...")
         - id: chart_status_authelia
           query: kube_pod_status_phase{namespace="authelia", pod!~"volsync-.*|restic-.*"} == 1
           title: Authelia Status
           icon: si:authelia
           colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orvalueExpr("computing...")
+          valueExpr: labels[?"phase"].orValue("computing...")
         - id: chart_status_lldap
           query: kube_pod_status_phase{namespace="lldap", pod!~"volsync-.*|restic-.*"} == 1
           title: LLDAP Status
           icon: si:authelia
           colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orvalueExpr("computing...")
+          valueExpr: labels[?"phase"].orValue("computing...")
         - id: chart_status_vaultwarden
           query: kube_pod_status_phase{namespace="vaultwarden", pod!~"volsync-.*|restic-.*"} == 1
           title: VaultWarden Status
           icon: si:vaultwarden
           colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orvalueExpr("computing...")
+          valueExpr: labels[?"phase"].orValue("computing...")
         - id: chart_status_nginx_external
           query: kube_pod_status_phase{namespace="nginx",pod=~"nginx-external-controller.*"} == 1
           title: Nginx External Status
           icon: si:nginx
           colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orvalueExpr("computing...")
+          valueExpr: labels[?"phase"].orValue("computing...")
         - id: chart_status_cloudflared
           query: kube_pod_status_phase{namespace="cloudflared", pod!~"volsync-.*|restic-.*"} == 1
           title: Cloudflared Status
