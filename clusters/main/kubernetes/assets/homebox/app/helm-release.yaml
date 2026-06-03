@@ -5,6 +5,10 @@ metadata:
   namespace: homebox
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: homebox
@@ -15,14 +19,14 @@ spec:
         namespace: flux-system
   install:
     createNamespace: true
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
     remediation:
       retries: 3
-  timeout: 20m
+  uninstall:
+    keepHistory: false
   values:
     gatus:
       group: assets
@@ -30,12 +34,9 @@ spec:
       stopAll: false
     credentials:
       cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}-homebox"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-homebox"
     ingress:
       main:
         enabled: true

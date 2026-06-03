@@ -3,7 +3,7 @@ kind: HelmRelease
 metadata:
   name: not-used
 spec:
-  interval: 5m
+  interval: 30m
   values:
     configmap:
       gatus:

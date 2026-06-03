@@ -5,6 +5,10 @@ metadata:
   namespace: grocy
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: grocy
@@ -13,6 +17,16 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     gatus:
       group: assets

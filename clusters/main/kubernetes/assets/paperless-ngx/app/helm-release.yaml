@@ -5,6 +5,10 @@ metadata:
   namespace: paperless-ngx
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: paperless-ngx
@@ -13,17 +17,16 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
   install:
     createNamespace: true
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
     remediation:
       retries: 3
-  timeout: 20m
+  uninstall:
+    keepHistory: false
   values:
     gatus:
       group: assets
@@ -31,12 +34,9 @@ spec:
       stopAll: false
     credentials:
       cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}-paperless-ngx"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-paperless-ngx"
     paperless:
       openid_connect:
         SCOPE:
