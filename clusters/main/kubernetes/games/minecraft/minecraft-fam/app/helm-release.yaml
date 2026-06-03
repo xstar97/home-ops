@@ -40,12 +40,12 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    securityContext:
-      container:
-        readOnlyRootFilesystem: false
-        capabilities:
-          add:
-            - CAP_NET_RAW
+    # securityContext:
+    #   container:
+    #     readOnlyRootFilesystem: false
+    #     capabilities:
+    #       add:
+    #         - CAP_NET_RAW
   
     service:
       main:
