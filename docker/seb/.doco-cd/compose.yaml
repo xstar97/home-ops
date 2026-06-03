@@ -13,8 +13,8 @@ services:
       APPRISE_STATEFUL_MODE: simple
       # APPRISE_ADMIN: "y"
     volumes:
-      - /home/xstar97/docker/data/apprise/config:/config
-      - /home/xstar97/docker/data/apprise/attach:/attach
+      - ${DOCKER_DATA_DIR}/apprise/config:/config
+      - ${DOCKER_DATA_DIR}/apprise/attach:/attach
     healthcheck:
       test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
       interval: 30s
@@ -56,9 +56,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
-      - /home/xstar97/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
-      - /home/xstar97/home-ops/age.agekey:/run/secrets/sops_age_key:ro
-      - /home/xstar97/home-ops/docker/seb/.doco-cd/webhook.enc.txt:/run/secrets/webhook_secret:ro
+      - ${SSH_KEY_FILE}:/run/secrets/ssh_private_key:ro
+      - ${AGEKEY_FILE}:/run/secrets/sops_age_key:ro
+      - ${WEBHOOK_FILE}:/run/secrets/webhook_secret:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       interval: 30s
