@@ -11,8 +11,8 @@ spec:
     mode: warn
   chart:
     spec:
-      chart: kromgo
-      version: 2.5.0
+      chart: app-template
+      version: 18.6.4
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -36,21 +36,15 @@ spec:
       group: observability
     global:
       stopAll: false
-    ingress:
+
+    service:
       main:
-        enabled: true
-        ingressClassName: "external"
-        hosts:
-          - host: kromgo.${DOMAIN_2}
-            paths:
-              - path: /
-                pathType: Prefix
-        integrations:
-          nginx:
+        ports:
+          main:
+            port: 80
+          health:
             enabled: true
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
+            port: 8080
     
     config:
       defaults:
@@ -176,12 +170,58 @@ spec:
           color: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
           value: labels[?"phase"].orValue("computing...")
 
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            PROMETHEUS_URL: "http://prometheus-operated.kube-prometheus-stack.svc.cluster.local:9090"
+            SERVER_PORT: "{{ $.Values.service.main.ports.main.port }}"
+            HEALTH_PORT: "{{ $.Values.service.main.ports.health.port }}"
+            # SERVER_LOGGING	no	false	Enable HTTP request access logging
+            # SERVER_READ_TIMEOUT	no	—	HTTP read timeout (e.g. 5s)
+            # SERVER_WRITE_TIMEOUT	no	—	HTTP write timeout (e.g. 10s)
+            # QUERY_TIMEOUT	no	30s	Timeout applied to each Prometheus query
+            # LOG_LEVEL	no	info	Log level: debug, info, warn, error
+            # LOG_FORMAT	no	json	Log format: json or text
+          probes:
+            liveness:
+              type: http
+              path: "/healthz"
+              port: "{{ $.Values.service.main.ports.health.port }}"
+            readiness:
+              type: http
+              path: "/readyz"
+              port: "{{ $.Values.service.main.ports.health.port }}"
+            startup:
+              type: http
+              path: "/readyz"
+              port: "{{ $.Values.service.main.ports.health.port }}"
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: kromgo.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
     configmap:
       kromgo-configfile:
         enabled: true
         data:
           config.yaml: |
             {{- $.Values.config | toYaml | nindent 2 }}
+
     persistence:
       configfile:
         enabled: true
