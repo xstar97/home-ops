@@ -1,0 +1,54 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: truenas-exporter
+  namespace: truenas-exporter
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: truenas-exporter
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: ghcr.io/home-operations/kromgo
+      tag: 0.14.0@sha256:94ee0e2561048dc4637ca21b9926b76d87c15baf951678c7febb852269b7e10b
+      pullPolicy: IfNotPresent
+    gatus:
+      group: observability
+    global:
+      stopAll: false
+
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: ${TRUENAS_EXPORTER_IP}
+        integrations:
+          metallb:
+            enabled: true
+
+    resources:
+      requests:
+        cpu: 10m
+    
+    configmap:
+      dashboard:
+        enabled: false
