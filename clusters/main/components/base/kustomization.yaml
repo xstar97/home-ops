@@ -3,4 +3,6 @@ kind: Component
 patches:
   - path: patch.yaml
     target:
+      group: helm.toolkit.fluxcd.io
+      version: v2
       kind: HelmRelease
