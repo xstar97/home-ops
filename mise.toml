@@ -6,7 +6,7 @@ oxker = "latest"
 viddy = "latest"
 
 [settings]
-auto_install = true
+auto_install = false
 
 [shell_alias]
 ll = "ls -la"
