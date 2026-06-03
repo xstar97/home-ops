@@ -83,7 +83,7 @@ spec:
 
     resources:
       limits:
-        memory: 8Gi
+        memory: 4Gi
     plugins:
       # vault
       - 34315
@@ -187,7 +187,7 @@ spec:
                 LEVEL_TYPE: minecraft:amplified
                 LEVEL: world
                 ONLINE_MODE: true
-                MEMORY: 6144M
+                MEMORY: 2048M
                 JVM_XX_OPTS: "" # "-XX:MaxRAMPercentage=75"
                 RCON_PASSWORD: "${RCON_PASS}"
                 USE_AIKAR_FLAGS: false

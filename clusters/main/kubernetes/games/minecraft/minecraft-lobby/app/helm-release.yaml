@@ -68,7 +68,7 @@ spec:
             port: 25575
     resources:
       limits:
-        memory: 2Gi
+        memory: 1Gi
     workload:
       main:
         podSpec:
@@ -107,6 +107,8 @@ spec:
                 SERVER_NAME: "The GreeneFam Lobby!"
                 MODE: survival
                 MOTD: "Welcome to the GreeneFam's Lobby!"
+                MEMORY: 512M
+
     persistence:
       data:
         accessModes:
