@@ -201,7 +201,7 @@ spec:
         enabled: true
         data:
           config.yaml: |
-            {{- $.Values.config | toYaml }}
+            {{- $.Values.config | toYaml | nindent 2 }}
 
     persistence:
       configfile:
