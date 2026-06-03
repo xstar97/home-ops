@@ -197,12 +197,13 @@ spec:
             certificateIssuer: general-le-prod
 
     # {{- $.Values.config | toYaml | nindent 2 }}
+    # {{ .Files.Get "./config.yaml" | indent 2 }}
     configmap:
       kromgo-config:
         enabled: true
         data:
-          config.yaml: >
-            {{ .Files.Get "./config.yaml" | indent 2 }}
+          config.yaml: |
+           {{- $.Values.config | toYaml | nindent 2 }}
 
     persistence:
       config:

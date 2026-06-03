@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
+  # - ./config.yaml
 components:
   - ../../../../components/notifications/discord
