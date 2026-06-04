@@ -123,8 +123,8 @@ spec:
           query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
           title: Internet
           icon: mdi:web
-          colorExpr: 'result == 1 ? "green" : "red"'
-          valueExpr: 'result == 1 ? "UP" : "DOWN"'
+          colorExpr: 'result == 1.0 ? "green" : "red"'
+          valueExpr: 'result == 1.0 ? "UP" : "DOWN"'
 
         # chart status
         - id: chart_status_plex
