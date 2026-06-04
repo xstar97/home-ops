@@ -137,7 +137,29 @@ spec:
                 UNIQUE_FILENAMES: true
                 METHOD: WATCH
     gatus:
+      connectivity:
+        checker:
+          target: 1.1.1.1:53
+          interval: 1m
       endpoints:
+        - name: Cloudflare
+          group: connectivity
+          url: icmp://1.1.1.1
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: Google
+          group: connectivity
+          url: icmp://8.8.8.8
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: Quad9
+          group: connectivity
+          url: icmp://9.9.9.9
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
         - name: seb-minipc
           group: external
           url: "https://10.0.0.102:9090"
@@ -213,7 +235,7 @@ spec:
           credentials: cf-restic
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         service:
           type: "ClusterIP"
           ports:
