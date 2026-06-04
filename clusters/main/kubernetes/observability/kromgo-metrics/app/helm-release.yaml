@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kromgo
-  namespace: kromgo
+  name: kromgo-metrics
+  namespace: kromgo-metrics
 spec:
   interval: 30m
   timeout: 25m
