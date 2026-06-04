@@ -20,7 +20,7 @@
 [![Memory Usage](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/kashalls/kromgo)
 
 [![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/kashalls/kromgo)
-![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&style=for-the-badge)
+[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&style=for-the-badge)](https://github.com/kashalls/kromgo)
 
 ### Service Status
 
