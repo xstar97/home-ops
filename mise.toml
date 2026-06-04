@@ -1,6 +1,4 @@
 [tools]
-jq = "1.8.1"
-kubecolor = "0.6.0"
 oxker = "latest"
 viddy = "latest"
 
