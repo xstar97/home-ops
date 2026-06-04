@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kromgo-metrics
-  namespace: kromgo-metrics
+  name: kromgo
+  namespace: kromgo
 spec:
   interval: 30m
   timeout: 25m
@@ -119,7 +119,7 @@ spec:
           colorExpr: 'result < 0 ? "green" : "red"'
           title: Alerts
 
-        - id: internet_up
+        - id: internet_status
           query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
           title: Internet
           icon: mdi:web
