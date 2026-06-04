@@ -119,6 +119,13 @@ spec:
           colorExpr: 'result < 0 ? "green" : "red"'
           title: Alerts
 
+        - id: internet_up
+          query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
+          title: Internet
+          icon: mdi:web
+          colorExpr: 'result == 1 ? "green" : "red"'
+          valueExpr: 'result == 1 ? "UP" : "DOWN"'
+
         # chart status
         - id: chart_status_plex
           query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
