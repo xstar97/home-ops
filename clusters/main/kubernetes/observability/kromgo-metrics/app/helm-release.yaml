@@ -86,7 +86,7 @@ spec:
           query: round(avg_over_time(ups_ups_load{ups="server-rack"}[5m]) * 9, 1)
           valueExpr: string(result) + " W"
           colorExpr: 'result < 300 ? "green" : result < 600 ? "orange" : "red"'
-          title: Home Lab Power
+          title: HomeLab Power
 
         # usage      
         - id: cluster_cpu_usage
