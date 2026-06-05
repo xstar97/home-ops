@@ -123,7 +123,7 @@ spec:
           title: Pods
         - id: cluster_alert_count
           query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
-          colorExpr: 'result < 0 ? "green" : "red"'
+          colorExpr: 'result < 1 ? "green" : "red"'
           title: Alerts
 
         - id: internet_status
