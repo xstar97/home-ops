@@ -85,7 +85,7 @@ spec:
         - id: home_lab_power
           query: round(avg_over_time(ups_ups_load{ups="server-rack"}[5m]) * 9, 1)
           valueExpr: string(result) + " W"
-          colorExpr: 'result < 250 ? "green" : result < 500 ? "orange" : "red"'
+          colorExpr: 'result < 300 ? "green" : result < 600 ? "orange" : "red"'
           title: Home Lab Power
 
         # usage      
