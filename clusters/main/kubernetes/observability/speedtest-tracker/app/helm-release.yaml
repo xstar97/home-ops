@@ -81,9 +81,9 @@ spec:
             group: "Monitoring"
             widget:
               custom:
-                key: ${STT_KEY_HP_RO}
-                version: 2 # optional, default is 1
-                bitratePrecision: 3 # optional, default is 0
+                key: "${STT_KEY_HP_RO}"
+                version: "2" # optional, default is 1
+                bitratePrecision: "3" # optional, default is 0
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
