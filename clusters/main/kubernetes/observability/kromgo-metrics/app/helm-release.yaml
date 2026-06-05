@@ -80,6 +80,13 @@ spec:
           title: Flux
           icon: si:flux
           valueExpr: labels["revision"]
+        
+        # power
+        - id: home_lab_power
+          query: round(avg_over_time(ups_ups_load{ups="server-rack"}[5m]) * 9, 1)
+          valueExpr: string(result) + " W"
+          colorExpr: 'result < 250 ? "green" : result < 500 ? "orange" : "red"'
+          title: Home Lab Power
 
         # usage      
         - id: cluster_cpu_usage
