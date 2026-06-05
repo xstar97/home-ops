@@ -31,7 +31,7 @@ spec:
     image:
       repository: ghcr.io/linuxserver/beets
       pullPolicy: IfNotPresent
-      tag: 2.11.0@sha256:31c423271ba038943ef374cfb5dc62931d3ad228e120705a80cf9454f7b19ad5
+      tag: 2.11.0@sha256:f8b58e60a3b07d5a2d0048aedcf83235d02babf7cb4dc579a92a767ffaca1aae
     gatus:
       group: media-managers
     global:
