@@ -12,3 +12,13 @@
           username: "{{HOMEPAGE_VAR_OPNSENSE_USER}}"
           password: "{{HOMEPAGE_VAR_OPNSENSE_PASS}}"
           # wan: opt1 # optional, defaults to wan
+    - adguard-home:
+        icon: adguard.png
+        href: "https://adg.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}"
+        siteMonitor: "{{HOMEPAGE_VAR_ADGUARD_URL_INTERNAL}}"
+        widget:
+          type: adguard
+          url: "{{HOMEPAGE_VAR_ADGUARD_URL_INTERNAL}}"
+          username: "{{HOMEPAGE_VAR_ADGUARD_USER}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASS}}"
+          # wan: opt1 # optional, defaults to wan
