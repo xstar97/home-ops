@@ -27,6 +27,8 @@ spec:
 
     # Alle andere nodes → 90%
     - alert: NodeMemoryHighUtilization
+
+    
       expr: |
         100 - (
           node_memory_MemAvailable_bytes{job="node-exporter", instance!="${CONFIG_TRUENAS_IP}:9100"}
@@ -40,3 +42,57 @@ spec:
         summary: Host is running out of memory.
         description: |
           Memory is filling up at {{ $labels.instance }}, has been above 90% for the last 15 minutes, is currently at {{ printf "%.2f" $value }}%.
+
+    # -------------------------
+    # ETCD → 25% warning
+    # -------------------------
+    - alert: EtcdDBUsageWarning
+      expr: |
+        100 * etcd_mvcc_db_total_size_in_bytes
+        / etcd_server_quota_backend_bytes > 25
+        and
+        100 * etcd_mvcc_db_total_size_in_bytes
+        / etcd_server_quota_backend_bytes <= 50
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: Etcd DB usage above 25%
+        description: |
+          Etcd DB usage is above 25% on {{ $labels.instance }}.
+          Current value: {{ printf "%.2f" $value }}%
+
+    # -------------------------
+    # ETCD → 50% attention
+    # -------------------------
+    - alert: EtcdDBUsageAttention
+      expr: |
+        100 * etcd_mvcc_db_total_size_in_bytes
+        / etcd_server_quota_backend_bytes > 50
+        and
+        100 * etcd_mvcc_db_total_size_in_bytes
+        / etcd_server_quota_backend_bytes <= 75
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: Etcd DB usage above 50%
+        description: |
+          Etcd DB usage is above 50% on {{ $labels.instance }}.
+          Current value: {{ printf "%.2f" $value }}%
+
+    # -------------------------
+    # ETCD → 75% critical
+    # -------------------------
+    - alert: EtcdDBUsageCritical
+      expr: |
+        100 * etcd_mvcc_db_total_size_in_bytes
+        / etcd_server_quota_backend_bytes > 75
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: Etcd DB usage critically high
+        description: |
+          Etcd DB usage is above 75% on {{ $labels.instance }}.
+          Current value: {{ printf "%.2f" $value }}%
