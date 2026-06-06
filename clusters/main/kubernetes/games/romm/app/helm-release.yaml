@@ -280,6 +280,8 @@ spec:
             certificateIssuer: general-le-prod
     persistence:
       config:
+        enabled: true
+        mountPath: /romm/config
         volsync:
           - name: config
             type: restic
@@ -289,6 +291,8 @@ spec:
             src:
               enabled: true
       resources:
+        enabled: true
+        mountPath: /romm/resources
         volsync:
           - name: resources
             type: restic
@@ -298,6 +302,8 @@ spec:
             src:
               enabled: true
       assets:
+        enabled: true
+        mountPath: /romm/assets
         volsync:
           - name: assets
             type: restic
@@ -308,10 +314,10 @@ spec:
               enabled: true
       library:
         enabled: true
+        mountPath: /romm/library
         type: nfs
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
-        mountPath: /romm/library
 
     cnpg:
       main:
