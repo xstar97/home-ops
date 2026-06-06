@@ -335,3 +335,6 @@ spec:
         recovery:
           method: object_store
           credentials: cf-restic
+
+    redis:
+      enabled: true
