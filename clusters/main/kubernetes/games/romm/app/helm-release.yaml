@@ -55,6 +55,13 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  type: http
+                readiness:
+                  type: http
+                startup:
+                  type: http
               env:
                 # application settings
                 # Generate a key with openssl rand -hex 32 ✓
