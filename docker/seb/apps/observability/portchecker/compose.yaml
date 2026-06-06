@@ -15,7 +15,7 @@ x-healthcheckApi: &healthcheckApi
 services:
   portchecker-web:
     scale: 1
-    image: ghcr.io/dsgnr/portcheckerio-web:4.0.1@sha256:4e0b4c4f0dd99954b6db70e8766f856742ec1a43370d94a754f8a608ddb0d88a
+    image: ghcr.io/dsgnr/portcheckerio-web:4.1.0@sha256:713ea1c03f111d92a4a2dbcf99ed69dade8aa68428c41b4b4c4f2515eec89091
     container_name: portchecker
     restart: on-failure
     healthcheck: *healthcheckWeb
