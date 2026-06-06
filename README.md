@@ -30,7 +30,7 @@ My entire HomeLab stack in a single 15u rack!
 
 The Base services for my homelab
 
-[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
 ![Cloudflared Tunnel](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_cloudflared%3Fformat%3Dshields&logo=cloudflare&style=for-the-badge)
 
