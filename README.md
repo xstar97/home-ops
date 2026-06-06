@@ -6,6 +6,18 @@ My entire HomeLab stack in a single 15u rack!
 
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
+<details open>
+<summary>The Rack</summary>
+
+<br>
+
+<img
+  src="https://docs.xstar97thenoob.com/_astro/2026.B83xqnbu_Z6BoCJ.webp"
+  alt="2026 Homelab Rack"
+  width="400"
+/>
+
+</details>
 
 ## Talos Kubernetes Cluster
 
