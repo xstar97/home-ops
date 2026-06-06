@@ -127,11 +127,9 @@ spec:
           title: Alerts
         - id: ingress_external_count
           query: sum(kube_ingress_info{ingressclass="external"})
-          colorExpr: "green"
           title: "External Services"
         - id: ingress_internal_count
           query: sum(kube_ingress_info{ingressclass="internal"})
-          colorExpr: "green"
           title: "Internal Services"
 
         - id: internet_status
