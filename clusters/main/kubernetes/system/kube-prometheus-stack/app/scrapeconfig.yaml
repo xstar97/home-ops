@@ -12,7 +12,7 @@ spec:
   relabelings:
     - action: replace
       targetLabel: instance
-      replacement: node-seb
+      replacement: node-truenas
     - action: replace
       targetLabel: job
       replacement: node-exporter
