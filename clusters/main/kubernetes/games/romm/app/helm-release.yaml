@@ -281,10 +281,6 @@ spec:
           homepage:
             enabled: true
             group: "Games"
-            widget:
-              custom:
-                username: "${ROMM_ADMIN_USER}"
-                password: "${ROMM_ADMIN_PASS}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
