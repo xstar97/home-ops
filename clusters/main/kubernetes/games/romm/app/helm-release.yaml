@@ -44,9 +44,9 @@ spec:
       rfs-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-romm"
 
-    # securityContext:
-      # container:
-        # readOnlyRootFilesystem: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
         # runAsNonRoot: false
         # runAsUser: 0
         # runAsGroup: 0
