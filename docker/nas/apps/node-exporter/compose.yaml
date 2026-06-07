@@ -1,0 +1,31 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:9100/metrics || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  node-exporter:
+    scale: 1
+    image: quay.io/prometheus/node-exporter:v1.11.1-distroless@sha256:19bafa75a9de0c9562adf4af595c99c5fe316bb94a297e611495f2dd2ed44a9c
+    container_name: node-exporter
+    restart: on-failure
+    command:
+      - '--path.rootfs=/host'
+    # networks:
+    #   - network_internal
+    ports:
+      - "9100:9100"
+    healthcheck: *healthcheck
+    volumes:
+      - '/:/host:ro,rslave'
+    mem_limit: 128m
+    cpus: 0.25
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  # network_internal:
+  #   external: true
+  internal:
+    driver: bridge
