@@ -44,12 +44,12 @@ spec:
       rfs-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-romm"
 
-    securityContext:
-      container:
-        readOnlyRootFilesystem: false
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
+    # securityContext:
+      # container:
+        # readOnlyRootFilesystem: false
+        # runAsNonRoot: false
+        # runAsUser: 0
+        # runAsGroup: 0
 
     service:
       main:
@@ -105,9 +105,9 @@ spec:
                 # Port on which the application listens
                 ROMM_PORT: "{{ .Values.service.main.ports.main.port }}"
                 # Base folder path for library, resources and assets
-                ROMM_BASE_PATH: /romm
+                ROMM_BASE_PATH: /romm/
                 # Base url for properly display container logs links (like register or recover password)
-                ROMM_BASE_URL: 0.0.0.0 # "{{ .Values.chartContext.appUrl }}"
+                ROMM_BASE_URL: "{{ .Values.chartContext.appUrl }}"
                 # Logging level for the app
                 LOGLEVEL: INFO
                 # Forces color output
