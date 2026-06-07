@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: node-exporter
+  name: node-exporter-truenas
   namespace: kube-prometheus-stack
 spec:
   staticConfigs:
@@ -15,12 +15,12 @@ spec:
       replacement: node-truenas
     - action: replace
       targetLabel: job
-      replacement: node-exporter
+      replacement: node-exporter-truenas
 ---
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: node-exporter
+  name: node-exporter-seb
   namespace: kube-prometheus-stack
 spec:
   staticConfigs:
@@ -33,4 +33,4 @@ spec:
       replacement: node-seb
     - action: replace
       targetLabel: job
-      replacement: node-exporter
+      replacement: node-exporter-seb
