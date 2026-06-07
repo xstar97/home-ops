@@ -105,7 +105,7 @@ spec:
                 # Port on which the application listens
                 ROMM_PORT: "{{ .Values.service.main.ports.main.port }}"
                 # Base folder path for library, resources and assets
-                ROMM_BASE_PATH: /romm/
+                # ROMM_BASE_PATH: /romm/
                 # Base url for properly display container logs links (like register or recover password)
                 ROMM_BASE_URL: "{{ .Values.chartContext.appUrl }}"
                 # Logging level for the app
