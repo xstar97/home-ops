@@ -7,5 +7,6 @@ resources:
   - alertmanagerconfig.yaml
   - alertmanager.secret.yaml
   # - promethuesrule.yaml
+  - scrapeconfig.yaml
 components:
   - ../../../../components/notifications/discord

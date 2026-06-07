@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9100
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: node-seb
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter
