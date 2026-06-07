@@ -2,24 +2,6 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: node-exporter-truenas
-  namespace: kube-prometheus-stack
-spec:
-  staticConfigs:
-    - targets:
-        - ${SCALE_IP}:9108
-  metricsPath: /metrics
-  relabelings:
-    - action: replace
-      targetLabel: instance
-      replacement: node-truenas
-    - action: replace
-      targetLabel: job
-      replacement: node-exporter-truenas
----
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
   name: node-exporter-seb
   namespace: kube-prometheus-stack
 spec:
