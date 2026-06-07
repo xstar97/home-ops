@@ -15,7 +15,7 @@ x-healthcheckApi: &healthcheckApi
 services:
   portchecker-web:
     scale: 1
-    image: ghcr.io/dsgnr/portcheckerio-web:4.0.1@sha256:4e0b4c4f0dd99954b6db70e8766f856742ec1a43370d94a754f8a608ddb0d88a
+    image: ghcr.io/dsgnr/portcheckerio-web:4.1.0@sha256:713ea1c03f111d92a4a2dbcf99ed69dade8aa68428c41b4b4c4f2515eec89091
     container_name: portchecker
     restart: on-failure
     healthcheck: *healthcheckWeb
@@ -39,7 +39,7 @@ services:
       traefik.http.routers.portchecker.middlewares: error-pages-middleware
   portchecker-api:
     scale: 1
-    image: ghcr.io/dsgnr/portcheckerio-api:4.0.1@sha256:881099ffea3550c0abd4ebdb48751f33fde913265695ab5890319f30583e3c62
+    image: ghcr.io/dsgnr/portcheckerio-api:4.1.0@sha256:75723c6a85b2fa2971becf7c32794ac3c9b69786ef14560e19eae3892f8c7bf1
     container_name: portchecker-api
     restart: on-failure
     healthcheck: *healthcheckApi
