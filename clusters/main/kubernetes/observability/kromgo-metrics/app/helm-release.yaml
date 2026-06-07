@@ -80,6 +80,11 @@ spec:
           title: Flux
           icon: si:flux
           valueExpr: labels["revision"]
+        - id: seb_version
+          query: node_os_info{instance="node-seb"}
+          title: Seb
+          icon: si:docker
+          valueExpr: labels["version"]
         
         # power
         - id: home_lab_power
