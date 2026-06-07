@@ -2,20 +2,20 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: node-exporter-truenas
+  name: graphite-exporter-truenas
   namespace: kube-prometheus-stack
 spec:
-  staticConfigs:
+  static_configs:
     - targets:
-        - ${SCALE_IP}:9100
-  metricsPath: /metrics
-  relabelings:
-    - action: replace
-      targetLabel: instance
-      replacement: node-truenas
-    - action: replace
-      targetLabel: job
-      replacement: node-exporter-truenas
+        - "${SCALE_IP}:9108"
+  metrics_path: /metrics
+  relabel_configs:
+    - target_label: instance
+      replacement: truenas-graphite
+    - target_label: job
+      replacement: graphite-exporter-truenas
+    - target_label: node
+      replacement: truenas
 ---
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
