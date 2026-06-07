@@ -1,0 +1,24 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:9100/metrics || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  graphite-to-prometheus:
+    scale: 1
+    image: ghcr.io/supporterino/truenas-graphite-to-prometheus:v2.2.1@sha256:60e7645f74a3243d7fb9e6a15c05ea3b4cddfd2bc7ba9e2b11321ce1d38286dd
+    container_name: graphite-to-prometheus
+    restart: on-failure
+    ports:
+      - "9109:9109"
+      - "9108:9108"
+    # healthcheck: *healthcheck
+    volumes:
+      - '/mnt/SSD/apps/home-ops/docker/nas/apps/graphite-to-prometheus/config/graphite_mapping.conf:/config/graphite_mapping.conf:ro'
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  internal:
+    driver: bridge
