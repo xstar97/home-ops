@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - headlamp/ks.yaml
   - kromgo-metrics/ks.yaml
-  - truenas-exporter/ks.yaml
+  # - truenas-exporter/ks.yaml
   - gatus/ks.yaml
   - homepage/ks.yaml
   - peanut/ks.yaml
