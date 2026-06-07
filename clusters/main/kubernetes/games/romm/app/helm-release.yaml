@@ -107,13 +107,13 @@ spec:
                 # Base folder path for library, resources and assets
                 ROMM_BASE_PATH: /romm
                 # Base url for properly display container logs links (like register or recover password)
-                ROMM_BASE_URL: "{{ .Values.chartContext.appUrl }}"
+                ROMM_BASE_URL: 0.0.0.0 # "{{ .Values.chartContext.appUrl }}"
                 # Logging level for the app
                 LOGLEVEL: INFO
                 # Forces color output
-                FORCE_COLOR: false
+                # FORCE_COLOR: false
                 # Disables color output
-                NO_COLOR: false
+                # NO_COLOR: false
                 # Number of processes running the app
                 # WEB_SERVER_CONCURRENCY: 1
                 # Waiting time for requests on a Keep-Alive connection (in seconds)
