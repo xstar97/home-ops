@@ -16,7 +16,7 @@ services:
       - "9108:9108"
     # healthcheck: *healthcheck
     volumes:
-      - '/mnt/SSD/apps/home-ops/docker/nas/apps/graphite-to-prometheus/config/graphite_mapping.conf:/config/graphite_mapping.conf:ro'
+      - '/mnt/SSD/apps/home-ops/docker/nas/apps/graphite-to-prometheus/configs/graphite_mapping.conf:/config/graphite_mapping.conf:ro'
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
