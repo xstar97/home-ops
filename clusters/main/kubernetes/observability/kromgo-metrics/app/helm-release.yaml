@@ -142,7 +142,7 @@ spec:
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: opnsense_cpu_usage
           title: CPU
-          query: round(sum(mem_total{host="router.local"} - mem_available{host="router.local"}) / sum(mem_total{host="router.local"})* 100, 0.1)
+          query: round(100 - cpu_usage_idle{host="router.local", cpu="cpu-total"},0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
 
@@ -163,7 +163,7 @@ spec:
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: opnsense_memory_usage
           title: Memory
-          query: round(mem_active{host="router.local"},0.1)
+          query: round(sum(mem_total{host="router.local"} - mem_available{host="router.local"}) / sum(mem_total{host="router.local"})* 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
 
