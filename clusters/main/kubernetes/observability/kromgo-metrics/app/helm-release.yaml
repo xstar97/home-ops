@@ -206,15 +206,11 @@ spec:
 
         - id: speedtest_download
           title: Download
+          icon: mdi:download
           query: speedtest_tracker_downloaded_bytes{status="completed"}
-          valueExpr: |
-            result >= 1073741824 ?
-              string(round(result / 1073741824 * 100) / 100) + " GB" :
-              string(round(result / 1048576)) + " MB"
-          colorExpr: |
-            result >= 2147483648 ? "green" :
-            result >= 1717986918 ? "yellow" :
-            "red"
+          colorExpr: 'result >= 2147483648 ? "green" : result >= 1717986918 ? "yellow" : "red"'
+          valueExpr: 'result >= 1073741824 ? string(round(result / 1073741824 * 100) / 100) + " GB" : string(round(result / 1048576)) + " MB"'
+
 
     workload:
       main:
