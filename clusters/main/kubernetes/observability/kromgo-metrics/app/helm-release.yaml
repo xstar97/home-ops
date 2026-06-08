@@ -171,12 +171,12 @@ spec:
           title: Uptime
           query: round(node_time_seconds{instance="node-seb"} - node_boot_time_seconds{instance="node-seb"})
           valueExpr: humanizeDurationDays(result)
-          # colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
+          colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
         - id: nas_uptime_days
           title: Uptime
           query: round(node_time_seconds{instance="node-nas"} - node_boot_time_seconds{instance="node-nas"})
           valueExpr: humanizeDurationDays(result)
-          # colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
+          colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
 
         # count
         - id: cluster_node_count
