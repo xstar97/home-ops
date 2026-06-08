@@ -111,6 +111,11 @@ spec:
           icon: si:docker
           query: doco_cd_info{instance="doco-cd-nas"}
           valueExpr: labels["version"]
+        - id: truenas_version
+          title: TrueNAS
+          icon: si:truenas
+          query: group by (instance, version) (label_replace(node_zfs_zpool_dataset_zil_itx_indirect_bytes{dataset=~".*/ROOT/[^/]+$"},"version","$1","dataset",".*/ROOT/([^/]+)$"))
+          valueExpr: labels["version"]
         
         # power
         - id: home_lab_power
