@@ -66,181 +66,155 @@ spec:
       badges:
         # static versions
         - id: talos_version
-          query: node_os_info{ name="Talos"}
           title: Talos
           icon: si:talos
+          query: node_os_info{ name="Talos"}
           valueExpr: labels["version_id"]
         - id: kubernetes_version
-          query: kubernetes_build_info{ service="kubernetes"}
           title: Kubernetes
           icon: si:kubernetes
+          query: kubernetes_build_info{ service="kubernetes"}
           valueExpr: labels["git_version"]
         - id: flux_version
-          query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "(.+)@sha256:.+")
           title: Flux
           icon: si:flux
+          query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "(.+)@sha256:.+")
           valueExpr: labels["revision"]
 
         - id: os_seb_version
-          query: node_os_info{instance="node-seb"}
           title: OS
           icon: si:debian
+          query: node_os_info{instance="node-seb"}
           valueExpr: labels["version"]
         - id: docker_seb_version
-          query: engine_daemon_engine_info{instance="docker-seb"}
           title: Docker
           icon: si:docker
+          query: engine_daemon_engine_info{instance="docker-seb"}
           valueExpr: labels["version"]
         - id: dc_seb_version
-          query: doco_cd_info{instance="doco-cd-seb"}
           title: Doco-CD
           icon: si:docker
+          query: doco_cd_info{instance="doco-cd-seb"}
           valueExpr: labels["version"]
         - id: os_nas_version
-          query: node_os_info{instance="node-nas"}
           title: OS
           icon: si:debian
+          query: node_os_info{instance="node-nas"}
           valueExpr: labels["version"]
         - id: docker_nas_version
-          query: engine_daemon_engine_info{instance="docker-nas"}
           title: Docker
           icon: si:docker
+          query: engine_daemon_engine_info{instance="docker-nas"}
           valueExpr: labels["version"]
         - id: dc_nas_version
-          query: doco_cd_info{instance="doco-cd-nas"}
           title: Doco-CD
           icon: si:docker
+          query: doco_cd_info{instance="doco-cd-nas"}
           valueExpr: labels["version"]
         
         # power
         - id: home_lab_power
+          title: HomeLab Power
           query: round(avg_over_time(ups_ups_load{ups="server-rack"}[5m]) * 9, 1)
           valueExpr: string(result) + " W"
           colorExpr: 'result < 300 ? "green" : result < 600 ? "orange" : "red"'
-          title: HomeLab Power
 
         # usage      
         - id: cluster_cpu_usage
+          title: CPU
           query: round(cluster:node_cpu:ratio_rate5m * 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
-          title: CPU
         - id: seb_cpu_usage
+          title: CPU
           query: round(100 - (avg(rate(node_cpu_seconds_total{instance="node-seb", mode="idle"}[5m])) * 100),0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
-          title: CPU
         - id: nas_cpu_usage
+          title: CPU
           query: round(100 - (avg(rate(node_cpu_seconds_total{instance="node-nas", mode="idle"}[5m])) * 100),0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
-          title: CPU
         - id: cluster_memory_usage
+          title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"} - node_memory_MemAvailable_bytes{instance="10.0.0.191:9100"}) / sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"}) * 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
-          title: Memory
         - id: seb_memory_usage
+          title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="node-seb"} - node_memory_MemAvailable_bytes{instance="node-seb"}) / sum(node_memory_MemTotal_bytes{instance="node-seb"}) * 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
-          title: Memory
         - id: nas_memory_usage
+          title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="node-nas"} - node_memory_MemAvailable_bytes{instance="node-nas"}) / sum(node_memory_MemTotal_bytes{instance="node-nas"}) * 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
-          title: Memory
         
         # uptime
         - id: cluster_age_days
+          title: Age
           query: round((time() - min(kube_node_created) ) / 86400)
           valueExpr: string(result) + "d"
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
-          title: Age
         - id: cluster_uptime_days
+          title: Uptime
           query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}) / 86400)
           valueExpr: string(result) + "d"
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
-          title: Uptime
         - id: seb_uptime_days
+          title: Uptime
           query: round((node_time_seconds{instance="node-seb"} - node_boot_time_seconds{instance="node-seb"}) / 86400, 1)
           valueExpr: string(result) + "d"
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
-          title: Uptime
         - id: nas_uptime_days
+          title: Uptime
           query: round((node_time_seconds{instance="node-nas"} - node_boot_time_seconds{instance="node-nas"}) / 86400, 1)
           valueExpr: string(result) + "d"
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
-          title: Uptime
 
         # count
         - id: cluster_node_count
+          title: Nodes
           query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
           colorExpr: 'result > 0 ? "green" : "red"'
-          title: Nodes
         - id: cluster_pod_count
+          title: Pods
           query: sum(kube_pod_status_phase{phase="Running"})
           colorExpr: 'result > 0 ? "green" : "red"'
-          title: Pods
         - id: cluster_alert_count
+          title: Alerts
           query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
           colorExpr: 'result < 1 ? "green" : "red"'
-          title: Alerts
 
         # docker
         - id: docker_seb_service_count
+          title: Services
           query: sum(engine_daemon_container_states_containers{instance="docker-seb"})
           colorExpr: 'result > 1 ? "green" : "red"'
-          title: Services
         - id: docker_nas_service_count
+          title: Services
           query: sum(engine_daemon_container_states_containers{instance="docker-nas"})
           colorExpr: 'result > 1 ? "green" : "red"'
-          title: Services
 
         - id: internet_status
-          query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
           title: Internet
           icon: mdi:web
+          query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
           colorExpr: 'result == 1.0 ? "green" : "red"'
           valueExpr: 'result == 1.0 ? "UP" : "DOWN"'
 
-        # chart status
-        - id: chart_status_plex
-          query: kube_pod_status_phase{namespace="ytptube", pod!~"volsync-.*|restic-.*"} == 1
-          title: Plex
-          icon: mdi:plex
-          colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orValue("computing...")
-        - id: chart_status_authelia
-          query: kube_pod_status_phase{namespace="authelia", pod!~"volsync-.*|restic-.*"} == 1
-          title: Authelia
-          icon: si:authelia
-          colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orValue("computing...")
-        - id: chart_status_lldap
-          query: kube_pod_status_phase{namespace="lldap", pod!~"volsync-.*|restic-.*"} == 1
-          title: LLDAP
-          icon: si:authelia
-          colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orValue("computing...")
-        - id: chart_status_vaultwarden
-          query: kube_pod_status_phase{namespace="vaultwarden", pod!~"volsync-.*|restic-.*"} == 1
-          title: VaultWarden
-          icon: si:vaultwarden
-          colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orValue("computing...")
-        - id: chart_status_nginx_external
-          query: kube_pod_status_phase{namespace="nginx",pod=~"nginx-external-controller.*"} == 1
-          title: Nginx External
-          icon: si:nginx
-          colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orValue("computing...")
-        - id: chart_status_cloudflared
-          query: kube_pod_status_phase{namespace="cloudflared", pod!~"volsync-.*|restic-.*"} == 1
-          title: Cloudflared
-          icon: si:cloudflare
-          colorExpr: 'labels["phase"] == "Running" ? "green" : labels["phase"] == "Pending" ? "orange" : labels["phase"] == "Succeeded" ? "blue" : labels["phase"] == "Failed" ? "red" : "gray"'
-          valueExpr: labels[?"phase"].orValue("computing...")
+        - id: speedtest_download
+          title: Download
+          query: speedtest_tracker_downloaded_bytes{status="completed"}
+          valueExpr: |
+            result >= 1073741824 ?
+              string(round(result / 1073741824 * 100) / 100) + " GB" :
+              string(round(result / 1048576)) + " MB"
+          colorExpr: |
+            result >= 2147483648 ? "green" :
+            result >= 1717986918 ? "yellow" :
+            "red"
 
     workload:
       main:
