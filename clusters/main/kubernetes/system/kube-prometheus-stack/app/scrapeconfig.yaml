@@ -38,6 +38,24 @@ spec:
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
+  name: docker-seb
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SEB_IP}:9323
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: docker-seb
+    - action: replace
+      targetLabel: job
+      replacement: docker-seb
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
   name: node-exporter-nas
   namespace: kube-prometheus-stack
 spec:
@@ -70,3 +88,21 @@ spec:
     - action: replace
       targetLabel: job
       replacement: doco-cd-nas
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: docker-nas
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9323
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: docker-nas
+    - action: replace
+      targetLabel: job
+      replacement: docker-nas
