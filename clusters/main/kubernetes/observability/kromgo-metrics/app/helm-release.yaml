@@ -126,7 +126,17 @@ spec:
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
           title: CPU
         - id: cluster_memory_usage
-          query: round(sum(node_memory_MemTotal_bytes{pod!=""} - node_memory_MemAvailable_bytes{pod!=""}) / sum(node_memory_MemTotal_bytes{pod!=""}) * 100, 0.1)
+          query: round(sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"} - node_memory_MemAvailable_bytes{instance="10.0.0.191:9100"}) / sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"}) * 100, 0.1)
+          valueExpr: string(result) + "%"
+          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          title: Memory
+        - id: seb_memory_usage
+          query: round(sum(node_memory_MemTotal_bytes{instance="node-seb"} - node_memory_MemAvailable_bytes{instance="node-seb"}) / sum(node_memory_MemTotal_bytes{instance="node-seb"}) * 100, 0.1)
+          valueExpr: string(result) + "%"
+          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          title: Memory
+        - id: nas_memory_usage
+          query: round(sum(node_memory_MemTotal_bytes{instance="node-nas"} - node_memory_MemAvailable_bytes{instance="node-nas"}) / sum(node_memory_MemTotal_bytes{instance="node-nas"}) * 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
           title: Memory
