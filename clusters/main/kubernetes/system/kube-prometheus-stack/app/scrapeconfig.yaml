@@ -124,3 +124,21 @@ spec:
     - action: replace
       targetLabel: job
       replacement: exporter-speedtest
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: exporter-opnsense
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${ROUTER_IP}:9273
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: exporter-opnsense
+    - action: replace
+      targetLabel: job
+      replacement: exporter-opnsense
