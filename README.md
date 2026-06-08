@@ -103,6 +103,9 @@ My entire HomeLab stack in a single 15u rack!
   
 * **Device:** Unifi Cable Modem
   * **Role:** The internet!
+
+* **Device:** OpnSense Firewall
+  * **Role:** The internet!
   * **MOBO:** MPG X570 GAMING PLUS
   * **CPU:** AMD Ryzen 7 5700G
   * **RAM:** 32GB kingston generic RAM
