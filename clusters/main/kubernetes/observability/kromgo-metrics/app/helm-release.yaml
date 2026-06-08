@@ -122,7 +122,7 @@ spec:
           title: HomeLab Power
           query: round(avg_over_time(ups_ups_load{ups="server-rack"}[5m]) * 9, 1)
           valueExpr: string(result) + " W"
-          colorExpr: 'colorScale(result, [300.0, 600.0], ["red", "yellow", "green"])'
+          colorExpr: 'colorScale(result, [300.0, 500.0, 600.0], ["red", "yellow", "green"])'
 
         # usage      
         - id: cluster_cpu_usage
