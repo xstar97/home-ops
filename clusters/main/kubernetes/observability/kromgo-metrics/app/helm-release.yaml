@@ -207,9 +207,16 @@ spec:
         - id: speedtest_download
           title: Download
           icon: mdi:download
-          query: round(speedtest_tracker_downloaded_bytes{status="completed"} / 1073741824, 0.01)
+          query: round(speedtest_tracker_downloaded_bytes{status="completed"} / 1024^3, 0.01) # 1024^3 for GB
           colorExpr: 'result >= 2 ? "green" : result >= 1.6 ? "yellow" : "red"'
           valueExpr: 'string(result) + " GB"'
+
+        - id: speedtest_upload
+          title: Upload
+          icon: mdi:upload
+          query: round(speedtest_tracker_uploaded_bytes{status="completed"} / 1024^2,0.01)  # 1024^2 for MB
+          colorExpr: 'result >= 300.0 ? "green" : result >= 250 ? "yellow" : "red"'
+          valueExpr: 'string(result) + " MB"'
 
     workload:
       main:
