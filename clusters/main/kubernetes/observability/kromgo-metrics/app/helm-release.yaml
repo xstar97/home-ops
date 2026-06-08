@@ -132,6 +132,11 @@ spec:
           valueExpr: string(result) + "d"
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
           title: Uptime
+        - id: nas_uptime_days
+          query: round((node_time_seconds{instance="node-nas"} - node_boot_time_seconds{instance="node-nas"}) / 86400, 1)
+          valueExpr: string(result) + "d"
+          colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
+          title: Uptime
 
         # count
         - id: cluster_node_count
