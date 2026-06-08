@@ -5,19 +5,20 @@
 My entire HomeLab stack in a single 15u rack!
 
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
 <details open>
 <summary>The Rack</summary>
-
 <br>
-
 <img
   src="https://docs.xstar97thenoob.com/_astro/2026.B83xqnbu_Z6BoCJ.webp"
   alt="2026 Homelab Rack"
   width="400"
 />
-
 </details>
+
+---
 
 ## Talos Kubernetes Cluster
 
@@ -36,31 +37,16 @@ My entire HomeLab stack in a single 15u rack!
 [![Pods](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_pod_count?format=shields&style=flat-square&label=Pods)](https://github.com/home-operations/kromgo)
 [![CPU Usage](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo)
 [![Memory Usage](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo)
-[![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=flat-square)](https://github.com/home-operations/kromgo)
 
-### Service Status
+---
 
-The Base services for my homelab
-
-[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
-
-![Cloudflared Tunnel](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_cloudflared%3Fformat%3Dshields&logo=cloudflare&style=for-the-badge)
-
-![Nginx-External](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_nginx_external%3Fformat%3Dshields&logo=nginx&style=for-the-badge)
-
-![Lldap](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_lldap%3Fformat%3Dshields&logo=authelia&style=for-the-badge)
-
-![Authelia](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_authelia%3Fformat%3Dshields&logo=authelia&style=for-the-badge)
-
-![Vaultwarden](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_vaultwarden%3Fformat%3Dshields&logo=vaultwarden&style=for-the-badge)
-
-![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields&logo=plex&style=for-the-badge)
+## 🐳 Docker Hosts (Doco-CD)
 
 <table>
 <tr>
 <td valign="top" width="50%">
 
-## DocoCD Seb
+### Seb
 
 *A self-hosted docker gitops powered by Doco-CD!*
 
@@ -76,7 +62,7 @@ The Base services for my homelab
 </td>
 <td valign="top" width="50%">
 
-## DocoCD Nas
+### Nas
 
 *A self-hosted docker gitops powered by Doco-CD!*
 
