@@ -159,14 +159,14 @@ spec:
         # uptime
         - id: cluster_age_days
           title: Age
-          query: round((time() - min(kube_node_created) ) / 86400)
-          valueExpr: string(result) + "d"
-          colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
+          query: round(time() - min(kube_node_created))
+          valueExpr: humanizeDurationDays(result)
+          colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
         - id: cluster_uptime_days
           title: Uptime
-          query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}) / 86400)
-          valueExpr: string(result) + "d"
-          colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
+          query: round(avg(node_time_seconds{pod!=""} - node_boot_time_seconds{pod!=""}))
+          valueExpr: humanizeDurationDays(result)
+          colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
         - id: seb_uptime_days
           title: Uptime
           query: round((node_time_seconds{instance="node-seb"} - node_boot_time_seconds{instance="node-seb"}) / 86400, 1)
