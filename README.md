@@ -47,19 +47,6 @@ My entire HomeLab stack in a single 15u rack!
 
 *A self-hosted docker gitops!*
 
-### Seb
-
-[![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
-[![DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
-[![docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
-
-<br>
-
-[![uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-
-[![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 
 ### Nas
 
@@ -74,6 +61,20 @@ My entire HomeLab stack in a single 15u rack!
 [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
+
+### Seb
+
+[![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
+[![DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
+[![docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
+
+<br>
+
+[![uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
+
+[![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
+[![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
+[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 
 </div>
 
