@@ -106,3 +106,21 @@ spec:
     - action: replace
       targetLabel: job
       replacement: docker-nas
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: exporter-speedtest
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - speedtest-tracker.speedtest-tracker.svc.cluster.local:9004
+  metricsPath: /prometheus
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: exporter-speedtest
+    - action: replace
+      targetLabel: job
+      replacement: exporter-speedtest
