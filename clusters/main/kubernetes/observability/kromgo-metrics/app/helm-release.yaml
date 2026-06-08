@@ -166,34 +166,14 @@ spec:
           query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
           colorExpr: 'result < 1 ? "green" : "red"'
           title: Alerts
-        - id: ingress_external_count
-          query: sum(kube_ingress_info{ingressclass="external"})
-          title: "External Services"
-        - id: ingress_internal_count
-          query: sum(kube_ingress_info{ingressclass="internal"})
-          title: "Internal Services"
-        
-        # deploy que count
-        - id: seb_dc_deploy_queued_count
-          query: doco_cd_deployments_queued{instance="doco-cd-seb"}
-          title: Deployments Queued
-        - id: nas_dc_deploy_queued_count
-          query: doco_cd_deployments_queued{instance="doco-cd-nas"}
-          title: Deployments Queued
-        # deploy active count
-        - id: seb_dc_deploy_active_count
-          query: doco_cd_deployments_active{instance="doco-cd-seb"}
-          title: Deployments Active
-        - id: nas_dc_deploy_active_count
-          query: doco_cd_deployments_active{instance="doco-cd-nas"}
-          title: Deployments Active
-        # deploy error count
-        - id: seb_dc_deploy_error_count
-          query: count(doco_cd_deployment_errors_total{instance="doco-cd-seb"}) or vector(0)
-          title: Deployment Errors
-        - id: nas_dc_deploy_error_count
-          query: count(doco_cd_deployment_errors_total{instance="doco-cd-nas"}) or vector(0)
-          title: Deployment Errors
+
+        # docker
+        - id: docker_seb_service_count
+          query: sum(engine_daemon_container_states_containers{instance="docker-seb"})
+          title: Services
+        - id: docker_nas_service_count
+          query: sum(engine_daemon_container_states_containers{instance="docker-nas"})
+          title: Services
 
         - id: internet_status
           query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}

@@ -64,16 +64,14 @@ The Base services for my homelab
 
 *A self-hosted docker gitops powered by Doco-CD!*
 
-[![Seb-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
-[![Seb-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
-
-[![seb-deploy-que](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_deploy_queued_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![seb-deploy-active](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_deploy_active_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![seb-deploy-errors](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_deploy_error_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
+[![Seb-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
+[![Seb-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
+[![Seb-docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
 
 <br>
 
 [![seb-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
+[![seb-services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Services)](https://github.com/home-operations/kromgo)
 
 </td>
 <td valign="top" width="50%">
@@ -82,16 +80,14 @@ The Base services for my homelab
 
 *A self-hosted docker gitops powered by Doco-CD!*
 
-[![Nas-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
-[![Nas-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
-
-[![nas-deploy-que](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_deploy_queued_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![nas-deploy-active](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_deploy_active_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![nas-deploy-errors](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_deploy_error_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
+[![NAS-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
+[![NAS-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
+[![NAS-docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
 
 <br>
 
 [![nas-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
+[![nas-services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square&label=Services)](https://github.com/home-operations/kromgo)
 
 </td>
 </tr>
