@@ -71,7 +71,7 @@ The Base services for my homelab
 <br>
 
 [![seb-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![seb-services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Services)](https://github.com/home-operations/kromgo)
+[![seb-services](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_seb_service_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
 
 </td>
 <td valign="top" width="50%">
@@ -87,7 +87,7 @@ The Base services for my homelab
 <br>
 
 [![nas-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![nas-services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square&label=Services)](https://github.com/home-operations/kromgo)
+[![nas-services](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_nas_service_count%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
 
 </td>
 </tr>

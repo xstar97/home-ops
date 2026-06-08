@@ -170,9 +170,11 @@ spec:
         # docker
         - id: docker_seb_service_count
           query: sum(engine_daemon_container_states_containers{instance="docker-seb"})
+          colorExpr: 'result > 1 ? "green" : "red"'
           title: Services
         - id: docker_nas_service_count
           query: sum(engine_daemon_container_states_containers{instance="docker-nas"})
+          colorExpr: 'result > 1 ? "green" : "red"'
           title: Services
 
         - id: internet_status
