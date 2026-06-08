@@ -122,39 +122,39 @@ spec:
           title: HomeLab Power
           query: round(avg_over_time(ups_ups_load{ups="server-rack"}[5m]) * 9, 1)
           valueExpr: string(result) + " W"
-          colorExpr: 'result < 300 ? "green" : result < 600 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [300.0, 600.0], ["green", "orange", "red"])'
 
         # usage      
         - id: cluster_cpu_usage
           title: CPU
           query: round(cluster:node_cpu:ratio_rate5m * 100, 0.1)
           valueExpr: string(result) + "%"
-          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: seb_cpu_usage
           title: CPU
           query: round(100 - (avg(rate(node_cpu_seconds_total{instance="node-seb", mode="idle"}[5m])) * 100),0.1)
           valueExpr: string(result) + "%"
-          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: nas_cpu_usage
           title: CPU
           query: round(100 - (avg(rate(node_cpu_seconds_total{instance="node-nas", mode="idle"}[5m])) * 100),0.1)
           valueExpr: string(result) + "%"
-          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: cluster_memory_usage
           title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"} - node_memory_MemAvailable_bytes{instance="10.0.0.191:9100"}) / sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"}) * 100, 0.1)
           valueExpr: string(result) + "%"
-          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: seb_memory_usage
           title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="node-seb"} - node_memory_MemAvailable_bytes{instance="node-seb"}) / sum(node_memory_MemTotal_bytes{instance="node-seb"}) * 100, 0.1)
           valueExpr: string(result) + "%"
-          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: nas_memory_usage
           title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="node-nas"} - node_memory_MemAvailable_bytes{instance="node-nas"}) / sum(node_memory_MemTotal_bytes{instance="node-nas"}) * 100, 0.1)
           valueExpr: string(result) + "%"
-          colorExpr: 'result < 35 ? "green" : result < 75 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         
         # uptime
         - id: cluster_age_days
@@ -182,31 +182,31 @@ spec:
         - id: cluster_node_count
           title: Nodes
           query: count(count by (node) (kube_node_status_condition{condition="Ready"}))
-          colorExpr: 'result > 0 ? "green" : "red"'
+          colorExpr: 'colorScale(result, [0.0], ["green", "red"])'
         - id: cluster_pod_count
           title: Pods
           query: sum(kube_pod_status_phase{phase="Running"})
-          colorExpr: 'result > 0 ? "green" : "red"'
+          colorExpr: 'colorScale(result, [0.0], ["green", "red"])'
         - id: cluster_alert_count
           title: Alerts
           query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
-          colorExpr: 'result < 1 ? "green" : "red"'
+          colorExpr: 'colorScale(result, [1.0], ["green", "red"])'
 
         # docker
         - id: docker_seb_service_count
           title: Services
           query: sum(engine_daemon_container_states_containers{instance="docker-seb"})
-          colorExpr: 'result > 1 ? "green" : "red"'
+          colorExpr: 'colorScale(result, [1.0], ["green", "red"])'
         - id: docker_nas_service_count
           title: Services
           query: sum(engine_daemon_container_states_containers{instance="docker-nas"})
-          colorExpr: 'result > 1 ? "green" : "red"'
+          colorExpr: 'colorScale(result, [1.0], ["green", "red"])'
 
         - id: internet_status
           title: Internet
           icon: mdi:web
           query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
-          colorExpr: 'result == 1.0 ? "green" : "red"'
+          colorExpr: 'colorScale(result, [1.0], ["green", "red"])'
           valueExpr: 'result == 1.0 ? "UP" : "DOWN"'
 
         - id: speedtest_download
