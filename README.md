@@ -81,23 +81,54 @@ My entire HomeLab stack in a single 15u rack!
 
 ### 🖥️ Hardware Setup
 
+* **Device:**  AX5400 Ceiling Mount WiFi 6 Access Point
+  * **Role:** Rack WIFI
+
+* **Device:** Pi Zero 2W
+  * **Role:** NUT server
+  * **CPU:** Broadcom BCM2710A1
+  * **RAM:** 512MB
+
+* **Device:** Home-Assistant Pi5
+  * **Role:** Home automation!
+  * **CPU:** Broadcom BCM2712
+  * **RAM:** 4GB
+  * **Storage:** 512GB SSD
+
 * **Device:** Beelink Mini PC (AZW MINI S)
   * **Role:** Primary Docker host and kubernetes cluster manager
   * **CPU:** N150
   * **RAM:** 16GB
-  * **STORAGE:** 512GB SSD
+  * **Storage:** 512GB SSD
+  
+* **Device:** Unifi Cable Modem
+  * **Role:** The internet!
+  * **MOBO:** MPG X570 GAMING PLUS
+  * **CPU:** AMD Ryzen 7 5700G
+  * **RAM:** 32GB kingston generic RAM
+  * **Network** 10GB Intel X550 ethernet card
+  * **Storage:**  
+    * Samsung SSD 970 EVO Plus 500GB
+    * Samsung SSD 870 EVO 500GB
+
+* **Device:**  Pro XG 10 PoE
+  * **Role:** Rack Switch <3
   
 * **Device:** Custom 4U server
-  * **Role:** TrueNAS storage and talos kubernetes Server
+  * **Role:** TrueNAS Storage and talos kubernetes Server
   * **MOBO:** X570S PG Riptide AsRock
   * **CPU:** AMD Ryzen 9 5900 12-Core Processor
   * **GPU:** GTX 1060 6gb PNY
   * **RAM:** Corsair VENGEANCE LPX 128GB (4 x 32GB) DDR4 DRAM 3200MHz C16
-  * **STORAGE:**  
+  * **Network** generic 10gb ethernet card
+  * **Storage:**  
     * Intel Optane Memory M10 SSD M.2 2280 32GB (boot pool)
     * 2 X 16TB seagate EXOS HDD (media pool)
     * Samsung SATA SSD 860_EVO_1TB (SSD pool)
     * Samsung NVME SSD 990 EVO 2TB (kubernetes pool/talos zvol)
+
+* **Device:** Tripp Lite SMART1500LCDXL 1500VA
+  * **Role:** UPS
 
 ---
 ## Acknowledgements
