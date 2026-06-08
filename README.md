@@ -5,9 +5,9 @@
 My entire HomeLab stack in a single 15u rack!
 
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
-[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
+[![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Download-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_download%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![upload-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_upload%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
@@ -45,13 +45,9 @@ My entire HomeLab stack in a single 15u rack!
 
 ## 🐳 Docker Hosts (Doco-CD)
 
-<table>
-<tr>
-<td valign="top" width="50%">
+*A self-hosted docker gitops!*
 
 ### Seb
-
-*A self-hosted docker gitops powered by Doco-CD!*
 
 [![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
 [![DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
@@ -65,12 +61,7 @@ My entire HomeLab stack in a single 15u rack!
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 
-</td>
-<td valign="top" width="50%">
-
 ### Nas
-
-*A self-hosted docker gitops powered by Doco-CD!*
 
 [![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
 [![DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
@@ -83,10 +74,6 @@ My entire HomeLab stack in a single 15u rack!
 [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-
-</td>
-</tr>
-</table>
 
 </div>
 
