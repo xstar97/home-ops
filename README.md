@@ -13,9 +13,15 @@ My entire HomeLab stack in a single 15u rack!
 [![Download-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_download%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![upload-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_upload%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
-[![router-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fopnsense_uptime_days%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![router-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fopnsense_uptime_days%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![router-cpu](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/opnsense_cpu_usage?format=shields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![router-mem](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/opnsense_memory_usage?format=shields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+
+---
+
+## Talos Kubernetes Cluster
+
+*A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
 
 <details open>
 <summary>The Rack</summary>
@@ -27,11 +33,7 @@ My entire HomeLab stack in a single 15u rack!
 />
 </details>
 
----
-
-## Talos Kubernetes Cluster
-
-*A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
+<br>
 
 [![Talos](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/talos_version?format=shields&style=for-the-badge&logo=talos&logoColor=white&label=%20&color=blue)](https://www.talos.dev/)
 [![Kubernetes](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/kubernetes_version?format=shields&style=for-the-badge&logo=kubernetes&logoColor=white&label=%20&color=blue)](https://kubernetes.io/)
