@@ -191,6 +191,7 @@ spec:
         - id: opnsense_uptime_days
           title: Uptime
           query: system_uptime{host="router.local"}
+          valueExpr: humanizeDurationDays(result)
           colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
 
         # count
