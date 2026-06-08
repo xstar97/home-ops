@@ -163,7 +163,7 @@ spec:
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
         - id: opnsense_memory_usage
           title: Memory
-          query: mem_active{host="router.local"}
+          query: round(mem_active{host="router.local"},0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
 
