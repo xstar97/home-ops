@@ -91,6 +91,11 @@ spec:
           title: Doco-CD
           icon: si:docker
           valueExpr: labels["version"]
+        - id: nas_version
+          query: node_os_info{instance="node-nas"}
+          title: OS version
+          icon: si:debian
+          valueExpr: labels["version"]
         - id: nas_dc_version
           query: doco_cd_info{instance="doco-cd-nas"}
           title: Doco-CD
@@ -157,16 +162,28 @@ spec:
         - id: ingress_internal_count
           query: sum(kube_ingress_info{ingressclass="internal"})
           title: "Internal Services"
-
-        - id: seb_alert_count
+        
+        - id: seb_dc_deploy_queued_count
+          query: doco_cd_deployments_queued{instance="doco-cd-seb"}
+          colorExpr: 'result < 1 ? "green" : "red"'
+          title: Deployments Queued
+        - id: nas_dc_deploy_queued_count
+          query: doco_cd_deployments_queued{instance="doco-cd-nas"}
+          colorExpr: 'result < 1 ? "green" : "red"'
+          title: Deployments Queued
+        - id: seb_dc_deploy_active_count
+          query: doco_cd_deployments_active{instance="doco-cd-seb"}
+          title: Deployments Queued
+        - id: nas_dc_deploy_active_count
+          query: doco_cd_deployments_active{instance="doco-cd-nas"}
+          title: Deployments Queued
+        - id: seb_dc_deploy_active_count
           query: count(doco_cd_deployment_errors_total{instance="doco-cd-seb"}) or vector(0)
-          colorExpr: 'int(result) == 0 ? "green" : "red"'
-          title: Alerts
-        - id: nas_alert_count
+          title: Deployment Errors
+        - id: nas_dc_deploy_active_count
           query: count(doco_cd_deployment_errors_total{instance="doco-cd-nas"}) or vector(0)
-          colorExpr: 'int(result) == 0 ? "green" : "red"'
-          title: Alerts
-          
+          title: Deployment Errors
+
         - id: internet_status
           query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
           title: Internet

@@ -56,6 +56,10 @@ The Base services for my homelab
 
 ![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields&logo=plex&style=for-the-badge)
 
+<table>
+<tr>
+<td valign="top" width="50%">
+
 ## DocoCD Seb
 
 *A self-hosted docker gitops powered by Doco-CD!*
@@ -63,17 +67,28 @@ The Base services for my homelab
 [![Seb-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
 [![Seb-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 
+<br>
+
 [![seb-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![seb-Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_alert_count%3Fformat%3Dshields&style=flat-square)](https://github.com/home-operations/kromgo)
+
+</td>
+<td valign="top" width="50%">
 
 ## DocoCD Nas
 
 *A self-hosted docker gitops powered by Doco-CD!*
 
+[![Nas-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
 [![Nas-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 
-[![seb-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
-[![nas-Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_alert_count%3Fformat%3Dshields&style=flat-square)](https://github.com/home-operations/kromgo)
+<br>
+
+[![nas-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
+
+</td>
+</tr>
+</table>
+
 </div>
 
 ---
