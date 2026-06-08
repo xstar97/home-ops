@@ -62,14 +62,6 @@ My entire HomeLab stack in a single 15u rack!
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 
-### 🖥️ Hardware
-
-* **Device:** Beelink Mini PC (AZW MINI S)
-* **Role:** Primary Docker host and kubernetes cluster manager
-* **CPU:** N150
-* **RAM:** 16GB
-* **STORAGE:** 512GB SSD
-  
 </td>
 <td valign="top" width="50%">
 
@@ -89,21 +81,6 @@ My entire HomeLab stack in a single 15u rack!
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 
-
-### 🖥️ Hardware
-
-* **Device:** Custom 4U server
-* **Role:** TrueNAS storage and talos kubernetes Server
-* **MOBO:** X570S PG Riptide AsRock
-* **CPU:** AMD Ryzen 9 5900 12-Core Processor
-* **GPU:** GTX 1060 6gb PNY
-* **RAM:** Corsair VENGEANCE LPX 128GB (4 x 32GB) DDR4 DRAM 3200MHz C16
-* **STORAGE:**  
-  * Intel Optane Memory M10 SSD M.2 2280 32GB (boot pool)
-  * 2 X 16TB seagate EXOS HDD (media pool)
-  * Samsung SATA SSD 860_EVO_1TB (SSD pool)
-  * Samsung NVME SSD 990 EVO 2TB (kubernetes pool/talos zvol)
-
 </td>
 </tr>
 </table>
@@ -112,6 +89,27 @@ My entire HomeLab stack in a single 15u rack!
 
 ---
 
+### 🖥️ Hardware Setup
+
+* **Device:** Beelink Mini PC (AZW MINI S)
+  * **Role:** Primary Docker host and kubernetes cluster manager
+  * **CPU:** N150
+  * **RAM:** 16GB
+  * **STORAGE:** 512GB SSD
+  
+* **Device:** Custom 4U server
+  * **Role:** TrueNAS storage and talos kubernetes Server
+  * **MOBO:** X570S PG Riptide AsRock
+  * **CPU:** AMD Ryzen 9 5900 12-Core Processor
+  * **GPU:** GTX 1060 6gb PNY
+  * **RAM:** Corsair VENGEANCE LPX 128GB (4 x 32GB) DDR4 DRAM 3200MHz C16
+  * **STORAGE:**  
+    * Intel Optane Memory M10 SSD M.2 2280 32GB (boot pool)
+    * 2 X 16TB seagate EXOS HDD (media pool)
+    * Samsung SATA SSD 860_EVO_1TB (SSD pool)
+    * Samsung NVME SSD 990 EVO 2TB (kubernetes pool/talos zvol)
+
+---
 ## Acknowledgements
 
 Inspired by the amazing GitOps and homelab communities, including:
