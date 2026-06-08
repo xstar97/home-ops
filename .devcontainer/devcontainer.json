@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "TalosCluster",
-  "image": "oci.trueforge.org/containerforge/devcontainer:4.1.1@sha256:fbb539f39f6db32bf1ec486c1a696d003ab0ca59588f69d67ffa7e0938bdae25",
+  "image": "oci.trueforge.org/containerforge/devcontainer:4.1.1@sha256:8948efacf245e717daa2d3e2745b59107eaea374ed2c3facc87c29277d7da8a6",
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
