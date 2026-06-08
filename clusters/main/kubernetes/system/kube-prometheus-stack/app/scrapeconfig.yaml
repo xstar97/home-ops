@@ -34,3 +34,22 @@ spec:
     - action: replace
       targetLabel: job
       replacement: doco-cd-seb
+
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: doco-cd-nas
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9120
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: doco-cd-nas
+    - action: replace
+      targetLabel: job
+      replacement: doco-cd-nas
