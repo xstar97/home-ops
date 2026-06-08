@@ -163,6 +163,7 @@ spec:
           query: sum(kube_ingress_info{ingressclass="internal"})
           title: "Internal Services"
         
+        # deploy que count
         - id: seb_dc_deploy_queued_count
           query: doco_cd_deployments_queued{instance="doco-cd-seb"}
           colorExpr: 'result < 1 ? "green" : "red"'
@@ -171,16 +172,18 @@ spec:
           query: doco_cd_deployments_queued{instance="doco-cd-nas"}
           colorExpr: 'result < 1 ? "green" : "red"'
           title: Deployments Queued
+        # deploy active count
         - id: seb_dc_deploy_active_count
           query: doco_cd_deployments_active{instance="doco-cd-seb"}
-          title: Deployments Queued
+          title: Deployments Active
         - id: nas_dc_deploy_active_count
           query: doco_cd_deployments_active{instance="doco-cd-nas"}
-          title: Deployments Queued
-        - id: seb_dc_deploy_active_count
+          title: Deployments Active
+        # deploy error count
+        - id: seb_dc_deploy_error_count
           query: count(doco_cd_deployment_errors_total{instance="doco-cd-seb"}) or vector(0)
           title: Deployment Errors
-        - id: nas_dc_deploy_active_count
+        - id: nas_dc_deploy_error_count
           query: count(doco_cd_deployment_errors_total{instance="doco-cd-nas"}) or vector(0)
           title: Deployment Errors
 
