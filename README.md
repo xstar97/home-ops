@@ -7,9 +7,15 @@ My entire HomeLab stack in a single 15u rack!
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
+## Networking
+
 [![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Download-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_download%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![upload-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_upload%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+
+[![router-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fopnsense_uptime_days%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![router-cpu](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fopnsense_cpu_usage%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![router-mem](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fopnsense_memory_usage%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
 <details open>
 <summary>The Rack</summary>

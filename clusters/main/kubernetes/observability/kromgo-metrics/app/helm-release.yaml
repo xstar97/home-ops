@@ -140,6 +140,12 @@ spec:
           query: round(100 - (avg(rate(node_cpu_seconds_total{instance="node-nas", mode="idle"}[5m])) * 100),0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
+        - id: opnsense_cpu_usage
+          title: CPU
+          query: round(100 - cpu_usage_idle{host="router.local", cpu="cpu-total"},0.1)
+          valueExpr: string(result) + "%"
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
+
         - id: cluster_memory_usage
           title: Memory
           query: round(sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"} - node_memory_MemAvailable_bytes{instance="10.0.0.191:9100"}) / sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"}) * 100, 0.1)
@@ -155,7 +161,12 @@ spec:
           query: round(sum(node_memory_MemTotal_bytes{instance="node-nas"} - node_memory_MemAvailable_bytes{instance="node-nas"}) / sum(node_memory_MemTotal_bytes{instance="node-nas"}) * 100, 0.1)
           valueExpr: string(result) + "%"
           colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
-        
+        - id: opnsense_memory_usage
+          title: Memory
+          query: mem_active{host="router.local"}
+          valueExpr: string(result) + "%"
+          colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
+
         # uptime
         - id: cluster_age_days
           title: Age
@@ -176,6 +187,10 @@ spec:
           title: Uptime
           query: round(node_time_seconds{instance="node-nas"} - node_boot_time_seconds{instance="node-nas"})
           valueExpr: humanizeDurationDays(result)
+          colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
+        - id: opnsense_uptime_days
+          title: Uptime
+          query: system_uptime{host="router.local"}
           colorExpr: 'colorScale(result, [15552000.0, 31104000.0], ["green", "orange", "red"])'
 
         # count
