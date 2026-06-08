@@ -83,12 +83,12 @@ spec:
 
         - id: os_seb_version
           query: node_os_info{instance="node-seb"}
-          title: OS version
+          title: OS
           icon: si:debian
           valueExpr: labels["version"]
         - id: docker_seb_version
           query: engine_daemon_engine_info{instance="docker-seb"}
-          title: Docker version
+          title: Docker
           icon: si:docker
           valueExpr: labels["version"]
         - id: dc_seb_version
@@ -98,12 +98,12 @@ spec:
           valueExpr: labels["version"]
         - id: os_nas_version
           query: node_os_info{instance="node-nas"}
-          title: OS version
+          title: OS
           icon: si:debian
           valueExpr: labels["version"]
         - id: docker_nas_version
           query: engine_daemon_engine_info{instance="docker-nas"}
-          title: Docker version
+          title: Docker
           icon: si:docker
           valueExpr: labels["version"]
         - id: dc_nas_version
