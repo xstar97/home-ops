@@ -212,16 +212,16 @@ spec:
         - id: speedtest_download
           title: Download
           icon: mdi:download
-          query: round(speedtest_tracker_downloaded_bytes{status="completed"} / 1024^3, 0.01) # 1024^3 for GB
-          colorExpr: 'result >= 2 ? "green" : result >= 1.6 ? "yellow" : "red"'
-          valueExpr: 'string(result) + " GB"'
+          query: round(speedtest_tracker_downloaded_bytes{status="completed"})
+          colorExpr: 'colorScale(result, [2000000000.0, 1600000000.0], ["green", "orange", "red"])'
+          valueExpr: 'humanizeBytes(result)'
 
         - id: speedtest_upload
           title: Upload
           icon: mdi:upload
-          query: round(speedtest_tracker_uploaded_bytes{status="completed"} / 1024^2,0.01)  # 1024^2 for MB
-          colorExpr: 'result >= 300.0 ? "green" : result >= 250 ? "yellow" : "red"'
-          valueExpr: 'string(result) + " MB"'
+          query: round(speedtest_tracker_uploaded_bytes{status="completed"})
+          colorExpr: 'colorScale(result, [300000000.0, 250000000.0], ["green", "orange", "red"])'
+          valueExpr: 'humanizeBytes(result)'
 
     workload:
       main:
