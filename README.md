@@ -63,13 +63,15 @@ The Base services for my homelab
 [![Seb-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
 [![Seb-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 
+[![seb-uptime](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_uptime_days%3Fformat%3Dshields)](https://github.com/home-operations/kromgo)
+[![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_alert_count%3Fformat%3Dshields&style=flat-square)](https://github.com/home-operations/kromgo)
+
 ## DocoCD Nas
 
 *A self-hosted docker gitops powered by Doco-CD!*
 
 [![Nas-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 
-[![Cluster Uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo)
 </div>
 
 ---

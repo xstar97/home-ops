@@ -34,7 +34,24 @@ spec:
     - action: replace
       targetLabel: job
       replacement: doco-cd-seb
-
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter-nas
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9100
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: node-nas
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter
 ---
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
