@@ -207,7 +207,7 @@ spec:
         - id: speedtest_download
           title: Download
           icon: mdi:download
-          query: speedtest_tracker_downloaded_bytes{status="completed"} / 1073741824
+          query: round(speedtest_tracker_downloaded_bytes{status="completed"} / 1073741824, 0.01)
           colorExpr: 'result >= 2 ? "green" : result >= 1.6 ? "yellow" : "red"'
           valueExpr: 'string(result) + " GB"'
 
