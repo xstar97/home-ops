@@ -87,12 +87,12 @@ spec:
           valueExpr: labels["version"]
         - id: seb_dc_version
           query: doco_cd_info{instance="doco-cd-seb"}
-          title: Doco-CD
+          title: Doco-CD Seb
           icon: si:docker
           valueExpr: labels["version"]
         - id: nas_dc_version
           query: doco_cd_info{instance="doco-cd-nas"}
-          title: Doco-CD
+          title: Doco-CD Nas
           icon: si:docker
           valueExpr: labels["version"]
         
