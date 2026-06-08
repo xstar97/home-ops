@@ -56,6 +56,20 @@ The Base services for my homelab
 
 ![Plex](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fchart_status_plex%3Fformat%3Dshields&logo=plex&style=for-the-badge)
 
+## DocoCD Seb
+
+*A self-hosted docker gitops powered by Doco-CD!*
+
+[![Seb-OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
+[![Seb-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fseb_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
+
+## DocoCD Nas
+
+*A self-hosted docker gitops powered by Doco-CD!*
+
+[![Nas-DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fnas_dc_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
+
+[![Cluster Uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo)
 </div>
 
 ---

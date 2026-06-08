@@ -82,17 +82,17 @@ spec:
           valueExpr: labels["revision"]
         - id: seb_version
           query: node_os_info{instance="node-seb"}
-          title: Seb
-          icon: si:docker
+          title: Seb OS version
+          icon: si:debian
           valueExpr: labels["version"]
         - id: seb_dc_version
           query: doco_cd_info{instance="doco-cd-seb"}
-          title: Doco-CD Seb
+          title: DC Seb Version
           icon: si:docker
           valueExpr: labels["version"]
         - id: nas_dc_version
           query: doco_cd_info{instance="doco-cd-nas"}
-          title: Doco-CD Nas
+          title: DC Nas Version
           icon: si:docker
           valueExpr: labels["version"]
         
@@ -126,6 +126,11 @@ spec:
           valueExpr: string(result) + "d"
           colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
           title: Uptime
+        - id: seb_uptime_days
+          query: round((node_time_seconds{instance="node-seb"} - node_boot_time_seconds{instance="node-seb"}) / 86400, 1)
+          valueExpr: string(result) + "d"
+          colorExpr: 'result < 180 ? "green" : result < 360 ? "orange" : "red"'
+          title: Uptime
 
         # count
         - id: cluster_node_count
@@ -147,6 +152,15 @@ spec:
           query: sum(kube_ingress_info{ingressclass="internal"})
           title: "Internal Services"
 
+        - id: seb_alert_count
+          query: count(doco_cd_deployment_errors_total{instance="doco-cd-seb"}) or vector(0)
+          colorExpr: 'result > 0 ? "green" : "red"'
+          title: Alerts
+        - id: nas_alert_count
+          query: count(doco_cd_deployment_errors_total{instance="doco-cd-nas"}) or vector(0)
+          colorExpr: 'result > 0 ? "green" : "red"'
+          title: Alerts
+          
         - id: internet_status
           query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
           title: Internet
