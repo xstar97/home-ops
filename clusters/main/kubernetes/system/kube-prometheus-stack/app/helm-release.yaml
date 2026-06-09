@@ -7,6 +7,10 @@ metadata:
   namespace: kube-prometheus-stack
 spec:
   interval: 15m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: kube-prometheus-stack
@@ -15,9 +19,6 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
