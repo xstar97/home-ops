@@ -16,6 +16,5 @@ resources:
   - tauticord/ks.yaml
   - calendarr/ks.yaml
   - utilities
-  ## - sonobarr/ks.yaml
   ## - muse/ks.yaml
   ## - checkrr/ks.yaml

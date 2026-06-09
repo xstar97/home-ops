@@ -1,10 +1,16 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: plex
   namespace: plex
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 45m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: plex
@@ -13,17 +19,16 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
   install:
     createNamespace: true
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
     remediation:
       retries: 3
-  timeout: 60m
+  uninstall:
+    keepHistory: false
   values:
     gatus:
       group: media
@@ -31,19 +36,9 @@ spec:
       stopAll: false
     credentials:
       cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}-plex"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
       rfs-restic:
-        type: s3
-        url: "${RUSTFS_S3_RESTIC_URL}"
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-plex"
-        accessKey: "${RUSTFS_S3_RESTIC_ID}"
-        secretKey: "${RUSTFS_S3_RESTIC_KEY}"
-        encrKey: "${RUSTFS_S3_RESTIC_KEY}"
     plex:
       serverIP: ${PLEX_IP}
       disableGDM: true
