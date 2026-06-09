@@ -160,7 +160,7 @@ spec:
                 # Port number of Redis/Valkey instance
                 REDIS_PORT: 6379
                 # Username for Redis/Valkey instance
-                # REDIS_USERNAME: "default"
+                REDIS_USERNAME: "default"
                 # Password for Redis/Valkey instance
                 REDIS_PASSWORD: "{{ .Values.redis.password }}"
                 # Database number for Redis/Valkey instance
