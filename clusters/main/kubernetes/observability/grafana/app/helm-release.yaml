@@ -4,7 +4,11 @@ metadata:
   name: grafana
   namespace: grafana
 spec:
-  interval: 5m
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: grafana
@@ -13,17 +17,29 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
   install:
     createNamespace: true
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
     remediation:
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
+    gatus:
+      group: observability
+
+    global:
+      stopAll: false
+
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-renovate"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-renovate"
+
     workload:
       main:
         podSpec:
@@ -35,6 +51,7 @@ spec:
                 GF_AUTH_ANONYMOUS_ENABLED: true
                 GF_AUTH_OAUTH_AUTO_LOGIN: true
                 GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+
     ingress:
       main:
         enabled: true
@@ -51,12 +68,7 @@ spec:
             certificateIssuer: general-le-prod
         hosts:
           - host: grafana.${DOMAIN_2}
-    cnpg:
-      main:
-        cluster:
-          singleNode: true 
-        monitoring:
-          enablePodMonitor: true
+
     configmap:
       datasource-loki:
         enabled: false
@@ -74,6 +86,7 @@ spec:
                 isDefault: false
                 jsonData:
                   maxLines: 250   
+    
     dashboards:
       grafana:
         cert-manager:
@@ -251,3 +264,25 @@ spec:
             # renovate: depName="Node Exporter Full"
             id: 1860
             revision: 45
+    
+    cnpg:
+      main:
+        mode: recovery
+        cluster:
+          singleNode: true
+        monitoring:
+          enablePodMonitor: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#10_0_*_*_*
+              schedule: "10 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
