@@ -149,7 +149,7 @@ spec:
                 # Extra query parameters for the database connection, in JSON format (e.g. {"unix_socket": "/path/to/db"})
                 # DB_QUERY_JSON: ""
                 # Host name of Redis/Valkey instance
-                REDIS_HOST: '{{ .Values.redis.creds.plain | trimAll "\"" }}'
+                REDIS_HOST: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
                 # Port number of Redis/Valkey instance
                 REDIS_PORT: 6379
                 # Username for Redis/Valkey instance
@@ -208,11 +208,11 @@ spec:
                 # Path to a file containing trusted CA certificates
                 # OIDC_TLS_CACERTFILE: ""
                 # Access token lifetime (in seconds) 1800 (30 minutes)
-                OAUTH_ACCESS_TOKEN_EXPIRE_SECONDS: 1800
+                # OAUTH_ACCESS_TOKEN_EXPIRE_SECONDS: 1800
                 # Refresh token lifetime (in seconds) 604800 (7 days)
-                OAUTH_REFRESH_TOKEN_EXPIRE_SECONDS: 604800
+                # OAUTH_REFRESH_TOKEN_EXPIRE_SECONDS: 604800
                 # Invite token lifetime (in seconds) 600 (10 minutes)
-                INVITE_TOKEN_EXPIRY_SECONDS: 600
+                # INVITE_TOKEN_EXPIRY_SECONDS: 600
                 # URL to the OIDC provider metadata endpoint
                 # OIDC_SERVER_METADATA_URL: ""
                 # Enable RP-initiated logout flow
@@ -266,6 +266,9 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/custom-http-errors: "599"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/proxy-buffering: "off"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
         hosts:
           - host: romm.${DOMAIN_2}
             paths:
