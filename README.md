@@ -112,6 +112,9 @@ My entire HomeLab stack in a single 15u rack!
 * **Device:** Unifi Cable Modem
   * **Role:** The internet!
 
+* **Device:**  Pro XG 10 PoE
+  * **Role:** Rack Switch <3
+
 * **Device:** OpnSense Firewall
   * **Role:** The internet!
   * **MOBO:** MPG X570 GAMING PLUS
@@ -121,9 +124,6 @@ My entire HomeLab stack in a single 15u rack!
   * **Storage:**  
     * Samsung SSD 970 EVO Plus 500GB
     * Samsung SSD 870 EVO 500GB
-
-* **Device:**  Pro XG 10 PoE
-  * **Role:** Rack Switch <3
   
 * **Device:** Custom 4U server
   * **Role:** TrueNAS Storage and talos kubernetes Server
