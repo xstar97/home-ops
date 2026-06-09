@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   cloudflared:
     scale: 1
-    image: cloudflare/cloudflared:2026.5.2@sha256:12ff5c6992a9863db4da270746af7c244bcaee49353039af8104268a18d6c4f0
+    image: cloudflare/cloudflared:2026.6.0@sha256:ba461b8aa9c042156dbd39c38657fe7431bafa063220eab8d5330a523863da9f
     container_name: cloudflared
     restart: on-failure
     command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_0}
