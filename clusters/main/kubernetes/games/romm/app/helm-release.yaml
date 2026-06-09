@@ -169,6 +169,7 @@ spec:
                 # REDIS_SSL: false
                 # DSN for Sentry error tracking
                 # SENTRY_DSN
+                
                 # Metadata providers
                 # Client ID for IGDB API
                 IGDB_CLIENT_ID: "${ROMM_IGDB_CLIENT_ID}"
