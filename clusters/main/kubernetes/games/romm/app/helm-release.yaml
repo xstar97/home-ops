@@ -113,7 +113,7 @@ spec:
                 # Base url for properly display container logs links (like register or recover password)
                 ROMM_BASE_URL: "{{ .Values.chartContext.appUrl }}"
                 # Logging level for the app
-                LOGLEVEL: INFO
+                LOGLEVEL: DEBUG # INFO
                 # Forces color output
                 # FORCE_COLOR: false
                 # Disables color output
