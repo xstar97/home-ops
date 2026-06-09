@@ -111,7 +111,7 @@ spec:
                 # Base folder path for library, resources and assets
                 # ROMM_BASE_PATH: /romm/
                 # Base url for properly display container logs links (like register or recover password)
-                ROMM_BASE_URL: "localhost" # "{{ .Values.chartContext.appUrl }}"
+                ROMM_BASE_URL: "{{ .Values.chartContext.appUrl }}"
                 # Logging level for the app
                 LOGLEVEL: INFO
                 # Forces color output
