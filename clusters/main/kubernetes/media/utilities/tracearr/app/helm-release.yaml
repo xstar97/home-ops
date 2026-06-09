@@ -32,6 +32,9 @@ spec:
       group: media-utilities
     global:
       stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-tracearr"
     image:
       repository: ghcr.io/connorgallopo/tracearr
       pullPolicy: IfNotPresent
@@ -40,14 +43,6 @@ spec:
     #   repository: timescale/timescaledb-ha
     #   pullPolicy: IfNotPresent
     #   tag: pg16-ts2.26@sha256:ae70d94ec1c797e682f85aa38d5eef9960e862607c0e9aa7075792c35265ff3f
-    credentials:
-      cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-tracearr"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
         runAsNonRoot: false
