@@ -36,7 +36,7 @@ spec:
       group: games
     image:
       repository: ghcr.io/rommapp/romm
-      tag: 4.8.0@sha256:f9b16eb4fc939034205549b12b954769b6e1d82a5c0877b6fb19a294056669b0
+      tag: 4.9.0-beta.2@sha256:72b227cbc59c80f18d48c8adb76b620dd52c7cd9769451ced4229bbe4d51e112
       pullPolicy: IfNotPresent
     credentials:
       cf-restic:
