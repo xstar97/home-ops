@@ -129,7 +129,7 @@ spec:
 
               - opnsense:
                   icon: opnsense.png
-                  href: "https://router.greenehomelab.com"
+                  href: "https://router.${DOMAIN_0}"
                   siteMonitor: http://${ROUTER_IP}:444
                   widget:
                     type: opnsense
