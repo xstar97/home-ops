@@ -135,7 +135,7 @@ My entire HomeLab stack in a single 15u rack!
   * **Storage:**  
     * Intel Optane Memory M10 SSD M.2 2280 32GB (boot pool)
     * 2 X 16TB seagate EXOS HDD (media pool)
-    * Samsung SATA SSD 860_EVO_1TB (SSD pool)
+    * Samsung SATA SSD 860 EVO 1TB (SSD pool)
     * Samsung NVME SSD 990 EVO 2TB (kubernetes pool/talos zvol)
 
 * **Device:** Tripp Lite SMART1500LCDXL 1500VA
