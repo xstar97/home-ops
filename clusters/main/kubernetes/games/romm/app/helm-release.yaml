@@ -264,7 +264,8 @@ spec:
         enabled: true
         ingressClassName: "internal"
         annotations:
-          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          nginx.ingress.kubernetes.io/default-backend: null
+          # nginx.ingress.kubernetes.io/custom-http-errors: "599"
           # nginx.ingress.kubernetes.io/proxy-intercept-errors: "false"
           # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
           # nginx.ingress.kubernetes.io/proxy-buffering: "off"
