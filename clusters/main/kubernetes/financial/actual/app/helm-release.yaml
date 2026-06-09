@@ -87,9 +87,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        # annotations:
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
           # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          # nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: actual.${DOMAIN_2}
             paths:
