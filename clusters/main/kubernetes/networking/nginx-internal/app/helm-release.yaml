@@ -6,7 +6,11 @@ metadata:
   name: nginx-internal
   namespace: nginx
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: ingress-nginx
@@ -15,9 +19,6 @@ spec:
         kind: HelmRepository
         name: home-ops-mirror
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
