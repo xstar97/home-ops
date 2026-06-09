@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -6,6 +7,10 @@ metadata:
   namespace: apprise
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: app-template
@@ -14,9 +19,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
-  timeout: 45m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -34,12 +36,9 @@ spec:
       stopAll: false
     credentials:
       cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}-apprise"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-apprise"
     image:
       repository: caronc/apprise
       pullPolicy: IfNotPresent
