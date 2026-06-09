@@ -1,11 +1,16 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: vaultwarden
   namespace: vaultwarden
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: vaultwarden
@@ -14,9 +19,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -39,18 +41,9 @@ spec:
     #   tag: testing-alpine@sha256:e1f277ca35763092448b1aad961e18ce4d0f78eeebe38a294beb8ed0890d7500
     credentials:
       cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}-vaultwarden"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 8080
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-vaultwarden"
     workload:
       main:
         podSpec:

@@ -7,5 +7,6 @@ resources:
   - authelia-oidc.secret.yaml
   - authelia-configfile.configmap.yaml
 components:
+  - ../../../../components/restic
   - ../../../../components/notifications/discord
   - ../../../../components/gatus/service
