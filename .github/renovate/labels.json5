@@ -45,10 +45,6 @@
     {
       "matchPackageNames": ["/fluxcd/"],
       "addLabels": ["fluxcd-update"]
-    },
-    {
-      "matchPackageNames": ["manual"],
-      "addLabels": ["type/manual"]
     }
   ]
 }

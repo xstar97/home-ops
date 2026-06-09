@@ -11,7 +11,9 @@
         "!/siderolabs/",
         "!/fluxcd/",
         "!/longhorn/",
-        "!/cilium/"
+        "!/cilium/",
+        "!/plex/",
+        "!/minecraft-server/"
       ],
       "automerge": true,
       "addLabels": ["automerge"]  
@@ -19,7 +21,9 @@
     {
       "matchUpdateTypes": ["patch"],
       "matchPackageNames": [
-        "!/siderolabs/"
+        "!/siderolabs/",
+        "!/plex/",
+        "!/minecraft-server/"
       ],
       "automerge": true,
       "addLabels": ["automerge"]
