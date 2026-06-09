@@ -131,10 +131,7 @@ spec:
                 # Database driver to use (options: mariadb, mysql, postgresql)
                 ROMM_DB_DRIVER: postgresql
                 # Host name of database instance ✓
-                DB_HOST:
-                  secretKeyRef:
-                    name: cnpg-main-urls
-                    key: host
+                DB_HOST: "{{ .Values.cnpg.main.creds.host }}"
                 # Port number of database instance 3306
                 DB_PORT: 5432
                 # Should match MYSQL_DATABASE in MariaDB
@@ -142,10 +139,7 @@ spec:
                 # Database username (in MariaDB, should match MARIADB_USER) ✓
                 DB_USER: "{{ .Values.cnpg.main.user }}"
                 # Database password (in MariaDB, should match MARIADB_PASSWORD) ✓
-                DB_PASSWD:
-                  secretKeyRef:
-                    name: cnpg-main-user
-                    key: password
+                DB_PASSWD: "{{ .Values.cnpg.main.creds.password }}"
                 # Extra query parameters for the database connection, in JSON format (e.g. {"unix_socket": "/path/to/db"})
                 # DB_QUERY_JSON: ""
                 # Host name of Redis/Valkey instance
@@ -335,7 +329,7 @@ spec:
         enabled: true
         user: romm
         database: romm
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
