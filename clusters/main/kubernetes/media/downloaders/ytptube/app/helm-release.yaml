@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -6,6 +7,10 @@ metadata:
   namespace: ytptube
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: app-template
@@ -14,9 +19,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -32,18 +34,15 @@ spec:
       group: media-downloaders
     global:
       stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-ytptube"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-ytptube"
     image:
       repository: ghcr.io/arabcoders/ytptube
       pullPolicy: IfNotPresent
       tag: v2.5.4@sha256:61d0b9b2bd6653c2c61b7bc9b6ae0fbb24f959463f8a01143db370c2dc3e44ae
-    credentials:
-      cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-ytptube"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
     service:
       main:
         ports:

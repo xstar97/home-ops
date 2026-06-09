@@ -1,11 +1,16 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: streamrip
   namespace: streamrip
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: app-template
@@ -14,9 +19,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -32,18 +34,15 @@ spec:
       group: media-downloaders
     global:
       stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-streamrip"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-streamrip"
     image:
       repository: anoddname/streamrip-web-gui
       pullPolicy: IfNotPresent
       tag: latest@sha256:95c82b37c41bb479be75d0d7973438fdc76d75f55cf3d1d8eb03003d7372f049
-    credentials:
-      cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-streamrip"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
         readOnlyRootFilesystem: false
