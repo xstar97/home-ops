@@ -49,11 +49,40 @@ spec:
           containers:
             main:
               env:
+                ACTUAL_DATA_DIR: "{{ .Values.persistence.data.mountPath }}"
+                # ACTUAL_SERVER_FILES
+                # ACTUAL_USER_FILES
+                # ACTUAL_WEB_ROOT
+                # ACTUAL_CONFIG_PATH
+                # ACTUAL_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # password, header, or openid
+                ACTUAL_LOGIN_METHOD: openid
+                ACTUAL_ALLOWED_LOGIN_METHODS: "password, header. openid"
+                # Trusted proxy CIDRs
+                # ACTUAL_TRUSTED_PROXIES: ""
+                # Trusted auth proxy CIDRs
+                # ACTUAL_TRUSTED_AUTH_PROXIES: ""
+                # Token lifetime (never, openid-provider, or seconds)
+                # ACTUAL_TOKEN_EXPIRATION: never
                 ACTUAL_OPENID_DISCOVERY_URL: https://auth.${DOMAIN_2}
                 ACTUAL_OPENID_CLIENT_ID: actual-budget
                 ACTUAL_OPENID_CLIENT_SECRET: ${AUTHELIA_CLIENT_ACTUAL_BUDGET_SECRET}
-                ACTUAL_OPENID_SERVER_HOSTNAME: https://actual.${DOMAIN_2}
-                ACTUAL_OPENID_AUTH_METHOD: oauth2
+                ACTUAL_OPENID_SERVER_HOSTNAME: "{{ .Values.chartContext.appUrl }}"
+                ACTUAL_OPENID_AUTH_METHOD: openid # oauth2
+                ACTUAL_CORS_PROXY_ENABLED: true
+                # Force OpenID authentication
+                # ACTUAL_OPENID_ENFORCE: false
+                # manual or login
+                # ACTUAL_USER_CREATION_MODE: manual
+                # ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB: 20
+                # ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB: 50
+                # ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB: 20
+                # ACTUAL_GITHUB_TOKEN
+                # ACTUAL_OPENID_PROVIDER_NAME
+                # ACTUAL_OPENID_AUTHORIZATION_ENDPOINT
+                # ACTUAL_OPENID_TOKEN_ENDPOINT
+                # ACTUAL_OPENID_USERINFO_ENDPOINT
+
     ingress:
       main:
         enabled: true
