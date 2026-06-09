@@ -12,6 +12,6 @@ resources:
   - auth
   - assets
   - financial
-  - games
+  # - games
   - media
   - tools
