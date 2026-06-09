@@ -86,10 +86,10 @@ spec:
         limits:
           memory: 4096Mi
     defaultBackend:
-      enabled: true
+      enabled: false
       image:
         repository: ghcr.io/tarampampam/error-pages
-        tag: '4' # using the latest tag is highly discouraged
+        tag: '4.2.1@sha256:96855caa28e08a96bb9ff746a7c094b43235351bad79806c2210f9e7677abce9' # using the latest tag is highly discouraged
       extraEnvs:
         - name: TEMPLATE_NAME # Optional: change the default theme
           value: app-down
