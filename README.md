@@ -2,10 +2,24 @@
 
 <div align="center">
 
-My entire HomeLab stack in a single 15u rack!
-
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+
+My entire HomeLab stack in a single 15u rack!
+
+<br>
+
+<details open>
+<summary>The Rack</summary>
+<br>
+<img
+  src="https://docs.xstar97thenoob.com/_astro/2026.B83xqnbu_Z6BoCJ.webp"
+  alt="2026 Homelab Rack"
+  width="400"
+/>
+</details>
+
+<br>
 
 ## Networking
 
@@ -22,18 +36,6 @@ My entire HomeLab stack in a single 15u rack!
 ## Talos Kubernetes Cluster
 
 *A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
-
-<details open>
-<summary>The Rack</summary>
-<br>
-<img
-  src="https://docs.xstar97thenoob.com/_astro/2026.B83xqnbu_Z6BoCJ.webp"
-  alt="2026 Homelab Rack"
-  width="400"
-/>
-</details>
-
-<br>
 
 [![Talos](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/talos_version?format=shields&style=for-the-badge&logo=talos&logoColor=white&label=%20&color=blue)](https://www.talos.dev/)
 [![Kubernetes](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/kubernetes_version?format=shields&style=for-the-badge&logo=kubernetes&logoColor=white&label=%20&color=blue)](https://kubernetes.io/)
