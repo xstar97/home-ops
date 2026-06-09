@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -6,6 +7,10 @@ metadata:
   namespace: audiobookrequest
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: app-template
@@ -14,9 +19,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -32,18 +34,15 @@ spec:
       group: media-requests
     global:
       stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-audiobookrequest"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-audiobookrequest"
     image:
       repository: markbeep/audiobookrequest
       pullPolicy: IfNotPresent
       tag: 1.10.5@sha256:a1af94a2e1069fa427c57f04eecb489cab8785b5dba56fd261dc47c1e3842b82
-    credentials:
-      cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-audiobookrequest"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
         readOnlyRootFilesystem: false
