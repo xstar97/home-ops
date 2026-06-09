@@ -36,7 +36,7 @@ spec:
       group: games
     image:
       repository: ghcr.io/rommapp/romm
-      tag: 4.9.0-beta.2@sha256:72b227cbc59c80f18d48c8adb76b620dd52c7cd9769451ced4229bbe4d51e112
+      tag: 4.8.1@sha256:2b7a1714b287f69b081ad2a63bb8c2fa673666a17b2f21322b580b0cd51cb266
       pullPolicy: IfNotPresent
     credentials:
       cf-restic:
@@ -160,11 +160,11 @@ spec:
                 # Port number of Redis/Valkey instance
                 REDIS_PORT: 6379
                 # Username for Redis/Valkey instance
-                REDIS_USERNAME: "default"
+                # REDIS_USERNAME: "default"
                 # Password for Redis/Valkey instance
                 REDIS_PASSWORD: "{{ .Values.redis.password }}"
                 # Database number for Redis/Valkey instance
-                REDIS_DB: 0
+                # REDIS_DB: 0
                 # Enable SSL for Redis/Valkey instance
                 REDIS_SSL: false
                 # DSN for Sentry error tracking
