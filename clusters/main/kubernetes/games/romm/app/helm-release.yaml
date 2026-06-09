@@ -156,17 +156,17 @@ spec:
                 # Extra query parameters for the database connection, in JSON format (e.g. {"unix_socket": "/path/to/db"})
                 # DB_QUERY_JSON: ""
                 # Host name of Redis/Valkey instance
-                REDIS_HOST: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
+                # REDIS_HOST: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
                 # Port number of Redis/Valkey instance
-                REDIS_PORT: 6379
+                # REDIS_PORT: 6379
                 # Username for Redis/Valkey instance
-                REDIS_USERNAME: "default"
+                # REDIS_USERNAME: "default"
                 # Password for Redis/Valkey instance
-                REDIS_PASSWORD: "{{ .Values.redis.password }}"
+                # REDIS_PASSWORD: "{{ .Values.redis.password }}"
                 # Database number for Redis/Valkey instance
                 # REDIS_DB: 0
                 # Enable SSL for Redis/Valkey instance
-                REDIS_SSL: false
+                # REDIS_SSL: false
                 # DSN for Sentry error tracking
                 # SENTRY_DSN
 
@@ -366,4 +366,4 @@ spec:
           credentials: cf-restic
 
     redis:
-      enabled: true
+      enabled: false
