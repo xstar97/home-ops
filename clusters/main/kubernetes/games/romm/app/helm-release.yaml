@@ -133,17 +133,26 @@ spec:
 
                 # Dependencies
                 # Database driver to use (options: mariadb, mysql, postgresql)
-                ROMM_DB_DRIVER: postgresql
+                # ROMM_DB_DRIVER: postgresql
+                DB_PORT: 3306
+                DB_NAME: "{{ .Values.mariadb.mariadbDatabase }}"
+                DB_USER: "{{ .Values.mariadb.mariadbUsername }}"
+                DB_HOST:
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s" .Release.Name "mariadbcreds" }}'
+                    key: plainhost
+                DB_PASSWD: "{{ .Values.mariadb.password }}"
                 # Host name of database instance ✓
-                DB_HOST: "{{ .Values.cnpg.main.creds.host }}"
+                # DB_HOST: "{{ .Values.cnpg.main.creds.host }}"
                 # Port number of database instance 3306
-                DB_PORT: 5432
+                # DB_PORT: 5432
                 # Should match MYSQL_DATABASE in MariaDB
-                DB_NAME: "{{ .Values.cnpg.main.database }}"
+                # DB_NAME: "{{ .Values.cnpg.main.database }}"
                 # Database username (in MariaDB, should match MARIADB_USER) ✓
-                DB_USER: "{{ .Values.cnpg.main.user }}"
+                # DB_USER: "{{ .Values.cnpg.main.user }}"
                 # Database password (in MariaDB, should match MARIADB_PASSWORD) ✓
-                DB_PASSWD: "{{ .Values.cnpg.main.creds.password }}"
+                # DB_PASSWD: "{{ .Values.cnpg.main.creds.password }}"
                 # Extra query parameters for the database connection, in JSON format (e.g. {"unix_socket": "/path/to/db"})
                 # DB_QUERY_JSON: ""
                 # Host name of Redis/Valkey instance
@@ -328,9 +337,14 @@ spec:
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
 
+    mariadb:
+      enabled: true
+      mariadbUsername: romm
+      mariadbDatabase: romm
+
     cnpg:
       main:
-        enabled: true
+        enabled: false
         user: romm
         database: romm
         mode: recovery
