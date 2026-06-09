@@ -34,16 +34,15 @@ spec:
       stopAll: false
     gatus:
       group: games
-    image:
-      repository: ghcr.io/rommapp/romm
-      tag: 4.9.0-beta.2@sha256:72b227cbc59c80f18d48c8adb76b620dd52c7cd9769451ced4229bbe4d51e112
-      pullPolicy: IfNotPresent
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-romm"
       rfs-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-romm"
-
+    image:
+      repository: ghcr.io/rommapp/romm
+      tag: 4.9.0-beta.2@sha256:72b227cbc59c80f18d48c8adb76b620dd52c7cd9769451ced4229bbe4d51e112
+      pullPolicy: IfNotPresent
     securityContext:
       container:
         readOnlyRootFilesystem: false
