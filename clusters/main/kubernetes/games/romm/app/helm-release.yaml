@@ -60,6 +60,7 @@ spec:
     workload:
       main:
         podSpec:
+          enableServiceLinks: false
           containers:
             main:
               probes:
