@@ -39,6 +39,10 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-actual"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-actual"
+    image:
+      repository: ghcr.io/actualbudget/actual
+      pullPolicy: IfNotPresent
+      tag: 26.6.0@sha256:74385f8067f401e61f0be9e343c471705c42dfaa195295c40c5b2f15f4dcc9d4
     workload:
       main:
         podSpec:
