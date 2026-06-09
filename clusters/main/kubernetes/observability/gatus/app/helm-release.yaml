@@ -1,13 +1,16 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: gatus
   namespace: gatus
-  annotations:
-    reloader.stakater.com/rollout-strategy: "restart"
 spec:
   interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: app-template
@@ -16,9 +19,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 30m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -33,6 +33,11 @@ spec:
     global:
       stopAll: false
       skipEmptyWalArchiveCheck: true
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-gatus"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-gatus"
     image:
       repository: ghcr.io/twin/gatus
       pullPolicy: IfNotPresent
@@ -45,14 +50,6 @@ spec:
       repository: ghcr.io/home-operations/gatus-sidecar
       pullPolicy: IfNotPresent
       tag: 0.0.19@sha256:a62610509ddb9d04ac562d13e096cecb391aa6647ac97d66ae5ba4db869bc6b8
-    credentials:
-      cf-restic:
-        type: s3
-        url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-gatus"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       readOnlyRootFilesystem: false
     service:

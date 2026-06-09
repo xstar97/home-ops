@@ -5,4 +5,5 @@ resources:
   - helm-release.yaml
   - namespace.yaml
 components:
+  - ../../../../components/restic
   - ../../../../components/notifications/discord
