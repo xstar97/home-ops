@@ -65,10 +65,13 @@ spec:
               probes:
                 liveness:
                   type: http
+                  path: /api/heartbeat
                 readiness:
                   type: http
+                  path: /api/heartbeat
                 startup:
-                  type: http
+                  type: tcp
+                  # path: /api/heartbeat
               env:
                 # application settings
                 # Generate a key with openssl rand -hex 32 ✓
