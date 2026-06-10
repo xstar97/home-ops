@@ -33,7 +33,7 @@ spec:
     gatus:
       group: assets
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-homebox"
