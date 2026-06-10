@@ -171,21 +171,21 @@ spec:
                 # HBOX_DEMO_PASSWORD: ""
 
                 # enable OIDC
-                HBOX_OIDC_ENABLED: "false"
+                HBOX_OIDC_ENABLED: true
                 # OIDC issuer URL
-                HBOX_OIDC_ISSUER_URL: ""
+                HBOX_OIDC_ISSUER_URL: https://auth.${DOMAIN_2}
                 # OIDC client ID
-                HBOX_OIDC_CLIENT_ID: ""
+                HBOX_OIDC_CLIENT_ID: "homebox"
                 # OIDC client secret
-                HBOX_OIDC_CLIENT_SECRET: ""
+                HBOX_OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_HOMEBOX}"
                 # OIDC scopes
                 HBOX_OIDC_SCOPE: "openid profile email"
                 # allowed OIDC groups
-                HBOX_OIDC_ALLOWED_GROUPS: ""
+                HBOX_OIDC_ALLOWED_GROUPS: "lldap_admin,lldap_homebox"
                 # auto redirect to OIDC
-                HBOX_OIDC_AUTO_REDIRECT: "false"
+                HBOX_OIDC_AUTO_REDIRECT: true
                 # require verified email from OIDC provider
-                HBOX_OIDC_VERIFY_EMAIL: "false"
+                HBOX_OIDC_VERIFY_EMAIL: true
                 # OIDC groups claim
                 HBOX_OIDC_GROUP_CLAIM: "groups"
                 # OIDC email claim
@@ -319,7 +319,7 @@ spec:
         enabled: true
         user: homebox
         database: homebox
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:

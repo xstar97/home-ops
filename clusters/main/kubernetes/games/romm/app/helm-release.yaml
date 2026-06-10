@@ -210,7 +210,7 @@ spec:
                 # Absolute redirect URI for OIDC authentication
                 OIDC_REDIRECT_URI: https://romm.${DOMAIN_2}/api/oauth/openid
                 # Absolute URL of the OIDC server application
-                OIDC_SERVER_APPLICATION_URL: https://auth.${DOMAIN_2}	
+                OIDC_SERVER_APPLICATION_URL: https://auth.${DOMAIN_2}
                 # Path to a file containing trusted CA certificates
                 # OIDC_TLS_CACERTFILE: ""
                 # Access token lifetime (in seconds) 1800 (30 minutes)
