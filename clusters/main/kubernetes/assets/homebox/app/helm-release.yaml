@@ -146,7 +146,7 @@ spec:
                 # required for ingress
                 HBOX_OPTIONS_TRUST_PROXY: true
                 # override hostname used for absolute URLs
-                HBOX_OPTIONS_HOSTNAME: https://homebox.${DOMAIN_2}
+                HBOX_OPTIONS_HOSTNAME: "homebox.${DOMAIN_2}"
                 # required API key pepper (generate with openssl rand -base64 48)
                 HBOX_AUTH_API_KEY_PEPPER: "${HOMEBOX_HBOX_AUTH_API_KEY_PEPPER}"
                 # enable auth rate limiting
