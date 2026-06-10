@@ -155,7 +155,7 @@ spec:
                 # Extra query parameters for the database connection, in JSON format (e.g. {"unix_socket": "/path/to/db"})
                 # DB_QUERY_JSON: ""
                 # Host name of Redis/Valkey instance
-                # REDIS_HOST: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
+                REDIS_HOST: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
                 # Port number of Redis/Valkey instance
                 REDIS_PORT: 6379
                 # Username for Redis/Valkey instance
