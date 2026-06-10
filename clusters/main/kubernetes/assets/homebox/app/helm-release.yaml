@@ -293,9 +293,10 @@ spec:
           nginx:
             enabled: true
           homepage:
-            enabled: false
+            enabled: true
             group: "Inventory"
             widget:
+              type: "homebox"
               custom:
                 username: "${HOMEBOX_USER}"
                 password: "${HOMEBOX_PASS}"
