@@ -164,7 +164,7 @@ spec:
                 # enable debug mode
                 # HBOX_DEBUG_ENABLED: "false"
                 # debug port
-                HBOX_DEBUG_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # HBOX_DEBUG_PORT: "{{ .Values.service.main.ports.main.port }}"
                 # enable demo mode
                 # HBOX_DEMO: "false"
                 # demo user password
