@@ -282,7 +282,8 @@ spec:
         enabled: true
         ingressClassName: "internal"
         annotations:
-          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          # nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: homebox.${DOMAIN_2}
             paths:
