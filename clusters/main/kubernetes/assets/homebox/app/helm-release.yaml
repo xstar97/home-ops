@@ -177,7 +177,7 @@ spec:
                 # OIDC client secret
                 HBOX_OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_HOMEBOX}"
                 # OIDC scopes
-                HBOX_OIDC_SCOPE: "openid profile email"
+                HBOX_OIDC_SCOPE: "openid groups profile email email_verified"
                 # allowed OIDC groups
                 HBOX_OIDC_ALLOWED_GROUPS: "lldap_admin,lldap_homebox"
                 # auto redirect to OIDC

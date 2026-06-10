@@ -54,6 +54,8 @@ data:
             id_token: ['preferred_username', 'name', 'email']
           grimmory:
             id_token: ['preferred_username', 'name', 'email', 'groups']
+          homebox:
+            id_token: ['groups', 'email', 'email_verified', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -414,6 +416,7 @@ data:
             client_name: 'HomeBox'
             client_secret: {{ secret "/config/secret/clients_homebox_client_secret" }}
             public: false
+            claims_policy: "homebox"
             authorization_policy: 'homebox'
             require_pkce: true
             pkce_challenge_method: 'S256'
