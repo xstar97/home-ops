@@ -295,6 +295,8 @@ spec:
           homepage:
             enabled: true
             group: "Inventory"
+            description: "Inventory and organization system built for the Home User."
+            icon: "sh-homebox.svg"
             widget:
               type: "homebox"
               custom:
