@@ -144,7 +144,7 @@ spec:
                 HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: true
                 # trust X-Forwarded-* headers
                 # required for ingress
-                HBOX_OPTIONS_TRUST_PROXY: true
+                HBOX_OPTIONS_TRUST_PROXY: "{{ .Values.ingress.main.enabled }}"
                 # override hostname used for absolute URLs
                 HBOX_OPTIONS_HOSTNAME: "homebox.${DOMAIN_2}"
                 # required API key pepper (generate with openssl rand -base64 48)
