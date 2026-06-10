@@ -55,6 +55,18 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /api/v1/status
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /api/v1/status
+                startup:
+                  enabled: true
+                  type: tcp
               env:
                 # development pplication mode used for runtime behavior can be one of: development, production
                 HBOX_MODE: "production"
