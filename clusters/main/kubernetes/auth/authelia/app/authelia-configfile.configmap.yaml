@@ -55,7 +55,7 @@ data:
           grimmory:
             id_token: ['preferred_username', 'name', 'email', 'groups']
           homebox:
-            id_token: ['groups', 'email', 'email_verified', 'name']
+            id_token: ['groups', 'email', 'profile', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
