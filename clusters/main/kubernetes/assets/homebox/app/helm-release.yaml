@@ -84,7 +84,7 @@ spec:
                 # prefix path for the storage
                 # HBOX_STORAGE_PREFIX_PATH: ".data"
                 # log level to use: trace, debug, info, warn, error, fatal, panic
-                HBOX_LOG_LEVEL: "info"
+                HBOX_LOG_LEVEL: "debug"
                 # log format to use: text, json
                 # HBOX_LOG_FORMAT: "text"
                 # email host to use
@@ -131,7 +131,7 @@ spec:
                 # pub/sub connection string
                 # HBOX_DATABASE_PUB_SUB_CONN_STRING: "mem://{{ .Topic }}"
                 # allow users to register themselves
-                HBOX_OPTIONS_ALLOW_REGISTRATION: false
+                HBOX_OPTIONS_ALLOW_REGISTRATION: true
                 # auto increment asset_id field
                 HBOX_OPTIONS_AUTO_INCREMENT_ASSET_ID: true
                 # json configuration file containing additional currencies
@@ -144,7 +144,7 @@ spec:
                 HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: true
                 # trust X-Forwarded-* headers
                 # required for ingress
-                HBOX_OPTIONS_TRUST_PROXY: true
+                HBOX_OPTIONS_TRUST_PROXY: false # temp disable
                 # override hostname used for absolute URLs
                 HBOX_OPTIONS_HOSTNAME: "homebox.${DOMAIN_2}"
                 # required API key pepper (generate with openssl rand -base64 48)
@@ -162,7 +162,7 @@ spec:
                 # enable debug mode
                 # HBOX_DEBUG_ENABLED: false
                 # debug port
-                # HBOX_DEBUG_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # HBOX_DEBUG_PORT: 4000
                 # enable demo mode
                 # HBOX_DEMO: false
                 # demo user password
@@ -281,9 +281,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        annotations:
+        # annotations:
           # nginx.ingress.kubernetes.io/custom-http-errors: "599"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: homebox.${DOMAIN_2}
             paths:
