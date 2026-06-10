@@ -13,8 +13,8 @@ spec:
     mode: warn
   chart:
     spec:
-      chart: homebox
-      version: 10.4.0
+      chart: app-template
+      version: 18.6.8
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -39,6 +39,234 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-homebox"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-homebox"
+    image:
+      repository: ghcr.io/sysadminsmedia/homebox
+      pullPolicy: IfNotPresent
+      tag: 0.25.0@sha256:6506480a3dfadd2cc885fa97b32d11b0ee28ec58629fa34a76afdb4ac540c7fc
+
+    service:
+      main:
+        ports:
+          main:
+            port: 7745
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # development pplication mode used for runtime behavior can be one of: development, production
+                HBOX_MODE: "production"
+                HBOX_WEB_PORT: "{{ .Values.service.main.ports.main.port }}"
+                 # host to run the web server on, if you're using docker do not change this
+                HBOX_WEB_HOST: "127.0.0.1"
+                # maximum file upload size supported in MB
+                # HBOX_WEB_MAX_UPLOAD_SIZE: "10"
+                # Read timeout of HTTP server
+                # HBOX_WEB_READ_TIMEOUT: "10s"
+                # Write timeout of HTTP server
+                # HBOX_WEB_WRITE_TIMEOUT: "10s"
+                # Idle timeout of HTTP server
+                # HBOX_WEB_IDLE_TIMEOUT: "30s"
+                # path to the data directory, do not change this if you're using docker
+                # HBOX_STORAGE_CONN_STRING: "file:///./"
+                # prefix path for the storage
+                # HBOX_STORAGE_PREFIX_PATH: ".data"
+                # log level to use: trace, debug, info, warn, error, fatal, panic
+                HBOX_LOG_LEVEL: "info"
+                # log format to use: text, json
+                # HBOX_LOG_FORMAT: "text"
+                # email host to use
+                
+                # HBOX_MAILER_HOST: ""
+                # email port to use
+                # HBOX_MAILER_PORT: ""
+                # email user to use
+                # HBOX_MAILER_USERNAME: ""
+                # email password to use
+                # HBOX_MAILER_PASSWORD: ""
+                # email from address to use
+                # HBOX_MAILER_FROM: ""
+                
+                # database type: sqlite3 or postgres
+                HBOX_DATABASE_DRIVER: "postgres"
+                # sqlite database path
+                # HBOX_DATABASE_SQLITE_PATH: "./.data/homebox.db?_pragma=busy_timeout=999&_pragma=journal_mode=WAL&_fk=1&_time_format=sqlite"
+                
+                # postgres hostname
+                HBOX_DATABASE_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                # postgres port
+                HBOX_DATABASE_PORT: "5432"
+                # postgres username
+                HBOX_DATABASE_USERNAME: "{{ .Values.cnpg.main.user }}"
+                # postgres password
+                HBOX_DATABASE_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                # postgres database name
+                HBOX_DATABASE_DATABASE: "{{ .Values.cnpg.main.database }}"
+                # postgres ssl mode require or disable
+                HBOX_DATABASE_SSL_MODE: "disable"
+                # postgres ssl cert path
+                # HBOX_DATABASE_SSL_CERT: ""
+                # postgres ssl key path
+                # HBOX_DATABASE_SSL_KEY: ""
+                # postgres ssl root cert path
+                # HBOX_DATABASE_SSL_ROOT_CERT: ""
+                # pub/sub connection string
+                # HBOX_DATABASE_PUB_SUB_CONN_STRING: "mem://{{ .Topic }}"
+                # allow users to register themselves
+                HBOX_OPTIONS_ALLOW_REGISTRATION: "false"
+                # auto increment asset_id field
+                HBOX_OPTIONS_AUTO_INCREMENT_ASSET_ID: "true"
+                # json configuration file containing additional currencies
+                # HBOX_OPTIONS_CURRENCY_CONFIG: ""
+                # allow anonymous analytics
+                HBOX_OPTIONS_ALLOW_ANALYTICS: "false"
+                # check for GitHub releases
+                HBOX_OPTIONS_GITHUB_RELEASE_CHECK: "true"
+                # allow username/password login when OIDC is enabled
+                HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: "true"
+                # trust X-Forwarded-* headers
+                # required for ingress
+                HBOX_OPTIONS_TRUST_PROXY: "true"
+                # override hostname used for absolute URLs
+                HBOX_OPTIONS_HOSTNAME: "{{ .Values.chartContext.appUrl }}"
+                # required API key pepper (generate with openssl rand -base64 48)
+                HBOX_AUTH_API_KEY_PEPPER: "${HOMEBOX_HBOX_AUTH_API_KEY_PEPPER}"
+                # enable auth rate limiting
+                # HBOX_AUTH_RATE_LIMIT_ENABLED: "true"
+                # max failed auth attempts
+                # HBOX_AUTH_RATE_LIMIT_MAX_ATTEMPTS: "5"
+                # auth rate limit window
+                # HBOX_AUTH_RATE_LIMIT_WINDOW: "1m"
+                # auth rate limit base backoff
+                # HBOX_AUTH_RATE_LIMIT_BASE_BACKOFF: "10s"
+                # auth rate limit max backoff
+                # HBOX_AUTH_RATE_LIMIT_MAX_BACKOFF: "5m"
+                # enable debug mode
+                # HBOX_DEBUG_ENABLED: "false"
+                # debug port
+                HBOX_DEBUG_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # enable demo mode
+                # HBOX_DEMO: "false"
+                # demo user password
+                # HBOX_DEMO_PASSWORD: ""
+
+                # enable OIDC
+                HBOX_OIDC_ENABLED: "false"
+                # OIDC issuer URL
+                HBOX_OIDC_ISSUER_URL: ""
+                # OIDC client ID
+                HBOX_OIDC_CLIENT_ID: ""
+                # OIDC client secret
+                HBOX_OIDC_CLIENT_SECRET: ""
+                # OIDC scopes
+                HBOX_OIDC_SCOPE: "openid profile email"
+                # allowed OIDC groups
+                HBOX_OIDC_ALLOWED_GROUPS: ""
+                # auto redirect to OIDC
+                HBOX_OIDC_AUTO_REDIRECT: "false"
+                # require verified email from OIDC provider
+                HBOX_OIDC_VERIFY_EMAIL: "false"
+                # OIDC groups claim
+                HBOX_OIDC_GROUP_CLAIM: "groups"
+                # OIDC email claim
+                HBOX_OIDC_EMAIL_CLAIM: "email"
+                # OIDC display name claim
+                HBOX_OIDC_NAME_CLAIM: "name"
+                # OIDC email verified claim
+                HBOX_OIDC_EMAIL_VERIFIED_CLAIM: "email_verified"
+                # login button text
+                HBOX_OIDC_BUTTON_TEXT: "OIDC SignIn"
+                # OIDC state expiry
+                HBOX_OIDC_STATE_EXPIRY: "10m"
+                # OIDC request timeout
+                HBOX_OIDC_REQUEST_TIMEOUT: "30s"
+                # label width
+                # HBOX_LABEL_MAKER_WIDTH: "526"
+                # label height
+                # HBOX_LABEL_MAKER_HEIGHT: "200"
+                # label margin
+                # HBOX_LABEL_MAKER_MARGIN: "32"
+                # label padding
+                # HBOX_LABEL_MAKER_PADDING: "32"
+                # label font size
+                # HBOX_LABEL_MAKER_FONT_SIZE: "32.0"
+                # print command
+                # HBOX_LABEL_MAKER_PRINT_COMMAND: ""
+                # allow dynamic label length
+                # HBOX_LABEL_MAKER_DYNAMIC_LENGTH: "true"
+                # additional label information
+                # HBOX_LABEL_MAKER_ADDITIONAL_INFORMATION: ""
+                # regular font path
+                # HBOX_LABEL_MAKER_REGULAR_FONT_PATH: ""
+                # bold font path
+                # HBOX_LABEL_MAKER_BOLD_FONT_PATH: ""
+                # label service URL
+                # HBOX_LABEL_MAKER_LABEL_SERVICE_URL: ""
+                # label service timeout
+                # HBOX_LABEL_MAKER_LABEL_SERVICE_TIMEOUT: ""
+                # enable thumbnails
+                # HBOX_THUMBNAIL_ENABLED: "true"
+                # thumbnail width
+                # HBOX_THUMBNAIL_WIDTH: "500"
+                # thumbnail height
+                # HBOX_THUMBNAIL_HEIGHT: "500"
+                # BarcodeSpider API token
+                # HBOX_BARCODE_TOKEN_BARCODESPIDER: ""
+                # Open Food Facts contact
+                # HBOX_BARCODE_OPEN_FOOD_FACTS_CONTACT: ""
+                # allowed notifier CIDRs
+                # HBOX_NOTIFIER_ALLOW_NETS: ""
+                # blocked notifier CIDRs
+                # HBOX_NOTIFIER_BLOCK_NETS: ""
+                # block localhost notifier targets
+                # HBOX_NOTIFIER_BLOCK_LOCALHOST: "false"
+                # block RFC1918 notifier targets
+                # HBOX_NOTIFIER_BLOCK_LOCAL_NETS: "false"
+                # block bogon notifier targets
+                # HBOX_NOTIFIER_BLOCK_BOGON_NETS: "true"
+                # block cloud metadata endpoints
+                # HBOX_NOTIFIER_BLOCK_CLOUD_METADATA: "true"
+                # enable OpenTelemetry
+                HBOX_OTEL_ENABLED: "false"
+                # OTEL service name
+                # HBOX_OTEL_SERVICE_NAME: "homebox"
+                # OTEL service version
+                # HBOX_OTEL_SERVICE_VERSION: ""
+                # exporter type: otlp, stdout, none
+                # HBOX_OTEL_EXPORTER: "otlp"
+                # OTLP endpoint
+                # HBOX_OTEL_ENDPOINT: ""
+                # OTLP path prefix
+                # HBOX_OTEL_PATH_PREFIX: ""
+                # OTLP protocol: grpc or http
+                # HBOX_OTEL_PROTOCOL: "grpc"
+                # disable TLS
+                # HBOX_OTEL_INSECURE: "false"
+                # OTLP headers
+                # HBOX_OTEL_HEADERS: ""
+                # trace sample rate
+                # HBOX_OTEL_SAMPLE_RATE: "1.0"
+                # enable metrics
+                # HBOX_OTEL_ENABLE_METRICS: "true"
+                # metrics export interval
+                # HBOX_OTEL_METRICS_INTERVAL: "15s"
+                # enable OTEL logging
+                # HBOX_OTEL_ENABLE_LOGGING: "true"
+                # enable DB tracing
+                # HBOX_OTEL_ENABLE_DATABASE_TRACING: "true"
+                # enable HTTP tracing
+                # HBOX_OTEL_ENABLE_HTTP_TRACING: "true"
+                # enable frontend telemetry proxy
+                # HBOX_OTEL_PROXY_ENABLED: "true"
+
     ingress:
       main:
         enabled: true
@@ -52,7 +280,7 @@ spec:
           nginx:
             enabled: true
           homepage:
-            enabled: true
+            enabled: false
             group: "Inventory"
             widget:
               custom:
@@ -63,6 +291,8 @@ spec:
             certificateIssuer: general-le-prod
     persistence:
       data:
+        enabled: true
+        mountPath: /data
         volsync:
           - name: data
             type: restic
@@ -71,3 +301,28 @@ spec:
               enabled: true
             src:
               enabled: true
+
+    cnpg:
+      main:
+        enabled: true
+        user: homebox
+        database: homebox
+        mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
