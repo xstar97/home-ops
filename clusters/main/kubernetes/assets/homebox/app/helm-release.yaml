@@ -307,7 +307,7 @@ spec:
         enabled: true
         user: homebox
         database: homebox
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
           walStorage:
