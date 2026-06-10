@@ -43,13 +43,11 @@ spec:
       repository: ghcr.io/sysadminsmedia/homebox
       pullPolicy: IfNotPresent
       tag: 0.25.0@sha256:6506480a3dfadd2cc885fa97b32d11b0ee28ec58629fa34a76afdb4ac540c7fc
-
     service:
       main:
         ports:
           main:
             port: 7745
-
     workload:
       main:
         podSpec:
@@ -133,26 +131,26 @@ spec:
                 # pub/sub connection string
                 # HBOX_DATABASE_PUB_SUB_CONN_STRING: "mem://{{ .Topic }}"
                 # allow users to register themselves
-                HBOX_OPTIONS_ALLOW_REGISTRATION: "false"
+                HBOX_OPTIONS_ALLOW_REGISTRATION: false
                 # auto increment asset_id field
-                HBOX_OPTIONS_AUTO_INCREMENT_ASSET_ID: "true"
+                HBOX_OPTIONS_AUTO_INCREMENT_ASSET_ID: true
                 # json configuration file containing additional currencies
                 # HBOX_OPTIONS_CURRENCY_CONFIG: ""
                 # allow anonymous analytics
-                HBOX_OPTIONS_ALLOW_ANALYTICS: "false"
+                HBOX_OPTIONS_ALLOW_ANALYTICS: false
                 # check for GitHub releases
-                HBOX_OPTIONS_GITHUB_RELEASE_CHECK: "true"
+                HBOX_OPTIONS_GITHUB_RELEASE_CHECK: true
                 # allow username/password login when OIDC is enabled
-                HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: "true"
+                HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: true
                 # trust X-Forwarded-* headers
                 # required for ingress
-                HBOX_OPTIONS_TRUST_PROXY: "true"
+                HBOX_OPTIONS_TRUST_PROXY: true
                 # override hostname used for absolute URLs
                 HBOX_OPTIONS_HOSTNAME: "{{ .Values.chartContext.appUrl }}"
                 # required API key pepper (generate with openssl rand -base64 48)
                 HBOX_AUTH_API_KEY_PEPPER: "${HOMEBOX_HBOX_AUTH_API_KEY_PEPPER}"
                 # enable auth rate limiting
-                # HBOX_AUTH_RATE_LIMIT_ENABLED: "true"
+                # HBOX_AUTH_RATE_LIMIT_ENABLED: true
                 # max failed auth attempts
                 # HBOX_AUTH_RATE_LIMIT_MAX_ATTEMPTS: "5"
                 # auth rate limit window
@@ -162,11 +160,11 @@ spec:
                 # auth rate limit max backoff
                 # HBOX_AUTH_RATE_LIMIT_MAX_BACKOFF: "5m"
                 # enable debug mode
-                # HBOX_DEBUG_ENABLED: "false"
+                # HBOX_DEBUG_ENABLED: false
                 # debug port
                 # HBOX_DEBUG_PORT: "{{ .Values.service.main.ports.main.port }}"
                 # enable demo mode
-                # HBOX_DEMO: "false"
+                # HBOX_DEMO: false
                 # demo user password
                 # HBOX_DEMO_PASSWORD: ""
 
@@ -213,7 +211,7 @@ spec:
                 # print command
                 # HBOX_LABEL_MAKER_PRINT_COMMAND: ""
                 # allow dynamic label length
-                # HBOX_LABEL_MAKER_DYNAMIC_LENGTH: "true"
+                # HBOX_LABEL_MAKER_DYNAMIC_LENGTH: true
                 # additional label information
                 # HBOX_LABEL_MAKER_ADDITIONAL_INFORMATION: ""
                 # regular font path
@@ -225,7 +223,7 @@ spec:
                 # label service timeout
                 # HBOX_LABEL_MAKER_LABEL_SERVICE_TIMEOUT: ""
                 # enable thumbnails
-                # HBOX_THUMBNAIL_ENABLED: "true"
+                # HBOX_THUMBNAIL_ENABLED: true
                 # thumbnail width
                 # HBOX_THUMBNAIL_WIDTH: "500"
                 # thumbnail height
@@ -239,15 +237,15 @@ spec:
                 # blocked notifier CIDRs
                 # HBOX_NOTIFIER_BLOCK_NETS: ""
                 # block localhost notifier targets
-                # HBOX_NOTIFIER_BLOCK_LOCALHOST: "false"
+                # HBOX_NOTIFIER_BLOCK_LOCALHOST: false
                 # block RFC1918 notifier targets
-                # HBOX_NOTIFIER_BLOCK_LOCAL_NETS: "false"
+                # HBOX_NOTIFIER_BLOCK_LOCAL_NETS: false
                 # block bogon notifier targets
-                # HBOX_NOTIFIER_BLOCK_BOGON_NETS: "true"
+                # HBOX_NOTIFIER_BLOCK_BOGON_NETS: true
                 # block cloud metadata endpoints
-                # HBOX_NOTIFIER_BLOCK_CLOUD_METADATA: "true"
+                # HBOX_NOTIFIER_BLOCK_CLOUD_METADATA: true
                 # enable OpenTelemetry
-                HBOX_OTEL_ENABLED: "false"
+                HBOX_OTEL_ENABLED: false
                 # OTEL service name
                 # HBOX_OTEL_SERVICE_NAME: "homebox"
                 # OTEL service version
@@ -261,23 +259,23 @@ spec:
                 # OTLP protocol: grpc or http
                 # HBOX_OTEL_PROTOCOL: "grpc"
                 # disable TLS
-                # HBOX_OTEL_INSECURE: "false"
+                # HBOX_OTEL_INSECURE: false
                 # OTLP headers
                 # HBOX_OTEL_HEADERS: ""
                 # trace sample rate
                 # HBOX_OTEL_SAMPLE_RATE: "1.0"
                 # enable metrics
-                # HBOX_OTEL_ENABLE_METRICS: "true"
+                # HBOX_OTEL_ENABLE_METRICS: true
                 # metrics export interval
                 # HBOX_OTEL_METRICS_INTERVAL: "15s"
                 # enable OTEL logging
-                # HBOX_OTEL_ENABLE_LOGGING: "true"
+                # HBOX_OTEL_ENABLE_LOGGING: true
                 # enable DB tracing
-                # HBOX_OTEL_ENABLE_DATABASE_TRACING: "true"
+                # HBOX_OTEL_ENABLE_DATABASE_TRACING: true
                 # enable HTTP tracing
-                # HBOX_OTEL_ENABLE_HTTP_TRACING: "true"
+                # HBOX_OTEL_ENABLE_HTTP_TRACING: true
                 # enable frontend telemetry proxy
-                # HBOX_OTEL_PROXY_ENABLED: "true"
+                # HBOX_OTEL_PROXY_ENABLED: true
 
     ingress:
       main:
