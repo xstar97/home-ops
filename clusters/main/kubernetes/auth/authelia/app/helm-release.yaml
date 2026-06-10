@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: authelia
   namespace: authelia
+  annotations:
+    reloader.stakater.com/rollout-strategy: "restart"
 spec:
   interval: 30m
   timeout: 25m
