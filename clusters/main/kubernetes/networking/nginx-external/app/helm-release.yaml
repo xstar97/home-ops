@@ -48,8 +48,9 @@ spec:
         default: false
         controllerValue: k8s.io/external
       config:
+        # 401,
         custom-http-errors: >-
-          401,403,404,500,501,502,503
+          403,404,500,501,502,503
         allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
@@ -91,7 +92,7 @@ spec:
       enabled: true
       image:
         repository: ghcr.io/tarampampam/error-pages
-        tag: '4' # using the latest tag is highly discouraged
+        tag: '4.2.1@sha256:96855caa28e08a96bb9ff746a7c094b43235351bad79806c2210f9e7677abce9'
       extraEnvs:
         - name: TEMPLATE_NAME # Optional: change the default theme
           value: app-down
