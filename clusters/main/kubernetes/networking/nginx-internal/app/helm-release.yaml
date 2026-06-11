@@ -48,8 +48,9 @@ spec:
         default: true
         controllerValue: k8s.io/internal
       config:
+        # remove 401
         custom-http-errors: >-
-          401,403,404,500,501,502,503
+          403,404,500,501,502,503
         allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
