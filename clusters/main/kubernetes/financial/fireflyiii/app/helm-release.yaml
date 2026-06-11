@@ -14,7 +14,7 @@ spec:
   chart:
     spec:
       chart: fireflyiii
-      version: 33.6.4
+      version: 33.7.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
