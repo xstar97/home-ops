@@ -99,8 +99,8 @@ My entire HomeLab stack in a single 15u rack!
   * **CPU:** Broadcom BCM2710A1
   * **RAM:** 512MB
 
-* **Device:** Home-Assistant Pi5
-  * **Role:** Home automation!
+* **Device:** RAS PI CM5 DEVELOPMENT KIT
+  * **Role:** Home Assistant
   * **CPU:** Broadcom BCM2712
   * **RAM:** 4GB
   * **Storage:** 512GB SSD
