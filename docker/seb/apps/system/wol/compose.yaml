@@ -17,6 +17,8 @@ services:
     container_name: wol
     image: wol-custom:0.1.0
     network_mode: host # needed for wol to function
+    cap_add:
+      - NET_RAW
     restart: on-failure
     healthcheck: *healthcheck
     environment:
