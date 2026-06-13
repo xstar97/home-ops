@@ -211,11 +211,11 @@ spec:
         - id: homelab_alert_sev_none_count
           title: "SEV: None"
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="none"} or vector(0))
-          colorExpr: 'result < 1 ? "green" : "red"'
+          colorExpr: 'result < 5 ? "green" : "red"'
         - id: homelab_alert_sev_info_count
           title: "SEV: Info"
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="info"} or vector(0))
-          colorExpr: 'result < 1 ? "green" : "red"'
+          colorExpr: 'result < 3 ? "green" : "red"'
         - id: homelab_alert_sev_warn_count
           title: "SEV: Warn"
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="warning"} or vector(0))
