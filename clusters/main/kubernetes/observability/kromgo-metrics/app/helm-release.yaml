@@ -209,10 +209,6 @@ spec:
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing"} or vector(0))
           colorExpr: 'result < 1 ? "green" : "red"'
         - id: homelab_alert_sev_none_count
-          title: Severity None
-          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="none"} or vector(0))
-          colorExpr: 'result < 1 ? "green" : "red"'
-        - id: homelab_alert_sev_none_count
           title: "SEV: None"
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="none"} or vector(0))
           colorExpr: 'result < 1 ? "green" : "red"'
