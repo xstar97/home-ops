@@ -19,11 +19,7 @@ services:
     network_mode: host # needed for wol to function
     restart: on-failure
     healthcheck: *healthcheck
-    env_file:
-      - ./wol.enc.env
     environment:
-      GAMING_PC_MAC_0: $GAMING_PC_MAC_0
-      GAMING_PC_DOMAIN_0: $GAMING_PC_DOMAIN_0
       WOL_CONFIG: |
         machines:
           - name: gaming-pc-0 # wife <3
