@@ -205,7 +205,7 @@ spec:
           colorExpr: 'result > 0 ? "green" : "red"'
         - id: cluster_alert_count
           title: Alerts
-          query: alertmanager_alerts{state="active"} - 1 # Ignore Watchdog
+          query: ALERTS{alertname!="Watchdog",alertstate="firing",severity!="none"}
           colorExpr: 'result < 1 ? "green" : "red"'
 
         # docker
