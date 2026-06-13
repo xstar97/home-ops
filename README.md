@@ -3,7 +3,13 @@
 <div align="center">
 
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
-[![Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_alert_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![All Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_all_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+
+[![Alerts Sev-None](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_none_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts Sev-Info](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_info_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts Sev-Warn](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_warn_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts Sev-Crit](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_crit_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
+
 
 My entire HomeLab stack in a single 15u rack!
 

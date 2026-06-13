@@ -203,9 +203,30 @@ spec:
           title: Pods
           query: sum(kube_pod_status_phase{phase="Running"})
           colorExpr: 'result > 0 ? "green" : "red"'
-        - id: cluster_alert_count
-          title: Alerts
-          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity!="none"} or vector(0))
+        
+        - id: homelab_alert_all_count
+          title: All Alerts
+          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing"} or vector(0))
+          colorExpr: 'result < 1 ? "green" : "red"'
+        - id: homelab_alert_sev_none_count
+          title: Severity None
+          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="none"} or vector(0))
+          colorExpr: 'result < 1 ? "green" : "red"'
+        - id: homelab_alert_sev_none_count
+          title: "SEV: None"
+          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="none"} or vector(0))
+          colorExpr: 'result < 1 ? "green" : "red"'
+        - id: homelab_alert_sev_info_count
+          title: "SEV: Info"
+          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="info"} or vector(0))
+          colorExpr: 'result < 1 ? "green" : "red"'
+        - id: homelab_alert_sev_warn_count
+          title: "SEV: Warn"
+          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="warning"} or vector(0))
+          colorExpr: 'result < 1 ? "green" : "red"'
+        - id: homelab_alert_sev_crit_count
+          title: "SEV: Crit"
+          query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="critical"} or vector(0))
           colorExpr: 'result < 1 ? "green" : "red"'
 
         # docker
