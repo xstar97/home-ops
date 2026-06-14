@@ -17,3 +17,4 @@ resources:
 # more goes here!
   - weave-gitops.yaml
   - stakater.yaml
+  - home-operations.yaml
