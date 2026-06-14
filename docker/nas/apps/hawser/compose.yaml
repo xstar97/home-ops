@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   hawser:
     scale: 1
-    image: ghcr.io/finsys/hawser:0.2.44@sha256:6810d8931ab9c7394ba4a2a25d81579965d47aef522a4deb84b107de12692381
+    image: ghcr.io/finsys/hawser:0.2.45@sha256:ba4682fd350a4b16e1a1048817edf1054ee91f0556fef63805e447f6746fa157
     container_name: hawser
     restart: on-failure
     env_file:
