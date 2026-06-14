@@ -24,7 +24,7 @@ services:
     labels:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.92@sha256:6a4c8e75fe3a26231c41fd418db574911ffa9b200d77b55d15b2358faac787a4
+    image: ghcr.io/kimdre/doco-cd:0.93@sha256:57a87f68fc98cb45ed2ee9bee5bc2a598447a5788026b56009cfc7d96583776f
     container_name: doco-cd
     restart: unless-stopped
     depends_on:
