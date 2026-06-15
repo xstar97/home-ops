@@ -207,7 +207,7 @@ spec:
         - id: homelab_alert_all_count
           title: All Alerts
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing"} or vector(0))
-          colorExpr: 'result < 10 ? "orange" : "red"'
+          colorExpr: 'colorScale(result, [5.0, 9.0], ["green", "orange", "red"])'
         - id: homelab_alert_sev_none_count
           title: "SEV: None"
           query: sum(ALERTS{alertname!="Watchdog",alertstate="firing",severity="none"} or vector(0))
