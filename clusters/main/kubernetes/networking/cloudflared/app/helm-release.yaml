@@ -32,13 +32,32 @@ spec:
   values:
     global:
       stopAll: false
-    portal:
-      open:
-        enabled: false
+    service:
+      metrics:
+        enabled: true
+        type: ClusterIP
+        ports:
+          metrics:
+            enabled: true
+            port: 9101
     workload:
       main:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+                startup:
+                  enabled: true
+                  type: tcp
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
               env:
                 TUNNEL_TOKEN: "${CLOUDFLARED_TALOS_TUNNEL}"
+                TUNNEL_METRICS: "127.0.0.1:{{ .Values.service.metrics.ports.metrics.port }}"
