@@ -43,12 +43,12 @@ spec:
       repository: ghcr.io/rommapp/romm
       tag: 4.9.0@sha256:fa9a412dd2881472ef85aa9b268a84ae6d149b865fddd50df2b72749ce8a480e
       pullPolicy: IfNotPresent
-    securityContext:
-      container:
-        readOnlyRootFilesystem: false
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
+    # securityContext:
+      # container:
+        # readOnlyRootFilesystem: false
+        # runAsNonRoot: false
+        # runAsUser: 0
+        # runAsGroup: 0
 
     service:
       main:
