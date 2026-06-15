@@ -69,7 +69,7 @@ spec:
               securityContext:
                 runAsUser: 0
                 runAsGroup: 0
-                readOnlyRootFilesystem: false
+                readOnlyRootFilesystem: true # false
                 runAsNonRoot: false
               command:
                 - /bin/sh
@@ -375,6 +375,10 @@ spec:
         mountPath: "/romm/tmp"
         type: emptyDir
         # medium: Memory
+      nginx-conf:
+        enabled: true
+        type: emptyDir        
+        mountPath: /etc/nginx/conf.d
 
     mariadb:
       enabled: false
