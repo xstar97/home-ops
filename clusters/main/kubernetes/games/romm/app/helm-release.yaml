@@ -65,7 +65,12 @@ spec:
             fix-perms:
               type: install
               enabled: true
-              imageSelector: "image"
+              imageSelector: image
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+                readOnlyRootFilesystem: false
+                runAsNonRoot: false
               command:
                 - /bin/sh
               args:
