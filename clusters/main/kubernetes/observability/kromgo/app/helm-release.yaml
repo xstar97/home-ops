@@ -245,15 +245,15 @@ spec:
         - id: speedtest_download
           title: Download
           icon: mdi:download
-          query: round(speedtest_tracker_downloaded_bytes{status="completed"}) # / 1024^3, 0.01) # 1024^3 for GB
-          colorExpr: 'result >= 2000000000.0 ? "green" : result >= 1600000000.0 ? "yellow" : "red"'
+          query: round(speedtest_tracker_downloaded_bytes{status="completed"}) 
+          colorExpr: 'colorScale(result, [999999999.0, 1500000000.0, 1900000000.0], ["red", "yellow", "green", "brightgreen"])'
           valueExpr: 'humanizeBytes(result)'
 
         - id: speedtest_upload
           title: Upload
           icon: mdi:upload
-          query: round(speedtest_tracker_uploaded_bytes{status="completed"}) # / 1024^2,0.01)  # 1024^2 for MB
-          colorExpr: 'result >= 300000000.0 ? "green" : result >= 250000000 ? "yellow" : "red"'
+          query: round(speedtest_tracker_uploaded_bytes{status="completed"})
+          colorExpr: 'colorScale(result, [175000000.0, 250000000.0, 300000000.0], ["red", "yellow", "green", "brightgreen"])' 
           valueExpr: 'humanizeBytes(result)'
 
     workload:
