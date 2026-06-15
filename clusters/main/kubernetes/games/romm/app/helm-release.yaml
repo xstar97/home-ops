@@ -332,6 +332,11 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
+      tmp:
+        enabled: true
+        mountPath: "/romm/tmp"
+        type: emptyDir
+        # medium: Memory
 
     mariadb:
       enabled: false
