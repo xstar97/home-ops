@@ -72,13 +72,13 @@ spec:
                 - -c
                 - |
                   echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on config dir"
-                  chown {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.config.mountPath }}
+                  chown -R {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.config.mountPath }}
 
                   echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on resources directory"
-                  chown {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.resources.mountPath }}
+                  chown -R {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.resources.mountPath }}
 
                   echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on assets directory"
-                  chown {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.assets.mountPath }}
+                  chown -R {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.assets.mountPath }}
 
                   echo "Finished."
           containers:
