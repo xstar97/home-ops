@@ -47,9 +47,9 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
 
     service:
       main:
@@ -60,7 +60,27 @@ spec:
     workload:
       main:
         podSpec:
-          # enableServiceLinks: false
+          # force 568:568 for /romm/*
+          initContainers:
+            fix-perms:
+              type: install
+              enabled: true
+              imageSelector: "image"
+              command:
+                - /bin/sh
+              args:
+                - -c
+                - |
+                  echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on config dir"
+                  chown {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.config.mountPath }}
+
+                  echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on resources directory"
+                  chown {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.resources.mountPath }}
+
+                  echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on assets directory"
+                  chown {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.assets.mountPath }}
+
+                  echo "Finished."
           containers:
             main:
               probes:
@@ -292,10 +312,15 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    
     persistence:
       config:
         enabled: true
         mountPath: /romm/config
+        targetSelector:
+          main:
+            main: {}
+            fix-perms: {}
         volsync:
           - name: config
             type: restic
@@ -307,6 +332,10 @@ spec:
       resources:
         enabled: true
         mountPath: /romm/resources
+        targetSelector:
+          main:
+            main: {}
+            fix-perms: {}
         volsync:
           - name: resources
             type: restic
@@ -318,6 +347,10 @@ spec:
       assets:
         enabled: true
         mountPath: /romm/assets
+        targetSelector:
+          main:
+            main: {}
+            fix-perms: {}
         volsync:
           - name: assets
             type: restic
