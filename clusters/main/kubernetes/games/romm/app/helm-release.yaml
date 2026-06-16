@@ -155,8 +155,6 @@ spec:
                 # WEB_SERVER_TIMEOUT: 300
                 # Maximum number of simultaneous clients a single process can handle
                 # WEB_SERVER_WORKER_CONNECTIONS: 1000
-                EJS_NETPLAY_ENABLED: true
-                EJS_DEBUG: true
 
                 # Dependencies
                 # Database driver to use (options: mariadb, mysql, postgresql)
