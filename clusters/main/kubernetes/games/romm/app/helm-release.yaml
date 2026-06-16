@@ -340,7 +340,7 @@ spec:
         enabled: true
         user: romm
         database: romm
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
