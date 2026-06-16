@@ -70,7 +70,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: tapmap.${DOMAIN_2}
+          - host: tpmtalos.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

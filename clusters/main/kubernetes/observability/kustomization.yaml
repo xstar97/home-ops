@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - headlamp/ks.yaml
   - kromgo/ks.yaml
-  - tapmap/ks.yaml
+  #- tapmap/ks.yaml
   - gatus/ks.yaml
   - homepage/ks.yaml
   - peanut/ks.yaml
