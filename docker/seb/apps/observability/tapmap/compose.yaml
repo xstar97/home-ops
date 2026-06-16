@@ -6,7 +6,7 @@ services:
     network_mode: host
     environment:
       TAPMAP_IN_DOCKER: "1"
-      TAPMAP_HOST: "10.0.0.102"
+      TAPMAP_HOST: "127.0.0.1"
       TAPMAP_PORT: "3333"
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/tapmap/data:/data
