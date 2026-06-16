@@ -45,11 +45,11 @@ spec:
         runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
-        # capabilities:
-        #  add:
-        #     - NET_RAW
-    podOptions:
-     hostNetwork: false
+        capabilities:
+          add:
+            - NET_RAW
+    # podOptions:
+    #  hostNetwork: true
     image:
       repository: olalie/tapmap
       pullPolicy: IfNotPresent
