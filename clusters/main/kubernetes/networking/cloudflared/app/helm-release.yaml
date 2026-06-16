@@ -62,4 +62,4 @@ spec:
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
               env:
                 TUNNEL_TOKEN: "${CLOUDFLARED_TALOS_TUNNEL}"
-                TUNNEL_METRICS: "127.0.0.1:{{ .Values.service.metrics.ports.metrics.port }}"
+                TUNNEL_METRICS: "0.0.0.0:{{ .Values.service.metrics.ports.metrics.port }}"
