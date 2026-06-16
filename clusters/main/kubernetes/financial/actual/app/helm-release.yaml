@@ -42,7 +42,7 @@ spec:
     image:
       repository: ghcr.io/actualbudget/actual
       pullPolicy: IfNotPresent
-      tag: edge-alpine@sha256:d9438224181c48221537d79b7cfcf3bdb0451d999e2f52ed9c5316624eb6c3cb # 26.6.0@sha256:74385f8067f401e61f0be9e343c471705c42dfaa195295c40c5b2f15f4dcc9d4
+      tag: edge-alpine@sha256:76525d705c06f8cacddf0ed4f80af30471f8217714d680d0694efe7d25b95b41 # 26.6.0@sha256:74385f8067f401e61f0be9e343c471705c42dfaa195295c40c5b2f15f4dcc9d4
     workload:
       main:
         podSpec:
