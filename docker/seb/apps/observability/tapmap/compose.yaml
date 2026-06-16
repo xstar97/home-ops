@@ -23,11 +23,11 @@ services:
       traefik.http.services.tapmap.loadbalancer.server.url: http://${SEB_IP}:3333
       traefik.http.routers.tapmap.middlewares: error-pages-middleware
       wud.tag.include: ^\d+\.\d+\.\d+$
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3333"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3333"]
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 3
   geoipupdate:
     image: ghcr.io/maxmind/geoipupdate:v7.1.1@sha256:faecdca22579730ab0b7dea5aa9af350bb3c93cb9d39845c173639ead30346d2
     container_name: tapmap-geoipupdate
