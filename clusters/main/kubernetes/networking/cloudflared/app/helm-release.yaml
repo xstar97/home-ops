@@ -49,18 +49,18 @@ spec:
             main:
               probes:
                 liveness:
-                  enabled: true
+                  enabled: false
                   type: http
                   path: /metrics
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
 
                 readiness:
-                  enabled: true
+                  enabled: false
                   type: http
                   path: /metrics
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
                 startup:
-                  enabled: true
+                  enabled: false
                   type: tcp
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
               env:
