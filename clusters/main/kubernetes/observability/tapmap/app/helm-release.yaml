@@ -102,7 +102,6 @@ spec:
                 # TAPMAP_LAT=59.9139
             geoipupdate:
               enabled: true
-              primary: true
               imageSelector: geoImage
               probes:
                 liveness:
