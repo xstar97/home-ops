@@ -97,6 +97,7 @@ spec:
                 TAPMAP_IN_DOCKER: 1
                 TAPMAP_HOST: 0.0.0.0
                 TAPMAP_PORT: "{{ .Values.service.main.ports.main.port }}"
+                DASH_DEBUG: 1
                 # manual pinpoint
                 # TAPMAP_LON=10.7522
                 # TAPMAP_LAT=59.9139
