@@ -1,0 +1,48 @@
+services:
+  tapmap:
+    image: olalie/tapmap:v1.7.2@sha256:b1492e872e849e87f64aa22da85ef5ef55c89ee5297265c765c452ce54cbf3c8
+    container_name: tapmap
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TAPMAP_IN_DOCKER: "1"
+      TAPMAP_HOST: "0.0.0.0"
+      TAPMAP_PORT: "3333"
+      DASH_DEBUG: "1"
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/tapmap/data:/data
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_PTRACE
+    labels:
+      traefik.enable: true
+      traefik.http.routers.wol.rule: Host(`tapmap.${BASE_DOMAIN_0}`)
+      traefik.http.routers.wol.entrypoints: websecure
+      traefik.http.routers.wol.tls: true
+      traefik.http.routers.wol.tls.certResolver: cf
+      traefik.http.services.wol.loadbalancer.server.url: http://${SEB_IP}:3333
+      traefik.http.routers.wol.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3333"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+  geoipupdate:
+    image: ghcr.io/maxmind/geoipupdate:v7.1.1@sha256:faecdca22579730ab0b7dea5aa9af350bb3c93cb9d39845c173639ead30346d2
+    container_name: tapmap-geoipupdate
+    restart: unless-stopped
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/tapmap/data:/data
+    environment:
+      GEOIPUPDATE_DB_DIR: /data
+      GEOIPUPDATE_ACCOUNT_ID: ${TAPMAP_GEOIPUPDATE_ACCOUNT_ID}
+      GEOIPUPDATE_LICENSE_KEY: ${TAPMAP_GEOIPUPDATE_LICENSE_KEY}
+      GEOIPUPDATE_EDITION_IDS: "GeoLite2-City GeoLite2-ASN"
+      GEOIPUPDATE_FREQUENCY: "696"
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
