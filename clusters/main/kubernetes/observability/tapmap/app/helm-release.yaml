@@ -45,11 +45,13 @@ spec:
         runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
-        # capabilities:
-        #   add:
-        #     - NET_RAW
-    # podOptions:
-    #  hostNetwork: true
+        capabilities:
+          add:
+            - NET_ADMIN
+            - SYS_PTRACE
+            - NET_RAW
+    podOptions:
+     hostNetwork: true
     image:
       repository: olalie/tapmap
       pullPolicy: IfNotPresent
@@ -64,7 +66,7 @@ spec:
         type: ClusterIP
         ports:
           main:
-            port: 3000
+            port: 3333
     ingress:
       main:
         enabled: true
@@ -89,6 +91,7 @@ spec:
         enabled: true
         primary: true
         podSpec:
+          dnsPolicy: ClusterFirstWithHostNet
           containers:
             main:
               enabled: true
