@@ -35,6 +35,7 @@ spec:
     service:
       metrics:
         enabled: true
+        primary: true
         type: ClusterIP
         ports:
           metrics:
