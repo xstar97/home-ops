@@ -45,9 +45,9 @@ spec:
         runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
-        capabilities:
-          add:
-            - NET_RAW
+        # capabilities:
+        #   add:
+        #     - NET_RAW
     # podOptions:
     #  hostNetwork: true
     image:
