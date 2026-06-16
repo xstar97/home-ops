@@ -108,6 +108,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             geoipupdate:
+              enabled: true
               probes:
                 liveness:
                   enabled: false
