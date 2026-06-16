@@ -46,10 +46,12 @@ spec:
 
     securityContext:
       container:
-        readOnlyRootFilesystem: false
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+      pod:
+        fsGroup: 568
 
     service:
       main:
@@ -370,9 +372,9 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
-      tmp:
+      uploads:
         enabled: true
-        mountPath: "/romm/tmp"
+        mountPath: "/romm/tmp/uploads"
         type: emptyDir
         # medium: Memory
       nginx-conf:
