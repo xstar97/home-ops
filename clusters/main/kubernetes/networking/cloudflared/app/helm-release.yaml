@@ -40,6 +40,7 @@ spec:
         ports:
           metrics:
             enabled: true
+            primary: true
             port: 9101
     workload:
       main:
