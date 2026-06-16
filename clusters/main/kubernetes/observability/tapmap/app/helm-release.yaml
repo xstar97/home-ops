@@ -97,9 +97,9 @@ spec:
                 # TAPMAP_LON=10.7522
                 # TAPMAP_LAT=59.9139
       geoipupdate:
-        enabled: false
+        enabled: true
         type: CronJob
-        schedule: "0 0 * * 0"
+        schedule: "0 0 1 * *"
         concurrencyPolicy: Forbid
         failedJobsHistoryLimit: 2
         parallelism: 1
@@ -117,8 +117,8 @@ spec:
                   enabled: false
               env:
                 GEOIPUPDATE_DB_DIR: "{{ .Values.persistence.data.mountPath }}"
-                GEOIPUPDATE_ACCOUNT_ID: ""
-                GEOIPUPDATE_LICENSE_KEY: ""
+                GEOIPUPDATE_ACCOUNT_ID: "${TAPMAP_GEOIPUPDATE_ACCOUNT_ID}"
+                GEOIPUPDATE_LICENSE_KEY: "${TAPMAP_GEOIPUPDATE_LICENSE_KEY}"
                 GEOIPUPDATE_EDITION_IDS: GeoLite2-City GeoLite2-ASN'	# Which dbs should be downloaded
                 GEOIPUPDATE_FREQUENCY: 72	
 
