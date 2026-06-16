@@ -100,17 +100,6 @@ spec:
                 # manual pinpoint
                 # TAPMAP_LON=10.7522
                 # TAPMAP_LAT=59.9139
-      geoipupdate:
-        enabled: true
-        type: CronJob
-        schedule: "0 0 1 * *"
-        concurrencyPolicy: Forbid
-        failedJobsHistoryLimit: 2
-        parallelism: 1
-        activeDeadlineSeconds: 7200
-        podSpec:
-          restartPolicy: OnFailure
-          containers:
             geoipupdate:
               enabled: true
               primary: true
@@ -127,14 +116,14 @@ spec:
                 GEOIPUPDATE_ACCOUNT_ID: "${TAPMAP_GEOIPUPDATE_ACCOUNT_ID}"
                 GEOIPUPDATE_LICENSE_KEY: "${TAPMAP_GEOIPUPDATE_LICENSE_KEY}"
                 GEOIPUPDATE_EDITION_IDS: "GeoLite2-City GeoLite2-ASN"
-                # GEOIPUPDATE_FREQUENCY: 72
+                GEOIPUPDATE_FREQUENCY: 696
 
     persistence:
       data:
         enabled: true
         mountPath: "/data"
         targetSelector:
-          geoipupdate:
+          main:
             geoipupdate:
               mountPath: /data
         volsync:
