@@ -11,10 +11,8 @@ spec:
     mode: warn
   chart:
     spec:
-      chart: app-template
-      version: 18.8.1
-      # chart: romm
-      # version: 17.6.4
+      chart: romm
+      version: 18.3.3
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -53,41 +51,9 @@ spec:
       pod:
         fsGroup: 568
 
-    service:
-      main:
-        ports:
-          main:
-            port: 8080
-    
     workload:
       main:
         podSpec:
-          # force 568:568 for /romm/*
-          initContainers:
-            fix-perms:
-              type: install
-              enabled: false
-              imageSelector: image
-              securityContext:
-                runAsUser: 0
-                runAsGroup: 0
-                readOnlyRootFilesystem: true # false
-                runAsNonRoot: false
-              command:
-                - /bin/sh
-              args:
-                - -c
-                - |
-                  echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on config dir"
-                  chown -R {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.config.mountPath }}
-
-                  echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on resources directory"
-                  chown -R {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.resources.mountPath }}
-
-                  echo "Setting ownership to {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} on assets directory"
-                  chown -R {{ .Values.securityContext.container.PUID }}:{{ .Values.securityContext.pod.fsGroup }} {{ .Values.persistence.assets.mountPath }}
-
-                  echo "Finished."
           containers:
             main:
               probes:
@@ -99,7 +65,6 @@ spec:
                   path: /api/heartbeat
                 startup:
                   type: tcp
-                  # path: /api/heartbeat
               env:
                 # application settings
                 # Generate a key with openssl rand -hex 32 ✓
@@ -324,10 +289,6 @@ spec:
       config:
         enabled: true
         mountPath: /romm/config
-        targetSelector:
-          main:
-            main: {}
-            fix-perms: {}
         volsync:
           - name: config
             type: restic
@@ -339,10 +300,6 @@ spec:
       resources:
         enabled: true
         mountPath: /romm/resources
-        targetSelector:
-          main:
-            main: {}
-            fix-perms: {}
         volsync:
           - name: resources
             type: restic
@@ -354,10 +311,6 @@ spec:
       assets:
         enabled: true
         mountPath: /romm/assets
-        targetSelector:
-          main:
-            main: {}
-            fix-perms: {}
         volsync:
           - name: assets
             type: restic
@@ -381,11 +334,6 @@ spec:
         enabled: true
         type: emptyDir        
         mountPath: /etc/nginx/conf.d
-
-    mariadb:
-      enabled: false
-      mariadbUsername: romm
-      mariadbDatabase: romm
 
     cnpg:
       main:
