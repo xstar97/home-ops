@@ -86,9 +86,13 @@ spec:
             certificateIssuer: general-le-prod
     workload:
       main:
+        enabled: true
+        primary: true
         podSpec:
           containers:
             main:
+              enabled: true
+              primary: true
               env:
                 TAPMAP_IN_DOCKER: 1
                 TAPMAP_HOST: 0.0.0.0
@@ -109,7 +113,6 @@ spec:
           containers:
             geoipupdate:
               enabled: true
-              primary: true
               probes:
                 liveness:
                   enabled: false
@@ -122,7 +125,7 @@ spec:
                 GEOIPUPDATE_ACCOUNT_ID: "${TAPMAP_GEOIPUPDATE_ACCOUNT_ID}"
                 GEOIPUPDATE_LICENSE_KEY: "${TAPMAP_GEOIPUPDATE_LICENSE_KEY}"
                 GEOIPUPDATE_EDITION_IDS: "GeoLite2-City GeoLite2-ASN"
-                GEOIPUPDATE_FREQUENCY: 72	
+                # GEOIPUPDATE_FREQUENCY: 72
 
     persistence:
       data:
