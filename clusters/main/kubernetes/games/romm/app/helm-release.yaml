@@ -46,12 +46,12 @@ spec:
 
     securityContext:
       container:
-        readOnlyRootFilesystem: true
+        readOnlyRootFilesystem: false
         runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
+        runAsUser: 1000
+        runAsGroup: 1000
       pod:
-        fsGroup: 568
+        fsGroup: 1000
 
     service:
       main:
