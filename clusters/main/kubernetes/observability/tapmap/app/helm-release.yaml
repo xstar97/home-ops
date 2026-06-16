@@ -48,8 +48,8 @@ spec:
         capabilities:
           add:
             - NET_RAW
-    podOptions:
-      hostNetwork: true
+    # podOptions:
+    #  hostNetwork: true
     image:
       repository: olalie/tapmap
       pullPolicy: IfNotPresent
