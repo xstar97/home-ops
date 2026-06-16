@@ -6,13 +6,13 @@ services:
     network_mode: host
     environment:
       TAPMAP_IN_DOCKER: "1"
-      TAPMAP_HOST: "127.0.0.1"
+      TAPMAP_HOST: "0.0.0.0"
       TAPMAP_PORT: "3333"
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/tapmap/data:/data
     cap_add:
       - NET_ADMIN
-      - NET_RAW
+      # - NET_RAW
       - SYS_PTRACE
     labels:
       traefik.enable: true
