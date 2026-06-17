@@ -42,7 +42,7 @@ spec:
     image:
       repository: ghcr.io/bluemap-minecraft/bluemap
       pullPolicy: IfNotPresent
-      tag: v5.20@sha256:97aa05f0ef959fbba30383f9591036959b45fa6c9875259214b6bda23a89f878
+      tag: v5.22@sha256:b0f0f36a083e77890f8e0168b00fb3e97a610addb89f3b5adfd785dc2b1cb9db
 
     securityContext:
       container:
