@@ -39,26 +39,27 @@ services:
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
-      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SSH_PRIVATE_KEY_PASSPHRASE: ""
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       APPRISE_API_URL: http://apprise:8000/notify
       APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
-      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 3600
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - webhook_secret
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
-      - ${SSH_KEY_FILE}:/run/secrets/ssh_private_key:ro
-      - ${AGEKEY_FILE}:/run/secrets/sops_age_key:ro
-      - ${WEBHOOK_FILE}:/run/secrets/webhook_secret:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       interval: 30s
@@ -74,3 +75,10 @@ networks:
     external: true
 volumes:
   doco_data: {}
+secrets:
+  ssh_private_key:
+    file: ${SSH_KEY_FILE}
+  sops_age_key:
+    file: ${AGEKEY_FILE}
+  webhook_secret:
+    file: ${WEBHOOK_FILE}
