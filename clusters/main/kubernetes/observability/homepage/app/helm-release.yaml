@@ -10,7 +10,7 @@ spec:
   timeout: 25m
   maxHistory: 3
   driftDetection:
-    mode: warn
+    mode: enabled # warn
   chart:
     spec:
       chart: homepage
