@@ -41,9 +41,9 @@ spec:
         memory: 4000Mi
     credentials:
       cf-restic:
-        bucket: "${CF_S3_RESTIC_BUCKET}-omada-controllerv6"
+        bucket: "${CF_S3_RESTIC_BUCKET}-omada-controller"
       rfs-restic:
-        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-omada-controllerv6"
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-omada-controller"
     service:
       main:
         ports:
