@@ -41,6 +41,11 @@ spec:
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-profilarr"
 
+    image:
+      repository: ghcr.io/dictionarry-hub/profilarr
+      pullPolicy: IfNotPresent
+      tag: 2.0.8@sha256:bcec9c579358163004145105c2747d3513ae75a56cd8b6c3ac759a0166d5b4af
+      
     workload:
       main:
         podSpec:
@@ -50,11 +55,11 @@ spec:
                 # PORT: "{{ .Values.service.main.ports.main.port }}"
                 HOST: 0.0.0.0
                 # Auth mode (on, oidc, off)
-                AUTH: "off"
-                # OIDC_CLIENT_ID: "profilarr"
-                # OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
-                # OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}/.well-known/openid-configuration"
-                # ORIGIN: "{{ .Values.chartContext.appUrl }}"
+                AUTH: "oidc"
+                OIDC_CLIENT_ID: "profilarr"
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
+                OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}/.well-known/openid-configuration"
+                ORIGIN: "{{ .Values.chartContext.appUrl }}"
                 # PARSER_HOST: "localhost"
                 # PARSER_PORT: 5000
                 # PROFILARR_BULLETIN_URL: "https://raw.githubusercontent.com/Dictionarry-Hub/bulletin/main"
