@@ -4,12 +4,12 @@ resources:
   - it-tools/ks.yaml
   - snippet-box/ks.yaml
   - reubah/ks.yaml
-  - stirling-pdf/ks.yaml
   - string-is/ks.yaml
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
-  # - restreamer/ks.yaml
   - fileshelter/ks.yaml
   - dozzle/ks.yaml
   - doublecommander/ks.yaml
   - cloudcmd/ks.yaml
+  # - restreamer/ks.yaml
+  # - stirling-pdf/ks.yaml
