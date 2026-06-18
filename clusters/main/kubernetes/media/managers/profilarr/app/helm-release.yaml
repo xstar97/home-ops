@@ -48,7 +48,7 @@ spec:
             main:
               env:
                 # PORT: "{{ .Values.service.main.ports.main.port }}"
-                # HOST: 0.0.0.0
+                HOST: 0.0.0.0
                 # Auth mode (on, oidc, off)
                 AUTH: "off"
                 # OIDC_CLIENT_ID: "profilarr"
