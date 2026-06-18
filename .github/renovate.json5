@@ -19,6 +19,7 @@
     "**/*.sops.*",
     "**/.archive/**",
     "**/archive/**",
-    "**/resources/**"
+    "**/resources/**",
+    "mise.toml"
   ]
 }
