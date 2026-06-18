@@ -54,6 +54,8 @@ data:
             id_token: ['preferred_username', 'name', 'email']
           homebox:
             id_token: ['groups', 'email', 'profile', 'name']
+          profilarr:
+            id_token: ['groups', 'email', 'profile', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -150,6 +152,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_homebox'
+          profilarr:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_profilarr'
         clients:
           - client_id: "romm" # read above for how generate
             client_name: "RomM" # will be displayed in Authelia to users
@@ -408,3 +417,19 @@ data:
             grant_types:
               - 'authorization_code'
             token_endpoint_auth_method: 'client_secret_basic'
+          - client_id: "profilarr" # read above for how generate
+            client_name: "Profilarr" # will be displayed in Authelia to users
+            client_secret:  {{ secret "/config/secret/clients_profilarr_client_secret" }}
+            public: false
+            claims_policy: "profilarr"
+            authorization_policy: "profilarr"
+            grant_types:
+                - authorization_code
+            redirect_uris:
+                - "https://profilarr.${DOMAIN_2}/auth/oidc/callback"
+            scopes:
+                - "openid"
+                - "email"
+                - "profile"
+            userinfo_signed_response_alg: "none"
+            token_endpoint_auth_method: "client_secret_basic"
