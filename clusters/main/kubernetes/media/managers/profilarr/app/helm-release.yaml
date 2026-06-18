@@ -55,10 +55,10 @@ spec:
                 # PORT: "{{ .Values.service.main.ports.main.port }}"
                 HOST: 0.0.0.0
                 # Auth mode (on, oidc, off)
-                AUTH: "oidc"
-                OIDC_CLIENT_ID: "profilarr"
-                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
-                OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}"
+                AUTH: "off"
+                # OIDC_CLIENT_ID: "profilarr"
+                # OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
+                # OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}"
                 ORIGIN: "{{ .Values.chartContext.appUrl }}"
                 # PARSER_HOST: "localhost"
                 # PARSER_PORT: 5000
