@@ -51,9 +51,9 @@ spec:
                 # HOST: 0.0.0.0
                 # Auth mode (on, oidc, off)
                 AUTH: "off"
-                OIDC_CLIENT_ID: "profilarr"
-                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
-                OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}/.well-known/openid-configuration"
+                # OIDC_CLIENT_ID: "profilarr"
+                # OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
+                # OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}/.well-known/openid-configuration"
                 ORIGIN: "{{ .Values.chartContext.appUrl }}"
                 # PARSER_HOST: "localhost"
                 # PARSER_PORT: 5000
