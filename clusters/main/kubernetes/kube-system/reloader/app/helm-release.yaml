@@ -5,7 +5,12 @@ metadata:
   name: reloader
   namespace: kube-system
 spec:
-  interval: 30m
+  interval: 5m
+  timeout: 15m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: reloader
@@ -15,12 +20,15 @@ spec:
         name: stakater
         namespace: flux-system
   install:
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
     fullnameOverride: reloader
     reloader:

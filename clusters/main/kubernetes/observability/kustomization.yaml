@@ -8,4 +8,3 @@ resources:
   - peanut/ks.yaml
   - speedtest-tracker/ks.yaml
   - grafana/ks.yaml
-  # - truenas-exporter/ks.yaml

@@ -17,8 +17,9 @@ spec:
       interval: 15m
   timeout: 20m
   maxHistory: 3
+  # enabled | warn
   driftDetection:
-    mode: warn
+    mode: enabled
   install:
     createNamespace: true
     remediation:
