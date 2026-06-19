@@ -43,7 +43,7 @@ spec:
     image:
       repository: titandrive/yarnl
       pullPolicy: IfNotPresent
-      tag: 0.9.9@sha256:e2b791dcea26cf91cec8a6332d64aecde4abd99e8e20095c59f05bcccbbe24ac
+      tag: 0.10.0@sha256:4ed4cc9b25d88df870ced5971b2c1f8eb1dec5497aff978a7a78aa542dc61f27
     securityContext:
       container:
         runAsNonRoot: false
