@@ -75,6 +75,9 @@ spec:
             widget:
               custom:
                 key: "${SONARR_SERIES_KEY}"
+                highlight:
+                  queued:
+                    valueOnly: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
