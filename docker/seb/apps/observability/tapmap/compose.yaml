@@ -12,8 +12,10 @@ services:
       - ${BASE_DOCKER_DATA_DIR}/tapmap/data:/data
     cap_add:
       - NET_ADMIN
-      # - NET_RAW
+      - NET_RAW
       - SYS_PTRACE
+    security_opt:
+      - apparmor=unconfined
     labels:
       traefik.enable: true
       traefik.http.routers.tapmap.rule: Host(`tapmap.${BASE_DOMAIN_0}`)
