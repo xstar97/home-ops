@@ -11,7 +11,6 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/tapmap/data:/data
     cap_add:
-      - NET_ADMIN
       - NET_RAW
       - SYS_PTRACE
     security_opt:
