@@ -28,6 +28,7 @@ services:
       # DEFAULT_HOST: ""  # Optional, Populates a default host address value to be populataed in the in the UI input. Defaults to external/WAN IP.
       # DEFAULT_PORT: 443  # Optional, Populates a default port value to be populataed in the in the UI input
       API_URL: http://portchecker-api:8000  # Optional, the URL of the API service. The scheme and port is required. Defaults to http://api:8000 if not set.
+      ALLOW_PRIVATE: true  # Prevent usage of private IP addresses
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+$
       traefik.enable: true
@@ -48,7 +49,7 @@ services:
     expose:
       - "8080"
     environment:
-      ALLOW_PRIVATE: false  # Prevent usage of private IP addresses
+      ALLOW_PRIVATE: true  # Prevent usage of private IP addresses
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
