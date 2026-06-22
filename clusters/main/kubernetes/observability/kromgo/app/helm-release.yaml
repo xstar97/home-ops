@@ -279,7 +279,7 @@ spec:
             {{ .Files.Get "./config.yaml" | indent 2 }}
 
     persistence:
-      config:
+      configfile:
         enabled: true
         type: configmap
         readOnly: true
