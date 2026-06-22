@@ -1,0 +1,662 @@
+## config
+Tautulli:
+    URL: http://tautulli.tautulli.svc.cluster.local:8181
+    APIKey: ENC[AES256_GCM,data:RrqIAU60AkRtB3k5/Bvk85N1ltstLZ46qxzG/YUsN6o=,iv:zTz4B9aHd68UQvh7eZ7S9uShmxmBx+FKJb/C+CVW1ms=,tag:7AgVa/98JAdm+TUXOISbOg==,type:str]
+    UseSelfSignedCert: false
+    RefreshSeconds: 15
+    TerminateMessage: Your stream has been terminated. Please contact the admin in the Discord.
+Discord:
+    BotToken: ENC[AES256_GCM,data:HWRH6AAS2xWQaSp96ZZzzQ9xvI8HHADvE2Z1+p2JzfVXjdwsEtBkNxREL+BPqR4O1d2e5zbWzSYRJh1uioBO8SPHMg1telGk,iv:6A/fywBonur+53EkdSYh+aw/+050tPqSBWcTUC4Vx7w=,tag:4Ps3phF23vLIJBflzk7ghw==,type:str]
+    ServerID: ENC[AES256_GCM,data:GTluCccj7243vZpO2YlR4MZU,iv:3WNyJDsA1JlFEgyfR62k0g2WCSdfXhsORFDhovFIaEk=,tag:yOj/4lER2A5fYgYHcZOh8w==,type:str]
+    AdminIDs:
+        - ENC[AES256_GCM,data:5sMyrp4fZAQ429AT+TF1sHHW,iv:ccZDYk4izjJFMfuLBFJVekwePrxN54FKlFC1TcYS3mM=,tag:auGsJcF3mHPTXcs2UFUg9g==,type:str]
+    PostSummaryMessage: true
+    EnableTermination: true
+    EnableSlashCommands: true
+    StatusMessage:
+        Enable: true
+        CustomMessage: ""
+        ShowStreamCount: true
+    AdminChannelName: tauticord
+    PostRecentlyAddedMessage: false
+    PublicChannelName: ""
+Display:
+    Anonymize:
+        HideBandwidth: false
+        HideETA: false
+        HidePlatforms: false
+        HidePlayerNames: false
+        HideProgress: false
+        HideQuality: false
+        HideTranscode: false
+        HideUsernames: false
+    ServerName: Plex X Server
+    ThousandsSeparator: ""
+    Time: {}
+    UseFriendlyNames: true
+Extras:
+    AllowAnalytics: false
+    EnableUpdateReminders: false
+Stats:
+    Activity:
+        CategoryName: Plex Stats
+        Enable: true
+        StatTypes:
+            Bandwidth:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:8XlZT59nCOI6M4Lsb1ln6l8Yiw==,iv:BnIc+ZMIUwNMQG2yv2M70IHVtni1zjbINMQ9W8QHHps=,tag:/ba5awd550FAgsdVspFxxQ==,type:str]
+            LocalBandwidth:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:lUh40Mz2Z4KFIsg7GQ/6vBoaOA==,iv:DLIfsZsQNldH0uXvi2cF/fpLliZHB+9Nny6loHESrOU=,tag:bkP6qNBzetslF0EHikKUmA==,type:str]
+            PlexServerAvailability:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:Tfnc6RQzoKO3Zp1fDJNxpq9mgQ==,iv:iHkqcpNlDyd6UMlQV1ygr9B6IEbNU0Shb/n2pbOAtFQ=,tag:CfONIVmNnEP0VGwTkbQpnw==,type:str]
+            RemoteBandwidth:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:OWFRcgG/EbS/FO5c58FRN9DiTA==,iv:PCPs94JV8bdgsy2LdFdjoKu2bvkwx2IbrUoIA3aJEiU=,tag:BxTV46jSoplCQxdHNLLvcw==,type:str]
+            StreamCount:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:o6IYU5cA3paMBT4imOMsJA4xBg==,iv:9VL+l2uQ4mwTUajE+TEAX9Jy6baIFNMJX6k8jsf4kGs=,tag:U8ThmBMTrxl0dDm9FQnfCg==,type:str]
+            TranscodeCount:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:pGJbRl0shF7JLB/mNWyRlC2Udg==,iv:Hy438o7K9PioBN8EYoGkrDi79Mi4XuS5DlTRSQ8eYBY=,tag:oEL37DF1h/pUMSELFTEz7Q==,type:str]
+    Libraries:
+        Enable: true
+        CategoryName: Plex Libraries
+        RefreshSeconds: 3600
+        Libraries:
+            - Name: Animes
+              AlternateName: Animes
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:tg==,iv:X6uizEXDjPstV9IdOpCEPzisGO3ON1uEHs974QfVbP8=,tag:dwGwxzbPP5O3SjSttpXDEA==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:UA==,iv:W8RCyShlVY/RIye/mAkUx5L13YA9BTnFrLtI/6f0/tM=,tag:EXs9VvsvLh9zdEMrSubntA==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:hQ==,iv:lXIUw/6PTPe7CXO0XG0XIRJhhiqycl9DA0W1eA2Nc3k=,tag:7BglNrPZ6SALaMaxRK8Emw==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:uQ==,iv:Zlz3Zzv+NZWdemnyEo8+0UoZNxZcn/3Q4eH8JLvu8bk=,tag:1zfKK+RJoxWtd1BzXLIodA==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:Nd502zHhvT3Jvsb2tVhLKIrc3g==,iv:gy0AlK+Q6fM/5nwony9nWggP6HIylwuqugA1kljYy7U=,tag:A2ANRX/X4tR+hzkmdJ7RCw==,type:str]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:tg==,iv:Zlx89n5p56s9Fw2hyk1Ad4NRVvzgJQv9grskIgAcycs=,tag:xdg5SwagCIi4VBiuHJWxtQ==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:kA==,iv:5EHDMM4nTeAoAQ1vYEpLcJLcvbDYwdKYISzqWRg9rxg=,tag:F8rMGZgDF0msYWBFQRXLxg==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Pg==,iv:zaW1VHA0oY0PpcW+PFFGaigNd4duhJfKw4+ZjNtzirw=,tag:xIqqiADTXFsiRNJU6g49mQ==,type:int]
+            - Name: AnimesH
+              AlternateName: Animes NSFW
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Pg==,iv:6Hg5MUU0UTsLyyaYQmcjoimXdZUOh2wxxRCJ6ml66ts=,tag:b0KHRCnsI6pHqswWNEOVtA==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:fA==,iv:G9jxYOvNWZukAXJtYz1UTgoqbjAOaqN/UIw8fV7Ag94=,tag:1hQrBaUAmITc4lMGFLCt0Q==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:WQ==,iv:33S1s4tk183/UUIJQFPRMHedhWCXIclujzVCo1iHn3s=,tag:Ck3VssCaUFldy9qtnZO9Pw==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:QQ==,iv:rVITfM3Ynyq2d14QpPgbP2N65t20DzIP2S08Z32vigI=,tag:Ek58DBXu/JjhslEKh5NaCQ==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:4rTtzhHv3fjTvK0eWIDf3d/kAA==,iv:wRiKokp8mbMpwlbVsMmjK3VoJ5nAHOl8ooG+vuLpcxQ=,tag:MIgi2mGpWAE+Kh62g/mjIw==,type:str]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:AQ==,iv:NDtG1PmGMi5leICgyj8LgZzQjdEDFiBPgPDeDCtlEdw=,tag:ewz9z4rUvXCrACSf0OED/Q==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Iw==,iv:yp2f9XH7OxtjMZ2B7M+sjW40nZ0rk3mdGLpC8mSn69w=,tag:oH+oCxzz6sNjREbQrfteEg==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:ug==,iv:/XcgOzXYbB+DhAMDZwEZhkpq+fubkX7Qh5SZrHofvP0=,tag:TFymqGrz3l4V9L8hq5TbWA==,type:int]
+            - Name: TV Shows
+              AlternateName: TV Shows
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Og==,iv:UWeIB2y5EQoRYcZpsn0jfxbBhyFvXUpD119+5HCEVZI=,tag:evF4oWxAQNtnYD6idyW6kQ==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:1g==,iv:UoNcxAA/NnMHPVvIj3DYsgySmglC6tWeKVdMom7r264=,tag:1hHCivMTG7eMk7GxNXrk4A==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:hw==,iv:m8JNsCrBqcYRE6w/ky4wWobaah+2IPeySv/sEsObYYc=,tag:vchniTQgdVESgcSp38g1EQ==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:jA==,iv:BEWfM/jclchxXRW+KuGzjP5PBsp0hd7pRU1YghEerX8=,tag:xDbky300QaxGdHbx8G0m8Q==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:+i1H8qpW5nUMPw7F8ob3akamaQ==,iv:Wt+tWlq+nAmoeM7Zzl41JusXqTzrw0NrO0FV1M5EPqk=,tag:hCDL7oQJD7S8clarmY8IlA==,type:str]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:wA==,iv:a9cdSdDw87GEEOFy6EH7HbYlzcc/ZxsvrdFQpFUFPEs=,tag:+zIUL9VMvMamAkk4iNTarg==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:ug==,iv:LA0uZPMv3QEGrixCIqtuEMzDgz790Xs0biGNhbroH3U=,tag:KUco6bj6bewKSl2x1Tg04w==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:OQ==,iv:Qj/WM/C+SwIxMVpK/Pqj/xXkd0va1vSSHZcXMPNbxmo=,tag:+DfZ1o+GjUQ99ct/gQ/zdQ==,type:int]
+            - Name: Cartoons
+              AlternateName: Cartoons
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:wg==,iv:DSckGsl+M+DJpKcG0vcuG7+VMeOcFPlxtXgU/CfE9ZM=,tag:kphgG+x9CUZ1rCHUBfyHUQ==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:yQ==,iv:KkRxbTyQi+F6SkKKeMZGlvZ6uTc+EVuXcrOb80yNJw0=,tag:v28msET93EZr13J+al/E/A==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:rQ==,iv:UvczVFAt/cWBj0jszV1sI/09x6o6hJvBCkIN2U7davY=,tag:6ncTsfIvxIUMcEVMCkt1Gw==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:mA==,iv:fKMANCXHIbNW9+m+DyRmiMmd6X0IKWFBxVyTi4TVEZk=,tag:2qD40IIC1Pa7zE1lEGPFzw==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:niwiOy45/KIF67f2PbbOAwDUYw==,iv:UX9ga/IPavxxjD1LlGHvG8tcY3V7zh8t33n7GbgbaLE=,tag:jXvKUkkLep85ACHiVrBSQQ==,type:str]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Dw==,iv:SZ0Fx9aQWwpOO6lVuDy4scSsRAvMFj6x6PAgrCpzJVM=,tag:Umw7Ql7IBCVcgmThOtVqfA==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:rw==,iv:UiIh4HXCDxKYGi14YHYytkWSi2/AVO+GN3Msm+9RdDM=,tag:g4i3fTDqx5qzb1YbukmD6A==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Zg==,iv:oqr67Z4bgsjNwdvXsYxGCfsdmcZcLWYQkplKWIrZ8cc=,tag:nAEtTag4zm5PhUsi+gIVbA==,type:int]
+            - Name: YouTube
+              AlternateName: YouTube
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:8w==,iv:gqk6jWKP0uCH+zUmiKz8EuwHAAS/4WXY02sgofb72BQ=,tag:leS/5y6EKWYq9PxR22aP8g==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:7w==,iv:fDXKHwWZ0+sL4MlIkXQ+1bPo2dw0ewLpaRqPhH6rilM=,tag:TKeUK4S9YKh4x8OZOjupIA==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:dg==,iv:5VeSjj8HEQbTHLn0Y7JhdGiJivQ0hrVAkP2YFolCu/Q=,tag:Ncfzk/TgTwYi4J1phgwVCQ==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:2Q==,iv:C+BHN67eWpbYpjk6OrGZoTz4m580sxVDPbciMRrw7s8=,tag:IRWQDIT6KeanGNQi3sgOgQ==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:+NSsMAKHCAj0yEx0G4EKIal3Sw==,iv:6kU2jWhZH+f8+i/qCossp+by21oiwV4YMglj6Zb67Ww=,tag:/XXlv98V9rDik+HPhJiVOw==,type:str]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:pA==,iv:5LTWE5lrjjhZHK3ZoaGiV1yCqlhaljcoeLHQi6Ys0gA=,tag:ivoVvCJpcENOUbta8FKG8w==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:FQ==,iv:Pr791dn81RKTlTR02EZsM46OfRRBBkoVeBnRoChTYRs=,tag:wDaOmtk0ydO6Z8q9JeOMgw==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:qA==,iv:ddx/iNoMuwEDO6YtiiHSkoSzr3tRLuUkhUEnKMV5haM=,tag:Vv7limOlfupa/qOH2nm2dA==,type:int]
+            - Name: Movies
+              AlternateName: Movies
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:mQ==,iv:uS8GBhvxAX6AQBl4p46aCB1sUnVWJu/dp+zf0CwjhKc=,tag:PsNtKifStxoucC9jrVIzJg==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:xw==,iv:hUsLL2Xl60r/AuNa5fAR52YAedqPpoLtK7x0SLGSlkw=,tag:gA/Y9ajciHA6rr0w8P8pCg==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:tg==,iv:lqCfDaF3w2AtT7FZ7dbn838F83bxIYvoTixc4/ELSeE=,tag:ZAtJtMvw68vkkJclPj3o7Q==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:gEWm7qRDFvEM1MuJ6Z3gpUeMTg==,iv:0A26J/slp8tIEJAuv7Q5HPNLXBsZRI+cUCWBR6jqiOs=,tag:Rmw2xvKpmqxSje2tBHz1Kw==,type:str]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:hQ==,iv:okSrch519eHXtAc4vZyle5dsCen1kiTlLfz/ygcoVPo=,tag:+98O63/idIgF3MO8OwXnJw==,type:int]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Gg==,iv:7RMI+mxqYYLYyoZXLTIvvAjugkGGnDF8GPEe5gVxjKk=,tag:ve+VDw5jyvgZXx55T0kRKQ==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:YA==,iv:hTIHipFZhF6hf9CXrVFN2gmTjr35u/1OyhdCGiCh4yM=,tag:He639Rbf2H+36hg0LrzCCA==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:5g==,iv:gVGu2V2Pu5yFT6XQ8gTNalPhFew0sxj5vhKT3vp+SKo=,tag:jhxkfXZ4ngpE+3+A2lOGTQ==,type:int]
+            - Name: MoviesA
+              AlternateName: Anime Movies
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:dg==,iv:Nz/HC28DJ/1r6bRR+FYswpCZq/LdrWNaGYOh/BJZ/jk=,tag:e5bV5o3zMiG66ylEKy8Oag==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:OQ==,iv:S4N4RXSaCa216SsWXRezNtPD8qX5qjvEmLn3LCok2I0=,tag:URTqG+iyilkwlVT0oQRflA==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:0w==,iv:AXYQk+G2UcwlocTAGnKLBW66v6s2EwlKGp+Q+iDwHFY=,tag:9AS0tyz/i7fuOitrpdEDZg==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:dPuIKolHfjOJTABufGSk0w0IaA==,iv:5skXehyhJeoLl6EYbqAhg6/Eiml9i8i9QpusKhO2M+Y=,tag:SSeaZlxWHGbOGaz0JBw5Eg==,type:str]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:9w==,iv:BDCP0H+6J+G9WDWhjY+YJwbmdfM/MhaqjMgdLno9ce4=,tag:tG7sMlXMMJXXn5SnxEL8pg==,type:int]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:9g==,iv:y3ywPJAultq40BgM1Gk4+0gzvPU+ApYmWmX0Mv3BkjE=,tag:c9fF3wm1MpearIR+jyVWTg==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:CQ==,iv:CN5dxorUveSh4QYYOk2EzqWh3LpfQWS0639Kv9ZVrEY=,tag:s63qnJWkF47S5k+g7WqOcw==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:/A==,iv:HFZ0eMEymipK+j3TArJKKIqTWrtqe3F/D5F7yDAwAFg=,tag:A6cgfoWWm4YvtUKDHlPeww==,type:int]
+            - Name: Comedies
+              AlternateName: Comedies
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:rQ==,iv:/qWr8P+e1AAIHWZMf8tpTllxJQavO9BgGtGSRbV9Lew=,tag:I6iZSU7rclDEDY2aQv/j3w==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:DQ==,iv:OiVMdoQKgMmeElGqYXYw0vwGZtdafprKg1wiTM/uThA=,tag:UF2HwLqFdCChohzclAitJQ==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:UQ==,iv:1cCPOOXP97+dPp/jjtxlgta3j1mMuaDt3mfmRYnHOfo=,tag:teUiGs5TsJXZzpD+4PKLsg==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:Ytpur1rDHwoghzr6d4GnhzaWBw==,iv:uFJIKuMzldZGJh4zcJVhMBB1cHB5Y9scVWeAhoSfXBw=,tag:/EyvUxXYCx++S5/FYYeOfw==,type:str]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:oQ==,iv:hkdt8QlmWp3ukQ3mHMh/eaps+liv3AyGBdE4cShFL8Y=,tag:276pznK87ct42CoUwQqD4w==,type:int]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:tg==,iv:jJXI8SW62hm1IVCu9zTjv2tWlKOgMU80TW7vVKv8n2E=,tag:AUwdHgjeUmnagEZpTnVDKQ==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:eQ==,iv:g3Q4Y1rrHBigtgUqZDPg2OgC5RPqn0CUw1Y2OTSz2ZI=,tag:TTPe8T5gEiQHBpDxiATQBg==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:qw==,iv:EtQ1QUtZElMdun82SU+Ctj65kMJGXLdSzlKdN/IRRTE=,tag:rvuHPW4G+2Z9YjYCWeA3Dw==,type:int]
+            - Name: Music
+              AlternateName: Music
+              ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:/A==,iv:IBk/E2O99jov/7Kj9/MUeRdOjUMJ2g5EUIBLdtJkUFU=,tag:uFu46rbGtSILneBf0pY8Ww==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:kw==,iv:Od4vCZZSvyxF0fxCzMu4soXl2Nnhv5lOr+BtZ62IGdw=,tag:hW3/cDVOW9gTteigxHsZ4w==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:3w==,iv:9WlVbcVwfXFWYksw9wPQpQU+1Io5bT3vZzm9wBtiG7E=,tag:Llbhknqg/APifQ5aEUGwWA==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:2Q==,iv:AQ2SNDvXxl/x1OOEaztkB7C9g6+TVhmAcyy6gRgvJtQ=,tag:zOKqWCxWCIfqGowTaWiy6w==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:qQ==,iv:0o7MxXbaoXbveWUuoFayTD4RUI74fgDt5+YoiapmoCs=,tag:sMNwGDFDBl4CbnY3rXBFxw==,type:int]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:9w==,iv:IfB4hQmi1hMJcfY5Ary+hSbbMcU5YItQtfcNZBgGgGE=,tag:J+46PtfTBjU7jUAbeog+vg==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:0Q==,iv:VlJjTyAtN9WcWES7hbx0X5lB6cp+2P7rfgMjiovOWSU=,tag:JsVRNk1kjfWPscZSeM+u9A==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:2A==,iv:VjrL3DwuH3jR1imALsyaIs3fANjQ2nfDbiUx/tnV9R4=,tag:KqCP6HGKRTGUzrWYvPLB7Q==,type:int]
+        CombinedLibraries:
+            - Name: All Shows
+              Libraries:
+                - Name: Animes
+                  ID: 0
+                - Name: AnimesH
+                  ID: 0
+                - Name: TV Shows
+                  ID: 0
+                - Name: Cartoons
+                  ID: 0
+                - Name: YouTube
+                  ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:JA==,iv:39Kf/vyNlI1tGSOyaucUf+73+OAYvx1T43AVwzdKpJk=,tag:yWgr7N/zGqwDYrneRCpdJw==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:NA==,iv:MJMr/fRlHmWGZn6i67K/6zVNYXhu58ASgrOX2I7hSSU=,tag:Rri/qiGM8CDn00kWSUdfpA==,type:int]
+              Episodes:
+                CustomName: Episodes
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:UHQPMd/k1ZbYz9ch8dMCIGJWUQ==,iv:XdzXJ0Dh4mwenpEoDfAEZrLlxW8L3/eG/OEGuGNqRGo=,tag:r6WkcxHj1eiKBVrzi5CMqg==,type:str]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:zg==,iv:HnmvYK1GFvvqHKp9nNAPxtcsWYmbFg3jF0vLihSTvOQ=,tag:ooRAZXx7AJ/u4DjpVwZyQw==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:5yG29nUWAbBvYlcTNHO9+ZqkkA==,iv:oMvcVidWsWSPRByTHVBOtrs0CoLSBkcWcvFPsdFDY2c=,tag:HBRvmWdgpVgS4JnNGYkOGw==,type:str]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:8Q==,iv:bpwd/03PVBaLeM7nCJi9ChwyaLQQK5HvkzfyQz2DWyI=,tag:eEe5AElu58AKaWdBXBIxMQ==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:rQ==,iv:9iJkMQoI0fNleWtZ9rloK9c3L66cqrDiAee8eaVvpF4=,tag:UI+D5ILDLZC4AguZkkwvVQ==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Pg==,iv:WVAgNv9MMiQZNh+hdRBpGAksoroKj6mnlBH+w6GLXRY=,tag:nQ0w1Vop3zoMnTod6NzpxQ==,type:int]
+            - Name: All Movies
+              Libraries:
+                - Name: Movies
+                  ID: 0
+                - Name: MoviesA
+                  ID: 0
+                - Name: Comedies
+                  ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:lg==,iv:BcGqd8+udisvUw9ZyVAwCj5WzCKUoXZYiWceK53PVU4=,tag:0rzJ5WhFewT31zfKBFI/6A==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Fw==,iv:Xqzax+fE1aWgcBWFRqDEWwPxdcDuENLlxQiqhpXVbw8=,tag:HZpRNdFg+4r9XgV+jlQ3Og==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:sA==,iv:jPt5ex0bnDu7Y1HVm2lcw7OgspMDF75O9MaJiS2t0ok=,tag:k70nP6LZw53VFuXGUWJMEw==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:xgAGKuZF8DEhnlxkjfkULZ0ZdQ==,iv:Uwb22JZRhfD5JXFK9Isot6O+ytONoVqePzuXA9TzvWY=,tag:uzVcRRkxyfjApQtpt9CgwA==,type:str]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Eg==,iv:TQlLrtXEThTIUczv71jfp+hToclbSiYjgqlbAcSLTlM=,tag:THWkwdj3tVi9Ijwj6MLwhQ==,type:int]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Zw==,iv:A9wRbCU3m+OAeAxWiLgNGlLpkd1aaU/8FpmqMPuTWxA=,tag:3zv0lOUEgZNtXgYswOTWnw==,type:int]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:DQ==,iv:4hjX1Xu2XxbUk7VXrdzYpht+DAnWx9zMpf/R301E7LE=,tag:cHraIFp98Nz0ipyjtVprjw==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Uw==,iv:6riAPAEmDO50NJ0zB0ngnDvdT7hhQYypcLG1rLy3vZ8=,tag:EwKDaMdIsL4ebLhYpUe0YA==,type:int]
+            - Name: All Music
+              Libraries:
+                - Name: Music
+                  ID: 0
+              Albums:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:dQ==,iv:nMo+PjPmKe0xtpVY7CAfTNvYbN16v6I9H0zT/EnaDqs=,tag:JZpPdWwW2zgFDZPDdQiM1A==,type:int]
+              Artists:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:sw==,iv:OtpvDuIJQ3otQk3I6KjAJhnKDQ3WTeC7azm+rzF5xfA=,tag:f5ViO2X+hrvz9XQle1QwQw==,type:int]
+              Episodes:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:jw==,iv:jrz3Hnj8HwBUjivNn1qHK+UlUGwPeugzREtRXn5cM1w=,tag:YiL8KOVy3RN1YyoC5jMN4w==,type:int]
+              Movies:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:Jw==,iv:bYqCkOVQbIIjePI8pmZfzF3Jt3+bm/OXRZH0qwEFo68=,tag:7suUsOJPKWiEHuge473wKw==,type:int]
+              Series:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:WA==,iv:qS3lqx9HbDqoqPze1znbacKtraiE+crSkPPutf3zBPk=,tag:aXpPnnMktaRSiYVxwjfa8w==,type:int]
+              Tracks:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:3NC011WrQJBWSpC5kkhUP6BZCQ==,iv:yP5Oc51HBxO9X6sTjQcwTUgIesYrxy4g9pSc1ac4Uzg=,tag:/6fBy0yY8inx5THQpRMXCQ==,type:str]
+              RecentlyAdded:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:cQ==,iv:0jkB3VgJXQXeYhyRrfuze/5lTEkFQzWXd45FjWzICZg=,tag:rY/r7iiZQ0jUT1jwuladGA==,type:int]
+                Hours: 24
+              Seasons:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:bQ==,iv:vtJ33LW3i4MGk8pIzN/MF1/Irm7r5tbPQuo6tXmpOzM=,tag:QqNG3b0rPXFfK7Fq99IXVA==,type:int]
+    Performance:
+        CategoryName: Performance
+        Enable: true
+        Metrics:
+            CPU:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:1YkLHOyfyEX482OEDKNLX59wmg==,iv:N1gEGh3LK5sv5N2E71zMNosrwhnFuHv5lYrVc2UiQ3U=,tag:eDxl/s9BLshulhJgWruphw==,type:str]
+            DiskSpace:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:MAH3EfuJQc04C9iPth+tpast9A==,iv:/n1HRjDLrRu6ZNaRE60mVPJaxvZrH7xJoEm6oyTlPYs=,tag:mwEwD+DmtGcPUduHGZsprg==,type:str]
+            Memory:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: false
+                VoiceChannelID: ENC[AES256_GCM,data:T38KvTlyM+h0XYAblJ77ITTTWA==,iv:oDMoGqDY74JmmamHbjzfUkikK2N15vymZX3ODdFNBCc=,tag:9qok14b0uQh9cHgd8zIpVQ==,type:str]
+            UserCount:
+                CustomName: ""
+                CustomEmoji: ""
+                Enable: true
+                VoiceChannelID: ENC[AES256_GCM,data:FsOliBUMUhDfoP2CBwAhh3WNhQ==,iv:y/wHQ3tmTJJ4msXlVDDID0/NXNFsX6g5cO1X3CtGv+U=,tag:bnpJRV7ALAlSjPPGlhLj6A==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBjeURXY2k3RnZua2dFajg1
+            N1F1aElLeHB4U2tjZWpJRmVkbUZhZXEwZkJNCnFsMmlFOGFCQWNUemNNajc5WTVC
+            MkxWbyt1a1JidTFoSkprTVJEZkpOSlUKLS0tIEJRc0VLRDJmdkIvakNFOHlRaE00
+            SkNuSjRseURUamtWZGEzR0tLV0dSR28K5U7MvSTYurpY4r30l3avwyViZqHQ2XYT
+            RV+TdFoWr9X4stjr35nqnUw9yZL6nvMf9MrfhspzmGrcwykhn4Vtqg==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
+    encrypted_regex: (?i)^(adminids|bottoken|apikey|clientid|clientsecret|webhookurl|voicechannelid|serverid)$
+    lastmodified: "2026-06-22T07:09:01Z"
+    mac: ENC[AES256_GCM,data:YSaLKk5eRqqpDBtdSSv63EN/TM46bgzdyx4T6O0jzW6Suz1+9kj4L+FlgYGyQwiNvUoe+Sbu2Zv9GnHHPC2ENWTM1BLSp1E55gKzKxSwelb7WULNTBh68arxL843e6FD3eW4GJOyVKVsLicdmw7gJHhtVSVzS+U3PgWa81mh77I=,iv:JjI2F6PsnTkB9/8JDcK838LJgJt8ie5CxwKfuy2xs04=,tag:kpbHrAnk6OS7k0Pny9ig3A==,type:str]
+    version: 3.13.1

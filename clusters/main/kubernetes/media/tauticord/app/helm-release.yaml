@@ -14,8 +14,8 @@ spec:
     mode: enabled
   chart:
     spec:
-      chart: tauticord
-      version: 10.5.0
+      chart: app-template
+      version: 18.8.5
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -66,7 +66,7 @@ spec:
                 startup:
                   enabled: "{{ .Values.service.main.enabled }}"
                   path: "/ping"
-              env: {}
+
     ingress:
       main:
         enabled: true

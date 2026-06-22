@@ -4,6 +4,10 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
+configMapGenerator:
+  - name: tauticord-configmap
+    files:
+      - config.yaml=./config.yaml
 components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord
