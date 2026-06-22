@@ -4,24 +4,6 @@ namespace: kromgo
 resources:
   - helm-release.yaml
   - namespace.yaml
-configMapGenerator:
-  - name: kromgo-app-template-kromgo-config-file
-    namespace: kromgo
-    files:
-      - ./config.yaml
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
-  labels:
-    app: app-template-18.8.5
-    app.kubernetes.io/instance: kromgo
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: app-template
-    app.kubernetes.io/version: 3.5.4
-    helm.sh/chart: app-template-18.8.5
-    helm.toolkit.fluxcd.io/name: kromgo
-    helm.toolkit.fluxcd.io/namespace: kromgo
-    kustomize.toolkit.fluxcd.io/namespace: kromgo
 components:
   - ../../../../components/notifications/discord
+  - ./configmap.yaml
