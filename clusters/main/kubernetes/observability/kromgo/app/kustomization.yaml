@@ -4,12 +4,11 @@ namespace: kromgo
 resources:
   - helm-release.yaml
   - namespace.yaml
-  - config.yaml
-# configMapGenerator:
-#    - name: kromgo-config-file
-#      files:
-#        - ./config.yaml=./config.yaml
-# generatorOptions:
-#   disableNameSuffixHash: true
+configMapGenerator:
+   - name: kromgo-config-file
+     files:
+       - config.yaml=./config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
 components:
   - ../../../../components/notifications/discord
