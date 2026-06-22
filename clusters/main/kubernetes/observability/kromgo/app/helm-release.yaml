@@ -252,10 +252,6 @@ spec:
           colorExpr: 'colorScale(result, [175000000.0, 250000000.0, 300000000.0], ["red", "yellow", "green", "brightgreen"])' 
           valueExpr: 'humanizeBytes(result)'
 
-configmap:
-  kromgo-configfile:
-    enabled: false
-
     workload:
       main:
         podSpec:
