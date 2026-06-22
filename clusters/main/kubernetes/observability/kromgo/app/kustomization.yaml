@@ -6,25 +6,5 @@ metadata:
 resources:
   - helm-release.yaml
   - namespace.yaml
-configMapGenerator:
-  - name: kromgo-config-file
-    namespace: kromgo
-    files:
-      - config.yaml=./config.yaml
-generatorOptions:
-  disableNameSuffixHash: true
-  labels:
-    kromgo_config: "1"
-patches:
-  - target:
-      kind: ConfigMap
-      name: kromgo-config-file
-    patch: |
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: kromgo-config-file
-        annotations:
-          kustomize.toolkit.fluxcd.io/substitute: disabled
 components:
   - ../../../../components/notifications/discord

@@ -33,10 +33,10 @@ spec:
       stopAll: false
     gatus:
       group: observability
-    image:
-      repository: ghcr.io/home-operations/kromgo
-      tag: 0.14.10@sha256:70efc194c057c834b3d4935f4fd6dd65a4ba813f097b5fffc2ace41cfa8b9ec7
-      pullPolicy: IfNotPresent
+    # image:
+    #   repository: ghcr.io/home-operations/kromgo
+    #   tag: 0.14.10@sha256:70efc194c057c834b3d4935f4fd6dd65a4ba813f097b5fffc2ace41cfa8b9ec7
+    #   pullPolicy: IfNotPresent
 
     config:
       defaults:
@@ -263,19 +263,3 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
-    configmap:
-      kromgo-config:
-        enabled: true
-        data:
-          config.yaml: |
-           {{- $.Values.config | toYaml | nindent 2 }}
-
-    persistence:
-      configfile:
-        enabled: true
-        type: configmap
-        readOnly: true
-        objectName: kromgo-config-file
-        mountPath: /config/config.yaml
-        subPath: config.yaml
