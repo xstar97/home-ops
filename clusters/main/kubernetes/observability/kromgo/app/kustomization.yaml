@@ -8,5 +8,7 @@ configMapGenerator:
   - name: kromgo-configmap
     files:
       - config.yaml=./config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
 components:
   - ../../../../components/notifications/discord
