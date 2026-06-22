@@ -302,18 +302,41 @@ spec:
         data:
           config.yaml: |
            {{- $.Values.config | toYaml | nindent 2 }}
-      # kromgo-config2:
-      #   enabled: true
-      #   data:
-      #     config.yaml: |
-      #      # test
-      #      hello: world
+      kromgo-config2:
+        enabled: true
+        data:
+          config.yaml: |
+           # test
+           # hello: world
+            defaults:
+              badge:
+                font: dejavu-sans # dejavu-sans (default, shields.io-style), dejavu-sans-bold, comic-neue, comic-neue-bold
+                size: 11 # badge font size in points
+                style: flat # flat (default), flat-square, or plastic
+                gallery:
+                    hidden: false # list badges in the gallery (default); true hides them
+              graph:
+                maxDuration: 1h # cap on a graph's requested window ("0" = unlimited)
+                width: 600 # image width in px
+                height: 200 # image height in px
+                legend: true # show the series legend
+                theme: light # color theme — see Themes below
+                font: dejavu-sans # text font — see Themes below
+                gallery:
+                    hidden: false # list graphs in the gallery (default); true hides them
+            badges:
+              # static versions
+              - id: talos_version
+                title: Talos
+                icon: si:talos
+                query: node_os_info{ name="Talos"}
+                valueExpr: labels["version_id"]
 
     persistence:
       config:
         enabled: true
         type: configmap
         readOnly: true
-        objectName: kromgo-file
+        objectName: kromgo-config2
         mountPath: /config/config.yaml
         subPath: config.yaml
