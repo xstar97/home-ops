@@ -6,5 +6,14 @@ metadata:
 resources:
   - helm-release.yaml
   - namespace.yaml
+configMapGenerator:
+  - name: kromgo-config-file
+    namespace: kromgo
+    files:
+      - config.yaml=./config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    kromgo.greenehomelab.com/enabled: "1"
 components:
   - ../../../../components/notifications/discord
