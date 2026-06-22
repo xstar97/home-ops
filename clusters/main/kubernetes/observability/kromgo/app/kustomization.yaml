@@ -5,8 +5,8 @@ resources:
   - helm-release.yaml
   - namespace.yaml
 configMapGenerator:
-   - name: kromgo-config2
-     namespace: kromgo-app-template # needs to match target ConfigMap from base
+   - name: kromgo-app-template-config2
+     namespace: kromgo # needs to match target ConfigMap from base
      behavior: replace
      files:
        - config.yaml=./config.yaml
