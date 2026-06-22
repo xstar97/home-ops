@@ -309,6 +309,6 @@ spec:
         type: configmap
         readOnly: true
         expandObjectName: true
-        objectName: kromgo-config
+        objectName: kromgo-config-file
         mountPath: /config/config.yaml
         subPath: config.yaml
