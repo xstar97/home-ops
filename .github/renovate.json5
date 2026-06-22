@@ -3,7 +3,6 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "rebaseWhen": "conflicted",
   "schedule": ["before 06:00 AM"],
-  "rebaseWhen": "conflicted",
   "prHourlyLimit": 0,
   "commitHourlyLimit": 0,
   "extends": [
@@ -14,6 +13,8 @@
     ":configMigration",
     "helpers:pinGitHubActionDigests",
     "github>trueforge-org/renovate-config",
+    "github>xstar97/home-ops//.github/renovate/customManagers.json5",
+    "github>xstar97/home-ops//.github/renovate/kinds.json5",
     "github>xstar97/home-ops//.github/renovate/semanticCommits.json5",
     "github>xstar97/home-ops//.github/renovate/labels.json5",
     "github>xstar97/home-ops//.github/renovate/autoMerge.json5",
