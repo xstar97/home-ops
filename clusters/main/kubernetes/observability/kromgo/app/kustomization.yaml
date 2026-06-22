@@ -15,5 +15,11 @@ generatorOptions:
   disableNameSuffixHash: true
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
+  labels:
+    # app: app-template-18.8.5
+    app.kubernetes.io/instance: kromgo
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: app-template
+    # app.kubernetes.io/version: 3.5.4
 components:
   - ../../../../components/notifications/discord
