@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/tuppr.home-operations.com/talosupgrade_v1alpha1.json
 apiVersion: tuppr.home-operations.com/v1alpha1
 kind: TalosUpgrade
 metadata:
@@ -9,7 +11,24 @@ spec:
     version: v1.13.4
 
   policy:
-    debug: true          # Optional, verbose logging
-    force: false         # Optional, skip etcd health checks
-    rebootMode: default  # Optional, default|powercycle
-    placement: soft      # Optional, hard|soft
+    debug: true            # Optional, verbose logging
+    force: false           # Optional, skip etcd health checks
+    rebootMode: powercycle # Optional, default|powercycle
+    placement: soft        # Optional, hard|soft
+    stage: false           # Stage upgrade then reboot to apply (2 total reboots)
+
+  # Custom health checks
+  healthChecks:
+    # Check all nodes are ready
+    - apiVersion: v1
+      kind: Node
+      expr: |
+          status.conditions.filter(c, c.type == "Ready").all(c, c.status == "True")
+      timeout: 10m
+
+  # Maintenance windows (optional)
+  maintenance:
+    windows:
+      - start: "0 2 * * 0" # Cron expression (Sunday 02:00)
+        duration: "4h" # How long window stays open
+        timezone: "UTC" # IANA timezone, default UTC

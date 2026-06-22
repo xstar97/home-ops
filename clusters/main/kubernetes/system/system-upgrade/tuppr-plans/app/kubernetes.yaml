@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/tuppr.home-operations.com/kubernetesupgrade_v1alpha1.json
 apiVersion: tuppr.home-operations.com/v1alpha1
 kind: KubernetesUpgrade
 metadata:
@@ -7,3 +9,17 @@ spec:
   kubernetes:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
     version: v1.36.2
+
+  # Custom health checks
+  healthChecks:
+    - apiVersion: v1
+      kind: Node
+      expr: status.conditions.exists(c, c.type == "Ready" && c.status == "True")
+      timeout: 10m
+
+  # Maintenance windows (optional)
+  maintenance:
+    windows:
+      - start: "0 2 * * 0" # Cron expression (Sunday 02:00)
+        duration: "4h" # How long window stays open
+        timezone: "UTC" # IANA timezone, default UTC
