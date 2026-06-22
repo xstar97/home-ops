@@ -4,8 +4,6 @@ metadata:
   name: kromgo
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: kromgo-app-template-kromgo-config-file
   interval: 10m
   path: clusters/main/kubernetes/observability/kromgo/app
   prune: true
