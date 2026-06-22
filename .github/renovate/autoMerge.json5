@@ -23,7 +23,7 @@
       "matchPackageNames": [
         "!/siderolabs/",
         "!/plex/",
-        "!/minecraft-server/"
+        "!/minecraft-java/"
       ],
       "automerge": true,
       "addLabels": ["automerge"]
