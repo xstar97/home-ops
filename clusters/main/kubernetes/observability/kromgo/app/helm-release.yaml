@@ -308,7 +308,7 @@ spec:
           kromgo: "config.yaml"
         data:
           config.yaml: >-
-            {{ $.Files.Get "config.yaml" | indent 8 }}
+            {{ $.Files.Get "./config.yaml" | indent 2 }}
 
     persistence:
       config:
