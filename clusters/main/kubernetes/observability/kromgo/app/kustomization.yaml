@@ -6,4 +6,4 @@ resources:
   - namespace.yaml
 components:
   - ../../../../components/notifications/discord
-  - ./configmap.yaml
+  - ./component
