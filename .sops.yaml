@@ -14,6 +14,6 @@ creation_rules:
   - path_regex: kubernetes/.*\.sops\.ya?ml
     age: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
     encrypted_regex: "^(data|stringData)$"
-  - path_regex: ^clusters/main/kubernetes/media/tauticord/app/config\.yaml$
-    age: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
-    encrypted_regex:  '(?i)^(adminids|bottoken|apikey|clientid|clientsecret|webhookurl|voicechannelid|serverid)$'
+  # - path_regex: ^clusters/main/kubernetes/media/tauticord/app/config\.yaml$
+  #   age: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
+  #   encrypted_regex:  '(?i)^(adminids|bottoken|apikey|clientid|clientsecret|webhookurl|voicechannelid|serverid)$'
