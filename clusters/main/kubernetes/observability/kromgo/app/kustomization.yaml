@@ -8,6 +8,7 @@ resources:
   - namespace.yaml
 configMapGenerator:
   - name: kromgo-config-file
+    namespace: kromgo
     files:
       - ./config.yaml
 generatorOptions:
