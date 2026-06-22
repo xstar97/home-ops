@@ -13,7 +13,7 @@
         "!/longhorn/",
         "!/cilium/",
         "!/plex/",
-        "!/minecraft-server/"
+        "!/minecraft-java/"
       ],
       "automerge": true,
       "addLabels": ["automerge"]  
