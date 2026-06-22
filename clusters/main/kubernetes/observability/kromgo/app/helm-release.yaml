@@ -306,7 +306,7 @@ spec:
         enabled: true
         data:
           config.yaml: >
-            {{ .Files.Get "config.yaml" | indent 2 }}
+            {{ .Files.Get "./config.yaml" | indent 2 }}
 
     persistence:
       config:
