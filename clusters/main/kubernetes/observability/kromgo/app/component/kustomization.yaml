@@ -3,7 +3,7 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 configMapGenerator:
-  - name: kromgo-config-file2
+  - name: kromgo-config-file
     namespace: kromgo
     files:
       - config.yaml=./config.yaml
