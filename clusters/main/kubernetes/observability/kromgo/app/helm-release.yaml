@@ -277,6 +277,7 @@ spec:
                 RESOURCE: configmap
                 UNIQUE_FILENAMES: false
                 METHOD: WATCH
+                HEALTH_PORT: "9999"
     ingress:
       main:
         enabled: true
