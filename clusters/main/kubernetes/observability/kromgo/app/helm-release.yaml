@@ -308,6 +308,6 @@ spec:
         enabled: true
         type: configmap
         readOnly: true
-        objectName: kromgo-config
+        objectName: kromgo-config2
         mountPath: /config/config.yaml
         subPath: config.yaml
