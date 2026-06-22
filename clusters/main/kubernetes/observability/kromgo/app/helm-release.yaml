@@ -296,6 +296,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
 
+    # {{ .Files.Get "./config.yaml" | indent 2 }}
     configmap:
       kromgo-config:
         enabled: true
