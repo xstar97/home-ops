@@ -7,7 +7,7 @@ resources:
 configMapGenerator:
    - name: kromgo-app-template-kromgo-config2
      # namespace: kromgo # needs to match target ConfigMap from base
-     behavior: replace
+     behavior: create
      files:
        - config.yaml=./config.yaml
 generatorOptions:
