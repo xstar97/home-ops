@@ -37,6 +37,10 @@ spec:
     #   repository: ghcr.io/home-operations/kromgo
     #   tag: 0.14.10@sha256:70efc194c057c834b3d4935f4fd6dd65a4ba813f097b5fffc2ace41cfa8b9ec7
     #   pullPolicy: IfNotPresent
+    configsImage:
+      repository: ghcr.io/home-operations/k8s-sidecar
+      pullPolicy: IfNotPresent
+      tag: 2.7.3@sha256:391ccddbc6b29b1b07fea530950eba68e941304ea9252084e07cf12f1687a81d
 
     config:
       defaults:
@@ -248,6 +252,31 @@ spec:
           colorExpr: 'colorScale(result, [175000000.0, 250000000.0, 300000000.0], ["red", "yellow", "green", "brightgreen"])' 
           valueExpr: 'humanizeBytes(result)'
 
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            configs:
+              enabled: true
+              imageSelector: configsImage
+              probes:
+                liveness:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+                readiness:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+                startup:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+              env:
+                FOLDER: "/config2"
+                LABEL: kromgo.greenehomelab.com/enabled
+                NAMESPACE: kromgo
+                RESOURCE: configmap
+                UNIQUE_FILENAMES: false
+                METHOD: WATCH
     ingress:
       main:
         enabled: true
@@ -263,3 +292,37 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config2
+        targetSelectAll: true
+
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.kromgo.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
