@@ -314,6 +314,6 @@ spec:
         enabled: true
         type: configmap
         readOnly: true
-        objectName: kromgo-file
+        objectName: kromgo-app-template-kromgo-file
         mountPath: /config/config.yaml
         subPath: config.yaml
