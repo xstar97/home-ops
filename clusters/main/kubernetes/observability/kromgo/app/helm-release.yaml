@@ -308,13 +308,13 @@ spec:
           kromgo: "config.yaml"
         data:
           config.yaml: >-
-            {{ .Files.Get "config.yaml" | indent 8 }}
+            {{ $.Files.Get "config.yaml" | indent 8 }}
 
     persistence:
       config:
         enabled: true
         type: configmap
         readOnly: true
-        objectName: kromgo-config-file
+        objectName: kromgo-config
         mountPath: /config/config.yaml
         subPath: config.yaml
