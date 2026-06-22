@@ -11,7 +11,7 @@ configMapGenerator:
     files:
       - config.yaml
 generatorOptions:
-  disableNameSuffixHash: false
+  # disableNameSuffixHash: false
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
 components:
