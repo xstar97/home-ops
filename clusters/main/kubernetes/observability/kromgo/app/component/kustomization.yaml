@@ -6,8 +6,5 @@ configMapGenerator:
   - name: kromgo-config-file2
     files:
       - config.yaml=./config.yaml
-    options:
-      labels:
-        github.com/xstar97/home-ops/kromgo: "config.yaml"
 generatorOptions:
   disableNameSuffixHash: true
