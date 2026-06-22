@@ -5,7 +5,7 @@ resources:
   - helm-release.yaml
   - namespace.yaml
 configMapGenerator:
-   - name: kromgo--file
+   - name: kromgo-file
      namespace: kromgo
      behavior: create
      files:
