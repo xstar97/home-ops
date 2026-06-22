@@ -19,5 +19,8 @@ generatorOptions:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: app-template
     app.kubernetes.io/version: 3.5.4
+    helm.sh/chart: app-template-18.8.5
+    helm.toolkit.fluxcd.io/name: kromgo
+    helm.toolkit.fluxcd.io/namespace: kromgo
 components:
   - ../../../../components/notifications/discord
