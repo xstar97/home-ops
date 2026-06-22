@@ -255,9 +255,23 @@ spec:
     workload:
       main:
         podSpec:
+          initContainers:
+            init-config:
+              enabled: true
+              type: init
+              imageSelector: configsImage
+              env:
+                FOLDER: "{{ .Values.persistence.config.mountPath }}"
+                LABEL: kromgo.greenehomelab.com/enabled
+                NAMESPACE: kromgo
+                RESOURCE: configmap
+                UNIQUE_FILENAMES: false
+                METHOD: WATCH
+                HEALTH_PORT: "9999"
+                SCRIPT: "/config/exit.sh"
           containers:
             configs:
-              enabled: true
+              enabled: false
               imageSelector: configsImage
               probes:
                 liveness:
