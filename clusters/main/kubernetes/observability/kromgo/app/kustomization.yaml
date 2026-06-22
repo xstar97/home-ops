@@ -6,13 +6,5 @@ nameSuffix: ""
 resources:
   - helm-release.yaml
   - namespace.yaml
-configMapGenerator:
-  - name: kromgo-configmap
-    files:
-      - config.yaml
-generatorOptions:
-  # disableNameSuffixHash: false
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 components:
   - ../../../../components/notifications/discord
