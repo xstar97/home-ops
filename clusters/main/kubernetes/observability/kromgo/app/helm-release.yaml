@@ -258,7 +258,7 @@ spec:
         podSpec:
           containers:
             configs:
-              enabled: true
+              enabled: false
               imageSelector: configsImage
               probes:
                 liveness:
