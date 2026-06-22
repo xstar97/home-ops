@@ -302,6 +302,12 @@ spec:
         data:
           config.yaml: |
            {{- $.Values.config | toYaml | nindent 2 }}
+      kromgo-config2:
+        enabled: true
+        data:
+          config.yaml: |
+           # test
+           hello: world
 
     persistence:
       config:
