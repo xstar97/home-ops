@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
-  - config.yaml
 configMapGenerator:
   - name: kromgo-config-file
     namespace: kromgo
