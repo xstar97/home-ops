@@ -303,7 +303,7 @@ spec:
           config.yaml: |
            {{- $.Values.config | toYaml | nindent 2 }}
       kromgo-config2:
-        enabled: true
+        enabled: false
         data:
           config.yaml: >
             {{ .Files.Get "./config.yaml" | indent 2 }}
