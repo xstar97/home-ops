@@ -302,18 +302,18 @@ spec:
         data:
           config.yaml: |
            {{- $.Values.config | toYaml | nindent 2 }}
-      kromgo-config2:
-        enabled: true
-        data:
-          config.yaml: |
-           # test
-           hello: world
+      # kromgo-config2:
+      #   enabled: true
+      #   data:
+      #     config.yaml: |
+      #      # test
+      #      hello: world
 
     persistence:
       config:
         enabled: true
         type: configmap
         readOnly: true
-        objectName: kromgo-config
+        objectName: kromgo-app-template-kromgo-file
         mountPath: /config/config.yaml
         subPath: config.yaml
