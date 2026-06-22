@@ -252,6 +252,9 @@ spec:
           colorExpr: 'colorScale(result, [175000000.0, 250000000.0, 300000000.0], ["red", "yellow", "green", "brightgreen"])' 
           valueExpr: 'humanizeBytes(result)'
 
+configmap:
+  kromgo-configfile:
+    enabled: false
 
     workload:
       main:
@@ -271,7 +274,7 @@ spec:
                   enabled: true
                   port: "{{ .Values.service.main.ports.main.port }}"
               env:
-                FOLDER: "/config2"
+                FOLDER: "{{ .Values.persistence.config.mountPath }}"
                 LABEL: kromgo.greenehomelab.com/enabled
                 NAMESPACE: kromgo
                 RESOURCE: configmap
@@ -295,9 +298,11 @@ spec:
             certificateIssuer: general-le-prod
 
     persistence:
+      configfile:
+        enabled: false
       config:
         enabled: true
-        mountPath: /config2
+        mountPath: /config
         targetSelectAll: true
 
     addons:
