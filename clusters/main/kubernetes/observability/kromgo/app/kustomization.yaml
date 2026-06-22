@@ -9,7 +9,7 @@ configMapGenerator:
      namespace: kromgo
      # behavior: replace
      files:
-       - config.yaml=./config.yaml
+       - config.yaml
 generatorOptions:
   disableNameSuffixHash: true
 components:
