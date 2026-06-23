@@ -206,11 +206,11 @@ spec:
                 - scrutiny:
                     icon: scrutiny.svg
                     href: https://scrutiny.${DOMAIN_0}
-                    siteMonitor: https://${SEB_IP}:10080/web/dashboard
+                    siteMonitor: http://${SEB_IP}:10080/web/dashboard
                     description: "Nas"
                     widget:
                       type: scrutiny
-                      url: https://${SEB_IP}:10080
+                      url: http://${SEB_IP}:10080
 
           bookmarks.yaml: |
             ---

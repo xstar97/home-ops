@@ -28,8 +28,8 @@
     - scrutiny:
         icon: scrutiny.svg
         href: https://scrutiny.${DOMAIN_0}
-        siteMonitor: https://scrutiny-web:10080/web/dashboard
+        siteMonitor: http://scrutiny-web:10080/web/dashboard
         description: "Nas"
         widget:
           type: scrutiny
-          url: https://scrutiny-web:10080
+          url: http://scrutiny-web:10080
