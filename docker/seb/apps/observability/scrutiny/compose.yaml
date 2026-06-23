@@ -56,7 +56,6 @@ services:
       homepage.href: http://scrutiny.${BASE_DOMAIN_0}
       homepage.description: Hard Drive S.M.A.R.T Monitoring 
       homepage.widget.type: scrutiny
-      homepage.widget.url: http://scrutiny-web:10080
       wud.tag.include: ^v\d+\.\d+\.\d+-web$
   scrutiny-collector:
     scale: 1
