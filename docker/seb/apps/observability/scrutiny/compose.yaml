@@ -74,7 +74,7 @@ services:
     labels:
       wud.tag.include: ^v\d+\.\d+\.\d+-collector$
     devices:
-      - "/dev/sda"
+      - "/dev/sda" # 512GB SSD MQ08B54106998
 networks:
   network_internal:
     external: true
