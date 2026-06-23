@@ -22,14 +22,3 @@
           username: "{{HOMEPAGE_VAR_ADGUARD_USER}}"
           password: "{{HOMEPAGE_VAR_ADGUARD_PASS}}"
           # wan: opt1 # optional, defaults to wan
-
-- Monitoring:
-
-    - scrutiny:
-        icon: scrutiny.svg
-        href: https://scrutiny.${DOMAIN_0}
-        siteMonitor: http://scrutiny-web:10080/web/dashboard
-        description: "Nas"
-        widget:
-          type: scrutiny
-          url: http://scrutiny-web:10080

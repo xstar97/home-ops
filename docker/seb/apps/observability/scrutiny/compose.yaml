@@ -50,6 +50,11 @@ services:
       traefik.http.routers.scrutiny.tls: true
       traefik.http.routers.scrutiny.tls.certResolver: cf
       traefik.http.routers.scrutiny.middlewares: error-pages-middleware
+      homepage.group: Monitioring
+      homepage.name: Scrutiny
+      homepage.icon: scrutiny.png
+      homepage.href: http://scrutiny.${BASE_DOMAIN_0}
+      homepage.description: Hard Drive S.M.A.R.T Monitoring
       wud.tag.include: ^v\d+\.\d+\.\d+-web$
   scrutiny-collector:
     scale: 1
