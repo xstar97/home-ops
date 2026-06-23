@@ -200,8 +200,17 @@ spec:
                     widget:
                       type: truenas
                       url: https://${SCALE_IP}:444
-                      key: ${SCALE_HP_KEY} # not required if using username / password
-                      nasType: scale # defaults to scale, must be set to 'core' if using enablePools with TrueNAS Core
+
+            - Monitoring:
+
+                - scrutiny:
+                    icon: scrutiny.svg
+                    href: https://scrutiny.${DOMAIN_0}
+                    siteMonitor: https://${SEB_IP}:10080/web/dashboard
+                    description: "Nas"
+                    widget:
+                      type: scrutiny
+                      url: https://${SEB_IP}:10080
 
           bookmarks.yaml: |
             ---
