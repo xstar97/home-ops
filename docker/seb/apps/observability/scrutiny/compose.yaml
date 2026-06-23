@@ -45,7 +45,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.scrutiny.rule: Host(`scrutiny.${BASE_DOMAIN_0}`)
-      traefik.http.services.scrutiny.loadbalancer.server.port: 8080
+      traefik.http.services.scrutiny.loadbalancer.server.port: 10080
       traefik.http.routers.scrutiny.entrypoints: websecure
       traefik.http.routers.scrutiny.tls: true
       traefik.http.routers.scrutiny.tls.certResolver: cf
