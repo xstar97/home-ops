@@ -13,9 +13,7 @@
     },
   "postStartCommand": {
       "git": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-      "scripts": "git config --global --add safe.directory ${containerWorkspaceFolder}/scripts",
-      "mise": "curl https://mise.run/fish | sh"
-      //"mise-fish": "source ~/.config/fish/config.fish"
+      "postCreateCommand": "./postCreateCommand.sh"
     },
   "customizations": {
     "vscode": {
