@@ -6,7 +6,8 @@ services:
     container_name: scrutiny-collector
     restart: on-failure
     cap_add:
-      - SYS_RAWIO
+    - SYS_RAWIO
+    - SYS_ADMIN
     networks:
       - internal
     environment:
