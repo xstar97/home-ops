@@ -23,8 +23,8 @@ services:
       - "/dev/sda" # ST16000NM001G-2KK103
       - "/dev/sdb" # ST16000NM001G-2KK103
       - "/dev/sdc" # Samsung SSD 860 EVO 1TB
-      - "nvme1n1" # INTEL MEMPEK1J032GAD
-      - "nvme0n1" # 1.8T Samsung SSD 990 EVO 2TB
+      - "/dev/nvme1n1" # INTEL MEMPEK1J032GAD
+      - "/dev/nvme0n1" # 1.8T Samsung SSD 990 EVO 2TB
 networks:
   network_internal:
     external: true
