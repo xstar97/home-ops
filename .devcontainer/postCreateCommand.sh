@@ -108,13 +108,6 @@ if [ -f "$VENV_DIR/pyvenv.cfg" ]; then
 fi
 
 ########################################
-# install docker
-########################################
-echo "==> install docker"
-
-MISE_BIN docker:install
-
-########################################
 # Finish
 ########################################
 echo "==> Devcontainer bootstrap complete"
