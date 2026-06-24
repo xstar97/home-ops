@@ -117,28 +117,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-      parser:
-        enabled: true
-        targetSelector:
-          parser: parser
-        ingressClassName: "internal"
-        # annotations:
-        #   nginx.ingress.kubernetes.io/custom-http-errors: "599"
-        hosts:
-          - host: parser.profilarr.${DOMAIN_2}
-            paths:
-              - path: /
-                pathType: Prefix
-        integrations:
-          nginx:
-            enabled: true
-            auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
     persistence:
       config:
         enabled: true
