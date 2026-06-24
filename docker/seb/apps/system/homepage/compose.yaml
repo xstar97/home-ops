@@ -7,6 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   plex:
+    scale: 0
     labels:
       homepage.group: Monitioring
       homepage.name: plex
