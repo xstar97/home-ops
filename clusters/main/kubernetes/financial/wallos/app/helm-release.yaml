@@ -62,6 +62,7 @@ spec:
             enabled: true
             group: Monitoring
             widget:
+              url: "http://wallos.wallos.svc.cluster.local:80"
               custom:
                 key: ${HP_WALLOS_API_KEY}
           certManager:

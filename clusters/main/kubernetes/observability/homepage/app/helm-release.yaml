@@ -148,48 +148,6 @@ spec:
                     tunnelid: ${CF_TUNNEL_ID} 
                     key: ${CF_TUNNEL_KEY}
 
-            - Games:
-
-              - minecraft-router:
-                  icon: minecraft.png
-                  namespace: minecraft-router
-                  app: minecraft-router
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: tcp://minecraft-router.minecraft-router.svc.cluster.local:25565
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
-              - minecraft-java:
-                  icon: minecraft.png
-                  namespace: minecraft-java
-                  app: minecraft-java
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: tcp://minecraft-java.minecraft-java.svc.cluster.local:25565
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
-              - minecraft-bedrock:
-                  icon: minecraft.png
-                  namespace: minecraft-java
-                  app: minecraft-java
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: udp://minecraft-java.minecraft-java.svc.cluster.local:19132
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
-              - minecraft-lobby:
-                  icon: minecraft.png
-                  namespace: minecraft-lobby
-                  app: minecraft-java
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: tcp://minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
             - Monitoring:
 
                 - scrutiny:

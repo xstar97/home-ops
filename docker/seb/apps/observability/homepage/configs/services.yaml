@@ -27,11 +27,11 @@
     - Truenas:
         icon: truenas.svg
         href: "https://truenas.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}"
-        siteMonitor: https://{{HOMEPAGE_VAR_TRUENAS_HOST}}:444
+        siteMonitor: "{{HOMEPAGE_VAR_TRUENAS_HOST}}"
         description: "Nas"
         widget:
           type: truenas
-          url: https://{{HOMEPAGE_VAR_TRUENAS_HOST}}:444
+          url: "{{HOMEPAGE_VAR_TRUENAS_HOST}}"
           key: "{{HOMEPAGE_VAR_TRUENAS_API}}" # not required if using username / password
           enablePools: true # optional, defaults to false
           nasType: scale # defaults to scale, must be set to 'core' if using enablePools with TrueNAS Core
