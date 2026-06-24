@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 18.8.5
+      version: 18.8.6
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -43,7 +43,13 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: ghcr.io/kareadita/kavita
-      tag: 0.9.0@sha256:36aab0c578d488f8b10bd33910953b50965aff9ac6adc476ef4692c38c60427e
+      tag: 0.9.0.2@sha256:880a8feff0833e860575f8e08788e4b4f59f8659afd17206566aae88a525130d
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        # runAsNonRoot: false
+        # runAsUser: 0
+        # runAsGroup: 0
     service:
       main:
         type: ClusterIP
@@ -54,9 +60,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "external"
-        annotations:
-          nginx.ingress.kubernetes.io/custom-http-errors: "599"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        # annotations:
+          # nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: kavita.${DOMAIN_2}
             paths:
@@ -80,7 +86,27 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
+    configmap:
+      kavita-config:
+        enabled: true
+        data:
+          appsettings.json: |
+            {
+              "TokenKey": "${KAVITA_TOKEN_KEY}",
+              "Port": {{ .Values.service.main.ports.main.port }},
+              "IpAddresses": "0.0.0.0",
+              "BaseUrl": "/",
+              "Cache": 75
+            }
     persistence:
+      kavita-config:
+        enabled: true
+        type: configmap
+        mountPath: /tmp/config/appsettings.json
+        objectName: kavita-config
+        readOnly: true
+        subPath: appsettings.json
       config:
         enabled: true
         mountPath: "/kavita/config"

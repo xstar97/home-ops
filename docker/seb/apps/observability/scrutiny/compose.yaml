@@ -50,7 +50,7 @@ services:
       traefik.http.routers.scrutiny.tls: true
       traefik.http.routers.scrutiny.tls.certResolver: cf
       traefik.http.routers.scrutiny.middlewares: error-pages-middleware
-      homepage.group: Monitioring
+      homepage.group: Monitoring
       homepage.name: Scrutiny
       homepage.icon: scrutiny.png
       homepage.href: http://scrutiny.${BASE_DOMAIN_0}

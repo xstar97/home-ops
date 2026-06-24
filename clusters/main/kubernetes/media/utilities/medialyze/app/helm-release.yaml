@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 18.8.5
+      version: 18.8.6
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/frederikemmer/medialyze
       pullPolicy: IfNotPresent
-      tag: 0.15.0@sha256:0a01335a7ddc3a88f1d85a58e83531613f98a06f20ebfd7d7b8993cc1639c47d
+      tag: 0.16.0@sha256:07c78a81d024545e24e53d42bcd68a9a9fe98260c1af13a26cdb1afbf64ed5c4
 
     securityContext:
       container:

@@ -28,6 +28,13 @@ services:
       traefik.http.routers.wud.tls: true
       traefik.http.routers.wud.tls.certResolver: cf
       traefik.http.routers.wud.middlewares: error-pages-middleware
+      homepage.group: Monitoring
+      homepage.name: Wud
+      homepage.description: Keep your containers up-to-date!
+      homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wud.svg
+      homepage.href: https://wud.${BASE_DOMAIN_0}
+      homepage.widget.type: whatsupdocker
+      homepage.widget.url: http://wud:3000
       wud.tag.include: ^\d+\.\d+\.\d+$
       wud.link.template: https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}
 networks:

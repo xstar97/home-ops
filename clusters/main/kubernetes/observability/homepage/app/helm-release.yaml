@@ -66,6 +66,7 @@ spec:
               weatherapi: weatherapiapikey
               longhorn:
                 url: http://longhorn-frontend.longhorn-system.svc.cluster.local:80
+              finnhub: "${HP_FINNHUB_API_KEY}"
 
             quicklaunch:
               searchDescriptions: true
@@ -97,6 +98,8 @@ spec:
                 tab: Monitoring
               Inventory:
                 tab: Monitoring
+              Money:
+                tab: Monitoring
               Servers:
                 tab: Monitoring
 
@@ -104,6 +107,35 @@ spec:
             ---
             # For configuration options and examples, please see:
             # https://gethomepage.dev/widgets/
+
+            - datetime:
+                text_size: xl
+                # 4 januari 2023 om 13:51:25 PST
+                locale: nl
+                format:
+                  dateStyle: long
+                  timeStyle: long
+
+            - kubernetes:
+                cluster:
+                  # Shows cluster-wide statistics
+                  show: true
+                  # Shows the aggregate CPU stats
+                  cpu: true
+                  # Shows the aggregate memory stats
+                  memory: true
+                  # Shows a custom label
+                  showLabel: true
+                  label: "cluster"
+                nodes:
+                  # Shows node-specific statistics
+                  show: true
+                  # Shows the CPU for each node
+                  cpu: true
+                  # Shows the memory for each node
+                  memory: true
+                  # Shows the label, which is always the node name
+                  showLabel: true
 
             - resources:
                 cpu: true
@@ -119,6 +151,20 @@ spec:
                 labels: true
                 # Show the nodes
                 nodes: true
+
+            - stocks:
+                provider: finnhub
+                color: true # optional, defaults to true
+                cache: 1 # optional, default caches results for 1 minute
+                watchlist:
+                  - GME
+                  - AMC
+                  - NVDA
+                  - AMD
+                  - TSM
+                  - MSFT
+                  - AAPL
+                  - BRK.A
 
           services.yaml: |
             ---
@@ -147,48 +193,6 @@ spec:
                     accountid: ${CF_ACCOUNT_ID} 
                     tunnelid: ${CF_TUNNEL_ID} 
                     key: ${CF_TUNNEL_KEY}
-
-            - Games:
-
-              - minecraft-router:
-                  icon: minecraft.png
-                  namespace: minecraft-router
-                  app: minecraft-router
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: tcp://minecraft-router.minecraft-router.svc.cluster.local:25565
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
-              - minecraft-java:
-                  icon: minecraft.png
-                  namespace: minecraft-java
-                  app: minecraft-java
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: tcp://minecraft-java.minecraft-java.svc.cluster.local:25565
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
-              - minecraft-bedrock:
-                  icon: minecraft.png
-                  namespace: minecraft-java
-                  app: minecraft-java
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: udp://minecraft-java.minecraft-java.svc.cluster.local:19132
-                    fields: ["status", "name", "currentPlayers", "ping"]
-
-              - minecraft-lobby:
-                  icon: minecraft.png
-                  namespace: minecraft-lobby
-                  app: minecraft-java
-                  widget:
-                    type: gamedig
-                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
-                    url: tcp://minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565
-                    fields: ["status", "name", "currentPlayers", "ping"]
 
             - Monitoring:
 
