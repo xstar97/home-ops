@@ -66,6 +66,7 @@ spec:
               weatherapi: weatherapiapikey
               longhorn:
                 url: http://longhorn-frontend.longhorn-system.svc.cluster.local:80
+              finnhub: "${HP_FINNHUB_API_KEY}"
 
             quicklaunch:
               searchDescriptions: true
@@ -96,6 +97,8 @@ spec:
               Monitoring:
                 tab: Monitoring
               Inventory:
+                tab: Monitoring
+              Money:
                 tab: Monitoring
               Servers:
                 tab: Monitoring
@@ -158,6 +161,27 @@ spec:
                     widget:
                       type: scrutiny
                       url: http://${SEB_IP}:10080
+
+            - Money:
+
+                - FinnHub:
+                    icon: finnhub.svg
+                    description: "Financial"
+                    widget:
+                      type: stocks
+                      provider: finnhub
+                      showUSMarketStatus: true # optional, defaults to true
+                      watchlist:
+                        - GME
+                        - AMC
+                        - NVDA
+                        - TSM
+                        - BRK.A
+                        - TSLA
+                        - AAPL
+                        - MSFT
+                        - AMZN
+                        - BRK.B
 
           bookmarks.yaml: |
             ---
