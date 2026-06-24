@@ -101,7 +101,7 @@ spec:
             }
     persistence:
       kavita-config:
-        enabled: false
+        enabled: true
         type: configmap
         mountPath: /tmp/config/appsettings.json
         objectName: kavita-config
