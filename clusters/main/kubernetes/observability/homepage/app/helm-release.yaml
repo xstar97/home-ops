@@ -108,6 +108,35 @@ spec:
             # For configuration options and examples, please see:
             # https://gethomepage.dev/widgets/
 
+            - datetime:
+                text_size: xl
+                # 4 januari 2023 om 13:51:25 PST
+                locale: nl
+                format:
+                  dateStyle: long
+                  timeStyle: long
+
+            - kubernetes:
+                cluster:
+                  # Shows cluster-wide statistics
+                  show: true
+                  # Shows the aggregate CPU stats
+                  cpu: true
+                  # Shows the aggregate memory stats
+                  memory: true
+                  # Shows a custom label
+                  showLabel: true
+                  label: "cluster"
+                nodes:
+                  # Shows node-specific statistics
+                  show: true
+                  # Shows the CPU for each node
+                  cpu: true
+                  # Shows the memory for each node
+                  memory: true
+                  # Shows the label, which is always the node name
+                  showLabel: true
+
             - resources:
                 cpu: true
                 memory: true
@@ -122,7 +151,7 @@ spec:
                 labels: true
                 # Show the nodes
                 nodes: true
-                
+
             - stocks:
                 provider: finnhub
                 color: true # optional, defaults to true
