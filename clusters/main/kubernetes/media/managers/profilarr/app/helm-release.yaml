@@ -71,7 +71,7 @@ spec:
                 AUTH: "oidc"
                 OIDC_CLIENT_ID: "profilarr"
                 OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
-                OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}"
+                OIDC_DISCOVERY_URL: "https://auth.${DOMAIN_2}"
                 ORIGIN: "{{ .Values.chartContext.appUrl }}"
                 PARSER_HOST: '{{ printf "http://%v-parser" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
                 PARSER_PORT: "{{  .Values.service.parser.ports.parser.port }}"
