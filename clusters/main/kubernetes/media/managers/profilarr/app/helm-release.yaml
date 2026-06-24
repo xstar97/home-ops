@@ -76,25 +76,25 @@ spec:
                 PARSER_HOST: '{{ printf "http://%v-parser" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
                 PARSER_PORT: "{{  .Values.service.parser.ports.parser.port }}"
                 # PROFILARR_BULLETIN_URL: "https://raw.githubusercontent.com/Dictionarry-Hub/bulletin/main"
-        parser:
-          enabled: true
-          imageSelector: parserImage
-          probes:
-            liveness:
+            parser:
               enabled: true
-              type: http
-              path: /health
-              port: "{{ .Values.service.parser.ports.parser.port }}"
-            readiness:
-              enabled: true
-              type: http
-              path: /health
-              port: "{{ .Values.service.parser.ports.parser.port }}"
-            startup:
-              enabled: true
-              type: http
-              path: /health
-              port: "{{ .Values.service.parser.ports.parser.port }}"
+              imageSelector: parserImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.parser.ports.parser.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.parser.ports.parser.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.parser.ports.parser.port }}"
   
     ingress:
       main:
