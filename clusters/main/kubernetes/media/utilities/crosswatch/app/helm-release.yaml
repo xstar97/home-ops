@@ -70,7 +70,7 @@ spec:
                 APP_DIR: /app
                 # Set to 1 to clear stored auth and sessions on next start.
                 # Remove it after the reset completes.
-                CW_RESET_AUTH_ONCE: 1
+                # CW_RESET_AUTH_ONCE: 1
                 # dev stuff
                 # enable Python auto-reload for development.
                 # no | yes
