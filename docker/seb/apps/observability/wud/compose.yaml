@@ -31,7 +31,7 @@ services:
       homepage.group: Monitoring
       homepage.name: Wud
       homepage.description: Keep your containers up-to-date!
-      homepage.icon: wud.png
+      homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wud.svg
       homepage.href: https://wud.${BASE_DOMAIN_0}
       homepage.widget.type: whatsupdocker
       homepage.widget.url: http://wud:3000
