@@ -47,9 +47,9 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
+        # runAsNonRoot: false
+        # runAsUser: 0
+        # runAsGroup: 0
     service:
       main:
         type: ClusterIP
@@ -86,7 +86,27 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
+    configmap:
+      kavita-config:
+        enabled: true
+        data:
+          appsettings.json: |
+            {
+              "TokenKey": "${KAVITA_TOKEN_KEY}",
+              "Port": {{ .Values.service.main.ports.main.port }},
+              "IpAddresses": "0.0.0.0",
+              "BaseUrl": "/",
+              "Cache": 75
+            }
     persistence:
+      kavita-config:
+        enabled: true
+        type: configmap
+        mountPath: /tmp/config/appsettings.json
+        objectName: kavita-config
+        readOnly: true
+        subPath: appsettings.json
       config:
         enabled: true
         mountPath: "/kavita/config"
