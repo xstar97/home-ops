@@ -6,14 +6,6 @@ x-healthcheck: &healthcheck
   start_period: 15s
 
 services:
-  plex:
-    scale: 0
-    image: scratch
-    labels:
-      homepage.group: Monitioring
-      homepage.name: plex
-      homepage.icon: plex.png
-      homepage.href: http://plex.${BASE_DOMAIN_1}
   homepage:
     scale: 1
     image: ghcr.io/gethomepage/homepage:v1.13.2@sha256:a0b71c8e757298d02560186bab9fbe3fc2d375c523a62cc1019177b37e48aa28
