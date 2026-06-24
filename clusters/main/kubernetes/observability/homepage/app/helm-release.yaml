@@ -190,17 +190,6 @@ spec:
                     url: tcp://minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565
                     fields: ["status", "name", "currentPlayers", "ping"]
 
-            - Servers:
-
-                - Truenas:
-                    icon: truenas.svg
-                    href: https://truenas.${DOMAIN_0}
-                    siteMonitor: https://${SCALE_IP}:444
-                    description: "Nas"
-                    widget:
-                      type: truenas
-                      url: https://${SCALE_IP}:444
-
             - Monitoring:
 
                 - scrutiny:

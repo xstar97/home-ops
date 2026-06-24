@@ -22,3 +22,16 @@
           username: "{{HOMEPAGE_VAR_ADGUARD_USER}}"
           password: "{{HOMEPAGE_VAR_ADGUARD_PASS}}"
           # wan: opt1 # optional, defaults to wan
+
+- Servers:
+    - Truenas:
+        icon: truenas.svg
+        href: https://truenas.${DOMAIN_0}
+        siteMonitor: https://${HOMEPAGE_VAR_TRUENAS_HOST}:444
+        description: "Nas"
+        widget:
+          type: truenas
+          url: https://${HOMEPAGE_VAR_TRUENAS_HOST}:444
+          key: ${HOMEPAGE_VAR_TRUENAS_API} # not required if using username / password
+          enablePools: true # optional, defaults to false
+          nasType: scale # defaults to scale, must be set to 'core' if using enablePools with TrueNAS Core
