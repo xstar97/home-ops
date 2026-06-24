@@ -44,8 +44,21 @@ spec:
     image:
       repository: ghcr.io/dictionarry-hub/profilarr
       pullPolicy: IfNotPresent
-      tag: 2.0.9@sha256:7a9b5112ff227320d17c65ab643a5d875713e6235991ef04a8e482ec51427902
-      
+      tag: 2.0.9@sha256:7a9b5112ff227320d17c65ab643a5d875713e6235991ef04a8e482ec51427902 
+    parserImage:
+      repository: ghcr.io/dictionarry-hub/profilarr-parser
+      pullPolicy: IfNotPresent
+      tag: 2.0.9@sha256:16b22ef6485e135cc660cd511697c637d44649753d02397c9374e1317cfaaf0e
+
+service:
+  parser:
+    enabled: true
+    type: ClusterIP
+    ports:
+      parser:
+        enabled: true
+        port: 5000
+
     workload:
       main:
         podSpec:
@@ -55,14 +68,34 @@ spec:
                 # PORT: "{{ .Values.service.main.ports.main.port }}"
                 HOST: 0.0.0.0
                 # Auth mode (on, oidc, off)
-                AUTH: "off"
-                # OIDC_CLIENT_ID: "profilarr"
-                # OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
-                # OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}"
+                AUTH: "oidc"
+                OIDC_CLIENT_ID: "profilarr"
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
+                OIDC_DISCOVERY_URL: "auth.${DOMAIN_2}"
                 ORIGIN: "{{ .Values.chartContext.appUrl }}"
-                # PARSER_HOST: "localhost"
-                # PARSER_PORT: 5000
+                PARSER_HOST: '{{ printf "http://%v-parser" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                PARSER_PORT: "{{  .Values.service.parser.ports.parser.port }}"
                 # PROFILARR_BULLETIN_URL: "https://raw.githubusercontent.com/Dictionarry-Hub/bulletin/main"
+        parser:
+          enabled: true
+          imageSelector: parserImage
+          probes:
+            liveness:
+              enabled: true
+              type: http
+              path: /health
+              port: "{{ .Values.service.parser.ports.parser.port }}"
+            readiness:
+              enabled: true
+              type: http
+              path: /health
+              port: "{{ .Values.service.parser.ports.parser.port }}"
+            startup:
+              enabled: true
+              type: http
+              path: /health
+              port: "{{ .Values.service.parser.ports.parser.port }}"
+  
     ingress:
       main:
         enabled: true

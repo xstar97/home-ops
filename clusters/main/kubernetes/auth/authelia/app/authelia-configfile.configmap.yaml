@@ -39,23 +39,59 @@ data:
           allowed_origins_from_client_redirect_uris: true
         claims_policies:
           default:
-            id_token: ['rat', 'groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+            id_token:
+              - rat
+              - groups
+              - email
+              - email_verified
+              - alt_emails
+              - preferred_username
+              - name
           romm:
-            id_token: ['email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+            id_token:
+              - email
+              - email_verified
+              - alt_emails
+              - preferred_username
+              - name
           grafana:
-            id_token: ['email', 'name', 'groups', 'preferred_username']
+            id_token:
+             - email
+             - name
+             - groups
+             - preferred_username
           vaultwarden:
-              id_token: ['email', 'groups', 'profile']
+              id_token:
+                - email
+                - groups
+                - profile
           audiobookrequest:
-            id_token: ['groups', 'profile', 'email']
+            id_token:
+              - groups
+              - profile
+              - email
           booklore:
-            id_token: ['email', 'preferred_username', 'name']
+            id_token:
+              - email
+              - preferred_username
+              - name
           yarnl:
-            id_token: ['preferred_username', 'name', 'email']
+            id_token:
+              - preferred_username
+              - name
+              - email
           homebox:
-            id_token: ['groups', 'email', 'profile', 'name']
+            id_token:
+              - groups
+              - email
+              - profile
+              - name
           profilarr:
-            id_token: ['groups', 'email', 'profile', 'name']
+            id_token:
+              - email
+              - email_verified
+              - preferred_username
+              - name
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -417,19 +453,19 @@ data:
             grant_types:
               - 'authorization_code'
             token_endpoint_auth_method: 'client_secret_basic'
-          - client_id: "profilarr" # read above for how generate
-            client_name: "Profilarr" # will be displayed in Authelia to users
-            client_secret:  {{ secret "/config/secret/clients_profilarr_client_secret" }}
+          - client_id: "profilarr"
+            client_name: "Profilarr"
+            client_secret: {{ secret "/config/secret/clients_profilarr_client_secret" }}
             public: false
             claims_policy: "profilarr"
             authorization_policy: "profilarr"
             grant_types:
-                - authorization_code
+              - authorization_code
             redirect_uris:
-                - "https://profilarr.${DOMAIN_2}/auth/oidc/callback"
+              - "https://profilarr.${DOMAIN_2}/auth/oidc/callback"
             scopes:
-                - "openid"
-                - "email"
-                - "profile"
-            userinfo_signed_response_alg: "none"
-            token_endpoint_auth_method: "client_secret_basic"
+              - openid
+              - email
+              - profile
+            userinfo_signed_response_alg: none
+            token_endpoint_auth_method: client_secret_basic
