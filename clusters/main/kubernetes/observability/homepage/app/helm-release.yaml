@@ -122,6 +122,20 @@ spec:
                 labels: true
                 # Show the nodes
                 nodes: true
+                
+            - stocks:
+                provider: finnhub
+                color: true # optional, defaults to true
+                cache: 1 # optional, default caches results for 1 minute
+                watchlist:
+                  - GME
+                  - AMC
+                  - NVDA
+                  - AMD
+                  - TSM
+                  - MSFT
+                  - AAPL
+                  - BRK.A
 
           services.yaml: |
             ---
@@ -161,27 +175,6 @@ spec:
                     widget:
                       type: scrutiny
                       url: http://${SEB_IP}:10080
-
-            - Money:
-
-                - FinnHub:
-                    icon: finnhub.svg
-                    description: "Financial"
-                    widget:
-                      type: stocks
-                      provider: finnhub
-                      showUSMarketStatus: true # optional, defaults to true
-                      watchlist:
-                        - GME
-                        - AMC
-                        - NVDA
-                        - TSM
-                        - BRK.A
-                        - TSLA
-                        - AAPL
-                        - MSFT
-                        - AMZN
-                        - BRK.B
 
           bookmarks.yaml: |
             ---
