@@ -8,6 +8,7 @@ x-healthcheck: &healthcheck
 services:
   plex:
     scale: 0
+    image: scratch
     labels:
       homepage.group: Monitioring
       homepage.name: plex
