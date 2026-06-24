@@ -56,6 +56,25 @@ spec:
         ports:
           main:
             port: 8787
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                WEB_PORT: "{{ .Values.service.main.ports.main.port }}"
+                WEB_HOST: "0.0.0.0"
+                CONFIG_BASE: "{{ .Values.persistence.config.mountPath }}"
+                RUNTIME_DIR: "{{ .Values.persistence.config.mountPath }}"
+                # dont change
+                APP_DIR: /app
+                # Set to 1 to clear stored auth and sessions on next start.
+                # Remove it after the reset completes.
+                CW_RESET_AUTH_ONCE: 1
+                # dev stuff
+                # enable Python auto-reload for development.
+                # no | yes
+                # RELOAD: no
     ingress:
       main:
         enabled: true
