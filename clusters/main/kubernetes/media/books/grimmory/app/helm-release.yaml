@@ -64,7 +64,7 @@ spec:
               env:
                 APP_USER_ID: 568
                 APP_GROUP_ID: 568
-                # BOOKLORE_PORT: "{{ .Values.service.main.ports.main.port }}"
+                BOOKLORE_PORT: "{{ .Values.service.main.ports.main.port }}"
                 DATABASE_URL:
                   secretKeyRef:
                     expandObjectName: false
