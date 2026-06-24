@@ -53,7 +53,7 @@ services:
       homepage.group: Monitoring
       homepage.name: Scrutiny
       homepage.icon: scrutiny.png
-      homepage.href: http://scrutiny.${BASE_DOMAIN_0}
+      homepage.href: http://scrutiny.${BASE_DOMAIN_0}/web/dashboard
       homepage.description: Hard Drive S.M.A.R.T Monitoring 
       homepage.widget.type: scrutiny
       homepage.widget.url: http://${SEB_HOSTNAME_LOCAL}:10080
