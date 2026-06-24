@@ -103,7 +103,7 @@ spec:
       kavita-config:
         enabled: false
         type: configmap
-        mountPath: /kavita/config/appsettings.json
+        mountPath: /tmp/config/appsettings.json
         objectName: kavita-config
         readOnly: true
         subPath: appsettings.json
