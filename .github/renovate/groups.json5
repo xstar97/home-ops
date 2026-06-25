@@ -37,6 +37,15 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       }
+    },
+    {
+      "description": ["Kubernetes Group"],
+      "groupName": "Kubernetes",
+      "matchPackagePatterns": ["siderolabs/kubelet", "alpine/kubectl"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     }
   ]
 }
