@@ -78,10 +78,10 @@ spec:
           homepage:
             enabled: true
             group: "Media Server"
+            icon: kavita
+            description: "Kavita is a rocket fueled self-hosted digital library which supports a vast array of file formats"
             widget:
               type: kavita
-              icon: kavita
-              description: "Kavita is a rocket fueled self-hosted digital library which supports a vast array of file formats"
               custom:
                 username: "${KAVITA_USER}"
                 password: "${KAVITA_PASS}"
