@@ -108,7 +108,7 @@ spec:
         enabled: true
         user: abr
         database: audiobookrequest
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
