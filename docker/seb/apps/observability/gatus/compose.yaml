@@ -33,9 +33,9 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/gatus/data:/data
       # - ${BASE_DOCKER_DATA_DIR}/gatus/config:/config
-      - ${BASE_HOME_OPS_DIR_APPS_OBSERV}/gatus/configs/config.yaml:/config/config.yaml:ro
-      - ${BASE_HOME_OPS_DIR_APPS_OBSERV}/gatus/configs/core.yaml:/config/core.yaml:ro
-      - ${BASE_HOME_OPS_DIR_APPS_OBSERV}/gatus/configs/network.yaml:/config/network.yaml:ro
+      - ./configs/config.yaml:/config/config.yaml:ro
+      - ./configs/core.yaml:/config/core.yaml:ro
+      - ./configs/network.yaml:/config/network.yaml:ro
     labels:
       traefik.enable: true
       traefik.http.routers.gatus.rule: Host(`gatus.${BASE_DOMAIN_0}`)
