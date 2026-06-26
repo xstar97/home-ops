@@ -52,7 +52,7 @@ services:
         target: /var/run/docker.sock
         read_only: true
       - ${BASE_DOCKER_DATA_DIR}/traefik/certs:/certs
-      - ${BASE_HOME_OPS_DIR_APPS_INFRA}/traefik/configs/:/etc/traefik/dynamic
+      - ./configs/:/etc/traefik/dynamic
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.rule: Host(`traefik.${BASE_DOMAIN_0}`)  # Expose dashboard
