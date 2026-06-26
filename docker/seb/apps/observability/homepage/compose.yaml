@@ -21,8 +21,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${BASE_DOCKER_DATA_DIR}/homepage/config:/app/config
-      - ${BASE_HOME_OPS_DIR_APPS_OBSERV}/homepage/configs/bookmarks.yaml:/app/config/bookmarks.yaml:ro
-      - ${BASE_HOME_OPS_DIR_APPS_OBSERV}/homepage/configs/services.yaml:/app/config/services.yaml:ro
+      - configs/bookmarks.yaml:/app/config/bookmarks.yaml:ro
+      - configs/services.yaml:/app/config/services.yaml:ro
     labels:
       traefik.enable: true
       traefik.http.routers.homepage.rule: Host(`homepage.${BASE_DOMAIN_0}`)
