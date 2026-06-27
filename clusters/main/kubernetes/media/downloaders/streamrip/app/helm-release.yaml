@@ -43,7 +43,7 @@ spec:
     image:
       repository: anoddname/streamrip-web-gui
       pullPolicy: IfNotPresent
-      tag: latest@sha256:95c82b37c41bb479be75d0d7973438fdc76d75f55cf3d1d8eb03003d7372f049
+      tag: latest@sha256:55ff6b3a22c2c87c715b8341418c48712b44172b20ac08285a0637f6bc92297d
     securityContext:
       container:
         readOnlyRootFilesystem: false
