@@ -54,6 +54,7 @@ My entire HomeLab stack in a single 15u rack!
 
 [![Nodes](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_node_count?format=shields&style=flat-square&label=Nodes)](https://github.com/home-operations/kromgo)
 [![Pods](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_pod_count?format=shields&style=flat-square&label=Pods)](https://github.com/home-operations/kromgo)
+[![Services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_ns_count?format=shields&style=flat-square&label=Charts)](https://github.com/home-operations/kromgo)
 [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo)
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo)
 
@@ -75,7 +76,7 @@ My entire HomeLab stack in a single 15u rack!
 
 [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
+[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
 
 ### Seb
 
@@ -89,7 +90,7 @@ My entire HomeLab stack in a single 15u rack!
 
 [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
+[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
 
 </div>
 
