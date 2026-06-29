@@ -1,0 +1,14 @@
+http:
+  routers:
+    arkkvm-pc:
+      rule: 'Host(`arkkvm.pc.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: arkkvm-pc-service
+      tls:
+        certResolver: cf
+  services:
+    arkkvm-pc-service:
+      loadBalancer:
+        servers:
+          - url: "arkkvm-pc.local"
