@@ -11,4 +11,4 @@ http:
     arkkvm-pc-service:
       loadBalancer:
         servers:
-          - url: "arkkvm-pc.local"
+          - url: "http://arkkvm-pc.local:80"
