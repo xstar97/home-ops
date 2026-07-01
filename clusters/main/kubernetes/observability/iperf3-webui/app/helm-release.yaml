@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: iperf3-webui
+  namespace: iperf3-webui
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.10.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: observability
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-iperf3-webui"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-iperf3-webui"
+    image:
+      repository: ghcr.io/maddydev-glitch/iperf3-webui
+      pullPolicy: IfNotPresent
+      tag: v1.4.0.1@sha256:b0b395d545a2451639b6be8fb4d0e50e5c5029f559a363aca4dacae8993c98b7
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        type: clusterIP
+        ports:
+          main:
+            port: 5000
+    configmap:
+      iperf3-config:
+        enabled: true
+        data:
+          env.yaml: |
+            ---
+            logos:
+              # - static/logos/logo1.png
+              # - static/logos/logo2.png
+              # - static/logos/logo3.png
+
+            # ========================================
+            # OOKLA BLUE (DARK)
+            # ========================================
+            theme:
+              primary: "#00b5f7"
+              secondary: "#323643"
+              background: "#181b20"
+              text: "#f5f5f7"
+              card_bg: "rgba(50, 54, 67, 0.4)"
+              card_border: "rgba(255, 255, 255, 0.1)"
+              input_bg: "rgba(255, 255, 255, 0.08)"
+              hover_bg: "rgba(255, 255, 255, 0.12)"
+              speedometer_gradient_1: "#323643"
+              speedometer_gradient_2: "#00b5f7"
+              speedometer_gradient_3: "#8beaff"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: iperf3.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      iperf3-config:
+        enabled: true
+        type: configmap
+        mountPath: /app/env.yaml
+        objectName: iperf3-config
+        readOnly: true
+        subPath: env.yaml
