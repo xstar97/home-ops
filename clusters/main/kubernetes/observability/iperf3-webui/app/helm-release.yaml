@@ -52,7 +52,7 @@ spec:
         runAsGroup: 0
     service:
       main:
-        type: clusterIP
+        type: ClusterIP
         ports:
           main:
             port: 5000
