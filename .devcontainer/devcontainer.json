@@ -13,7 +13,7 @@
     },
   "postStartCommand": {
       "git": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-      "docker": "mise docker:install"
+      "docker": "/config/.local/bin/mise docker:install"
       //"postCreateCommand": "./postCreateCommand.sh"
     },
   "customizations": {
