@@ -14,9 +14,4 @@ spec:
     kind: OCIRepository
     name: tuppr
     namespace: flux-system     
-  values:
-    monitoring:
-      serviceMonitor:
-        enabled: true
-      prometheusRule:
-        enabled: true
+  values: {}
