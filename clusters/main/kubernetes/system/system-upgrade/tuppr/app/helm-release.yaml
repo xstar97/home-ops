@@ -20,10 +20,3 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
-      dashboards:
-        enabled: true
-        grafanaOperator:
-          enabled: true
-          folder: "Kubernetes ☸️"
-          matchLabels:
-            dashboards: grafana
