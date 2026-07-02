@@ -7,11 +7,15 @@ metadata:
   namespace: system-upgrade
 spec:
   interval: 1h
-  # enabled | warn
-  driftDetection:
-    mode: enabled
   chartRef:
     kind: OCIRepository
     name: tuppr
     namespace: flux-system     
-  values: {}
+  values:
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+      dashboards:
+        enabled: true
