@@ -10,13 +10,6 @@ spec:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
     version: v1.36.2
 
-  # Custom health checks
-  healthChecks:
-    - apiVersion: v1
-      kind: Node
-      expr: status.conditions.exists(c, c.type == "Ready" && c.status == "True")
-      timeout: 10m
-
   # Maintenance windows (optional)
   # maintenance:
   #   windows:
