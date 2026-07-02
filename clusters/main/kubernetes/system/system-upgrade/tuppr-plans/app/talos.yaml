@@ -27,8 +27,8 @@ spec:
       timeout: 10m
 
   # Maintenance windows (optional)
-  maintenance:
-    windows:
-      - start: "0 2 * * 0" # Cron expression (Sunday 02:00)
-        duration: "4h" # How long window stays open
-        timezone: "UTC" # IANA timezone, default UTC
+  # maintenance:
+  #   windows:
+  #     - start: "0 2 * * 0" # Cron expression (Sunday 02:00)
+  #       duration: "4h" # How long window stays open
+  #       timezone: "UTC" # IANA timezone, default UTC
