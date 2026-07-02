@@ -6,5 +6,5 @@ resources:
   - namespace.yaml
   - tuppr/ks.yaml
   - tuppr-plans/ks.yaml
-components:
-  - ../../../components/notifications/discord
+# components:
+#   - ../../../components/notifications/discord
