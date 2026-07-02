@@ -61,7 +61,7 @@ spec:
           containers:
             main:
               env:
-                PLEX_CLAIM: "${PLEX_CLAIM_TOKEN}"
+                PLEX_CLAIM: "" # "${PLEX_CLAIM_TOKEN}"
               resources:
                 limits:
                   nvidia.com/gpu: 1   
