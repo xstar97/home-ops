@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: flux
   namespace: flux-system
+  labels:
+    substitution.flux.home.arpa/disabled: "true"
 spec:
   interval: 10m
   path: ./
@@ -24,8 +26,7 @@ spec:
       target:
         group: networking.k8s.io
         kind: NetworkPolicy
-    # Remove the image reflector and automation controllers as introduced with Flux 2.7.0 as not needed
-    # Ref: https://fluxcd.io/blog/2025/09/flux-v2.7.0/#general-availability-of-image-update-automation
+    # Remove the image reflector and automation controllers
     - patch: |
         $patch: delete
         apiVersion: apps/v1
@@ -105,3 +106,11 @@ spec:
       target:
         kind: Deployment
         name: helm-controller
+    # Enable Debug Logging
+    - patch: |
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --log-level=debug
+      target:
+        kind: Deployment
+        name: (kustomize-controller|helm-controller|source-controller)
