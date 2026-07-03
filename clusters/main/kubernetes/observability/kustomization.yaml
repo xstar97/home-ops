@@ -9,4 +9,4 @@ resources:
   - speedtest-tracker/ks.yaml
   - grafana/ks.yaml
   - iperf3-webui/ks.yaml
-  
+  - unpoller/ks.yaml
