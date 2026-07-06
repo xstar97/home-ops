@@ -9,15 +9,14 @@ spec:
     credentials:
       cf-restic:
         type: s3
-        url: "${CF_S3_RESTIC_URL}"
-        # bucket: "${CF_S3_RESTIC_BUCKET}-.metadata.name"
-        accessKey: "${CF_S3_RESTIC_ID}"
-        secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
+        url: "${CF_S3_RESTIC_URL:-https://s3.example.com}"
+        accessKey: "${CF_S3_RESTIC_ID:-restic}"
+        secretKey: "${CF_S3_RESTIC_KEY:-changeme}"
+        encrKey: "${CF_S3_RESTIC_KEY:-changeme}"
+
       rfs-restic:
         type: s3
-        url: "${RUSTFS_S3_RESTIC_URL}"
-        # bucket: "${RUSTFS_S3_RESTIC_BUCKET}-.metadata.name"
-        accessKey: "${RUSTFS_S3_RESTIC_ID}"
-        secretKey: "${RUSTFS_S3_RESTIC_KEY}"
-        encrKey: "${RUSTFS_S3_RESTIC_KEY}"
+        url: "${RUSTFS_S3_RESTIC_URL:-https://s3.example.com}"
+        accessKey: "${RUSTFS_S3_RESTIC_ID:-restic}"
+        secretKey: "${RUSTFS_S3_RESTIC_KEY:-changeme}"
+        encrKey: "${RUSTFS_S3_RESTIC_KEY:-changeme}"
