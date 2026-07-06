@@ -1,0 +1,36 @@
+services:
+  netbird-management:
+    image: netbirdio/management:0.74.2@sha256:88dbdc4e6f659f1064642b3102405659ed09b60942c378b4a9b350daf63a447d
+    container_name: netbird-management
+    restart: unless-stopped
+    ports:
+      - "33073:33073"
+    env_file:
+      - ./netbird.enc.env
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/netbird/management/data:/var/lib/netbird
+      - ./configs/config.json:/etc/netbird/config.json:ro
+    networks:
+      - network_internal
+    labels:
+      traefik.enable: true
+      # HTTPS Router
+      traefik.http.routers.netbird-management.rule: Host(`netbird.${BASE_DOMAIN_0}`)
+      traefik.http.routers.netbird-management.entrypoints: websecure
+      traefik.http.routers.netbird-management.tls: true
+      traefik.http.routers.netbird-management.tls.certresolver: cf
+      # Service
+      traefik.http.services.netbird-management.loadbalancer.server.port: 33073
+      # Error pages
+      traefik.http.routers.netbird-management.middlewares: error-pages-middleware
+      # Homepage
+      homepage.group: Networking
+      homepage.name: NetBird Management
+      homepage.icon: netbird.png
+      homepage.href: https://netbird.${BASE_DOMAIN_0}
+      homepage.description: NetBird Management Server
+      # What's Up Docker
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
