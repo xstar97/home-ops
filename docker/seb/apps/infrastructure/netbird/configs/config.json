@@ -1,8 +1,4 @@
 {
-  "Datadir": "/var/lib/netbird",
-  "HttpConfig": {
-    "Address": "0.0.0.0:33073"
-  },
   "IdpManagerConfig": {
     "ManagerType": "none"
   }
