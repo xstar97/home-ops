@@ -9,7 +9,7 @@ services:
       - ./netbird.enc.env
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/netbird/management/data:/var/lib/netbird
-      - ./configs/config.json:/etc/netbird/management.json:ro
+      # - ./configs/config.json:/etc/netbird/management.json:ro
     networks:
       - network_internal
     labels:
