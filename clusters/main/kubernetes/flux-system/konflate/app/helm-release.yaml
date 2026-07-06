@@ -38,6 +38,8 @@ spec:
       statusChecks: true
       prComments: true
       publicUrl: https://konflate.${DOMAIN_2}
+      clusterPath: "./clusters/main/kubernetes"
+      prFilterExpr: 'pr.labels.exists(l, l.name == "area/kubernetes") && !pr.draft'
     secret:
       existingSecret: konflate-secret
 
