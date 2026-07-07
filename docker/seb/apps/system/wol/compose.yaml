@@ -26,7 +26,7 @@ services:
         machines:
           - name: gaming-pc-0 # wife <3
             mac: "${GAMING_PC_MAC_0}"
-            ip: "${GAMING_PC_DOMAIN_0}"
+            ip: "${GAMING_PC_IP_0}"
         server:
           listen: ":7777" # Optional, defaults to :7777
         ping:
