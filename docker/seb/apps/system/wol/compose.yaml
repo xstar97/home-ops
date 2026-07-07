@@ -30,7 +30,7 @@ services:
         server:
           listen: ":7777" # Optional, defaults to :7777
         ping:
-          privileged: false # Optional, set to true to use privileged ping
+          privileged: true # Optional, set to true to use privileged ping
     command: serve
     labels:
       traefik.enable: true
@@ -41,8 +41,8 @@ services:
       traefik.http.services.wol.loadbalancer.server.url: http://${SEB_IP}:7777
       traefik.http.routers.wol.middlewares: error-pages-middleware
       wud.tag.include: ^\d+\.\d+\.\d+$
-networks:
-  network_internal:
-    external: true
-  internal:
-    driver: bridge
+# networks:
+#   network_internal:
+#     external: true
+#   internal:
+#     driver: bridge
