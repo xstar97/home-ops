@@ -92,6 +92,12 @@ data:
               - email_verified
               - preferred_username
               - name
+          hass:
+            id_token:
+              - email
+              - email_verified
+              - preferred_username
+              - name
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -195,6 +201,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_profilarr'
+          hass:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_hass'
         clients:
           - client_id: "romm" # read above for how generate
             client_name: "RomM" # will be displayed in Authelia to users
@@ -465,3 +478,14 @@ data:
               - profile
             userinfo_signed_response_alg: none
             token_endpoint_auth_method: client_secret_post
+          - client_id: 'homeassistant'
+            client_name: 'Home Assistant'
+            client_secret: {{ secret "/config/secret/clients_hass_client_secret" }}
+            public: false
+            claims_policy: "hass"
+            authorization_policy: "hass"
+            require_pkce: true
+            pkce_challenge_method: 'S256'
+            redirect_uris:
+              - 'https://homeassistant.${DOMAIN_0}/auth/oidc/callback'
+            token_endpoint_auth_method: 'client_secret_post'
