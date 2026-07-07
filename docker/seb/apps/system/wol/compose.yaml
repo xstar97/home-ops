@@ -30,7 +30,7 @@ services:
         server:
           listen: ":7777" # Optional, defaults to :7777
         ping:
-          privileged: true # Optional, set to true to use privileged ping
+          privileged: false # Optional, set to true to use privileged ping
     command: serve
     labels:
       traefik.enable: true
