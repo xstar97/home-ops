@@ -4,12 +4,12 @@ namespace: tauticord
 resources:
   - helm-release.yaml
   - namespace.yaml
-configMapGenerator:
-  - name: tauticord-configmap
-    files:
-      - config.yaml=./config.yaml
-generatorOptions:
-  disableNameSuffixHash: true
+# configMapGenerator:
+#   - name: tauticord-configmap
+#     files:
+#       - config.yaml=./config.yaml
+# generatorOptions:
+#   disableNameSuffixHash: true
 components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord
