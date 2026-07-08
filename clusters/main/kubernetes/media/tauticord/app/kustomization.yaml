@@ -13,4 +13,4 @@ resources:
 components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord
-  # - ../../../../components/gatus/configmap/auto
+  - ../../../../components/gatus/configmap/auto
