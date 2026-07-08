@@ -123,8 +123,7 @@ spec:
           enabled: true
           ingressClassName: "internal"
           annotations:
-            gatus.home-operations.com/endpoint: |
-              enabled: false
+          gatus.home-operations.com/enabled: "false"
           integrations:
             nginx:
               enabled: true
