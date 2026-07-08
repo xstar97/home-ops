@@ -60,13 +60,13 @@ spec:
               probes:
                 liveness:
                   enabled: "{{ .Values.service.main.enabled }}"
-                  path: "/ping"
+                  path: "/health"
                 readiness:
                   enabled: "{{ .Values.service.main.enabled }}"
-                  path: "/ping"
+                  path: "/health"
                 startup:
                   enabled: "{{ .Values.service.main.enabled }}"
-                  path: "/ping"
+                  path: "/health"
 
     ingress:
       main:

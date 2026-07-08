@@ -13,7 +13,7 @@ resources:
   - downloaders
   - indexers
   - requests
-  # - tauticord/ks.yaml
+  - tauticord/ks.yaml
   - calendarr/ks.yaml
   - utilities
   ## - muse/ks.yaml
