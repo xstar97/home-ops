@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/frederikemmer/medialyze
       pullPolicy: IfNotPresent
-      tag: 0.16.1@sha256:410f36162e3f2d0b4274e8074819bb79967f9461bded8e787406e0f98f1cf8e8
+      tag: 0.16.2@sha256:c25970081685e229b735778389d7fd4418b43057b82b31f2a44848118a488e37
 
     securityContext:
       container:
