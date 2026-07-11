@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/arabcoders/ytptube
       pullPolicy: IfNotPresent
-      tag: v2.5.9@sha256:d2e3432b472e4029124be573368da77f54db761840cfe4e4c10760a05ccd4937
+      tag: v2.5.10@sha256:453e5682f6698cdf2adad66c5aa8c08efa0b9d8480e4ec9f62da55a242af3a08
     service:
       main:
         ports:
