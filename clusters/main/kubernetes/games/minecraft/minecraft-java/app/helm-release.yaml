@@ -194,7 +194,7 @@ spec:
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
                 WHITELIST: '{{ join "," .Values.whitelist }}'
-                ENABLE_WHITELIST: true
+                ENABLE_WHITELIST: false
                 OVERRIDE_WHITELIST: true
 
     persistence:
