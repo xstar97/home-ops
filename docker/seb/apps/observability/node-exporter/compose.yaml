@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   node-exporter:
     scale: 1
-    image: quay.io/prometheus/node-exporter:v1.12.0-distroless@sha256:2e043fb8c976c68bbce62ed8b407c02802068f966f8c9411f7e78a47f647a2eb
+    image: quay.io/prometheus/node-exporter:v1.12.1-distroless@sha256:bbfbd533202cfef891c70383ddf6f0c32acece66400ad8091a18bed7aad5db6f
     container_name: node-exporter
     restart: on-failure
     command:
