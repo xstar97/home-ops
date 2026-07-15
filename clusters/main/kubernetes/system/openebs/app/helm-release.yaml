@@ -11,7 +11,7 @@ spec:
   timeout: 25m
   maxHistory: 3
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: openebs
