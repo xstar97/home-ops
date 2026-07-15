@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   wud:
     scale: 1
-    image: ghcr.io/getwud/wud:8.2.2@sha256:2df7cafa0fc84cdd66ad976163abc5390fa5995e0b5788a90e6a5303706bc21a
+    image: ghcr.io/getwud/wud:8.3.0@sha256:1cf5ecfdbd2389847427fd9685c4fd337ee8c74a0f584c52288d760d9a58811e
     container_name: wud
     restart: on-failure
     environment:
