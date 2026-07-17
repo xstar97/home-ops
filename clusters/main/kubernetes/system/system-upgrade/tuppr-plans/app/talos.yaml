@@ -6,7 +6,7 @@ metadata:
   name: talos
   namespace: system-upgrade
   annotations:
-    tuppr.home-operations.com/factory-url: "https://factory.talos.dev/metal-installer"
+    tuppr.home-operations.com/factory-url: "factory.talos.dev/metal-installer"
     tuppr.home-operations.com/schematic: "7927f459c7792c92502868c407ede3456e31a3e976df96799fced2d32127b002"
 spec:
   talos:
