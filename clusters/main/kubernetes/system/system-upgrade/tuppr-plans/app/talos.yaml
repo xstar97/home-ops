@@ -15,7 +15,7 @@ spec:
 
   policy:
     debug: true          # Optional, verbose logging
-    force: true         # Optional, skip etcd health checks
+    force: false         # Optional, skip etcd health checks
     rebootMode: powercycle  # Optional, default|powercycle
     placement: hard      # Optional, hard|soft
 
