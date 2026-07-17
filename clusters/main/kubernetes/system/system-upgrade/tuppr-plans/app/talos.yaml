@@ -25,7 +25,3 @@ spec:
   #     - start: "0 2 * * 0" # Cron expression (Sunday 02:00)
   #       duration: "4h" # How long window stays open
   #       timezone: "UTC" # IANA timezone, default UTC
-
-  # Drain each node before it reboots for the upgrade (optional)
-  drain:
-      enabled: false
