@@ -65,9 +65,9 @@ controlPlane:
     - name: uio_pci_generic
   schematic:
     customization:
-      extraKernelArgs:
-        - net.ifnames=0
-        - sysctl.kernel.kexec_load_disabled=1
+      # extraKernelArgs:
+      #   - net.ifnames=0
+      #   - sysctl.kernel.kexec_load_disabled=1
       systemExtensions:
         officialExtensions:
           - siderolabs/util-linux-tools
