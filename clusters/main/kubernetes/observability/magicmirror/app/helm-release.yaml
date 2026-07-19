@@ -100,7 +100,7 @@ spec:
             "MMPM_LOG_LEVEL": "INFO"
             }
       mm-config:
-        enabled: true
+        enabled: false
         data:
           config.js: |
             let config = {
@@ -215,7 +215,7 @@ spec:
             src:
               enabled: true
       mm-config:
-        enabled: true
+        enabled: false
         type: configmap
         mountPath: /opt/magic_mirror/config/config.js
         objectName: mm-config
