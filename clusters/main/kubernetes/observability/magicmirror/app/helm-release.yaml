@@ -88,7 +88,7 @@ spec:
           mmpm-env.json: |
             {
             "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
-            "MMPM_MAGICMIRROR_URI": "http://0.0.0.0:8080",
+            "MMPM_MAGICMIRROR_URI": "http://0.0.0.0:{{ .Values.service.main.ports.main.port }}",
             "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
             "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
             "MMPM_IS_DOCKER_IMAGE": true
@@ -112,6 +112,8 @@ spec:
             main:
               env:
                 NODE_ENV: production
+                MM_PORT: "{{ .Values.service.main.ports.main.port }}"
+                MM_SCENARIO: "server"
             mmpm:
               enabled: true
               imageSelector: mmpmImage
