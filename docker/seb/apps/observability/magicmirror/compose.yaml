@@ -1,0 +1,33 @@
+services:
+  magicmirror:
+    scale: 1
+    container_name: magicmirror
+    image: karsten13/magicmirror:alpine-v2.37.0@sha256:8deb9a5c9c30608c4abcfc350c0a7964224227653985e883c9207e783971161e
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "8080"
+    environment:
+      MM_SHOW_CURSOR: false
+      MM_SCENARIO: "server"
+      MM_PORT: 8080
+    volumes:
+      - ./config.js:/opt/magic_mirror/config/config.js
+      - ${BASE_DOCKER_DATA_DIR}/magicmirror/config:/opt/magic_mirror/config
+      - ${BASE_DOCKER_DATA_DIR}/magicmirror/modules:/opt/magic_mirror/modules
+      - ${BASE_DOCKER_DATA_DIR}/magicmirror/css:/opt/magic_mirror/css
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dockhand.rule: Host(`server.mm.${BASE_DOMAIN_0}`)
+      traefik.http.services.dockhand.loadbalancer.server.port: 8080
+      traefik.http.routers.dockhand.entrypoints: websecure
+      traefik.http.routers.dockhand.tls: true
+      traefik.http.routers.dockhand.tls.certResolver: cf
+      traefik.http.routers.dockhand.middlewares: error-pages-middleware
+      wud.tag.include: '^alpine-v\d+\.\d+\.\d+$'
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
