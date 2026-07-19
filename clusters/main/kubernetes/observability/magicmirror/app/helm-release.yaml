@@ -158,7 +158,7 @@ spec:
                           // - another specific IPv4/6 to listen on a specific interface
                           // - "0.0.0.0", "::" to listen on any interface
                           // Default, when address config is left out or empty, is "localhost"
-              port: 8080,
+              port: {{ .Values.service.main.ports.main.port }},
               basePath: "/",	// The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
                               // you must set the sub path here. basePath must end with a /
               ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],	// Set [] to allow all IP addresses
@@ -215,8 +215,7 @@ spec:
                   type: http
                   path: /
                   port: "{{ .Values.service.backend.ports.backend1.port }}"
-              env:
-                MMPM_MAGICMIRROR_ROOT: "/opt/magic_mirror"
+              
     ingress:
       main:
         enabled: true
