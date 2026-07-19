@@ -78,13 +78,10 @@ spec:
       mmpm: []
       modules:
         - module: alert
-
         - module: updatenotification
           position: top_bar
-
         - module: clock
           position: top_left
-
         - module: calendar
           header: US Holidays
           position: top_left
@@ -93,37 +90,8 @@ spec:
               - fetchInterval: 604800000 # 7 * 24 * 60 * 60 * 1000
                 symbol: calendar-check
                 url: https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics
-
         - module: compliments
           position: lower_third
-
-        - module: weather
-          position: top_right
-          config:
-            weatherProvider: openmeteo
-            type: current
-            lat: 40.776676
-            lon: -73.971321
-
-        - module: weather
-          position: top_right
-          header: Weather Forecast
-          config:
-            weatherProvider: openmeteo
-            type: forecast
-            lat: 40.776676
-            lon: -73.971321
-
-        - module: newsfeed
-          position: bottom_bar
-          config:
-            feeds:
-              - title: New York Times
-                url: https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
-            showSourceTitle: true
-            showPublishDate: true
-            broadcastNewsFeeds: true
-            broadcastNewsUpdates: true
 
     configmap:
       mmpm-env:
@@ -152,7 +120,7 @@ spec:
             if (typeof module !== "undefined") {module.exports = config;}
               
             let config = {
-              address: "localhost",	// Address to listen on, can be:
+              address: "0.0.0.0",	// Address to listen on, can be:
                           // - "localhost", "127.0.0.1", "::1" to listen on loopback interface
                           // - another specific IPv4/6 to listen on a specific interface
                           // - "0.0.0.0", "::" to listen on any interface
