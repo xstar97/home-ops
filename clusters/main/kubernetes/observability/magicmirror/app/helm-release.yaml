@@ -132,10 +132,13 @@ spec:
           mmpm-env.json: |
             {
             "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
-            "MMPM_MAGICMIRROR_URI": "http://0.0.0.0:{{ .Values.service.main.ports.main.port }}",
+            "MMPM_MAGICMIRROR_URI": "http://localhost:{{ .Values.service.main.ports.main.port }}",
             "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
             "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
-            "MMPM_IS_DOCKER_IMAGE": true
+            "MMPM_IS_DOCKER_IMAGE": true,
+            "MMPM_LOG_LEVEL": "INFO",
+            "MMPM_UI_API_BASE_URL": "",
+            "MMPM_UI_SOCKET_URL": ""
             }
       mm-config:
         enabled: true
@@ -212,6 +215,8 @@ spec:
                   type: http
                   path: /
                   port: "{{ .Values.service.backend.ports.backend1.port }}"
+                env:
+                  MMPM_MAGICMIRROR_ROOT: "/opt/magic_mirror"
     ingress:
       main:
         enabled: true
@@ -256,7 +261,7 @@ spec:
       mmpm-env:
         enabled: true
         type: configmap
-        mountPath: /home/node/.config/mmpm/mmpm-env.json
+        mountPath: /root/.config/mmpm/mmpm-env.json
         objectName: mmpm-env
         subPath: mmpm-env.json
         readOnly: true
