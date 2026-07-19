@@ -78,6 +78,7 @@ spec:
     magicmirror:
       mmpm: []
       modules:
+        - module: MMM-mmpm
         - module: alert
         - module: updatenotification
           position: top_bar
