@@ -104,8 +104,6 @@ spec:
         data:
           config.js: |
             
-            # config
-
             let config = {
               address: "0.0.0.0",
               port: {{ .Values.service.main.ports.main.port }},
@@ -119,7 +117,13 @@ spec:
               logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
               timeFormat: 24,
               units: "metric",
-              modules: {{ .Values.magicmirror.modules | toJson }}
+              modules: [
+              {
+                module: "clock",
+                position: "fullscreen_above",
+                config: {}
+              }
+              ],
             };
 
             /*************** DO NOT EDIT THE LINE BELOW ***************/
@@ -135,6 +139,7 @@ spec:
                 MM_PORT: "{{ .Values.service.main.ports.main.port }}"
                 MM_SCENARIO: "server"
                 MM_CONFIG_FILE: "/opt/magic_mirror/config/config.js"
+                MM_SHOW_CURSOR: false
             mmpm:
               enabled: true
               imageSelector: mmpmImage
