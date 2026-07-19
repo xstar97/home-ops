@@ -144,7 +144,6 @@ spec:
         enabled: true
         data:
           config.js: |
-            {
             let config = {
               modules: 
             };
