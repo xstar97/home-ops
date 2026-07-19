@@ -96,7 +96,7 @@ spec:
       mm-config:
         enabled: true
         data:
-          config.js: |
+          config.js.template: |
             {
             let config = {
               modules: {{ .Values.magicmirror.modules | toJson }}
@@ -197,9 +197,9 @@ spec:
       mm-config:
         enabled: true
         type: configmap
-        mountPath: /opt/magic_mirror/config/config.js
+        mountPath: /opt/magic_mirror/config/config.js.template
         objectName: mm-config
-        subPath: config.js
+        subPath: config.js.template
         readOnly: true
         targetSelectAll: true
       modules:
