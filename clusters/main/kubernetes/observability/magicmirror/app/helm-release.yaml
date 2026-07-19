@@ -74,6 +74,7 @@ spec:
           backend4:
             enabled: true
             port: 8907
+    
     magicmirror:
       mmpm: []
       modules:
@@ -82,14 +83,6 @@ spec:
           position: top_bar
         - module: clock
           position: top_left
-        - module: calendar
-          header: US Holidays
-          position: top_left
-          config:
-            calendars:
-              - fetchInterval: 604800000 # 7 * 24 * 60 * 60 * 1000
-                symbol: calendar-check
-                url: https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics
         - module: compliments
           position: lower_third
 
@@ -100,13 +93,11 @@ spec:
           mmpm-env.json: |
             {
             "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
-            "MMPM_MAGICMIRROR_URI": "http://localhost:{{ .Values.service.main.ports.main.port }}",
+            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v," (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
             "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
             "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
             "MMPM_IS_DOCKER_IMAGE": true,
-            "MMPM_LOG_LEVEL": "INFO",
-            "MMPM_UI_API_BASE_URL": "",
-            "MMPM_UI_SOCKET_URL": ""
+            "MMPM_LOG_LEVEL": "INFO"
             }
       mm-config:
         enabled: true
@@ -189,6 +180,7 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod    
+    
     persistence:
       mmpm-config:
         enabled: true
