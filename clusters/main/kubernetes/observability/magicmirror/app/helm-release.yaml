@@ -195,7 +195,7 @@ spec:
                 NODE_ENV: production
                 MM_PORT: "{{ .Values.service.main.ports.main.port }}"
                 MM_SCENARIO: "server"
-                MM_CONFIG_FILE: "{{ .Values.persistence.mm-config.mountPath }}"
+                MM_CONFIG_FILE: "/opt/magic_mirror/config/config.js"
             mmpm:
               enabled: true
               imageSelector: mmpmImage
