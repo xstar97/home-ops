@@ -39,7 +39,7 @@ services:
       TZ: "America/New_York"
     volumes:
       - ./mmpm-env.json:/home/node/.config/mmpm/mmpm-env.json
-      - ${BASE_DOCKER_DATA_DIR}/magicmirror/mmpm:/home/node/.config/mmpm
+      - mmpm_data:/home/node/.config/mmpm
       - ${BASE_DOCKER_DATA_DIR}/magicmirror:/opt/magic_mirror
     post_start:
       - command:
@@ -66,3 +66,5 @@ networks:
     external: true
   internal:
     driver: bridge
+volumes:
+  mmpm_data: {}
