@@ -100,9 +100,12 @@ spec:
             "MMPM_LOG_LEVEL": "INFO"
             }
       mm-config:
-        enabled: false
+        enabled: true
         data:
           config.js: |
+            
+            # config
+
             let config = {
               address: "0.0.0.0",
               port: {{ .Values.service.main.ports.main.port }},
@@ -215,7 +218,7 @@ spec:
             src:
               enabled: true
       mm-config:
-        enabled: false
+        enabled: true
         type: configmap
         mountPath: /opt/magic_mirror/config/config.js
         objectName: mm-config
