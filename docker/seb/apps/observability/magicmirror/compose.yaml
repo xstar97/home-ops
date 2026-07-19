@@ -19,12 +19,12 @@ services:
       - ${BASE_DOCKER_DATA_DIR}/magicmirror/css:/opt/magic_mirror/css
     labels:
       traefik.enable: true
-      traefik.http.routers.dockhand.rule: Host(`server.mm.${BASE_DOMAIN_0}`)
-      traefik.http.services.dockhand.loadbalancer.server.port: 8080
-      traefik.http.routers.dockhand.entrypoints: websecure
-      traefik.http.routers.dockhand.tls: true
-      traefik.http.routers.dockhand.tls.certResolver: cf
-      traefik.http.routers.dockhand.middlewares: error-pages-middleware
+      traefik.http.routers.mm-server.rule: Host(`server.mm.${BASE_DOMAIN_0}`)
+      traefik.http.services.mm-server.loadbalancer.server.port: 8080
+      traefik.http.routers.mm-server.entrypoints: websecure
+      traefik.http.routers.mm-server.tls: true
+      traefik.http.routers.mm-server.tls.certResolver: cf
+      traefik.http.routers.mm-server.middlewares: error-pages-middleware
       wud.tag.include: '^alpine-v\d+\.\d+\.\d+$'
 networks:
   network_internal:
