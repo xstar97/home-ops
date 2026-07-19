@@ -26,6 +26,27 @@ services:
       traefik.http.routers.mm-server.tls.certResolver: cf
       traefik.http.routers.mm-server.middlewares: error-pages-middleware
       wud.tag.include: '^alpine-v\d+\.\d+\.\d+$'
+  mmpm:
+    scale: 1
+    container_name: mmpm
+    image: karsten13/mmpm:4.6.4@sha256:a6a15505e9c90287c7a41abb990779e7ff8b215589abf40772c2d1dcd41f2b5e
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "7890"
+    volumes:
+      - ./mmpm-env.json:/root/.config/mmpm/mmpm-env.json
+      - ${BASE_DOCKER_DATA_DIR}/magicmirror:/opt/magic_mirror
+    labels:
+      traefik.enable: true
+      traefik.http.routers.mm-pkgman.rule: Host(`pkgman.mm.${BASE_DOMAIN_0}`)
+      traefik.http.services.mm-pkgman.loadbalancer.server.port: 7890
+      traefik.http.routers.mm-pkgman.entrypoints: websecure
+      traefik.http.routers.mm-pkgman.tls: true
+      traefik.http.routers.mm-pkgman.tls.certResolver: cf
+      traefik.http.routers.mm-pkgman.middlewares: error-pages-middleware
+      wud.tag.include: '\d+\.\d+\.\d+$'
 networks:
   network_internal:
     external: true
