@@ -1,15 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - it-tools/ks.yaml
-  - snippet-box/ks.yaml
-  - reubah/ks.yaml
-  - string-is/ks.yaml
-  - feedcord/ks.yaml
-  - omni-tools/ks.yaml
-  - fileshelter/ks.yaml
+  # - cloudcmd/ks.yaml
   - dozzle/ks.yaml
   - doublecommander/ks.yaml
-  - cloudcmd/ks.yaml
+  - feedcord/ks.yaml
+  # - fileshelter/ks.yaml
+  # - it-tools/ks.yaml
+  # - omni-tools/ks.yaml
+  # - reubah/ks.yaml
   # - restreamer/ks.yaml
+  # - snippet-box/ks.yaml
   # - stirling-pdf/ks.yaml
+  # - string-is/ks.yaml
