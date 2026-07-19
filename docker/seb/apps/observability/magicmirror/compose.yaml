@@ -36,7 +36,7 @@ services:
     expose:
       - "7890"
     volumes:
-      - ./mmpm-env.json:/root/.config/mmpm/mmpm-env.json
+      - ./mmpm-env.json:/home/node/.config/mmpm/mmpm-env.json
       - ${BASE_DOCKER_DATA_DIR}/magicmirror:/opt/magic_mirror
     labels:
       traefik.enable: true
