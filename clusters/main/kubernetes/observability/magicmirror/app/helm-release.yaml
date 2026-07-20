@@ -84,34 +84,41 @@ spec:
             port: 8907
     
     magicmirror:
-      mmpm: []
       modules:
         - module: alert
         - module: updatenotification
           position: top_bar
         - module: clock
           position: top_left
-        - module: compliments
-          position: lower_third
+        - module: weather
+          position: top_right
+          config:
+            weatherProvider: openmeteo
+            type: current
+            lat: "${WEATHER_LAT_0}"
+            lon: '${WEATHER_LON_0}'
+            updateInterval: "30 * 60 * 1000"
+            initialLoadDelay: '2000'
+            roundTemp: 'true'
+            showHumidity: 'false'
+            showWindDirection: 'false'
+            showWindSpeed: 'false'
+            showFeelsLike: 'false'
+            showSun: 'false'
 
     configmap:
-      mmpm-env:
+      config-env:
         enabled: false
         data:
-          mmpm-env.json: |
-            {
-            "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
-            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v," (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
-            "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
-            "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
-            "MMPM_IS_DOCKER_IMAGE": true,
-            "MMPM_LOG_LEVEL": "INFO"
-            }
+          config.env: |
+            WEATHER_LAT_0=${MM_WEATHER_LAT_0}
+            WEATHER_LON_0=${MM_WEATHER_LON_0}
       mm-config:
         enabled: true
         data:
           config.js: |
-            
+            let moduleList = {{ .Values.magicmirror.modules | toJson }}
+
             let config = {
               address: "0.0.0.0",
               port: {{ .Values.service.main.ports.main.port }},
@@ -162,7 +169,19 @@ spec:
 
             /*************** DO NOT EDIT THE LINE BELOW ***************/
             if (typeof module !== "undefined") { module.exports = config; }
-
+      mmpm-env:
+        enabled: false
+        data:
+          mmpm-env.json: |
+            {
+            "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
+            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v," (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+            "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
+            "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
+            "MMPM_IS_DOCKER_IMAGE": true,
+            "MMPM_LOG_LEVEL": "INFO"
+            }
+    
     workload:
       main:
         podSpec:
@@ -228,26 +247,6 @@ spec:
             certificateIssuer: general-le-prod    
     
     persistence:
-      mmpm-config:
-        enabled: false
-        mountPath: "/home/node/.config/mmpm"
-        targetSelectAll: true
-        volsync:
-          - name: mmpmconfig
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
-      mmpm-env:
-        enabled: false
-        type: configmap
-        mountPath: /root/.config/mmpm/mmpm-env.json
-        objectName: mmpm-env
-        subPath: mmpm-env.json
-        readOnly: true
-        targetSelectAll: true
       config:
         enabled: true
         mountPath: "/opt/magic_mirror/config"
@@ -266,6 +265,14 @@ spec:
         mountPath: /opt/magic_mirror/config/config.js
         objectName: mm-config
         subPath: config.js
+        readOnly: true
+        targetSelectAll: true
+      mm-env:
+        enabled: true
+        type: configmap
+        mountPath: /opt/magic_mirror/config/config.env
+        objectName: mm-env
+        subPath: config.env
         readOnly: true
         targetSelectAll: true
       modules:
@@ -292,3 +299,24 @@ spec:
               enabled: true
             src:
               enabled: true
+      mmpm-config:
+        enabled: false
+        mountPath: "/home/node/.config/mmpm"
+        targetSelectAll: true
+        volsync:
+          - name: mmpmconfig
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      mmpm-env:
+        enabled: false
+        type: configmap
+        mountPath: /root/.config/mmpm/mmpm-env.json
+        objectName: mmpm-env
+        subPath: mmpm-env.json
+        readOnly: true
+        targetSelectAll: true
+      
