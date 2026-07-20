@@ -92,7 +92,7 @@ spec:
               { module: "MMM-mmpm" },
               {
                 module: "clock",
-                position: "top_center",
+                position: "top_left",
                 config: {
                     displayType: "digital",
                     timeFormat: 24,
@@ -100,12 +100,23 @@ spec:
                     displaySeconds: true,
                     dateFormat: "dd, MM Do yy"
                 }
-            },
+            },{
+              module: 'MMM-Globe',
+              position: 'lower_third',	// This can be any of the regions. Best results in lower_third
+              config: {
+                          size:"medium", // Globe size. See configuration options below for more options
+                          dayLength: 38, // (Optional) Rotation speed. See configuration options below
+                          viewAngle: 15, // (Optional) Globe tilt. See configuration options below.
+                          locations: [ 
+                              // {lat: ${MM_WEATHER_LAT_0}, lng: ${MM_WEATHER_LAT_0}, label: "HomeTown"}
+                          ]
+              }
+            }
             {
                 module: "MMM-SevereWeatherAlerts",
-                position: "bottom_center",  // or any position
+                position: "top_right",  // or any position
                 config: {
-                    location: "My Area",        // Display name
+                    location: "HomeTown",        // Display name
                     latitude: ${MM_WEATHER_LAT_0},
                     longitude: ${MM_WEATHER_LON_0},
                     updateInterval: 600000,    // 10 minutes
