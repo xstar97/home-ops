@@ -95,8 +95,8 @@ spec:
           config:
             weatherProvider: openmeteo
             type: current
-            lat: "${WEATHER_LAT_0}"
-            lon: '${WEATHER_LON_0}'
+            lat: "${MM_WEATHER_LAT_0}"
+            lon: '${MM_WEATHER_LON_0}'
             updateInterval: "30 * 60 * 1000"
             initialLoadDelay: '2000'
             roundTemp: 'true'
@@ -111,8 +111,8 @@ spec:
         enabled: false
         data:
           config.env: |
-            WEATHER_LAT_0=${MM_WEATHER_LAT_0}
-            WEATHER_LON_0=${MM_WEATHER_LON_0}
+            MM_WEATHER_LAT_0=${MM_WEATHER_LAT_0}
+            MM_WEATHER_LON_0=${MM_WEATHER_LON_0}
       mm-config:
         enabled: true
         data:
@@ -143,27 +143,7 @@ spec:
                 {
                     "module": "clock",
                     "position": "top_left"
-                },
-                {
-                module: "weather",
-                position: "top_right",
-                config: {
-                  weatherProvider: "openmeteo",
-                  type: "current",
-                  lat: ${MM_WEATHER_LAT_0},
-                  lon: ${MM_WEATHER_LON_0},
-
-                  updateInterval: 30 * 60 * 1000,
-                  initialLoadDelay: 2000,
-
-                  roundTemp: true,
-                  showHumidity: false,
-                  showWindDirection: false,
-                  showWindSpeed: false,
-                  showFeelsLike: false,
-                  showSun: false
                 }
-              }
             ],
             };
 
