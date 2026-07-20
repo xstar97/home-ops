@@ -43,7 +43,7 @@ services:
       APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
-      DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
+      DEPLOY_CONFIG_BASE_DIR: ./docker/seb
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops

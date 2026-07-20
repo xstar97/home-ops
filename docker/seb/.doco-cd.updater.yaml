@@ -1,6 +1,5 @@
 name: doco-cd
 reference: main
-working_dir: docker/seb/.doco-cd/
+working_dir: ./docker/seb/
 compose_files:
-  - compose.yaml
-force_recreate: true
+  - .doco-cd/compose.yaml
