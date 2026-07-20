@@ -138,9 +138,25 @@ spec:
                     "position": "top_left"
                 },
                 {
-                    "module": "compliments",
-                    "position": "lower_third"
+                module: "weather",
+                position: "top_right",
+                config: {
+                  weatherProvider: "openmeteo",
+                  type: "current",
+                  lat: ${MM_WEATHER_LAT_0},
+                  lon: ${MM_WEATHER_LON_0},
+
+                  updateInterval: 30 * 60 * 1000,
+                  initialLoadDelay: 2000,
+
+                  roundTemp: true,
+                  showHumidity: false,
+                  showWindDirection: false,
+                  showWindSpeed: false,
+                  showFeelsLike: false,
+                  showSun: false
                 }
+              }
             ],
             };
 
