@@ -108,14 +108,7 @@ spec:
                     weatherProvider: "openmeteo",
                     type: "current",
                     lat: ${MM_WEATHER_LAT_0},
-                    lon: ${MM_WEATHER_LON_0},
-                    roundTemp: true,
-                    showFeelsLike: true,
-                    showHumidity: true,
-                    showWindDirection: true,
-                    showWindSpeed: true,
-                    showSun: true,
-                    colored: true
+                    lon: ${MM_WEATHER_LON_0}
                 }
             },
             {
