@@ -107,7 +107,7 @@ spec:
             showSun: 'false'
 
     configmap:
-      config-env:
+      mm-env:
         enabled: false
         data:
           config.env: |
