@@ -118,7 +118,6 @@ spec:
                     colored: true
                 }
             },
-
             {
                 module: "MMM-OpenWeatherForecast",
                 position: "middle_center",
@@ -134,19 +133,13 @@ spec:
                 }
             },
             {
-                module: "MMM-WeatherAlerts",
-                position: "bottom_bar",
-                config: {
-                    lat: ${MM_WEATHER_LAT_0},
-                    lon: ${MM_WEATHER_LON_0},
-                    apiKey: "${MM_OPEN_WEATHER_MAP_API}",
-                    timeFormat: 24,
-                    weatherAlertProvider: "openweathermapalerts"
-                }
-            },
-            {
-                module: "MMM-WeatherEffects",
-                position: "fullscreen_above"  // Recommended — effects render as a fullscreen overlay regardless
+            module: "MMM-DynamicWeather",
+            position: "fullscreen_above",
+            config: { // See https://github.com/scottcl88/MMM-DynamicWeather for more information.
+              api_key: "${MM_OPEN_WEATHER_MAP_API}",
+              lat: ${MM_WEATHER_LAT_0},
+              lon: ${MM_WEATHER_LON_0}
+            }
             }
             ]
             let config = {
