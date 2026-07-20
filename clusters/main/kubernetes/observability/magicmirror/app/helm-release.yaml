@@ -107,7 +107,7 @@ spec:
                 module: "MMM-Globe",
                 position: "top_left", // Best results in lower_third
                 config: {
-                  size: "x-small",
+                  size: "medium",
                   dayLength: 38,
                   viewAngle: 15,
                   locations: [
