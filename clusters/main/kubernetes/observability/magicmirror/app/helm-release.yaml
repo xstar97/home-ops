@@ -117,7 +117,7 @@ spec:
         enabled: true
         data:
           config.js: |
-            let moduleList = {{ .Values.magicmirror.modules | toJson | nindent 2 }}
+            let moduleList = "{{ toJson .Values.magicmirror.modules | nindent 2 }}"
 
             let config = {
               address: "0.0.0.0",
