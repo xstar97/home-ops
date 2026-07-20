@@ -8,7 +8,7 @@ resources:
   - financial
   - flux-entry.yaml
   - flux-system
-  # - games
+  - games
   - kube-system
   - media
   - networking
