@@ -89,64 +89,79 @@ spec:
         data:
           config.js: |
             let modulesList = [
-              { module: "MMM-mmpm" },
+              {
+                module: "MMM-mmpm"
+              },
               {
                 module: "clock",
                 position: "top_left",
                 config: {
-                    displayType: "digital",
-                    timeFormat: 24,
-                    showWeek: false,
-                    displaySeconds: true,
-                    dateFormat: "dd, MM Do yy"
+                  displayType: "digital",
+                  timeFormat: 24,
+                  showWeek: false,
+                  displaySeconds: true,
+                  dateFormat: "dddd, MMMM Do yyyy"
                 }
-            },{
-              module: 'MMM-Globe',
-              position: 'lower_left',	// This can be any of the regions. Best results in lower_third
-              config: {
-                          size:"small", // Globe size. See configuration options below for more options
-                          dayLength: 38, // (Optional) Rotation speed. See configuration options below
-                          viewAngle: 15, // (Optional) Globe tilt. See configuration options below.
-                          locations: [ 
-                              // {lat: ${MM_WEATHER_LAT_0}, lng: ${MM_WEATHER_LAT_0}, label: "HomeTown"}
-                          ]
-              }
-            },
-            {
-                module: "MMM-SevereWeatherAlerts",
-                position: "top_right",  // or any position
+              },
+              {
+                module: "MMM-Globe",
+                position: "lower_third", // Best results in lower_third
                 config: {
-                    location: "HomeTown",        // Display name
-                    latitude: ${MM_WEATHER_LAT_0},
-                    longitude: ${MM_WEATHER_LON_0},
-                    updateInterval: 600000,    // 10 minutes
-                    showForecast: true,
-                    forecastDays: 4,
-                    units: "imperial",
-                    rotated: false
+                  size: "small",
+                  dayLength: 38,
+                  viewAngle: 15,
+                  locations: [
+                    {
+                       lat: ${MM_WEATHER_LAT_0},
+                       lng: ${MM_WEATHER_LON_0},
+                       label: "HomeTown"
+                    }
+                  ]
                 }
-            },
-            {
-            module: "MMM-DynamicWeather",
-            position: "fullscreen_above",
-            config: { // See https://github.com/scottcl88/MMM-DynamicWeather for more information.
-              api_key: "${MM_OPEN_WEATHER_MAP_API}",
-              lat: ${MM_WEATHER_LAT_0},
-              lon: ${MM_WEATHER_LON_0}
-            }
-            }
-            ]
+              },
+              {
+                module: "MMM-SevereWeatherAlerts",
+                position: "top_right",
+                config: {
+                  location: "HomeTown",
+                  latitude: ${MM_WEATHER_LAT_0},
+                  longitude: ${MM_WEATHER_LON_0},
+                  updateInterval: 600000, // 10 minutes
+                  showForecast: true,
+                  forecastDays: 4,
+                  units: "imperial",
+                  rotated: false
+                }
+              },
+              {
+                module: "MMM-DynamicWeather",
+                position: "fullscreen_above",
+                config: {
+                  // See https://github.com/scottcl88/MMM-DynamicWeather
+                  api_key: "${MM_OPEN_WEATHER_MAP_API}",
+                  lat: ${MM_WEATHER_LAT_0},
+                  lon: ${MM_WEATHER_LON_0}
+                }
+              }
+            ];
+
             let config = {
               address: "0.0.0.0",
               port: {{ .Values.service.main.ports.main.port }},
               basePath: "/",
-              ipWhitelist: [],	
+              ipWhitelist: [],
               useHttps: false,
               httpsPrivateKey: "",
               httpsCertificate: "",
               language: "en",
               locale: "en-US",
-              logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
+              logLevel: [
+                "INFO",
+                "LOG",
+                "WARN",
+                "ERROR"
+                // Add "DEBUG" for even more logging
+              ],
               timeFormat: 24,
               units: "metric",
               modules: modulesList
