@@ -265,6 +265,7 @@ spec:
               env:
                 MMPM_MAGICMIRROR_ROOT: /home/node/MagicMirror
                 MMPM_MAGICMIRROR_URI: '{{ printf "http://%v:%v," (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+                MMPM_IS_DOCKER_IMAGE: true
               
     ingress:
       main:
