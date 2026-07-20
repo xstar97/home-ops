@@ -19,13 +19,9 @@ services:
           target: updater  # deploys the updater target on change
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
-      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       SCHEDULER_ENABLED: false  # disable scheduler on updater instance
     secrets:
       - ssh_private_key
-      - sops_age_key
-      - webhook_secret
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - updater-data:/data
@@ -47,7 +43,3 @@ volumes:
 secrets:
   ssh_private_key:
     file: ${SSH_KEY_FILE}
-  sops_age_key:
-    file: ${AGEKEY_FILE}
-  webhook_secret:
-    file: ${WEBHOOK_FILE}
