@@ -92,24 +92,25 @@ spec:
               { module: "MMM-mmpm" },
               {
                 module: "clock",
-                position: "top_left",
+                position: "top_center",
                 config: {
                     displayType: "digital",
                     timeFormat: 24,
                     showWeek: false,
-                    displaySeconds: false,
-                    dateFormat: "dddd, MMMM Do YYYY"
+                    displaySeconds: true,
+                    dateFormat: "dd, MM Do yy"
                 }
             },
             {
                 module: "MMM-SevereWeatherAlerts",
                 position: "bottom_center",  // or any position
                 config: {
+                    location: "My Area",        // Display name
                     latitude: ${MM_WEATHER_LAT_0},
                     longitude: ${MM_WEATHER_LON_0},
                     updateInterval: 600000,    // 10 minutes
                     showForecast: true,
-                    forecastDays: 7,
+                    forecastDays: 4,
                     units: "imperial",
                     rotated: false
                 }
