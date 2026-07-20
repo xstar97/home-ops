@@ -14,7 +14,7 @@ services:
       MM_SCENARIO: "server"
       MM_PORT: 8080
     volumes:
-      - ./config.js:/opt/magic_mirror/config/config.js
+      - ./configs/config.js:/opt/magic_mirror/config/config.js
       - ${BASE_DOCKER_DATA_DIR}/magicmirror/config:/opt/magic_mirror/config
       - ${BASE_DOCKER_DATA_DIR}/magicmirror/modules:/opt/magic_mirror/modules
       - ${BASE_DOCKER_DATA_DIR}/magicmirror/css:/opt/magic_mirror/css
@@ -39,7 +39,7 @@ services:
     environment:
       TZ: "America/New_York"
     volumes:
-      - ./mmpm-env.json:/home/node/.config/mmpm/mmpm-env.json
+      - ./configs/mmpm-env.json:/home/node/.config/mmpm/mmpm-env.json
       - mmpm_data:/home/node/.config/mmpm
       - ${BASE_DOCKER_DATA_DIR}/magicmirror:/opt/magic_mirror
     post_start:
