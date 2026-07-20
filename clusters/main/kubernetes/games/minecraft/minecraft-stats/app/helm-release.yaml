@@ -90,8 +90,8 @@ spec:
           serverName: null
           showLastOnline: true
         players:
-          inactiveDays: 7
-          updateInactive: false
+          inactiveDays: 365
+          updateInactive: true
           profileUpdateInterval: 3
           minPlaytime: 60
           excludeBanned: true
