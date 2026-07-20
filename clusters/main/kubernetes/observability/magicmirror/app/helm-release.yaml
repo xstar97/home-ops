@@ -111,7 +111,7 @@ spec:
                               // {lat: ${MM_WEATHER_LAT_0}, lng: ${MM_WEATHER_LAT_0}, label: "HomeTown"}
                           ]
               }
-            }
+            },
             {
                 module: "MMM-SevereWeatherAlerts",
                 position: "top_right",  // or any position
