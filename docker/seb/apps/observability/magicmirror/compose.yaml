@@ -9,6 +9,7 @@ services:
     expose:
       - "8080"
     environment:
+      TZ: "America/New_York"
       MM_SHOW_CURSOR: false
       MM_SCENARIO: "server"
       MM_PORT: 8080
