@@ -5,7 +5,6 @@ services:
     restart: unless-stopped
     networks:
       - internal
-      - network_internal
     environment:
       TZ: America/New_York
       HTTP_PORT: 8000
@@ -36,8 +35,6 @@ services:
 networks:
   internal:
     driver: bridge
-  network_internal:
-    external: true
 volumes:
   updater-data: {}
 secrets:
