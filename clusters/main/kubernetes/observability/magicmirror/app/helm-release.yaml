@@ -112,20 +112,6 @@ spec:
                 }
             },
             {
-                module: "MMM-OpenWeatherForecast",
-                position: "middle_center",
-                config: {
-                    weatherProvider: "openmeteo",
-                    lat: ${MM_WEATHER_LAT_0},
-                    lon: ${MM_WEATHER_LON_0},
-                    maxEntries: 7,
-                    iconSize: 60,
-                    forecastLayout: "horizontal",
-                    showRain: true,
-                    showTemp: true
-                }
-            },
-            {
             module: "MMM-DynamicWeather",
             position: "fullscreen_above",
             config: { // See https://github.com/scottcl88/MMM-DynamicWeather for more information.
