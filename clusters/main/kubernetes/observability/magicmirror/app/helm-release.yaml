@@ -78,7 +78,6 @@ spec:
     magicmirror:
       mmpm: []
       modules:
-        - module: MMM-mmpm
         - module: alert
         - module: updatenotification
           position: top_bar
@@ -118,7 +117,23 @@ spec:
               logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
               timeFormat: 24,
               units: "metric",
-              modules: {{ .Values.magicmirror.modules | toJson }},
+              "modules": [
+                {
+                    "module": "alert"
+                },
+                {
+                    "module": "updatenotification",
+                    "position": "top_bar"
+                },
+                {
+                    "module": "clock",
+                    "position": "top_left"
+                },
+                {
+                    "module": "compliments",
+                    "position": "lower_third"
+                }
+            ],
             };
 
             /*************** DO NOT EDIT THE LINE BELOW ***************/
