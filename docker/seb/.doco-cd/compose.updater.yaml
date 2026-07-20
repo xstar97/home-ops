@@ -3,8 +3,6 @@ services:
     image: ghcr.io/kimdre/doco-cd:0.99@sha256:027be49dc467fbd1440446135813ac5aaa6795ee36bf306d1dc0a3b36d00d697
     container_name: doco-cd-updater
     restart: unless-stopped
-    networks:
-      - internal
     environment:
       TZ: America/New_York
       HTTP_PORT: 8000
@@ -32,9 +30,6 @@ services:
       start_period: 15s
     labels:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
-networks:
-  internal:
-    driver: bridge
 volumes:
   updater-data: {}
 secrets:
