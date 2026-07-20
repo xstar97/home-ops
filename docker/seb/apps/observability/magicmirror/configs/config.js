@@ -27,30 +27,6 @@ let config = {
           }
         ]
       }
-    },
-    {
-      module: "weather",
-      position: "top_right",
-      config: {
-        weatherProvider: "openweathermap",
-        weatherApiKey: "YOUR_API_KEY_HERE",
-        lat: 39.2604,
-        lon: -76.5165
-      }
-    },
-    {
-      module: "newsfeed",
-      position: "bottom_bar",
-      config: {
-        feeds: [
-          {
-            title: "BBC News",
-            url: "https://bbci.co.uk"
-          }
-        ],
-        showSourceTitle: true,
-        showPublishDate: true
-      }
     }
   ]
 };
