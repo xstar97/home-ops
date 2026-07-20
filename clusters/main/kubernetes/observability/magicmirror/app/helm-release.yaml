@@ -102,9 +102,9 @@ spec:
                 }
             },{
               module: 'MMM-Globe',
-              position: 'lower_third',	// This can be any of the regions. Best results in lower_third
+              position: 'lower_left',	// This can be any of the regions. Best results in lower_third
               config: {
-                          size:"medium", // Globe size. See configuration options below for more options
+                          size:"small", // Globe size. See configuration options below for more options
                           dayLength: 38, // (Optional) Rotation speed. See configuration options below
                           viewAngle: 15, // (Optional) Globe tilt. See configuration options below.
                           locations: [ 
