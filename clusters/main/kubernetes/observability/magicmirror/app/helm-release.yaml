@@ -102,13 +102,16 @@ spec:
                 }
             },
             {
-                module: "weather",
-                position: "top_right",
+                module: "MMM-SevereWeatherAlerts",
+                position: "top_right",  // or any position
                 config: {
-                    weatherProvider: "openmeteo",
-                    type: "current",
-                    lat: ${MM_WEATHER_LAT_0},
-                    lon: ${MM_WEATHER_LON_0}
+                    latitude: ${MM_WEATHER_LAT_0},
+                    longitude: ${MM_WEATHER_LON_0}
+                    updateInterval: 600000,    // 10 minutes
+                    showForecast: true,
+                    forecastDays: 7,
+                    units: "imperial",
+                    rotated: false
                 }
             },
             {
