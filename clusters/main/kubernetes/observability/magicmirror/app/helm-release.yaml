@@ -89,6 +89,7 @@ spec:
         data:
           config.js: |
             let modulesList = [
+              { module: "MMM-mmpm" },
               {
                 module: "clock",
                 position: "top_left",
@@ -186,18 +187,6 @@ spec:
 
             /*************** DO NOT EDIT THE LINE BELOW ***************/
             if (typeof module !== "undefined") { module.exports = config; }
-      mmpm-env:
-        enabled: false
-        data:
-          mmpm-env.json: |
-            {
-            "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
-            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v," (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
-            "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
-            "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
-            "MMPM_IS_DOCKER_IMAGE": true,
-            "MMPM_LOG_LEVEL": "INFO"
-            }
       mm-css:
         enabled: true
         data:
@@ -230,6 +219,18 @@ spec:
                 font-size: 28px;
                 font-weight: bold;
             }
+      mmpm-env:
+        enabled: true
+        data:
+          mmpm-env.json: |
+            {
+            "MMPM_MAGICMIRROR_ROOT": "/home/node/MagicMirror",
+            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v," (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+            "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
+            "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
+            "MMPM_IS_DOCKER_IMAGE": true,
+            "MMPM_LOG_LEVEL": "INFO"
+            }
 
     workload:
       main:
@@ -243,7 +244,7 @@ spec:
                 MM_CONFIG_FILE: "/opt/magic_mirror/config/config.js"
                 MM_SHOW_CURSOR: false
             mmpm:
-              enabled: false
+              enabled: true
               imageSelector: mmpmImage
               probes:
                 liveness:
@@ -298,8 +299,12 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: "/opt/magic_mirror/config"
-        targetSelectAll: true
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/config"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/config"
         volsync:
           - name: config
             type: restic
@@ -311,23 +316,35 @@ spec:
       mm-config:
         enabled: true
         type: configmap
-        mountPath: /opt/magic_mirror/config/config.js
         objectName: mm-config
         subPath: config.js
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/config/config.js"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/config/config.js"
         readOnly: true
-        targetSelectAll: true
       mm-css:
         enabled: true
         type: configmap
-        mountPath: /opt/magic_mirror/config/custom.css
         objectName: mm-css
         subPath: custom.css
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/config/custom.css"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/config/custom.css"
         readOnly: true
-        targetSelectAll: true
       modules:
         enabled: true
-        mountPath: "/opt/magic_mirror/modules"
-        targetSelectAll: true
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/modules"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/modules"
         volsync:
           - name: modules
             type: restic
@@ -338,8 +355,12 @@ spec:
               enabled: true
       css:
         enabled: true
-        mountPath: "/opt/magic_mirror/css"
-        targetSelectAll: true
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/css"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/css"
         volsync:
           - name: css
             type: restic
@@ -349,9 +370,11 @@ spec:
             src:
               enabled: true
       mmpm-config:
-        enabled: false
-        mountPath: "/home/node/.config/mmpm"
-        targetSelectAll: true
+        enabled: true
+        targetSelector:
+          main:
+            mmpm:
+              mountPath: "/home/node/.config/mmpm"
         volsync:
           - name: mmpmconfig
             type: restic
@@ -361,11 +384,13 @@ spec:
             src:
               enabled: true
       mmpm-env:
-        enabled: false
+        enabled: true
         type: configmap
-        mountPath: /root/.config/mmpm/mmpm-env.json
         objectName: mmpm-env
         subPath: mmpm-env.json
+        targetSelector:
+          main:
+            mmpm:
+              mountPath: "/home/node/.config/mmpm/mmpm-env.json"
         readOnly: true
-        targetSelectAll: true
       
