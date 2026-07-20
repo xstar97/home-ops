@@ -8,6 +8,23 @@ services:
       - network_internal
     expose:
       - "8080"
+    healthcheck:
+      test: ["CMD", "node", "/opt/healthcheck.js"]
+      timeout: 10s
+      start_period: 60s
+    post_start:
+      - command:
+          - /bin/sh
+          - -c
+          - |
+            # update volume permissions
+            chown -R 1000:1000 config modules css
+            chmod -R 700 config modules css
+            if command -v node_modules/.bin/electron > /dev/null; then
+              # if electron is installed then start dbus-daemon to avoid errors in the logs
+              dbus-daemon --system --fork
+            fi
+        user: root
     environment:
       TZ: "America/New_York"
       # MM_SHOW_CURSOR: false
