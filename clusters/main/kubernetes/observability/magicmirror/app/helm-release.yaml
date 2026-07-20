@@ -107,17 +107,14 @@ spec:
                 config: {
                     weatherProvider: "openmeteo",
                     type: "current",
-
                     lat: ${MM_WEATHER_LAT_0},
                     lon: ${MM_WEATHER_LON_0},
-
                     roundTemp: true,
                     showFeelsLike: true,
                     showHumidity: true,
                     showWindDirection: true,
                     showWindSpeed: true,
                     showSun: true,
-
                     colored: true
                 }
             },
@@ -127,10 +124,8 @@ spec:
                 position: "middle_center",
                 config: {
                     weatherProvider: "openmeteo",
-
                     lat: ${MM_WEATHER_LAT_0},
                     lon: ${MM_WEATHER_LON_0},
-
                     maxEntries: 7,
                     iconSize: 60,
                     forecastLayout: "horizontal",
@@ -138,18 +133,14 @@ spec:
                     showTemp: true
                 }
             },
-
             {
                 module: "MMM-WeatherAlerts",
                 position: "bottom_bar",
                 config: {
-                    provider: "NWS",
-                    updateInterval: 300000,
-                    severity: [
-                        "Extreme",
-                        "Severe",
-                        "Moderate"
-                    ]
+                    lat: ${MM_WEATHER_LAT_0},
+                    lon: ${MM_WEATHER_LON_0},
+                    apiKey: "${MM_OPEN_WEATHER_MAP_API}",
+                    timeFormat: 24
                 }
             },
             {
