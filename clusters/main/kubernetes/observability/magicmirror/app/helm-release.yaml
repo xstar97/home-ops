@@ -82,43 +82,92 @@ spec:
           backend4:
             enabled: true
             port: 8907
-    
-    magicmirror:
-      modules:
-        - module: alert
-        - module: updatenotification
-          position: top_bar
-        - module: clock
-          position: top_left
-        - module: weather
-          position: top_right
-          config:
-            weatherProvider: openmeteo
-            type: current
-            lat: "${MM_WEATHER_LAT_0}"
-            lon: '${MM_WEATHER_LON_0}'
-            updateInterval: "30 * 60 * 1000"
-            initialLoadDelay: '2000'
-            roundTemp: 'true'
-            showHumidity: 'false'
-            showWindDirection: 'false'
-            showWindSpeed: 'false'
-            showFeelsLike: 'false'
-            showSun: 'false'
 
     configmap:
-      mm-env:
-        enabled: false
-        data:
-          config.env: |
-            MM_WEATHER_LAT_0=${MM_WEATHER_LAT_0}
-            MM_WEATHER_LON_fix0=${MM_WEATHER_LON_0}
       mm-config:
         enabled: true
         data:
           config.js: |
-            let moduleList = "{{ toJson .Values.magicmirror.modules | nindent 2 }}"
+            let modulesList = [
+              {
+                module: "clock",
+                position: "top_left",
+                config: {
+                    displayType: "digital",
+                    timeFormat: 24,
+                    showWeek: false,
+                    displaySeconds: false,
+                    dateFormat: "dddd, MMMM Do YYYY"
+                }
+            },
+            {
+                module: "weather",
+                position: "top_right",
+                config: {
+                    weatherProvider: "openmeteo",
+                    type: "current",
 
+                    lat: ${MM_WEATHER_LAT_0},
+                    lon: ${MM_WEATHER_LON_0},
+
+                    roundTemp: true,
+                    showFeelsLike: true,
+                    showHumidity: true,
+                    showWindDirection: true,
+                    showWindSpeed: true,
+                    showSun: true,
+
+                    colored: true
+                }
+            },
+
+            {
+                module: "MMM-OpenWeatherForecast",
+                position: "middle_center",
+                config: {
+                    weatherProvider: "openmeteo",
+
+                    lat: ${MM_WEATHER_LAT_0},
+                    lon: ${MM_WEATHER_LON_0},
+
+                    maxEntries: 7,
+                    iconSize: 60,
+                    forecastLayout: "horizontal",
+                    showRain: true,
+                    showTemp: true
+                }
+            },
+
+            {
+                module: "MMM-WeatherAlerts",
+                position: "bottom_bar",
+                config: {
+                    provider: "NWS",
+                    updateInterval: 300000,
+                    severity: [
+                        "Extreme",
+                        "Severe",
+                        "Moderate"
+                    ]
+                }
+            },
+
+            {
+                module: "MMM-WeatherBackground",
+                position: "fullscreen_below",
+                config: {
+                    provider: "openmeteo",
+
+                    lat: ${MM_WEATHER_LAT_0},
+                    lon: ${MM_WEATHER_LON_0},
+
+                    animated: true,
+                    dimBackground: 0.45,
+                    transitionSpeed: 4000
+                }
+            }
+
+            ]
             let config = {
               address: "0.0.0.0",
               port: {{ .Values.service.main.ports.main.port }},
@@ -132,19 +181,7 @@ spec:
               logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
               timeFormat: 24,
               units: "metric",
-              "modules": [
-                {
-                    "module": "alert"
-                },
-                {
-                    "module": "updatenotification",
-                    "position": "top_bar"
-                },
-                {
-                    "module": "clock",
-                    "position": "top_left"
-                }
-            ],
+              modules: modulesList
             };
 
             /*************** DO NOT EDIT THE LINE BELOW ***************/
@@ -161,7 +198,39 @@ spec:
             "MMPM_IS_DOCKER_IMAGE": true,
             "MMPM_LOG_LEVEL": "INFO"
             }
-    
+      mm-css:
+        enabled: true
+        data:
+          custom.css: |
+            .clock {
+            font-size: 72px;
+            font-weight: 300;
+            }
+
+            .date {
+                font-size: 28px;
+                opacity: .7;
+            }
+
+            .weather {
+                font-size: 24px;
+            }
+
+            .MMM-OpenWeatherForecast {
+                width: 100%;
+                text-align: center;
+            }
+
+            .MMM-OpenWeatherForecast table {
+                width: 100%;
+            }
+
+            .MMM-WeatherAlerts {
+                color: #ff5555;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
     workload:
       main:
         podSpec:
@@ -247,12 +316,12 @@ spec:
         subPath: config.js
         readOnly: true
         targetSelectAll: true
-      mm-env:
+      mm-css:
         enabled: true
         type: configmap
-        mountPath: /opt/magic_mirror/config/config.env
-        objectName: mm-env
-        subPath: config.env
+        mountPath: /opt/magic_mirror/config/custom.css
+        objectName: mm-css
+        subPath: custom.css
         readOnly: true
         targetSelectAll: true
       modules:
