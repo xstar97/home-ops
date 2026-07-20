@@ -59,7 +59,7 @@ spec:
           main:
             port: 8080
       backend:
-        enabled: true
+        enabled: false
         type: ClusterIP
         ports:
           backend1:
@@ -89,7 +89,7 @@ spec:
 
     configmap:
       mmpm-env:
-        enabled: true
+        enabled: false
         data:
           mmpm-env.json: |
             {
@@ -118,13 +118,7 @@ spec:
               logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
               timeFormat: 24,
               units: "metric",
-              modules: [
-              {
-                module: "clock",
-                position: "fullscreen_above",
-                config: {}
-              }
-              ],
+              modules: {{ .Values.magicmirror.modules | toJson }},
             };
 
             /*************** DO NOT EDIT THE LINE BELOW ***************/
@@ -142,7 +136,7 @@ spec:
                 MM_CONFIG_FILE: "/opt/magic_mirror/config/config.js"
                 MM_SHOW_CURSOR: false
             mmpm:
-              enabled: true
+              enabled: false
               imageSelector: mmpmImage
               probes:
                 liveness:
@@ -177,7 +171,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
       mmpm:
-        enabled: true
+        enabled: false
         ingressClassName: internal
         targetSelector:
           backend: backend1
@@ -192,7 +186,7 @@ spec:
     
     persistence:
       mmpm-config:
-        enabled: true
+        enabled: false
         mountPath: "/home/node/.config/mmpm"
         targetSelectAll: true
         volsync:
@@ -204,7 +198,7 @@ spec:
             src:
               enabled: true
       mmpm-env:
-        enabled: true
+        enabled: false
         type: configmap
         mountPath: /root/.config/mmpm/mmpm-env.json
         objectName: mmpm-env
