@@ -374,6 +374,6 @@ spec:
         targetSelector:
           main:
             mmpm:
-              mountPath: /root/.config/mmpm/mmpm-env.json # "/home/node/.config/mmpm/mmpm-env.json"
+              mountPath: /home/node/.config/mmpm/mmpm-env.json
         readOnly: true
       
