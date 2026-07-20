@@ -2,7 +2,7 @@ services:
   magicmirror:
     scale: 1
     container_name: magicmirror
-    image: karsten13/magicmirror:alpine-v2.37.0@sha256:8deb9a5c9c30608c4abcfc350c0a7964224227653985e883c9207e783971161e
+    image: karsten13/magicmirror:wolfi-server-v2.37.0@sha256:80053df054abb18f1ef3e1d5f5d0ad068b29007d092eeb880825aa8aed43098a
     restart: on-failure
     networks:
       - network_internal
@@ -25,7 +25,7 @@ services:
       traefik.http.routers.mm-server.tls: true
       traefik.http.routers.mm-server.tls.certResolver: cf
       traefik.http.routers.mm-server.middlewares: error-pages-middleware
-      wud.tag.include: '^alpine-v\d+\.\d+\.\d+$'
+      wud.tag.include: '^wolfi-server-v\d+\.\d+\.\d+$'
   mmpm:
     scale: 1
     container_name: mmpm
