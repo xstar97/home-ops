@@ -1,0 +1,53 @@
+services:
+  doco-cd-updater:
+    image: ghcr.io/kimdre/doco-cd:0.98@sha256:8f0c6046f98024783c91d0afc668bbae3ab29e0efad761580a8933dc7aceb0ac
+    container_name: doco-cd-updater
+    restart: unless-stopped
+    networks:
+      - internal
+      - network_internal
+    environment:
+      TZ: America/New_York
+      HTTP_PORT: 9079
+      DOCKER_SWARM_FEATURES: "false"
+      DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
+      PASS_ENV: "false"
+      POLL_CONFIG: |
+        - url: https://github.com/xstar97/home-ops
+          reference: main
+          interval: 3600
+          target: updater  # deploys the updater target on change
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      SCHEDULER_ENABLED: false  # disable scheduler on updater instance
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - webhook_secret
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - updater-data:/data
+    healthcheck:
+      test: ["CMD", "/doco-cd", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
+networks:
+  internal:
+    driver: bridge
+  network_internal:
+    external: true
+volumes:
+  updater-data: {}
+secrets:
+  ssh_private_key:
+    file: ${SSH_KEY_FILE}
+  sops_age_key:
+    file: ${AGEKEY_FILE}
+  webhook_secret:
+    file: ${WEBHOOK_FILE}
