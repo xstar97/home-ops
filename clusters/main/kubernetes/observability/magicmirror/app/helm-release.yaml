@@ -213,7 +213,7 @@ spec:
           mmpm-env.json: |
             {
             "MMPM_MAGICMIRROR_ROOT": "/home/node/MagicMirror",
-            "MMPM_MAGICMIRROR_URI": '{{ printf 'http://%v:%v' (include 'tc.v1.common.lib.chart.names.fullname' $) .Values.service.main.ports.main.port }}',
+            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}',
             "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
             "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
             "MMPM_IS_DOCKER_IMAGE": true,
