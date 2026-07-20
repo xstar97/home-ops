@@ -54,13 +54,21 @@ spec:
         readOnlyRootFilesystem: false
     service:
       main:
-        type: ClusterIP
+        type: LoadBalancer
+        loadBalancerIP: ${MM_IP_0}
+        integrations:
+          metallb:
+            enabled: true
         ports:
           main:
             port: 8080
       backend:
-        enabled: false
-        type: ClusterIP
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${MM_IP_0}
+        integrations:
+          metallb:
+            enabled: true
         ports:
           backend1:
             enabled: true
@@ -172,7 +180,7 @@ spec:
               
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
