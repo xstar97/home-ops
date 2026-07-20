@@ -112,12 +112,12 @@ spec:
         data:
           config.env: |
             MM_WEATHER_LAT_0=${MM_WEATHER_LAT_0}
-            MM_WEATHER_LON_0=${MM_WEATHER_LON_0}
+            MM_WEATHER_LON_fix0=${MM_WEATHER_LON_0}
       mm-config:
         enabled: true
         data:
           config.js: |
-            let moduleList = {{ .Values.magicmirror.modules | toJson }}
+            let moduleList = {{ .Values.magicmirror.modules | toJson | nindent 2 }}
 
             let config = {
               address: "0.0.0.0",
