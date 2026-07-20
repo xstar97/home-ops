@@ -88,6 +88,7 @@ spec:
         enabled: true
         data:
           config.js: |
+            
             let modulesList = [
               {
                 module: "MMM-mmpm"
@@ -102,23 +103,17 @@ spec:
                   displaySeconds: true,
                   dateFormat: "dddd, MMMM Do yyyy"
                 }
-              },
-              {
-                module: "MMM-Globe",
-                position: "top_left", // Best results in lower_third
-                config: {
-                  size: "medium",
-                  dayLength: 38,
-                  viewAngle: 15,
-                  locations: [
-                    {
-                       lat: ${MM_WEATHER_LAT_0},
-                       lng: ${MM_WEATHER_LON_0},
-                       label: "HomeTown"
-                    }
-                  ]
-                }
-              },
+              },{
+              module: "MMM-PrometheusAlerts",
+              position: "top_left",
+              config: {
+                instances: [
+                  {
+                    url: "https://prometheus.${DOMAIN_2}"
+                  }
+                ]
+              }
+            },
               {
                 module: "MMM-SevereWeatherAlerts",
                 position: "top_right",
