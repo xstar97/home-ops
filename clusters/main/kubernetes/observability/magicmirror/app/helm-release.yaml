@@ -106,7 +106,7 @@ spec:
                 position: "top_right",  // or any position
                 config: {
                     latitude: ${MM_WEATHER_LAT_0},
-                    longitude: ${MM_WEATHER_LON_0}
+                    longitude: ${MM_WEATHER_LON_0},
                     updateInterval: 600000,    // 10 minutes
                     showForecast: true,
                     forecastDays: 7,
