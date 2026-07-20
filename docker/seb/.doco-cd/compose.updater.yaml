@@ -8,14 +8,14 @@ services:
       - network_internal
     environment:
       TZ: America/New_York
-      HTTP_PORT: 9079
+      HTTP_PORT: 8000
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
-          interval: 3600
+          interval: 300
           target: updater  # deploys the updater target on change
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
