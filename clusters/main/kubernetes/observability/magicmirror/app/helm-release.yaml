@@ -103,7 +103,7 @@ spec:
             },
             {
                 module: "MMM-SevereWeatherAlerts",
-                position: "top_right",  // or any position
+                position: "bottom_center",  // or any position
                 config: {
                     latitude: ${MM_WEATHER_LAT_0},
                     longitude: ${MM_WEATHER_LON_0},
