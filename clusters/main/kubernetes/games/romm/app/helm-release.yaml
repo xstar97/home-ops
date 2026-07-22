@@ -40,7 +40,7 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-romm"
     image:
       repository: ghcr.io/rommapp/romm
-      tag: 5.0.0-alpha.1@sha256:8de4acabed9585aacb7fefa935eb8e14bf16520dddcf6c95a8d0f4dfe37c9301
+      tag: 5.1.0-alpha.1@sha256:1073b3bf99b9e5216e73e61432b82d8d3abab5d46145dd67b749a1751bbc94d1
       pullPolicy: IfNotPresent
 
     securityContext:
