@@ -82,6 +82,7 @@ spec:
                 AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
                 AUTHELIA_WEBAUTHN_ENABLE_PASSKEY_LOGIN: true
                 AUTHELIA_WEBAUTHN_SELECTION_CRITERIA_ATTACHMENT: cross-platform
+                AUTHELIA_DEFAULT_2FA_METHOD: webauthn
 
     secret:
       authelia-configfile:
