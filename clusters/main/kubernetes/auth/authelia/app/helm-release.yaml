@@ -81,6 +81,7 @@ spec:
                 AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
                 AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
                 AUTHELIA_WEBAUTHN_ENABLE_PASSKEY_LOGIN: true
+                AUTHELIA_WEBAUTHN_SELECTION_CRITERIA_ATTACHMENT: cross-platform
 
     secret:
       authelia-configfile:
