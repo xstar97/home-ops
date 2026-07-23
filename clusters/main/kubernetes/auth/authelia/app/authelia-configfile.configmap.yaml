@@ -169,9 +169,9 @@ data:
           booklore:
             default_policy: 'deny'
             rules:
-              - policy: 'one_factor'
+              - policy: 'two_factor'
                 subject: 'group:lldap_admin'
-              - policy: 'one_factor'
+              - policy: 'two_factor'
                 subject: 'group:lldap_booklore'
           yarnl:
             default_policy: 'deny'
