@@ -80,6 +80,7 @@ spec:
                 AUTHELIA_NOTIFIER_SMTP_DISABLE_HTML_EMAILS: true
                 AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
                 AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
+                AUTHELIA_WEBAUTHN_ENABLE_PASSKEY_LOGIN: true
 
     secret:
       authelia-configfile:
