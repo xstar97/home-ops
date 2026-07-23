@@ -84,6 +84,8 @@ spec:
                 AUTHELIA_WEBAUTHN_SELECTION_CRITERIA_ATTACHMENT: cross-platform
                 AUTHELIA_DEFAULT_2FA_METHOD: webauthn
                 AUTHELIA_WEBAUTHN_EXPERIMENTAL_ENABLE_PASSKEY_UPGRADE: true
+                AUTHELIA_WEBAUTHN_SELECTION_CRITERIA_DISCOVERABILITY: preferred
+                AUTHELIA_WEBAUTHN_SELECTION_CRITERIA_USER_VERIFICATION: preferred
 
     secret:
       authelia-configfile:
