@@ -45,7 +45,7 @@ spec:
     mmpmImage:
       repository: karsten13/mmpm
       pullPolicy: IfNotPresent
-      tag: 4.6.4@sha256:a6a15505e9c90287c7a41abb990779e7ff8b215589abf40772c2d1dcd41f2b5e
+      tag: 4.6.4@sha256:6590d6110abb3c13ec7508dda449f13e46c4c8b010fd2d7c19a30af2f697f512
     securityContext:
       container:
         runAsUser: 0
