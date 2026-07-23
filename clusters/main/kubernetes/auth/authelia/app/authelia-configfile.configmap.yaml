@@ -139,9 +139,9 @@ data:
           jellyseerr:
             default_policy: 'deny'
             rules:
-              - policy: 'two_factor'
+              - policy: 'one_factor'
                 subject: 'group:lldap_admin'
-              - policy: 'two_factor'
+              - policy: 'one_factor'
                 subject: 'group:lldap_jellyseerr'
           vaultwarden:
             default_policy: 'deny'
