@@ -2,18 +2,24 @@ http:
   routers:
     cups:
       rule: 'Host(`cups.{{ env "DOMAIN_0" }}`)'
-      middlewares:
-        - default-headers
-        - https-redirectscheme
       entryPoints:
         - websecure
+      middlewares:
+        - default-headers
       service: cups-service
       tls:
         certResolver: cf
+
+  middlewares:
+    cups-host:
+      headers:
+        customRequestHeaders:
+          Host: '{{ env "CUPS_LOCAL_DOMAIN" }}'
+          X-Forwarded-Proto: "https"
+
   services:
     cups-service:
       loadBalancer:
-        serversTransport: myInsecureTransport
+        passHostHeader: false
         servers:
-          - url: 'https://{{ env "CUPS_IP" }}:631'
-        passHostHeader: true
+          - url: 'http://{{ env "CUPS_LOCAL_DOMAIN" }}'
