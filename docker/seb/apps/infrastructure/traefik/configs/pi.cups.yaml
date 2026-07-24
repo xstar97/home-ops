@@ -2,9 +2,6 @@ http:
   routers:
     cups:
       rule: 'Host(`cups.{{ env "DOMAIN_0" }}`)'
-      middlewares:
-        - default-headers
-        - https-redirectscheme
       entryPoints:
         - websecure
       service: cups-service
@@ -13,7 +10,5 @@ http:
   services:
     cups-service:
       loadBalancer:
-        serversTransport: myInsecureTransport
         servers:
           - url: 'http://{{ env "CUPS_LOCAL_DOMAIN" }}'
-        passHostHeader: true
