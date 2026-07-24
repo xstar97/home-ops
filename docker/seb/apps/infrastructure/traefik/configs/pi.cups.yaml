@@ -6,20 +6,19 @@ http:
         - websecure
       middlewares:
         - default-headers
-      service: cups-service
+      service: cups
       tls:
         certResolver: cf
 
-  middlewares:
-    cups-host:
-      headers:
-        customRequestHeaders:
-          Host: '{{ env "CUPS_LOCAL_DOMAIN" }}'
-          X-Forwarded-Proto: "https"
-
   services:
-    cups-service:
+    cups:
       loadBalancer:
-        passHostHeader: false
+        serversTransport: cupsTransport
+        passHostHeader: true
         servers:
           - url: 'https://{{ env "CUPS_LOCAL_DOMAIN" }}'
+
+  serversTransports:
+    cupsTransport:
+      insecureSkipVerify: true
+      maxIdleConnsPerHost: 10
