@@ -22,4 +22,4 @@ http:
       loadBalancer:
         passHostHeader: false
         servers:
-          - url: 'http://{{ env "CUPS_LOCAL_DOMAIN" }}'
+          - url: 'https://{{ env "CUPS_LOCAL_DOMAIN" }}'
