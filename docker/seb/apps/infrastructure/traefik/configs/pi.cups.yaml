@@ -15,5 +15,5 @@ http:
       loadBalancer:
         serversTransport: myInsecureTransport
         servers:
-          - url: 'https://{{ env "CUPS_LOCAL_DOMAIN" }}'
+          - url: 'https://{{ env "CUPS_IP" }}:631'
         passHostHeader: true

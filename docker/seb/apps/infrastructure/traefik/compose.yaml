@@ -19,6 +19,7 @@ services:
       SEB_LOCAL_DOMAIN: $SEB_HOSTNAME_LOCAL
       TRUENAS_LOCAL_DOMAIN: $TRUENAS_HOSTNAME_LOCAL
       CUPS_LOCAL_DOMAIN: $CUPS_HOSTNAME_LOCAL
+      CUPS_IP: $CUPS_IP
     command:
       - --certificatesresolvers.cf.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.cf.acme.dnsChallenge.delayBeforeCheck=0
