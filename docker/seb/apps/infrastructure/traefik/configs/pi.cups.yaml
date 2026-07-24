@@ -1,0 +1,14 @@
+http:
+  routers:
+    cups:
+      rule: 'Host(`cups.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: cups-service
+      tls:
+        certResolver: cf
+  services:
+    cups-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "CUPS_LOCAL_DOMAIN" }}'

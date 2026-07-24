@@ -11,4 +11,4 @@ http:
     ha-service:
       loadBalancer:
         servers:
-          - url: '{{ env "HA_LOCAL_DOMAIN" }}'
+          - url: 'http://{{ env "HA_LOCAL_DOMAIN" }}'
