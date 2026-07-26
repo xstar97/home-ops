@@ -18,7 +18,7 @@ services:
     networks:
       - network_internal
     volumes:
-      - ${BASE_DOCKER_DATA_DIR}/fmd/db:/var/lib/fmd-server/db/
+      - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+-distroless$
       traefik.enable: true
