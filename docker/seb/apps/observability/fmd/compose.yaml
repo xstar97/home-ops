@@ -12,6 +12,7 @@ services:
     container_name: fmd
     restart: on-failure
     # healthcheck: *healthcheckDb
+    user: "${PUID:-1000}:${PGID:-1000}"
     expose:
       - "8080"
     networks:
