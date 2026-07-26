@@ -1,0 +1,34 @@
+x-healthcheckWeb: &healthcheck
+  test: ["CMD", "curl", "-f", "http://localhost:8080"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+services:
+  fmd:
+    scale: 1
+    image: registry.gitlab.com/fmd-foss/fmd-server:0.16.0-distroless@sha256:eaa59eb311e9b5b63804de4dcc748ba8b3129730e46617c5c5da4e6d8cd8af94
+    container_name: fmd
+    restart: on-failure
+    # healthcheck: *healthcheckDb
+    expose:
+      - "8080"
+    networks:
+      - internal
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/fmd/db:/var/lib/fmd-server/db
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+-distroless$
+      traefik.enable: true
+      traefik.http.routers.fmd.rule: Host(`fmd.${BASE_DOMAIN_0}`)
+      traefik.http.services.fmd.loadbalancer.server.port: 8080
+      traefik.http.routers.fmd.entrypoints: websecure
+      traefik.http.routers.fmd.tls: true
+      traefik.http.routers.fmd.tls.certResolver: cf
+      traefik.http.routers.fmd.middlewares: error-pages-middleware
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
