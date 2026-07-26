@@ -27,7 +27,7 @@ services:
       FMD_METRICSADDRPORT: "[::1]:9100"
       #FMD_WEBDIR=
     volumes:
-      - ${BASE_DOCKER_DATA_DIR}/fmd/db/:${FMD_DATABASEDIR} #/var/lib/fmd-server/db
+      - ${BASE_DOCKER_DATA_DIR}/fmd/db/:"$FMD_DATABASEDIR" #/var/lib/fmd-server/db
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+-distroless$
       traefik.enable: true
