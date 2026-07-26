@@ -8,7 +8,7 @@ x-healthcheckWeb: &healthcheck
 services:
   fmd:
     scale: 1
-    image: registry.gitlab.com/fmd-foss/fmd-server:0.16.0-distroless@sha256:eaa59eb311e9b5b63804de4dcc748ba8b3129730e46617c5c5da4e6d8cd8af94
+    image: registry.gitlab.com/fmd-foss/fmd-server:0.16.0-alpine@sha256:fec3cce3329468d806ddd1e33e48dff6eafe6005ef4168163abb3afc48d53330
     container_name: fmd
     restart: on-failure
     # healthcheck: *healthcheckDb
@@ -28,7 +28,7 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db/
     labels:
-      wud.tag.include: ^\d+\.\d+\.\d+-distroless$
+      wud.tag.include: ^\d+\.\d+\.\d+-alpine$
       traefik.enable: true
       traefik.http.routers.fmd.rule: Host(`fmd.${BASE_DOMAIN_0}`)
       traefik.http.services.fmd.loadbalancer.server.port: 8080
