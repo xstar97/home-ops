@@ -23,7 +23,6 @@ services:
       FMD_DATABASEDIR: /data/db # /var/lib/fmd-server/db
       FMD_PORTINSECURE: "8080"
       FMD_PORTSECURE: "8443"
-      FMD_REMOTEIPHEADER: X-Forwarded-For
       FMD_REGISTRATIONTOKEN: your-long-random-token
       FMD_METRICSADDRPORT: "[::1]:9100"
       #FMD_WEBDIR=
