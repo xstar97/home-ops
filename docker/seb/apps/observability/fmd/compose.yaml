@@ -17,8 +17,18 @@ services:
       - "8080"
     networks:
       - network_internal
+    env_file:
+      - ./fmd.enc.env
+    environment:
+      FMD_DATABASEDIR: /data/db # /var/lib/fmd-server/db
+      FMD_PORTINSECURE: "8080"
+      FMD_PORTSECURE: "8443"
+      FMD_REMOTEIPHEADER: X-Forwarded-For
+      FMD_REGISTRATIONTOKEN: your-long-random-token
+      FMD_METRICSADDRPORT: "[::1]:9100"
+      #FMD_WEBDIR=
     volumes:
-      - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db
+      - ${BASE_DOCKER_DATA_DIR}/fmd/db/:${FMD_DATABASEDIR} #/var/lib/fmd-server/db
     labels:
       wud.tag.include: ^\d+\.\d+\.\d+-distroless$
       traefik.enable: true
