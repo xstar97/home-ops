@@ -115,7 +115,7 @@ spec:
                 # Choose authentication method: basic, oidc, oidc_generic, or authentik
                 AUTH_METHOD: oidc
                 # OIDC Provider Configuration
-                OIDC_ISSUER_URL: https://auth.${DOMAIN_2}
+                OIDC_ISSUER_URL: https://auth.${DOMAIN_2}/.well-known/openid-configuration
                 OIDC_CLIENT_ID: ggrequestz
                 OIDC_CLIENT_SECRET: ${AUTHELIA_CLIENT_SECRET_GGREQUESTZ}
                 OIDC_REDIRECT_URI: '{{ printf "%s/%s" .Values.chartContext.appUrl "api/auth/callback" }}'
