@@ -115,15 +115,15 @@ spec:
                 # Choose authentication method: basic, oidc, oidc_generic, or authentik
                 AUTH_METHOD: oidc
                 # OIDC Provider Configuration
-                OIDC_ISSUER_URL: https://auth.${DOMAIN_2}/.well-known/openid-configuration
+                OIDC_ISSUER_URL: https://auth.${DOMAIN_2}
                 OIDC_CLIENT_ID: ggrequestz
                 OIDC_CLIENT_SECRET: ${AUTHELIA_CLIENT_SECRET_GGREQUESTZ}
                 OIDC_REDIRECT_URI: '{{ printf "%s/%s" .Values.chartContext.appUrl "api/auth/callback" }}'
                 OIDC_PROVIDER_NAME: "Login with Authelia"
                 # Optional: Custom endpoints (auto-discovered if not set)
-                # OIDC_AUTH_URL: https://your-provider.com/protocol/openid-connect/auth
-                # OIDC_TOKEN_URL: https://your-provider.com/protocol/openid-connect/token
-                # OIDC_USERINFO_URL: https://your-provider.com/protocol/openid-connect/userinfo
+                OIDC_AUTH_URL: https://auth.${DOMAIN_2}/api/oidc/authorization
+                OIDC_TOKEN_URL: https://auth.${DOMAIN_2}/api/oidc/token
+                OIDC_USERINFO_URL: https://auth.${DOMAIN_2}/api/oidc/userinfo
 
                 # Optional: Additional scopes
                 OIDC_SCOPES: openid email profile
