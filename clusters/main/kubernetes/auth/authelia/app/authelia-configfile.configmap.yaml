@@ -54,6 +54,11 @@ data:
               - alt_emails
               - preferred_username
               - name
+          ggrequestz:
+            id_token:
+              - "openid"
+              - "email"
+              - "profile"
           grafana:
             id_token:
              - email
