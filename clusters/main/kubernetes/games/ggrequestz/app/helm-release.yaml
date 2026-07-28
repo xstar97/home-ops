@@ -100,8 +100,8 @@ spec:
                 SESSION_SECRET: "${GGREQUESTZ_SESSION_SECRET}"
                 # IGDB API Credentials (required for game data)
                 # Get these from: https://dev.twitch.tv/console
-                IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
-                IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
+                IGDB_CLIENT_ID: "${ROMM_IGDB_CLIENT_ID}"
+                IGDB_CLIENT_SECRET: "${ROMM_IGDB_CLIENT_SECRET}"
                 # Gotify Push Notifications (optional)
                 # GOTIFY_URL: https://gotify.yourdomain.com
                 # GOTIFY_TOKEN: your_gotify_token
