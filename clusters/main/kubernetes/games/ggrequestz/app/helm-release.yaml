@@ -12,8 +12,8 @@ spec:
     mode: enabled
   chart:
     spec:
-      chart: ggrequestz
-      version: 19.2.0
+      chart: app-template
+      version: 18.16.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
