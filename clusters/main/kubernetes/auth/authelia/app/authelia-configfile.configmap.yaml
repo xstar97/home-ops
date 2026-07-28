@@ -56,9 +56,8 @@ data:
               - name
           ggrequestz:
             id_token:
-              - "openid"
-              - "email"
-              - "profile"
+              - email
+              - profile
           grafana:
             id_token:
              - email
