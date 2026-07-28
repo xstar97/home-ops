@@ -129,7 +129,7 @@ spec:
                 OIDC_SCOPES: openid email profile
                 OIDC_ROLE_MAP: "lldap_ggrequestz_viewer:viewer,lldap_ggrequestz_manager:manager"
                 OIDC_ADMIN_GROUP: "lldap_admin:admin"
-                OIDC_GROUPS_CLAIM: groups
+                OIDC_GROUPS_CLAIM: Groups
     ingress:
       main:
         enabled: true
