@@ -109,9 +109,9 @@ spec:
                 # ROMM Game Library Integration (optional)
                 ROMM_SERVER_URL: http://romm.romm.svc.cluster.local:10680
                 ROMM_SERVER_URL_PUBLIC: "https://romm.${DOMAIN_2}"
-                # ROMM_API_TOKEN: "${ROMM_ADMIN_TOKEN}"
-                # ROMM_USERNAME: "${ROMM_ADMIN_USER}"
-                # ROMM_PASSWORD: "${ROMM_ADMIN_PASS}"
+                ROMM_API_TOKEN: "${GGREQUESTZ_ROMM_API_TOKEN_ADMIN}"
+                # ROMM_USERNAME: ""
+                # ROMM_PASSWORD: ""
                 # Choose authentication method: basic, oidc, oidc_generic, or authentik
                 AUTH_METHOD: oidc
                 # OIDC Provider Configuration
