@@ -41,7 +41,7 @@ spec:
     image:
       repository: ghcr.io/xtreemmak/ggrequestz
       pullPolicy: IfNotPresent
-      tag: 1.2.5@sha256:ff5adae9de25018f7827fb5857d974f31ac212c51a52937efdcdcdb95cd3feb8
+      tag: 1.3.0@sha256:a80559ce491e6e45158bf4e224eb6284ffca9c37c4b3f7b3b04bc370e077372a
     securityContext:
       container:
         runAsUser: 0
@@ -75,7 +75,7 @@ spec:
               env:
                 # PM2_INSTANCES: 1
                 APP_PORT: "{{ .Values.service.main.ports.main.port }}"
-                PUBLIC_SITE_URL: "{{ .Values.chartContext.appUrl }}"
+                ORIGIN: "{{ .Values.chartContext.appUrl }}"
                 # Database Configuration
                 POSTGRES_HOST:
                   secretKeyRef:
@@ -107,7 +107,8 @@ spec:
                 # GOTIFY_TOKEN: your_gotify_token
 
                 # ROMM Game Library Integration (optional)
-                ROMM_SERVER_URL: http://romm.romm.svc.cluster.local:8000
+                ROMM_SERVER_URL: http://romm.romm.svc.cluster.local:10680
+                ROMM_SERVER_URL_PUBLIC: "https://romm.${DOMAIN_2}"
                 # ROMM_API_TOKEN: "${ROMM_ADMIN_TOKEN}"
                 # ROMM_USERNAME: "${ROMM_ADMIN_USER}"
                 # ROMM_PASSWORD: "${ROMM_ADMIN_PASS}"
