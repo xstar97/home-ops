@@ -119,13 +119,17 @@ spec:
                 OIDC_CLIENT_ID: ggrequestz
                 OIDC_CLIENT_SECRET: ${AUTHELIA_CLIENT_SECRET_GGREQUESTZ}
                 OIDC_REDIRECT_URI: '{{ printf "%s/%s" .Values.chartContext.appUrl "api/auth/callback" }}'
+                OIDC_PROVIDER_NAME: "Login with Authelia"
                 # Optional: Custom endpoints (auto-discovered if not set)
                 # OIDC_AUTH_URL: https://your-provider.com/protocol/openid-connect/auth
                 # OIDC_TOKEN_URL: https://your-provider.com/protocol/openid-connect/token
                 # OIDC_USERINFO_URL: https://your-provider.com/protocol/openid-connect/userinfo
 
                 # Optional: Additional scopes
-                OIDC_SCOPES: openid profile email groups
+                OIDC_SCOPES: openid email profile
+                OIDC_ROLE_MAP: "lldap_ggrequestz_viewer:viewer,lldap_ggrequestz_manager:manager"
+                OIDC_ADMIN_GROUP: "lldap_admin:admin"
+                OIDC_GROUPS_CLAIM: groups
     ingress:
       main:
         enabled: true
@@ -148,7 +152,7 @@ spec:
         enabled: true
         user: ggrequestz
         database: ggrequestz
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
