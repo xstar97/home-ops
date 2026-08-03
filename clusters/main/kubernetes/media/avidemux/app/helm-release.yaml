@@ -1,0 +1,128 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: avidemux
+  namespace: avidemux
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: avidemux
+      version: 15.7.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-avidemux"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-avidemux"
+    image:
+      repository: ghcr.io/aetaric/avidemux
+      pullPolicy: IfNotPresent
+      tag: 3.6.1-amd64@sha256:a2cbd2dfc908fb5620ef1f31e7a99cf9cc706efb1df5fb85e62a33c5d6efcbe3
+
+    service:
+      main:
+        ports:
+          main:
+            port: 5800
+      vnc:
+        enabled: true
+        ports:
+          vnc:
+            enabled: true
+            port: 5900
+
+    avidemux:
+      KEEP_APP_RUNNING: true
+      DISPLAY_WIDTH: 1280
+      DISPLAY_HEIGHT: 768
+      SECURE_CONNECTION: false
+      ENABLE_CJK_FONT: false
+      DARK_MODE: true
+      WEB_FILE_MANAGER: true
+      WEB_TERMINAL: true
+      WEB_NOTIFICATION: true
+      CONTAINER_DEBUG: true
+      # INSTALL_PACKAGES: ""
+
+    configmap:
+      avidemux:
+        enabled: true
+        data:
+          # ENABLE_CJK_FONT: '{{ ternary "1" "0" .Values.avidemux.ENABLE_CJK_FONT }}'
+          # KEEP_APP_RUNNING: '{{ ternary "1" "0" .Values.avidemux.KEEP_APP_RUNNING }}'
+          # SECURE_CONNECTION: '{{ ternary "1" "0" .Values.avidemux.SECURE_CONNECTION }}'
+          # DISPLAY_WIDTH: "{{ .Values.avidemux.DISPLAY_WIDTH }}"
+          # DISPLAY_HEIGHT: "{{ .Values.avidemux.DISPLAY_HEIGHT }}"
+          DARK_MODE: '{{ ternary "1" "0" .Values.avidemux.DARK_MODE }}'
+          CONTAINER_DEBUG: '{{ ternary "1" "0" .Values.avidemux.CONTAINER_DEBUG }}'
+          WEB_FILE_MANAGER: '{{ ternary "1" "0" .Values.avidemux.WEB_FILE_MANAGER }}'
+          WEB_TERMINAL: '{{ ternary "1" "0" .Values.avidemux.WEB_TERMINAL }}'
+          WEB_NOTIFICATION: '{{ ternary "1" "0" .Values.avidemux.WEB_NOTIFICATION }}'
+          WEB_LISTENING_PORT: "{{ .Values.service.main.ports.main.port }}"
+          VNC_LISTENING_PORT: "{{ .Values.service.vnc.ports.vnc.port }}"
+          # INSTALL_PACKAGES: '{{ join " " .Values.avidemux.INSTALL_PACKAGES }}'
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: avidemux.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      storage:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+    cnpg:
+      main:
+        enabled: false
