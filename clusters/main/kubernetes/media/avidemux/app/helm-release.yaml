@@ -89,6 +89,16 @@ spec:
           VNC_LISTENING_PORT: "{{ .Values.service.vnc.ports.vnc.port }}"
           # INSTALL_PACKAGES: '{{ join " " .Values.avidemux.INSTALL_PACKAGES }}'
 
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: nvidia
+          containers:
+            main:
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
+
     ingress:
       main:
         enabled: true
