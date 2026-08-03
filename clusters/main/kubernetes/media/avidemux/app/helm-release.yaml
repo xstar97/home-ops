@@ -40,7 +40,10 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-avidemux"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-avidemux"
-
+    image:
+      repository: ghcr.io/jlesage/avidemux
+      tag: v26.07.3@sha256:69e318cf94c7ed810f3fff8996ac9038a19f3b4e3f94d7141b7da0169571ec12
+      pullPolicy: IfNotPresent
     service:
       main:
         ports:
