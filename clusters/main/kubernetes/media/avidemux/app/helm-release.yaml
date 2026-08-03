@@ -92,7 +92,7 @@ spec:
     workload:
       main:
         podSpec:
-          runtimeClassName: nvidia
+          # runtimeClassName: nvidia
           containers:
             main:
               securityContext:
@@ -105,9 +105,9 @@ spec:
                     name: "avidemux"
               env:
                 VNC_PASSWORD: ""
-              resources:
-                limits:
-                  nvidia.com/gpu: 1
+              # resources:
+              #   limits:
+              #     nvidia.com/gpu: 1
 
     ingress:
       main:
