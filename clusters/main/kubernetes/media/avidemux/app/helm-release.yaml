@@ -40,10 +40,6 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-avidemux"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-avidemux"
-    image:
-      repository: ghcr.io/aetaric/avidemux
-      pullPolicy: IfNotPresent
-      tag: 3.6.1-amd64@sha256:a2cbd2dfc908fb5620ef1f31e7a99cf9cc706efb1df5fb85e62a33c5d6efcbe3
 
     service:
       main:
