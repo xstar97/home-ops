@@ -67,6 +67,7 @@ spec:
       WEB_TERMINAL: true
       WEB_NOTIFICATION: false
       CONTAINER_DEBUG: true
+      WEB_AUDIO: true
       # INSTALL_PACKAGES: ""
 
     configmap:
@@ -80,6 +81,7 @@ spec:
           # DISPLAY_HEIGHT: "{{ .Values.avidemux.DISPLAY_HEIGHT }}"
           DARK_MODE: '{{ ternary "1" "0" .Values.avidemux.DARK_MODE }}'
           CONTAINER_DEBUG: '{{ ternary "1" "0" .Values.avidemux.CONTAINER_DEBUG }}'
+          WEB_AUDIO: '{{ ternary "1" "0" .Values.avidemux.WEB_AUDIO }}'
           WEB_FILE_MANAGER: '{{ ternary "1" "0" .Values.avidemux.WEB_FILE_MANAGER }}'
           WEB_TERMINAL: '{{ ternary "1" "0" .Values.avidemux.WEB_TERMINAL }}'
           WEB_NOTIFICATION: '{{ ternary "1" "0" .Values.avidemux.WEB_NOTIFICATION }}'
