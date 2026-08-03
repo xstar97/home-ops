@@ -144,6 +144,3 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
-    cnpg:
-      main:
-        enabled: false
