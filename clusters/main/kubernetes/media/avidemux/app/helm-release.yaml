@@ -65,7 +65,7 @@ spec:
       DARK_MODE: true
       WEB_FILE_MANAGER: true
       WEB_TERMINAL: true
-      WEB_NOTIFICATION: true
+      WEB_NOTIFICATION: false
       CONTAINER_DEBUG: true
       # INSTALL_PACKAGES: ""
 
