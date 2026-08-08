@@ -19,3 +19,7 @@ spec:
         enabled: true
       dashboards:
         enabled: true
+    notification:
+      enabled: true
+      secretName: tuppr-notifications
+      secretKey: url
