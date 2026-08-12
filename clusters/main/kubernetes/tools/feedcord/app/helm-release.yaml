@@ -40,13 +40,25 @@ spec:
             - ""
           RssUrls:
             - "https://www.trackawesomelist.com/awesome-selfhosted/awesome-selfhosted/rss.xml"
-            - "https://selfh.st/rss/"
           Forum: false
           DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
-          RssCheckIntervalMinutes: 10
+          RssCheckIntervalMinutes: 60
           EnableAutoRemove: false
           Color: 8411391
           DescriptionLimit: 250
           MarkdownFormat: true
           PersistenceOnShutdown: true
-      ConcurrentRequests: 40
+        - Id: Selfh News Feed
+          YoutubeUrls:
+            - ""
+          RssUrls:
+            - "https://selfh.st/rss/"
+          Forum: false
+          DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
+          RssCheckIntervalMinutes: 60
+          EnableAutoRemove: false
+          Color: 8411391
+          DescriptionLimit: 250
+          MarkdownFormat: true
+          PersistenceOnShutdown: true
+      ConcurrentRequests: 60
