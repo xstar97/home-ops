@@ -45,18 +45,19 @@ My entire HomeLab stack in a single 15u rack!
 
 [![Talos](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/talos_version?format=shields&style=for-the-badge&logo=talos&logoColor=white&label=%20&color=blue)](https://www.talos.dev/)
 [![Kubernetes](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/kubernetes_version?format=shields&style=for-the-badge&logo=kubernetes&logoColor=white&label=%20&color=blue)](https://kubernetes.io/)
-[![Flux](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/flux_version?format=shields&style=for-the-badge&logo=flux&logoColor=white&label=%20&color=blue)](https://fluxcd.io)
+[![Flux](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/flux_version?format=shields&style=for-the-badge&logo=flux&logoColor=white&label=%20&color=blue)](https://github.com/etcd-io/etcd)
 
 <br>
 
 [![Age](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_age_days?format=shields&style=flat-square&label=Age)](https://github.com/home-operations/kromgo)
 [![Uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo)
-
 [![Nodes](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_node_count?format=shields&style=flat-square&label=Nodes)](https://github.com/home-operations/kromgo)
+
 [![Pods](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_pod_count?format=shields&style=flat-square&label=Pods)](https://github.com/home-operations/kromgo)
 [![Services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_ns_count?format=shields&style=flat-square&label=Charts)](https://github.com/home-operations/kromgo)
 [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo)
 [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo)
+[![Etcd](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/cluster_etcd_fragmentation?format=shields&style=flat-square&label=Etcd)](https://github.com/home-operations/kromgo)
 
 ---
 
