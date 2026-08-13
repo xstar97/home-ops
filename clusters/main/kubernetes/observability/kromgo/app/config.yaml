@@ -100,6 +100,12 @@ badges:
     valueExpr: string(result) + "%"
     colorExpr: 'colorScale(result, [35.0, 75.0], ["green", "orange", "red"])'
 
+  - id: cluster_etcd_fragmentation
+    title: Etcd Fragmentation
+    query: round(100*((etcd_mvcc_db_total_size_in_bytes{instance="10.0.0.191:2381"}-etcd_mvcc_db_total_size_in_use_in_bytes{instance="10.0.0.191:2381"})/etcd_mvcc_db_total_size_in_bytes{instance="10.0.0.191:2381"}),0.01)
+    valueExpr: string(result) + "%"
+    colorExpr: 'colorScale(result, [25.0, 50.0], ["green", "orange", "red"])'
+
   - id: cluster_memory_usage
     title: Memory
     query: round(sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"} - node_memory_MemAvailable_bytes{instance="10.0.0.191:9100"}) / sum(node_memory_MemTotal_bytes{instance="10.0.0.191:9100"}) * 100, 0.1)

@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 18.16.5
+      version: 18.16.9
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/arabcoders/ytptube
       pullPolicy: IfNotPresent
-      tag: v2.6.5@sha256:95e0be28fefba9794af4661df71139642b91cfeaf266ee99c450000a5c6e265e
+      tag: v2.6.7@sha256:148f0231445f961997cc0e04bdabfc37b724cbf0a0694bbb59a58049aa8bcfb9
     service:
       main:
         ports:

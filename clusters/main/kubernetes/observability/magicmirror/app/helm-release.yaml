@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 18.16.5
+      version: 18.16.9
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -41,11 +41,11 @@ spec:
     image:
       repository: karsten13/magicmirror
       pullPolicy: IfNotPresent
-      tag: alpine-v2.37.0@sha256:21d5b1498300ae6b1244734131271a99b5c0807125155ffab1ccb43393114611
+      tag: alpine-v2.37.0@sha256:23b5d2c38303cbb928cf00e264f797d5754c14ddf2c8bd45aa72c3e5218357fc
     mmpmImage:
       repository: karsten13/mmpm
       pullPolicy: IfNotPresent
-      tag: 4.6.4@sha256:f5ac3adbdb40f4d7ae70a986dbafcd490060cb16ef7963fb0fc64a77a30817ce
+      tag: 4.6.4@sha256:1d289b40b9bfead5f06b58901ed022650f590b5d9b09e8e19865ea9c7ab0ead6
     securityContext:
       container:
         runAsUser: 0

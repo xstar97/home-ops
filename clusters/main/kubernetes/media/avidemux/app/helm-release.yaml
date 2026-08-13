@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: avidemux
-      version: 15.7.0
+      version: 15.8.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -42,7 +42,7 @@ spec:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-avidemux"
     image:
       repository: ghcr.io/jlesage/avidemux
-      tag: v26.07.3@sha256:69e318cf94c7ed810f3fff8996ac9038a19f3b4e3f94d7141b7da0169571ec12
+      tag: v26.08.1@sha256:238fa92358e56dd133c34cc8a1b0d71245b1d38126f952176cd1e3ba38a2c423
       pullPolicy: IfNotPresent
     service:
       main:

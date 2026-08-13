@@ -10,7 +10,7 @@ services:
   dockhand:
     scale: 1
     container_name: dockhand
-    image: fnsys/dockhand:v1.0.40@sha256:29d4183d8aef2cc7fbc50750fa11434ec331e044647288ae47fe15260e68a44c
+    image: fnsys/dockhand:v1.0.41@sha256:de6c7d4bb30d7563a94991f15915c58067ebad29acfbc365fe6ce0c5785b4386
     restart: on-failure
     networks:
       - network_internal
