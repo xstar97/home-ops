@@ -140,15 +140,15 @@ spec:
       smtp:
         enabled: true
         # SMTP hostname, required if SMTP is enabled.
-        host: "${SMTP_GMAIL_HOST}"
+        host: "${SMTP_MIGADU_HOST}"
         # SMTP sender e-mail address, required if SMTP is enabled.
-        from: "vaultwarden@${DOMAIN_2}"
+        from: "${SMTP_MIGADU_VAULTWARDEN_EMAIL}"
         ## SMTP sender name, defaults to 'Bitwarden_RS'.
-        # fromName: ""
+        fromName: "VaultWarden"
         ## Enable SSL connection.
-        # security: starttls
+        security: "${SMTP_MIGADU_SECURITY}"
         ## SMTP port. Defaults to 587 with STARTTLS, 465 with FORCE_TLS, and 25 without SSL.
-        port: ${SMTP_GMAIL_PORT}
+        port: ${SMTP_MIGADU_PORT}
         ## SMTP Authentication Mechanisms. Comma-separated options: 'Plain', 'Login' and 'Xoauth2'. Defaults to 'Plain'.
         # authMechanism: Plain
         ## Hostname to be sent for SMTP HELO. Defaults to pod name.
@@ -160,9 +160,9 @@ spec:
         ## Accept invalid certificates. DANGEROUS, vulnerable to men-in-the-middle attacks!
         # invalidCertificate: false
         ## SMTP username.
-        user: "${SMTP_GMAIL_EMAIL}"
+        user: "${SMTP_MIGADU_VAULTWARDEN_EMAIL}"
         ## SMTP password. Required is user is specified, ignored if no user provided.
-        password: "${SMTP_GMAIL_PASS_VAULTWARDEN}"
+        password: "${SMTP_MIGADU_VAULTWARDEN_PASSW}"
       ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
       yubico:
         enabled: false
