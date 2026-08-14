@@ -6,10 +6,10 @@ resources:
   - doublecommander/ks.yaml
   - feedcord/ks.yaml
   # - fileshelter/ks.yaml
-  # - it-tools/ks.yaml
-  # - omni-tools/ks.yaml
+  - it-tools/ks.yaml
+  - omni-tools/ks.yaml
   # - reubah/ks.yaml
   # - restreamer/ks.yaml
   # - snippet-box/ks.yaml
   # - stirling-pdf/ks.yaml
-  # - string-is/ks.yaml
+  - string-is/ks.yaml
