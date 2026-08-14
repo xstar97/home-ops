@@ -36,7 +36,7 @@ spec:
     adminUser:
       create: true
       username: admin
-      passwordHash: "$2a$10$JcKqMk1HCHG6T5bKiBEUh.rS9j7tYwMhAhBRDVvBdCujSZVMtn0KC"
+      passwordHash: "$2a$10$zbuAGqz3.4YAk4NPiDMwVOzRJu1QwzAUkDxYDcg3c3L74xKDXf.fi"
     ingress:
       enabled: true
       ingressClassName: "internal"
