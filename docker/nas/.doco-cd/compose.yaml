@@ -54,6 +54,11 @@ services:
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 3600
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - webhook_secret
+      - git_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
