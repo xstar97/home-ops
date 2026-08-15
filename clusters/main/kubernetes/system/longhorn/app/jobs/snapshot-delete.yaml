@@ -6,8 +6,10 @@ metadata:
 spec:
   concurrency: 1
   cron: 0 2 * * *
-  groups:
-  - default
+  # groups:
+  # - default
+  # Do not run this against every volume: it can remove CSI snapshots that
+  # VolSync is still using as a clone source.
   name: delete
   retain: 0
   task: snapshot-delete
