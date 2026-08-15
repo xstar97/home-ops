@@ -48,6 +48,7 @@ services:
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
@@ -56,9 +57,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
-      - ${SSH_KEY_FILE}:/run/secrets/ssh_private_key:ro
-      - ${AGEKEY_FILE}:/run/secrets/sops_age_key:ro
-      - ${WEBHOOK_FILE}:/run/secrets/webhook_secret:ro
+      # - ${SSH_KEY_FILE}:/run/secrets/ssh_private_key:ro
+      # - ${AGEKEY_FILE}:/run/secrets/sops_age_key:ro
+      # - ${WEBHOOK_FILE}:/run/secrets/webhook_secret:ro
+      # - ${GIT_ACCESS_TOKEN_FILE}:/run/secrets/git_access_token:ro
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       interval: 30s
@@ -74,3 +76,12 @@ networks:
     external: true
 volumes:
   doco_data: {}
+secrets:
+  ssh_private_key:
+    file: ${SSH_KEY_FILE}
+  sops_age_key:
+    file: ${AGEKEY_FILE}
+  webhook_secret:
+    file: ${WEBHOOK_FILE}
+  git_access_token:
+    file: ${GAT_FILE}
