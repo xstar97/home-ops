@@ -1,5 +1,5 @@
 [tools]
-bitwarden = "2026.5.0"
+bitwarden = "2026.7.0"
 bitwarden-secrets-manager = "2.1.0"
 flux2 = "2.8.8"
 kubectl = "1.36.3"
