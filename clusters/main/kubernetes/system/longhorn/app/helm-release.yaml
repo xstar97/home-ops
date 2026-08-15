@@ -38,6 +38,9 @@ spec:
       # Overprovisioning might be needed when using volsync
       storageOverProvisioningPercentage: "100000"
       storageReservedPercentageForDefaultDisk: "10"
+      # Do not reserve CPU for the replacement instance manager during upgrades.
+      # This single-node cluster has insufficient allocatable CPU for the default request.
+      guaranteedInstanceManagerCPU: "0"
       # v2DataEngine: true
     csi:
       attacherReplicaCount: 1
