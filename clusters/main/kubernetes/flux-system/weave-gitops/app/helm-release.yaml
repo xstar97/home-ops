@@ -30,13 +30,21 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  valuesFrom:
+    - kind: Secret
+      name: weave-gitops-admin
+      valuesKey: passwordHash
+      targetPath: adminUser.passwordHash
+    - kind: Secret
+      name: weave-gitops-admin
+      valuesKey: username
+      targetPath: adminUser.username
   values:
     gatus:
       group: core
     adminUser:
       create: true
       username: admin
-      passwordHash: "$2a$10$zbuAGqz3.4YAk4NPiDMwVOzRJu1QwzAUkDxYDcg3c3L74xKDXf.fi"
     ingress:
       enabled: true
       ingressClassName: "internal"

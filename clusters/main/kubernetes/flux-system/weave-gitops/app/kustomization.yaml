@@ -4,5 +4,6 @@ namespace: flux-system
 resources:
   - helm-release.yaml
   - namespace.yaml
+  - weave-gitops-admin.secret.yaml
 components:
   - ../../../../components/notifications/discord
