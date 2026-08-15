@@ -1,6 +1,6 @@
 services:
   doco-cd-updater:
-    image: ghcr.io/kimdre/doco-cd:0.99@sha256:027be49dc467fbd1440446135813ac5aaa6795ee36bf306d1dc0a3b36d00d697
+    image: ghcr.io/kimdre/doco-cd:0.109@sha256:1c7941bd12fe94aea3c2560cb85f775e48928be102f990dfae3aebe5bcb170b3
     container_name: doco-cd-updater
     restart: unless-stopped
     environment:
@@ -13,15 +13,15 @@ services:
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 300
-          target: updater  # deploys the updater target on change
+          target: updater
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SCHEDULER_ENABLED: false  # disable scheduler on updater instance
+      SCHEDULER_ENABLED: "false"
     secrets:
       - ssh_private_key
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - updater-data:/data
+      - doco_updater_data:/data
     healthcheck:
       test: ["CMD", "/doco-cd", "healthcheck"]
       interval: 30s
@@ -31,7 +31,7 @@ services:
     labels:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
 volumes:
-  updater-data: {}
+  doco_updater_data: {}
 secrets:
   ssh_private_key:
     file: ${SSH_KEY_FILE}

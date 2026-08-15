@@ -1,3 +1,11 @@
+name: doco-cd-updater
+reference: main
+working_dir: ./docker/seb/.doco-cd
+compose_files:
+  - compose.updater.yaml
+force_recreate: true
+
+---
 name: gitops
 working_dir: ./docker/seb/apps
 auto_discovery:
