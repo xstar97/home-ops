@@ -83,6 +83,6 @@ secrets:
   sops_age_key:
     file: ${AGEKEY_FILE}
   webhook_secret:
-    file: ${WEBHOOK_FILE}
+    file: "./webhook.enc.txt" # ${WEBHOOK_FILE}
   git_access_token:
-    file: ${GAT_FILE}
+    file: "./git-access-token.enc.txt" # //${GAT_FILE}

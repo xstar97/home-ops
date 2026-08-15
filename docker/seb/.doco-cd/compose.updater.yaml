@@ -37,4 +37,4 @@ secrets:
   ssh_private_key:
     file: ${SSH_KEY_FILE}
   git_access_token:
-    file: ${GAT_FILE}
+    file: "./git-access-token.enc.txt" # //${GAT_FILE}
