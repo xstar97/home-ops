@@ -39,21 +39,21 @@ services:
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
-      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SSH_PRIVATE_KEY_PASSPHRASE: ""
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       APPRISE_API_URL: http://apprise:8000/notify
       APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
-      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
-      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 3600
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
     secrets:
       - ssh_private_key
       - sops_age_key

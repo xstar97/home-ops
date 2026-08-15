@@ -14,12 +14,14 @@ services:
           reference: main
           interval: 300
           target: updater
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
       SCHEDULER_ENABLED: "false"
     secrets:
       - ssh_private_key
+      - sops_age_key
       - git_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -37,5 +39,7 @@ volumes:
 secrets:
   ssh_private_key:
     file: ${SSH_KEY_FILE}
+  sops_age_key:
+    file: ${AGEKEY_FILE}
   git_access_token:
     file: ${GAT_FILE}
