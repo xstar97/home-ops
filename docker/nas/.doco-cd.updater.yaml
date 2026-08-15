@@ -1,0 +1,6 @@
+name: doco-cd
+reference: main
+working_dir: ./docker/nas/.doco-cd
+compose_files:
+  - compose.yaml
+force_recreate: true
