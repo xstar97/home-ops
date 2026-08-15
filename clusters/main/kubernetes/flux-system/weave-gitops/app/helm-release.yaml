@@ -37,14 +37,14 @@ spec:
       targetPath: adminUser.passwordHash
     - kind: Secret
       name: weave-gitops-admin
-      valuesKey: username
+      valuesKey: userName
       targetPath: adminUser.username
   values:
     gatus:
       group: core
     adminUser:
       create: true
-      username: admin
+      # username: admin
     ingress:
       enabled: true
       ingressClassName: "internal"
