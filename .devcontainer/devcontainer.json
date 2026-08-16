@@ -6,11 +6,17 @@
     "--name=devcontainer",
     "--security-opt=seccomp=unconfined"
   ],
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
-  "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh",
-  "postStartCommand": "git config --global --replace-all safe.directory ${containerWorkspaceFolder}",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest",
+      "moby": false,
+      "dockerDashComposeVersion": "none",
+      "installDockerBuildx": true,
+      "installDockerComposeSwitch": false
+    }
+  },
+  "postCreateCommand": "bash \"${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh\"",
+  "postStartCommand": "bash \"${containerWorkspaceFolder}/.devcontainer/init.sh\"",
   "customizations": {
     "vscode": {
       "extensions": [
