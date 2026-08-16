@@ -27,8 +27,7 @@
         "eamodio.gitlens",
         "streetsidesoftware.code-spell-checker",
         "yzhang.markdown-all-in-one",
-        "DavidAnson.vscode-markdownlint",
-        "GitHub.copilot"
+        "DavidAnson.vscode-markdownlint"
       ]
     }
   }
