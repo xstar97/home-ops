@@ -3,19 +3,14 @@
   "name": "TalosCluster",
   "image": "oci.trueforge.org/containerforge/devcontainer:4.1.1@sha256:237581db8076e2282b5f48e91f6dda4710c1860e7b2ec0ac2b3f45873351a0e0",
   "runArgs": [
-    "--name=devcontainer"
+    "--name=devcontainer",
+    "--security-opt=seccomp=unconfined"
   ],
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
   ],
-  "postCreateCommand": {
-      "setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh"
-    },
-  "postStartCommand": {
-      "git": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-      "docker": "/config/.local/bin/mise docker:install"
-      //"postCreateCommand": "./postCreateCommand.sh"
-    },
+  "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh",
+  "postStartCommand": "git config --global --replace-all safe.directory ${containerWorkspaceFolder}",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -28,15 +23,9 @@
         "usernamehw.errorlens",
         "redhat.vscode-yaml",
         "weaveworks.vscode-gitops-tools",
-        "Tim-Koehler.helm-intellisense",
         "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "sandipchitale.vscode-kubernetes-helm-extras",
-        "VadzimNestsiarenka.helm-template-preview-and-more",
-        "karyan40024.helmix",
         "eamodio.gitlens",
         "streetsidesoftware.code-spell-checker",
-        "Codium.codium",
-        "mhutchie.git-graph",
         "yzhang.markdown-all-in-one",
         "DavidAnson.vscode-markdownlint",
         "GitHub.copilot"
