@@ -13,6 +13,7 @@
         "eamodio.gitlens",
         "streetsidesoftware.code-spell-checker",
         "yzhang.markdown-all-in-one",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "openai.chatgpt"
     ]
 }
