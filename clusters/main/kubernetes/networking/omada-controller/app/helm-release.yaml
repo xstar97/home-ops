@@ -46,13 +46,14 @@ spec:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-omada-controller"
     service:
       main:
+        type: LoadBalancer
+        loadBalancerIP: "${OMADA_IP}"
+        integrations:
+          metallb:
+            enabled: true
         ports:
           main:
             port: 8043
-          comm:
-            protocol: https
-            enabled: true
-            port: 8843
       omada:
         enabled: true
         type: LoadBalancer
@@ -61,6 +62,14 @@ spec:
           metallb:
             enabled: true
         ports:
+          manage:
+            protocol: http
+            enabled: true
+            port: 8088
+          portal:
+            protocol: https
+            enabled: true
+            port: 8843
           # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v4*.
           managerv1:
             enabled: true
@@ -165,7 +174,8 @@ spec:
             main:
               env:
                 MANAGE_HTTPS_PORT: "{{ .Values.service.main.ports.main.port }}"
-                PORTAL_HTTPS_PORT: "{{ .Values.service.main.ports.comm.port }}"
+                MANAGE_HTTP_PORT: "{{ .Values.service.omada.ports.manage.port }}"
+                PORTAL_HTTPS_PORT: "{{ .Values.service.omada.ports.portal.port }}"
                 PORT_ADOPT_V1: "{{ .Values.service.omada.ports.adoptv1.port }}"
                 PORT_APP_DISCOVERY: "{{ .Values.service.omada.ports.app.port }}"
                 PORT_DISCOVERY: "{{ .Values.service.omada.ports.discovery.port }}"
