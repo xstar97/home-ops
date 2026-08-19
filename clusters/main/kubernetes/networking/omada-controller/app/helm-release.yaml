@@ -61,38 +61,52 @@ spec:
           metallb:
             enabled: true
         ports:
+          # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v4*.
           managerv1:
             enabled: true
             protocol: tcp
             port: 29811
+          # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v4*.
           adoptv1:
             enabled: true
             protocol: tcp
             port: 29812
+          # When upgrading the firmware for the Omada devices running firmware fully adapted to Omada Controller v4*.
           upgradev1:
             enabled: true
             protocol: tcp
             port: 29813
+          # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v5*.
           managerv2:
             enabled: true
             protocol: tcp
             port: 29814
+          # Starting from v5.9, Omada Controller receives Device Info, Packet Capture Files, and DPI Application Statistic Data from the Omada devices.
           transferv2:
             enabled: true
             protocol: tcp
             port: 29815
+          # Starting from v5.9, Omada Controller establishes the remote control terminal session with the Omada devices.
           rtty:
             enabled: true
             protocol: tcp
             port: 29816
+          # To ensure proper communication between devices and the Controller, TCP port 29817 must be open.
+          monitor:
+            enabled: true
+            protocol: tcp
+            port: 29817
+          # Omada Controller and Omada Discovery Utility discover Omada devices.
           discovery:
             enabled: true
             protocol: udp
             port: 29810
+          # Omada Controller can be discovered by the Omada APP within the same network through this port.
           app:
             enabled: true
             protocol: udp
             port: 27001
+          # The factory-installed discovery port for the OLT
           management:
             enabled: true
             protocol: udp
@@ -160,6 +174,7 @@ spec:
                 PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transferv2.port }}"
                 PORT_RTTY: "{{ .Values.service.omada.ports.rtty.port }}"
                 PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgradev1.port }}"
+                PORT_DEVICE_MONITOR: "{{ .Values.service.omada.ports.monitor.port }}"
                 # ROOTLESS: "true"
                 # PUSERNAME: 568
                 # PGROUP: 568
