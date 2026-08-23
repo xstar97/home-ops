@@ -41,7 +41,7 @@ spec:
     image:
       repository: ghcr.io/xtreemmak/ggrequestz
       pullPolicy: IfNotPresent
-      tag: 1.4.0@sha256:6f4a8d08a827aa06f6b664d0f4ed0d76ba408f315e38787fd248fa36767511c1
+      tag: 1.5.0@sha256:32a55965b4d76bbe3dc8d0552afd882f74d6ed8c494ee6a4355ba7573f038466
     securityContext:
       container:
         runAsUser: 0
