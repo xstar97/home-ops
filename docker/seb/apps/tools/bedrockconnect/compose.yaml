@@ -1,5 +1,5 @@
 x-healthcheck: &healthcheck
-  test: ["CMD", "/mc-monitor", "status-bedrock", "--host", "127.0.0.1", "--port", "19132"]
+  test: ["CMD", "/usr/bin/mc-monitor", "status-bedrock", "--host", "127.0.0.1", "--port", "19132"]
   interval: 30s
   timeout: 10s
   retries: 3
@@ -9,8 +9,12 @@ services:
   bedrockconnect:
     scale: 1
     container_name: bedrockconnect
-    image: pugmatt/bedrock-connect:1.66@sha256:6fbbe37a4d94af7d60fb399d0b55cd70a00c5dfee76dbb859844a48cf74ebcf6
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bedrockconnect-custom:1.66
     restart: unless-stopped
+    healthcheck: *healthcheck
     ports:
       - "19132:19132/udp"
     network_mode: host
@@ -35,20 +39,8 @@ services:
       BC_CUSTOM_SERVERS: /app/custom_servers.json
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/bedrockconnect/config/custom_servers.json:/app/custom_servers.json
-  bedrockconnect-monitor:
-    image: docker.io/itzg/mc-monitor:0.17.1@sha256:f0667f713856e953dc82c70a608b986b943b33f4b65a9dd55a8ede17fe48f34e
-    container_name: bedrockconnect-monitor
-    restart: unless-stopped
-    network_mode: host
-    command: export-for-prometheus
-    environment:
-      EXPORT_BEDROCK_SERVERS: 127.0.0.1:19132
-      EXPORT_PORT: 9123
-      TIMEOUT: 10s
-    healthcheck: *healthcheck
-    depends_on:
-      bedrockconnect:
-        condition: service_started
+    labels:
+      wud.watch: false
 networks:
   network_internal:
     external: true
