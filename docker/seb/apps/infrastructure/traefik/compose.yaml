@@ -75,7 +75,7 @@ services:
     depends_on:
       error-pages: {condition: service_healthy}
   adguard-dns-companion:
-    image: python:3.14-alpine
+    image: python:3.14-alpine@sha256:05b2b8b732ecd268fee8727a369f936f022d1321b59befd13c30ede22769dcdc
     container_name: traefik-adguard-dns
     restart: unless-stopped
     command: ["python", "/app/adguard-dns-companion.py"]
