@@ -37,6 +37,7 @@ services:
       - --providers.docker.exposedByDefault=false
       - --providers.file.directory=/etc/traefik/dynamic
       - --providers.file.watch=true
+      - --providers.docker.network=network_internal
       - "--log.level=DEBUG"  # Set log level to DEBUG
       - "--accesslog=true"   # Enable access logs to stdout
       - "--api.insecure=true"
