@@ -70,8 +70,7 @@ spec:
                   path: /api/health
                 startup:
                   enabled: true
-                  type: http
-                  path: /api/health
+                  type: tcp
               env:
                 # PM2_INSTANCES: 1
                 APP_PORT: "{{ .Values.service.main.ports.main.port }}"
