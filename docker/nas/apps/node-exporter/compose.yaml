@@ -1,5 +1,5 @@
 x-healthcheck: &healthcheck
-  test: curl -f http://localhost:9100/metrics || exit 1
+  test: ["CMD", "/bin/httpcheck", "-t", "5", "http://127.0.0.1:9100/metrics"]
   interval: 30s
   timeout: 10s
   retries: 3
@@ -8,7 +8,10 @@ x-healthcheck: &healthcheck
 services:
   node-exporter:
     scale: 1
-    image: quay.io/prometheus/node-exporter:v1.12.1-distroless@sha256:bbfbd533202cfef891c70383ddf6f0c32acece66400ad8091a18bed7aad5db6f
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: node-exporter-custom:v1.12.1-distroless
     container_name: node-exporter
     restart: on-failure
     command:
@@ -17,11 +20,13 @@ services:
     #   - network_internal
     ports:
       - "9100:9100"
-    # healthcheck: *healthcheck
+    healthcheck: *healthcheck
     volumes:
       - '/:/host:ro,rslave'
     mem_limit: 128m
     cpus: 0.25
+    labels:
+      wud.watch: false
 networks:
   # network_internal:
   #   external: true
