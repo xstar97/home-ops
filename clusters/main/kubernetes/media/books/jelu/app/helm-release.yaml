@@ -43,7 +43,7 @@ spec:
     image:
       repository: wabayang/jelu
       pullPolicy: IfNotPresent
-      tag: 0.84.5@sha256:21efed1dab5abbb0d68b6dedaa6de4a0ede8d7acb2b804baab3b6a1c721a66b3
+      tag: 0.84.6@sha256:6a119f79e7df33567b8a73f73a88d5ac41ad792b76591475c7566f9ed4202216
     securityContext:
       container:
         readOnlyRootFilesystem: false
