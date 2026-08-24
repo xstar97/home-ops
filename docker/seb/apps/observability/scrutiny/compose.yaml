@@ -12,6 +12,13 @@ x-healthcheckApi: &healthcheckWeb
   retries: 3
   start_period: 30s
 
+x-healthcheckCollector: &healthcheckCollector
+  test: ["CMD", "pidof", "cron"]
+  interval: 30s
+  timeout: 5s
+  retries: 3
+  start_period: 2m
+
 services:
   scrutiny-db:
     scale: 1
@@ -61,6 +68,7 @@ services:
     image: ghcr.io/analogj/scrutiny:v0.9.3-collector@sha256:9e3413b1992eee55cd4138a2e5b9083ce47f6f3ffce7d1c1eb17995c05728b3e
     container_name: scrutiny-collector
     restart: on-failure
+    healthcheck: *healthcheckCollector
     cap_add:
       - SYS_RAWIO
       - SYS_ADMIN
