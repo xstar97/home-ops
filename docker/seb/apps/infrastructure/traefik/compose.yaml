@@ -74,6 +74,35 @@ services:
       wud.tag.include: ^\d+\.\d+\.\d+$$
     depends_on:
       error-pages: {condition: service_healthy}
+  adguard-dns-companion:
+    image: python:3.14-alpine
+    container_name: traefik-adguard-dns
+    restart: unless-stopped
+    command: ["python", "/app/adguard-dns-companion.py"]
+    environment:
+      ADGUARD_URL: ${ADGUARD_URL}
+      ADGUARD_USERNAME: ${ADGUARD_USERNAME}
+      ADGUARD_PASSWORD: ${ADGUARD_PASSWORD}
+      DNS_DOMAIN: ${BASE_DOMAIN_0}
+      DNS_TARGET: ${SEB_HOSTNAME_LOCAL}
+      POLL_INTERVAL: "30"
+      STATE_FILE: /data/managed-hosts.json
+      TRAEFIK_API_URL: http://traefik:8080/api/http/routers
+      PYTHONDONTWRITEBYTECODE: "1"
+    depends_on:
+      traefik: {condition: service_healthy}
+    networks:
+      - internal
+    volumes:
+      - ./adguard-dns-companion.py:/app/adguard-dns-companion.py:ro
+      - adguard-dns-companion-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
   error-pages:
     container_name: error-pages
     image: ghcr.io/tarampampam/error-pages:4.2.4@sha256:f23f8042a2804669315fd232281d0ccecf1959332314a46e02ca2482064064a6
@@ -96,6 +125,8 @@ services:
       # define service properties
       traefik.http.services.error-pages-service.loadbalancer.server.port: 8080
       wud.tag.include: ^\d+\.\d+\.\d+$
+volumes:
+  adguard-dns-companion-data:
 networks:
   network_internal:
     external: true
