@@ -9,6 +9,7 @@ import logging
 import os
 import re
 import signal
+import sys
 import time
 import urllib.error
 import urllib.request
@@ -155,6 +156,12 @@ def reconcile() -> None:
     LOG.info("reconciled %d Traefik hostname(s)", len(desired_hosts))
 
 
+def healthcheck() -> None:
+    status = request_json(f"{ADGUARD_URL}/control/status", authenticated=True)
+    if not isinstance(status, dict) or status.get("protection_enabled") is not True:
+        raise RuntimeError("AdGuard Home protection is not active")
+
+
 def stop(_signum: int, _frame: object) -> None:
     global STOP
     STOP = True
@@ -175,4 +182,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if "--healthcheck" in sys.argv[1:]:
+        healthcheck()
+    else:
+        main()

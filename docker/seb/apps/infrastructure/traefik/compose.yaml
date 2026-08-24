@@ -5,6 +5,13 @@ x-healthcheck: &healthcheck
   retries: 3
   start_period: 15s
 
+x-healthcheckAdguardDns: &healthcheckAdguardDns
+  test: ["CMD", "python", "/app/adguard-dns-companion.py", "--healthcheck"]
+  interval: 30s
+  timeout: 5s
+  retries: 3
+  start_period: 1m
+
 services:
   traefik:
     image: traefik:v3.7.11@sha256:5203c3f39ca70de6790d964624e042463ffbd57715bc82be155cf224c0dd5144
@@ -77,6 +84,7 @@ services:
     image: python:3.14-alpine@sha256:05b2b8b732ecd268fee8727a369f936f022d1321b59befd13c30ede22769dcdc
     container_name: traefik-adguard-dns
     restart: unless-stopped
+    healthcheck: *healthcheckAdguardDns
     command: ["python", "/app/adguard-dns-companion.py"]
     environment:
       ADGUARD_URL: ${ADGUARD_URL}
