@@ -25,8 +25,7 @@ services:
       - internal
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/scrutiny/db:/var/lib/influxdb2
-    labels:
-      wud.tag.include: ^\d+\.\d+\.\d+-alpine$
+
   scrutiny-web:
     scale: 1
     image: ghcr.io/analogj/scrutiny:v0.9.3-web@sha256:a8c488a625bb79701338403b84a6d025f0884a35d348e412335bbd090f06ff3f
@@ -57,7 +56,6 @@ services:
       homepage.description: Hard Drive S.M.A.R.T Monitoring 
       homepage.widget.type: scrutiny
       homepage.widget.url: http://${SEB_HOSTNAME_LOCAL}:10080
-      wud.tag.include: ^v\d+\.\d+\.\d+-web$
   scrutiny-collector:
     scale: 1
     image: ghcr.io/analogj/scrutiny:v0.9.3-collector@sha256:9e3413b1992eee55cd4138a2e5b9083ce47f6f3ffce7d1c1eb17995c05728b3e
@@ -79,8 +77,6 @@ services:
     depends_on:
       scrutiny-web:
         condition: service_healthy
-    labels:
-      wud.tag.include: ^v\d+\.\d+\.\d+-collector$
     devices:
       - "/dev/sda" # 512GB SSD MQ08B54106998
 networks:

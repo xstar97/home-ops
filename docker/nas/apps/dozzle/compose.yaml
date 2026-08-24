@@ -23,8 +23,6 @@ services:
     healthcheck: *healthcheck
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
   network_internal:
     external: true

@@ -22,8 +22,6 @@ services:
       - '/:/host:ro,rslave'
     mem_limit: 128m
     cpus: 0.25
-    labels:
-      wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
   # network_internal:
   #   external: true

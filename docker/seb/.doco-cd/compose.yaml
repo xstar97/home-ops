@@ -21,8 +21,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
-    labels:
-      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.111@sha256:8c31f63f6bde1b67f0802619bad0599bf5e41503f5532be9cc58d0f063b1eeea
     container_name: doco-cd
@@ -68,8 +66,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
-    labels:
-      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
 networks:
   internal:
     driver: bridge

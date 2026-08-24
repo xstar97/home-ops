@@ -23,8 +23,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - hawser_data:/opt/hawser-stacks
-    labels:
-      wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
   network_internal:
     external: true

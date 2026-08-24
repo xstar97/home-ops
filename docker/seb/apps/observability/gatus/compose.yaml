@@ -51,7 +51,7 @@ services:
       homepage.widget.type: gatus
       homepage.widget.url: http://gatus:8080
       homepage.description: Status Page
-      wud.tag.include: ^\d+\.\d+\.\d+$
+      wud.watch: false
 networks:
   network_internal:
     external: true

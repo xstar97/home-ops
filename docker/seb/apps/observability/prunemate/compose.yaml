@@ -37,7 +37,7 @@ services:
       traefik.http.routers.prunemate.tls: true
       traefik.http.routers.prunemate.tls.certResolver: cf
       traefik.http.routers.prunemate.middlewares: error-pages-middleware
-      wud.tag.include: ^\d+\.\d+\.\d+$
+      wud.watch: false
 networks:
   network_internal:
     external: true

@@ -35,8 +35,6 @@ services:
       homepage.href: https://wud.${BASE_DOMAIN_0}
       homepage.widget.type: whatsupdocker
       homepage.widget.url: http://wud:3000
-      wud.tag.include: ^\d+\.\d+\.\d+$
-      wud.link.template: https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}
 networks:
   network_internal:
     external: true

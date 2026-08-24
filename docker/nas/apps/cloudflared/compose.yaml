@@ -17,8 +17,6 @@ services:
     expose:
       - "8080"
     healthcheck: *healthcheck
-    labels:
-      wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
   network_internal:
     external: true

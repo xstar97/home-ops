@@ -40,7 +40,7 @@ services:
       traefik.http.routers.wol.tls.certResolver: cf
       traefik.http.services.wol.loadbalancer.server.url: http://${SEB_IP}:7777
       traefik.http.routers.wol.middlewares: error-pages-middleware
-      wud.tag.include: ^\d+\.\d+\.\d+$
+      wud.watch: false
 # networks:
 #   network_internal:
 #     external: true

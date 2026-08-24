@@ -18,8 +18,6 @@ services:
       COLLECTOR_RUN_STARTUP: true
     volumes:
       - '/run/udev:/run/udev:ro'
-    labels:
-      wud.tag.include: ^v\d+\.\d+\.\d+-collector$
     devices:
       - "/dev/sda" # ST16000NM001G-2KK103
       - "/dev/sdb" # ST16000NM001G-2KK103

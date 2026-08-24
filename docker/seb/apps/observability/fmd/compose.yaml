@@ -28,7 +28,6 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db/
     labels:
-      wud.tag.include: ^\d+\.\d+\.\d+-alpine$
       traefik.enable: true
       traefik.http.routers.fmd.rule: Host(`fmd.${BASE_DOMAIN_0}`)
       traefik.http.services.fmd.loadbalancer.server.port: 8080

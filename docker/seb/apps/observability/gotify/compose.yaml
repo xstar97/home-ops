@@ -39,7 +39,6 @@ services:
       homepage.widget.url: http://gotify:8080
       homepage.widget.key: "${GOTIFY_HP_WIDGET_KEY}"
       homepage.description: Alert service
-      wud.tag.include: ^\d+\.\d+\.\d+$$
 networks:
   network_internal:
     external: true

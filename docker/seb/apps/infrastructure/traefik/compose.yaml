@@ -71,7 +71,6 @@ services:
       homepage.widget.type: traefik
       homepage.widget.url: http://traefik:8080
       homepage.description: Traefik dashboard
-      wud.tag.include: ^\d+\.\d+\.\d+$$
     depends_on:
       error-pages: {condition: service_healthy}
   adguard-dns-companion:
@@ -124,7 +123,6 @@ services:
       traefik.http.middlewares.error-pages-middleware.errors.query: /{status}.html
       # define service properties
       traefik.http.services.error-pages-service.loadbalancer.server.port: 8080
-      wud.tag.include: ^\d+\.\d+\.\d+$
 volumes:
   adguard-dns-companion-data:
 networks:

@@ -32,8 +32,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
-    labels:
-      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
 volumes:
   doco_updater_data: {}
 secrets:

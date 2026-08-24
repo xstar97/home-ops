@@ -27,7 +27,6 @@ services:
       traefik.http.routers.code.tls: true
       traefik.http.routers.code.tls.certResolver: cf
       traefik.http.routers.code.middlewares: error-pages-middleware
-      wud.tag.include: ^\d+\.\d+\.\d+$
 networks:
   network_internal:
     external: true

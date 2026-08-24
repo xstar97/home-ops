@@ -5,8 +5,6 @@ services:
     #   - internal # Assign to the custom network
     # volumes:
     #   - ${BASE_DOCKER_DATA_DIR}/dockhand/db:/var/lib/postgresql/data
-    # labels:
-    #   - wud.tag.include=^\d+\.\d+\.\d+$
   dockhand:
     scale: 1
     container_name: dockhand
@@ -27,7 +25,6 @@ services:
       traefik.http.routers.dockhand.tls: true
       traefik.http.routers.dockhand.tls.certResolver: cf
       traefik.http.routers.dockhand.middlewares: error-pages-middleware
-      wud.tag.include: ^\d+\.\d+\.\d+$$
     # depends_on:
     #   - postgres
 networks:
