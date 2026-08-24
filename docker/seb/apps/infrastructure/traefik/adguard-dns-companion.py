@@ -95,7 +95,7 @@ def add_rewrite(domain: str, answer: str) -> None:
         body={"domain": domain, "answer": answer},
         authenticated=True,
     )
-    LOG.info("added rewrite %s -> %s", domain, answer)
+    LOG.info("added rewrite https://%s -> %s", domain, answer)
 
 
 def delete_rewrite(domain: str, answer: str) -> None:
@@ -104,7 +104,7 @@ def delete_rewrite(domain: str, answer: str) -> None:
         body={"domain": domain, "answer": answer},
         authenticated=True,
     )
-    LOG.info("deleted rewrite %s -> %s", domain, answer)
+    LOG.info("deleted rewrite https://%s -> %s", domain, answer)
 
 
 def load_managed_hosts() -> set[str]:
