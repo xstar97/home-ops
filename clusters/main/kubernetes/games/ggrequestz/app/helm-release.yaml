@@ -62,12 +62,18 @@ spec:
               probes:
                 liveness:
                   enabled: true
-                  type: http
-                  path: /api/health
+                  type: exec
+                  command:
+                    - /bin/sh
+                    - -c 
+                    - wget -qO- http://127.0.0.1:3000/api/health | grep -q '"status":"ok"'
                 readiness:
                   enabled: true
-                  type: http
-                  path: /api/health
+                  type: exec
+                  command:
+                    - /bin/sh
+                    - -c
+                    - wget -qO- http://127.0.0.1:3000/api/health | grep -q '"status":"ok"'
                 startup:
                   enabled: true
                   type: tcp
