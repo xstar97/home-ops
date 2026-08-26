@@ -128,10 +128,10 @@ spec:
                 OIDC_USERINFO_URL: https://auth.${DOMAIN_2}/api/oidc/userinfo
 
                 # Optional: Additional scopes
-                OIDC_SCOPES: openid email profile
                 OIDC_ROLE_MAP: "lldap_ggrequestz_viewer:viewer,lldap_ggrequestz_manager:manager"
                 OIDC_ADMIN_GROUP: "lldap_admin:admin"
-                OIDC_GROUPS_CLAIM: Groups
+                OIDC_SCOPES: openid email profile groups
+                OIDC_GROUPS_CLAIM: groups
     ingress:
       main:
         enabled: true
