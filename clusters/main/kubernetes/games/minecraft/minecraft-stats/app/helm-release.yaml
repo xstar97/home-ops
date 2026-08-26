@@ -34,7 +34,7 @@ spec:
     gatus:
       group: games-minecraft
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: ghcr.io/xstar97/mc-stats
       pullPolicy: IfNotPresent

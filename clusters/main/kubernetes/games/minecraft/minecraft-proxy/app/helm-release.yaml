@@ -34,7 +34,7 @@ spec:
     gatus:
       group: games-minecraft
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-proxy"

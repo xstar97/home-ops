@@ -34,7 +34,7 @@ spec:
     gatus:
       group: games-minecraft
     global:
-      stopAll: false
+      stopAll: true
 
     ingress:
       main:

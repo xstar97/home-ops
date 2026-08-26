@@ -32,7 +32,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: false
+      stopAll: true
     gatus:
       group: games-minecraft
     credentials:
