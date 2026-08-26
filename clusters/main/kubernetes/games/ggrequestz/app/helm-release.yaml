@@ -62,11 +62,7 @@ spec:
               probes:
                 liveness:
                   enabled: true
-                  type: exec
-                  command:
-                    - /bin/sh
-                    - -c 
-                    - wget -qO- http://127.0.0.1:3000/api/health | grep -q '"status":"ok"'
+                  type: tcp
                 readiness:
                   enabled: true
                   type: exec
@@ -78,7 +74,8 @@ spec:
                   enabled: true
                   type: tcp
               env:
-                # PM2_INSTANCES: 1
+                PM2_INSTANCES: 1
+                POSTGRES_POOL_MAX: 10
                 APP_PORT: "{{ .Values.service.main.ports.main.port }}"
                 ORIGIN: "{{ .Values.chartContext.appUrl }}"
                 # Database Configuration
