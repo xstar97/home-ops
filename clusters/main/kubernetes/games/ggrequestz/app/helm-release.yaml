@@ -78,6 +78,7 @@ spec:
                 POSTGRES_POOL_MAX: 10
                 APP_PORT: "{{ .Values.service.main.ports.main.port }}"
                 ORIGIN: "{{ .Values.chartContext.appUrl }}"
+                PUBLIC_SITE_URL: "{{ .Values.chartContext.appUrl }}"
                 # Database Configuration
                 POSTGRES_HOST:
                   secretKeyRef:
@@ -132,6 +133,7 @@ spec:
                 OIDC_ADMIN_GROUP: "lldap_admin:admin"
                 OIDC_SCOPES: openid email profile groups
                 OIDC_GROUPS_CLAIM: groups
+
     ingress:
       main:
         enabled: true
