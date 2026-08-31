@@ -40,5 +40,26 @@ deFrag = "mise talos:etcd:status --defrag --yes"
 delPods = "mise chart --pods-delete --confirm"
 podInfo = "mise chart -pods-info"
 volClean = "mise volsync --cleanup --dry-run"
-kGetUpgrades = "kubecolor get kubernetesupgrades,talosupgrades"
-kDesUpgrades = "kubecolor describe kubernetesupgrades,talosupgrades"
+kUps = "mise run kUps --"
+
+[tasks.kUps]
+description = "Get or describe Kubernetes and Talos upgrades"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-}" in
+  -g|--get)
+    action="get"
+    ;;
+  -d|--describe)
+    action="describe"
+    ;;
+  *)
+    echo "Usage: kUps (-g|--get|-d|--describe)" >&2
+    exit 2
+    ;;
+esac
+
+kubecolor "$action" kubernetesupgrades,talosupgrades
+'''
