@@ -205,7 +205,7 @@ spec:
                       url: http://${SEB_IP}:10080
 
                 - Home Assistant:
-                    icon: homeassistant.svg
+                    icon: home-assistant.svg
                     href: https://homeassistant.${DOMAIN_0}
                     siteMonitor: http://${HA_IP}:8123
                     description: "Open source home automation that puts local control and privacy first."
