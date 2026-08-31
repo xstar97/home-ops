@@ -204,6 +204,16 @@ spec:
                       type: scrutiny
                       url: http://${SEB_IP}:10080
 
+                - Home Assistant:
+                    icon: homeassistant.svg
+                    href: https://homeassistant.${DOMAIN_0}
+                    siteMonitor: https://homeassistant.${DOMAIN_0}
+                    description: "Open source home automation that puts local control and privacy first."
+                    widget:
+                      type: homeassistant
+                      url:  https://homeassistant.${DOMAIN_0}
+                      key: "${HP_HA_API_KEY}"
+
           bookmarks.yaml: |
             ---
             # For configuration options and examples, please see:
