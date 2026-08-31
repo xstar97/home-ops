@@ -1,6 +1,6 @@
 services:
   doco-cd-updater:
-    image: ghcr.io/kimdre/doco-cd:0.113@sha256:3ba0a834787f08ee0b6271c7d84c315bfa68e5026449d018bbabcd8b3c228bd4
+    image: ghcr.io/kimdre/doco-cd:0.114@sha256:73b60295d651745b1701003e19ce1d5114ebfeb3446dbc4e3aeb17882e1a3568
     container_name: doco-cd-updater
     restart: unless-stopped
     environment:
