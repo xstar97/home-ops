@@ -31,6 +31,7 @@ spec:
   values:
     global:
       stopAll: false
+      skipEmptyWalArchiveCheck: true
     gatus:
       group: games
     credentials:
@@ -162,6 +163,9 @@ spec:
         backups:
           enabled: true
           credentials: cf-restic
+          # Keep the recovered cluster's new WAL archive separate from the
+          # server name used as the recovery source.
+          # revision: "1"
           retentionPolicy: "7d"
           scheduledBackups:
             - name: daily-backup
