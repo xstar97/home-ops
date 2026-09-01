@@ -59,6 +59,45 @@ spec:
               env:
                 PLEX_TOKEN: ${PLEX_TOKEN_PAL}
                 PLEX_URL: ${PLEX_CLUSTER_URL}
+
+    configmap:
+      config:
+        enabled: true
+        data:
+          config.yaml: |
+            plexautolanguages:
+              # show | season
+              update_level: "show"
+              # all | next
+              update_strategy: "all"
+
+              trigger_on_play: true
+              trigger_on_scan: true
+              trigger_on_activity: false
+
+              refresh_library_on_scan: false
+              
+              ignore_labels:
+                - PAL_IGNORE
+
+              plex:
+                url: "${PLEX_CLUSTER_URL}"
+                token: "${PLEX_TOKEN_PAL}"
+
+              scheduler:
+                enable: true
+                schedule_time: "04:30"
+
+              notifications:
+                enable: true
+                # The array 'events' can be specified in order to get notifications only for specific events
+                #   Valid event values: "play_or_activity" "new_episode" "updated_episode" "scheduler"
+                #   Defaults to all events if not present
+                apprise_configs:
+                  # This URL will be notified of all changes during all events
+                  - "${PLEX_AUTO_LANGUAGE_APPRISE_DISCORD}"
+              debug: false
+
     persistence:
       config:
         volsync:
@@ -69,3 +108,10 @@ spec:
               enabled: true
             src:
               enabled: true
+      configfile:
+        enabled: true
+        mountPath: /config/config.yaml
+        subPath: config.yaml
+        readOnly: true
+        type: "configmap"
+        objectName: config
