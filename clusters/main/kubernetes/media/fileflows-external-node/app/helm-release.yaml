@@ -63,6 +63,8 @@ spec:
               env:
                 ServerUrl: "http://fileflows.fileflows.svc.cluster.local:10242"
                 FFNODE: 1
+                FF_AGENT: 1
+                FF_AGENT_MODE: Signalr
               resources:
                 limits:
                   cpu: 4000m
