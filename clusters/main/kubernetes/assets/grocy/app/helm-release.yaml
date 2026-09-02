@@ -61,7 +61,7 @@ spec:
           containers:
             main:
               env:
-                GROCY_AUTH_CLASS: 'Grocy\Middleware\LdapAuthMiddleware'
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\LdapAuthMiddleware'
                 GROCY_LDAP_ADDRESS: "${LLDAP_URL_CLUSTER}"
                 GROCY_LDAP_BASE_DN: "ou=people,${LLDAP_LDAP_BASE_DN}"
                 GROCY_LDAP_BIND_DN: "${LLDAP_LDAP_PWDMANAGER_USER}"
