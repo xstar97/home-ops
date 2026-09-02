@@ -111,8 +111,9 @@ services:
     security_opt:
       - no-new-privileges:true
   error-pages:
-    container_name: error-pages
     image: ghcr.io/tarampampam/error-pages:4.2.5@sha256:6d42b5d6e1a014fa2373e3587f9e85c25589a089fd5f6fc4f2a496858f5e365d
+    container_name: error-pages
+    restart: unless-stopped
     networks:
       - internal
     environment:
