@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: jackett
-      version: 27.9.6
+      version: 27.9.7
       sourceRef:
         kind: HelmRepository
         name: truecharts
