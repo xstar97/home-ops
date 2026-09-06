@@ -14,7 +14,6 @@ aws-cli = "2.31.27"
 
 [settings]
 auto_install = true
-auto_update = true
 
 [shell_alias]
 ll = "ls -la"
