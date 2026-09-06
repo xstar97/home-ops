@@ -2,11 +2,22 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
+      "description": "Automerge only the update types explicitly allowed below",
+      "matchPackageNames": [
+        "*"
+      ],
       "automerge": false
     },
     {
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
+    },
+    {
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "matchPackageNames": [
         "!/siderolabs/",
         "!/fluxcd/",
@@ -16,27 +27,42 @@
         "!/minecraft-java/"
       ],
       "automerge": true,
-      "addLabels": ["automerge"]  
+      "addLabels": [
+        "automerge"
+      ]
     },
     {
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "matchPackageNames": [
         "!/siderolabs/",
         "!/plex/",
         "!/minecraft-java/"
       ],
       "automerge": true,
-      "addLabels": ["automerge"]
+      "addLabels": [
+        "automerge"
+      ]
     },
     {
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "automerge": true,
-      "addLabels": ["automerge"]
+      "addLabels": [
+        "automerge"
+      ]
     },
     {
-      "matchUpdateTypes": ["pin", "pinDigest"],
+      "matchUpdateTypes": [
+        "pin",
+        "pinDigest"
+      ],
       "automerge": true,
-      "addLabels": ["automerge"]
+      "addLabels": [
+        "automerge"
+      ]
     }
   ]
 }

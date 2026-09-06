@@ -2,50 +2,86 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": ["Actions Runner Controller Group"],
+      "description": [
+        "Actions Runner Controller Group"
+      ],
       "groupName": "Actions Runner Controller",
-      "matchPackagePatterns": ["gha-runner-scale-set"],
-      "matchDatasources": ["docker", "helm"],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "matchPackageNames": [
+        "/gha-runner-scale-set/"
+      ]
     },
     {
-      "description": ["Flux Group"],
+      "description": [
+        "Flux Group"
+      ],
       "groupName": "Flux",
-      "matchPackagePatterns": ["fluxcd"],
-      "matchDatasources": ["docker", "github-tags"],
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
       "versioning": "semver",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "matchPackageNames": [
+        "/fluxcd/"
+      ]
     },
     {
-      "description": ["Intel Device Plugins Group"],
+      "description": [
+        "Intel Device Plugins Group"
+      ],
       "groupName": "Intel-Device-Plugins",
-      "matchPackagePatterns": ["intel-device-plugins"],
-      "matchDatasources": ["helm"],
+      "matchDatasources": [
+        "helm"
+      ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "matchPackageNames": [
+        "/intel-device-plugins/"
+      ]
     },
     {
-      "description": ["Talos Group"],
+      "description": [
+        "Group Talos updates and allow only the current or next minor release"
+      ],
       "groupName": "Talos",
-      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "matchPackageNames": [
+        "/siderolabs/talosctl/",
+        "/siderolabs/installer/"
+      ],
+      "versioning": "semver",
+      "allowedVersions": "<{{major}}.{{add minor 2}}.0"
     },
     {
-      "description": ["Kubernetes Group"],
+      "description": [
+        "Kubernetes Group"
+      ],
       "groupName": "Kubernetes",
-      "matchPackagePatterns": ["siderolabs/kubelet", "alpine/kubectl"],
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "matchPackageNames": [
+        "/siderolabs/kubelet/",
+        "/alpine/kubectl/"
+      ]
     }
   ]
 }

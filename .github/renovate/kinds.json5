@@ -1,43 +1,72 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
-    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
+    "managerFilePatterns": [
+      "/\\.ya?ml(?:\\.j2)?$/"
+    ]
   },
   "kubernetes": {
-    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
+    "managerFilePatterns": [
+      "/\\.ya?ml(?:\\.j2)?$/"
+    ]
   },
   "packageRules": [
     {
       "description": "Use distinct branches for Docker updates",
-      "matchManagers": ["docker-compose", "dockerfile"],
+      "matchManagers": [
+        "docker-compose",
+        "dockerfile"
+      ],
       "additionalBranchPrefix": "docker-"
     },
     {
       "description": "Use distinct branches for Flux updates",
-      "matchManagers": ["flux"],
+      "matchManagers": [
+        "flux"
+      ],
       "additionalBranchPrefix": "flux-"
     },
     {
       "description": "Use distinct branches for Kubernetes updates",
-      "matchManagers": ["kubernetes"],
+      "matchManagers": [
+        "kubernetes"
+      ],
       "additionalBranchPrefix": "kubernetes-"
     },
     {
       "description": "Use distinct branches for GitHub Actions updates",
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "additionalBranchPrefix": "githubactions-"
     },
     {
       "description": "Use distinct branches for Dev Container updates",
-      "matchManagers": ["devcontainer"],
+      "matchManagers": [
+        "devcontainer"
+      ],
       "additionalBranchPrefix": "devcontainer-"
     },
     {
       "description": "Disable docker datasource for Kubernetes manager on HelmRelease files",
-      "matchManagers": ["kubernetes"],
-      "matchDatasources": ["docker"],
-      "matchFileNames": ["**/helm-release.yaml"],
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchFileNames": [
+        "**/helm-release.yaml",
+        "**/helm-release.yml",
+        "**/helm-release.yaml.j2",
+        "**/helm-release.yml.j2"
+      ],
       "enabled": false
     }
-  ]
+  ],
+  "helm-values": {
+    "managerFilePatterns": [
+      "/(?:^|/)helm-release\\.ya?ml(?:\\.j2)?$/"
+    ]
+  }
 }

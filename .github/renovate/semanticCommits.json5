@@ -2,64 +2,102 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "semanticCommitType": "feat",
       "commitMessageExtra": "{{currentVersion}} → {{newVersion}}"
     },
     {
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "semanticCommitType": "feat",
       "commitMessageExtra": "{{currentVersion}} → {{newVersion}}"
     },
     {
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "semanticCommitType": "fix",
       "commitMessageExtra": "{{currentVersion}} → {{newVersion}}"
     },
     {
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "semanticCommitType": "chore",
       "commitMessageExtra": "digest to {{newDigestShort}}"
     },
     {
-      "matchUpdateTypes": ["pin", "pinDigest"],
+      "matchUpdateTypes": [
+        "pinDigest"
+      ],
       "semanticCommitType": "chore",
       "commitMessageExtra": "digest to {{newDigestShort}}"
     },
     {
-      "matchManagers": ["flux"],
-      "matchDepNames": ["/.*/.*/"],
-      "semanticCommitScope": "flux",
-      "commitMessageTopic": "image {{depName}}"
+      "matchUpdateTypes": [
+        "pin"
+      ],
+      "semanticCommitType": "chore",
+      "commitMessageExtra": "to {{newVersion}}"
     },
     {
-      "matchManagers": ["flux"],
-      "matchDepNames": ["!/.*/.*/"],
+      "matchManagers": [
+        "flux"
+      ],
       "semanticCommitScope": "flux",
-      "commitMessageTopic": "chart {{depName}}"
+      "commitMessageTopic": "image {{depName}}",
+      "matchDatasources": [
+        "docker"
+      ]
     },
     {
-      "matchManagers": ["kubernetes"],
+      "matchManagers": [
+        "flux"
+      ],
+      "semanticCommitScope": "flux",
+      "commitMessageTopic": "chart {{depName}}",
+      "matchDatasources": [
+        "helm"
+      ]
+    },
+    {
+      "matchManagers": [
+        "kubernetes"
+      ],
       "semanticCommitScope": "kubernetes"
     },
     {
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "semanticCommitScope": "github-action",
       "commitMessageTopic": "{{depName}}"
     },
     {
-      "matchManagers": ["devcontainer"],
+      "matchManagers": [
+        "devcontainer"
+      ],
       "semanticCommitScope": "devcontainer",
       "commitMessageTopic": "image {{depName}}"
     },
     {
-      "matchDatasources": ["github-releases"],
+      "matchDatasources": [
+        "github-releases"
+      ],
       "semanticCommitScope": "github-release",
       "commitMessageTopic": "release {{depName}}"
     },
     {
-      "matchManagers": ["!/flux/","!/devcontainer/"],
-      "matchDatasources": ["docker"],
+      "matchManagers": [
+        "!/flux/",
+        "!/devcontainer/"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
       "semanticCommitScope": "deps",
       "commitMessageTopic": "image {{depName}}"
     }

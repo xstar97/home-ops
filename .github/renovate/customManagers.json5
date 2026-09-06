@@ -5,18 +5,11 @@
       "customType": "regex",
       "description": "Process annotated dependencies",
       "managerFilePatterns": [
-        "/\\.env(?:\\.j2)?$/",
-        "/\\.sh(?:\\.j2)?$/",
-        "/\\.yaml(?:\\.j2)?$/"
+        "/\\.(?:env|sh|ya?ml)(?:\\.j2)?$/"
       ],
       "matchStrings": [
-        // # renovate: datasource=github-releases depName=foo/bar
-        // foobar_version: v1.0.0
-        // # renovate: datasource=docker depName=ghcr.io/foo/bar
-        // FOOBAR_VERSION=v1.0.0
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)"
-      ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)[ \\t]*\\r?\\n[ \\t]*[A-Za-z_][A-Za-z0-9_]*[ \\t]*(?::[ \\t]+|=[ \\t]*)(?:&\\S+[ \\t]+)?[\"']?(?<currentValue>v?\\d[^\\s\"'@#]*)(?:@(?<currentDigest>sha256:[a-fA-F0-9]{64}))?[\"']?[ \\t]*(?:#[^\\r\\n]*)?(?:\\r?\\n|$)"
+      ]
     }
   ]
 }
