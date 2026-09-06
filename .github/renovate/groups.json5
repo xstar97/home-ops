@@ -94,6 +94,38 @@
         "/siderolabs/kubelet/",
         "/alpine/kubectl/"
       ]
+    },
+    {
+      "description": [
+        "Group Mise Talos updates with Talos updates"
+      ],
+      "groupName": "Talos",
+      "matchManagers": [
+        "mise"
+      ],
+      "matchPackageNames": [
+        "talosctl"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "versioning": "semver",
+      "allowedVersions": "<{{major}}.{{add minor 2}}.0"
+    },
+    {
+      "description": [
+        "Group Mise Kubernetes updates with Kubernetes updates"
+      ],
+      "groupName": "Kubernetes",
+      "matchManagers": [
+        "mise"
+      ],
+      "matchPackageNames": [
+        "kubectl"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     }
   ]
 }
