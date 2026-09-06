@@ -27,8 +27,7 @@
     "**/*.sops.*",
     "**/.archive/**",
     "**/archive/**",
-    "**/resources/**",
-    "mise.toml"
+    "**/resources/**"
   ],
   "pinDigests": true,
   "separateMinorPatch": true,
