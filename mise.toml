@@ -1,7 +1,7 @@
 [tools]
 bitwarden = "2026.7.0"
 bitwarden-secrets-manager = "2.1.0"
-flux2 = "2.8.8"
+flux2 = "2.9.5"
 kubectl = "1.36.4"
 kubecolor = "0.6.0"
 oxker = "0.13.2"
