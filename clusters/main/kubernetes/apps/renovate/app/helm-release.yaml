@@ -3,8 +3,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: mend-renovate
-  namespace: mend-renovate
+  name: renovate
+  namespace: renovate
 spec:
   interval: 30m
   timeout: 25m
@@ -57,7 +57,7 @@ spec:
                 # Accept TOS required
                 MEND_RNV_ACCEPT_TOS: "Y"
                 # unregistered public license key
-                MEND_RNV_LICENSE_KEY: eyJsaW1pdCI6IjEwIn0=.30440220457941b71ea8eb345c729031718b692169f0ce2cf020095fd328812f4d7d5bc1022022648d1a29e71d486f89f27bdc8754dfd6df0ddda64a23155000a61a105da2a1
+                MEND_RNV_LICENSE_KEY: "${MEND_RNV_LICENSE_KEY}"
                 MEND_RNV_PLATFORM: github
                 # See https://github.com/mend/renovate-ce-ee/blob/main/docs/setup-for-github.md
                 MEND_RNV_GITHUB_APP_ID: "${MEND_RNV_GITHUB_APP_ID}"
