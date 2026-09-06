@@ -4,13 +4,13 @@ bitwarden-secrets-manager = "2.1.0"
 flux2 = "2.9.5"
 kubectl = "1.36.4"
 kubecolor = "0.6.0"
-oxker = "0.13.2"
-talosctl = "1.13.9"
-usage = "3.5.3"
+oxker = "0.13.4"
+talosctl = "1.13.10"
+usage = "3.5.7"
 viddy = "1.3.1"
 weave-gitops = "0.38.0"
 codex = "0.149.0"
-aws-cli = "2.31.27"
+aws-cli = "2.31.39"
 
 [settings]
 auto_install = true
