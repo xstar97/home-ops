@@ -84,6 +84,13 @@
       "commitMessageTopic": "image {{depName}}"
     },
     {
+      "matchManagers": [
+        "mise"
+      ],
+      "semanticCommitScope": "mise",
+      "commitMessageTopic": "tool {{depName}}"
+    },
+    {
       "matchDatasources": [
         "github-releases"
       ],

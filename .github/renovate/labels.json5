@@ -76,6 +76,14 @@
       ]
     },
     {
+      "matchManagers": [
+        "mise"
+      ],
+      "addLabels": [
+        "renovate/mise"
+      ]
+    },
+    {
       "matchPackageNames": [
         "/siderolabs/"
       ],

@@ -3,6 +3,18 @@
   "packageRules": [
     {
       "description": [
+        "Group Mise tool updates"
+      ],
+      "groupName": "Mise",
+      "matchManagers": [
+        "mise"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": [
         "Actions Runner Controller Group"
       ],
       "groupName": "Actions Runner Controller",
