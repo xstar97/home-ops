@@ -22,7 +22,7 @@ services:
       retries: 3
       start_period: 15s
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.115@sha256:c816fd7d4bac3e02fb5b650e2cca2104b058200fa57432be9a992a9591504381
+    image: ghcr.io/kimdre/doco-cd:0.116@sha256:b56844c80dc5e227e5730e31439a0e9b8a2544f4ebb6050af61672c303fd254e
     container_name: doco-cd
     restart: unless-stopped
     depends_on:
