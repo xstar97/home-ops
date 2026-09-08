@@ -10,7 +10,7 @@ usage = "6.8.0"
 viddy = "1.3.1"
 weave-gitops = "0.38.0"
 codex = "0.149.0"
-aws-cli = "2.36.40"
+aws-cli = "2.36.41"
 
 [settings]
 auto_install = true
