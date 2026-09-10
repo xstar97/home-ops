@@ -57,6 +57,10 @@ data:
               - alt_emails
               - preferred_username
               - name
+          homelable:
+            id_token:
+              - email
+              - profile
           ggrequestz:
             id_token:
               - email
@@ -184,6 +188,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_homebox'
+          homelable:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_homelable'
           profilarr:
             default_policy: 'deny'
             rules:
@@ -433,6 +444,23 @@ data:
               - authorization_code
             redirect_uris:
               - "https://profilarr.${DOMAIN_2}/auth/oidc/callback"
+            scopes:
+              - openid
+              - email
+              - profile
+            userinfo_signed_response_alg: none
+            token_endpoint_auth_method: client_secret_post
+
+          - client_id: "homelable"
+            client_name: "homelable"
+            client_secret: {{ secret "/config/secret/clients_homelable_client_secret" }}
+            public: false
+            claims_policy: "homelable"
+            authorization_policy: "homelable"
+            grant_types:
+              - authorization_code
+            redirect_uris:
+              - "https://homelable.${DOMAIN_0}/api/v1/auth/oidc/callback"
             scopes:
               - openid
               - email
