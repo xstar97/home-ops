@@ -68,6 +68,7 @@ spec:
                 GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
                 GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=lldap_grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
                 GROCY_LDAP_UID_ATTR: "uid"
+                DISABLE_AUTH: true
     persistence:
       config:
         volsync:
