@@ -68,7 +68,7 @@ services:
     expose:
       - "8001"
     env_file:
-      - .env
+      - homelable.enc.env
     environment:
       BACKEND_URL: "http://homelable-backend:8000"
     depends_on:
