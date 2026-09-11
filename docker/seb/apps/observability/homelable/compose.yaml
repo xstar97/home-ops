@@ -28,18 +28,6 @@ services:
       SQLITE_PATH: /app/data/homelab.db
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/homelable/data:/app/data
-
-  frontend:
-    image: ghcr.io/pouzor/homelable-frontend:3.4.1@sha256:637d76edf952aaba163375791ae8f7fe59ca43cf52c8d4499cce7d51a20dab13
-    container_name: homelable-frontend
-    restart: unless-stopped
-    expose:
-      - "80"
-    depends_on:
-      - backend
-    networks:
-      - internal
-      - network_internal
   mcp:
     image: ghcr.io/pouzor/homelable-mcp:3.4.1@sha256:e06a22c2017be64dceb69de74e140faa053da844dd2bbadb47177c2d197d08d7
     container_name: homelable-mcp
@@ -54,6 +42,26 @@ services:
       - backend
     networks:
       - internal
+
+  frontend:
+    image: ghcr.io/pouzor/homelable-frontend:3.4.1@sha256:637d76edf952aaba163375791ae8f7fe59ca43cf52c8d4499cce7d51a20dab13
+    container_name: homelable-frontend
+    restart: unless-stopped
+    expose:
+      - "80"
+    depends_on:
+      - backend
+    networks:
+      - internal
+      - network_internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homelable.rule: Host(`homelable.${BASE_DOMAIN_0}`)
+      traefik.http.services.homelable.loadbalancer.server.port: 80
+      traefik.http.routers.homelable.entrypoints: websecure
+      traefik.http.routers.homelable.tls: true
+      traefik.http.routers.homelable.tls.certResolver: cf
+      traefik.http.routers.homelable.middlewares: error-pages-middleware
 networks:
   network_internal:
     external: true
