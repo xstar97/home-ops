@@ -43,7 +43,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: "external"
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:
@@ -52,6 +52,10 @@ spec:
         integrations:
           nginx:
             enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -61,14 +65,15 @@ spec:
           containers:
             main:
               env:
-                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\LdapAuthMiddleware'
-                GROCY_LDAP_ADDRESS: "${LLDAP_URL_CLUSTER}"
-                GROCY_LDAP_BASE_DN: "ou=people,${LLDAP_LDAP_BASE_DN}"
-                GROCY_LDAP_BIND_DN: "${LLDAP_LDAP_PWDMANAGER_USER}"
-                GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
-                GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=lldap_grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
-                GROCY_LDAP_UID_ATTR: "uid"
-                DISABLE_AUTH: true
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware' #'Grocy\Middleware\Auth\LdapAuthMiddleware'
+                GROCY_REVERSE_PROXY_AUTH_HEADER: "X-Forwarded-User"
+                # GROCY_LDAP_ADDRESS: "${LLDAP_URL_CLUSTER}"
+                # GROCY_LDAP_BASE_DN: "ou=people,${LLDAP_LDAP_BASE_DN}"
+                # GROCY_LDAP_BIND_DN: "${LLDAP_LDAP_PWDMANAGER_USER}"
+                # GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
+                # GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=lldap_grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
+                # GROCY_LDAP_UID_ATTR: "uid"
+                # GROCY_DISABLE_AUTH: true
     persistence:
       config:
         volsync:
