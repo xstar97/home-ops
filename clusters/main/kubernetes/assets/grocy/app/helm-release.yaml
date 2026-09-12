@@ -44,6 +44,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/auth-response-headers: "Remote-User,Remote-Groups,Remote-Name,Remote-Email"
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:
@@ -65,15 +67,11 @@ spec:
           containers:
             main:
               env:
-                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware' #'Grocy\Middleware\Auth\LdapAuthMiddleware'
-                GROCY_REVERSE_PROXY_AUTH_HEADER: "X-Forwarded-User"
-                # GROCY_LDAP_ADDRESS: "${LLDAP_URL_CLUSTER}"
-                # GROCY_LDAP_BASE_DN: "ou=people,${LLDAP_LDAP_BASE_DN}"
-                # GROCY_LDAP_BIND_DN: "${LLDAP_LDAP_PWDMANAGER_USER}"
-                # GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
-                # GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=lldap_grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
-                # GROCY_LDAP_UID_ATTR: "uid"
-                GROCY_DISABLE_AUTH: true
+                # Authelia authenticates against LLDAP and forwards the username.
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
+                GROCY_REVERSE_PROXY_AUTH_HEADER: "Remote-User"
+                GROCY_REVERSE_PROXY_AUTH_USE_ENV: false
+                GROCY_DISABLE_AUTH: false
     persistence:
       config:
         volsync:

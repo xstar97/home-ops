@@ -13,6 +13,11 @@ data:
           authelia_url: "https://auth.${DOMAIN_2}"
     access_control:
       rules:
+        - domain: "grocy.${DOMAIN_2}"
+          policy: one_factor
+          subject:
+            - 'group:lldap_admin'
+            - 'group:lldap_grocy'
         - domain:
             - "${DOMAIN_2}"
             - "*.${DOMAIN_2}"
