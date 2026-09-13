@@ -44,7 +44,7 @@ services:
       - internal
 
   frontend:
-    image: ghcr.io/pouzor/homelable-frontend:3.4.1@sha256:637d76edf952aaba163375791ae8f7fe59ca43cf52c8d4499cce7d51a20dab13
+    image: ghcr.io/pouzor/homelable-frontend:3.4.2@sha256:d9115568828e4b72a1960d64936fa92bedd2d9a00ff133b8efc98c7cc0fb0c9d
     container_name: homelable-frontend
     restart: unless-stopped
     expose:
