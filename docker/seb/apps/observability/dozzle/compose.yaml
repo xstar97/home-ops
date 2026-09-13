@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   dozzle:
     scale: 1
-    image: amir20/dozzle:v10.10.0@sha256:2875e3c1f31f2244ee99d6067b53852b30666b3e2fb293d179bc8be94b1da5eb
+    image: amir20/dozzle:v11.0.1@sha256:8d88ee5cb7f7144bc5d42f11181e576a321d5d084101c0ae3db7227a8d84967e
     container_name: dozzle
     restart: on-failure
     environment:
