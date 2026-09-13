@@ -7,7 +7,7 @@ x-healthcheck: &healthcheckBackend
 
 services:
   backend:
-    image: ghcr.io/pouzor/homelable-backend:3.4.1@sha256:96fd11e5708b742888517908b8129fa8f9103be49304cdf1222218f6cd3d0626
+    image: ghcr.io/pouzor/homelable-backend:3.4.2@sha256:b6d122e9879a3ade4680a21d0cae485f2382c3e9eecdf8ae1aa8a0a59642f6f0
     container_name: homelable-backend
     restart: unless-stopped
     networks:
