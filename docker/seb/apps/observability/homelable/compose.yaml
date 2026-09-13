@@ -29,7 +29,7 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/homelable/data:/app/data
   mcp:
-    image: ghcr.io/pouzor/homelable-mcp:3.4.1@sha256:e06a22c2017be64dceb69de74e140faa053da844dd2bbadb47177c2d197d08d7
+    image: ghcr.io/pouzor/homelable-mcp:3.4.2@sha256:8a086289bb1fca7388de3424a54f9b54570362e2662a98b9b2599fc0db4ee9d1
     container_name: homelable-mcp
     restart: unless-stopped
     expose:
