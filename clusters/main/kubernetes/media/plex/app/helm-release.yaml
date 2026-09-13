@@ -97,14 +97,12 @@ spec:
           - name: config
             type: restic
             credentials: rfs-restic
+            cache:
+              cacheCapacity: 30Gi
             dest:
               enabled: true
-              cache:
-                cacheCapacity: 30Gi
             src:
               enabled: true
-              cache:
-                cacheCapacity: 30Gi
       transcode:
         enabled: true
         type: emptyDir
