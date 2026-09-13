@@ -83,6 +83,12 @@ spec:
               enabled: true
             src:
               enabled: true
+      covers:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: /config/MediaCover
       media:
         enabled: true
         type: nfs
