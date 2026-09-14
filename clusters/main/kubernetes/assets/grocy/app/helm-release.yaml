@@ -64,6 +64,24 @@ spec:
                 GROCY_REVERSE_PROXY_AUTH_HEADER: "Remote-User"
                 GROCY_REVERSE_PROXY_AUTH_USE_ENV: false
                 GROCY_DISABLE_AUTH: false
+                # Default permissions for new users. Must use Grocy's technical names from User.php.
+                # https://github.com/grocy/grocy/blob/master/controllers/Users/User.php
+                # --- admin ---
+                #   ["ADMIN", "BATTERIES", "CALENDAR", "CHORES", "EQUIPMENT", "MASTER_DATA_EDIT",
+                #    "RECIPES", "RECIPES_MEALPLAN", "SHOPPINGLIST", "STOCK", "TASKS", "USERS",
+                #    "USERS_CREATE", "USERS_EDIT", "USERS_EDIT_SELF", "USERS_READ"]
+                # --- user with priv ---
+                #   ["BATTERIES", "BATTERIES_TRACK_CHARGE_CYCLE", "BATTERIES_UNDO_CHARGE_CYCLE",
+                #    "CALENDAR", "CHORES", "CHORE_TRACK_EXECUTION", "CHORE_UNDO_EXECUTION", "EQUIPMENT",
+                #    "RECIPES", "RECIPES_MEALPLAN", "SHOPPINGLIST", "SHOPPINGLIST_ITEMS_ADD",
+                #    "SHOPPINGLIST_ITEMS_DELETE", "STOCK", "STOCK_CONSUME", "STOCK_EDIT",
+                #    "STOCK_INVENTORY", "STOCK_OPEN", "STOCK_PURCHASE", "STOCK_TRANSFER", "TASKS",
+                #    "TASKS_MARK_COMPLETED", "TASKS_UNDO_EXECUTION", "USERS_EDIT_SELF"]
+                # --- user with basic ---
+                #   ["BATTERIES", "CALENDAR", "CHORES", "EQUIPMENT", "RECIPES", "SHOPPINGLIST",
+                #    "STOCK", "TASKS", "USERS_EDIT_SELF"]
+                # Defaulting to a non-admin basic-user baseline for new users instead of ADMIN.
+                GROCY_DEFAULT_PERMISSIONS: '["BATTERIES","CALENDAR","CHORES","EQUIPMENT","RECIPES","SHOPPINGLIST","STOCK","TASKS","USERS_EDIT_SELF"]'
 
     ingress:
       main:
