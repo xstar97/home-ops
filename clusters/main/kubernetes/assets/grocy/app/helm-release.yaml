@@ -57,13 +57,6 @@ spec:
         podSpec:
           containers:
             main:
-              probes:
-                liveness:
-                  path: "/api/system/info"
-                readiness:
-                  path: "/api"
-                startup:
-                  type: tcp
               env:
                 GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
                 GROCY_REVERSE_PROXY_AUTH_HEADER: "Remote-User"
