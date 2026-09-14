@@ -87,6 +87,49 @@ spec:
                 #    "STOCK", "TASKS", "USERS_EDIT_SELF"]
                 # Defaulting to a non-admin basic-user baseline for new users instead of ADMIN.
                 GROCY_DEFAULT_PERMISSIONS: '["BATTERIES","CALENDAR","CHORES","EQUIPMENT","RECIPES","SHOPPINGLIST","STOCK","TASKS","USERS_EDIT_SELF"]'
+                # GROCY_GROCYCODE_TYPE: '2D'
+                # GROCY_LABEL_PRINTER_WEBHOOK: ''
+                # GROCY_LABEL_PRINTER_RUN_SERVER: true
+                # GROCY_LABEL_PRINTER_PARAMS: '["font_family=Source Sans Pro (Regular)"]'
+                # GROCY_LABEL_PRINTER_HOOK_JSON: true
+                # thermal printer
+                # GROCY_TPRINTER_IS_NETWORK_PRINTER: false
+                # GROCY_TPRINTER_PRINT_QUANTITY_NAME: true
+                # GROCY_TPRINTER_PRINT_NOTES: true
+                # GROCY_TPRINTER_IP: '127.0.0.1'
+                # GROCY_TPRINTER_PORT: 9100
+                # GROCY_TPRINTER_CONNECTOR: '/dev/usb/lp0'
+
+                # Feature flags for Grocy
+                # GROCY_FEATURE_FLAG_STOCK: true
+                # GROCY_FEATURE_FLAG_SHOPPINGLIST: true
+                # GROCY_FEATURE_FLAG_RECIPES: true
+                # GROCY_FEATURE_FLAG_CHORES: true
+                # GROCY_FEATURE_FLAG_TASKS: true
+                # GROCY_FEATURE_FLAG_BATTERIES: true
+                # GROCY_FEATURE_FLAG_EQUIPMENT: true
+                # GROCY_FEATURE_FLAG_CALENDAR: true
+                # Sub feature flags
+                # GROCY_FEATURE_FLAG_LABEL_PRINTER: false
+                # GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_PRODUCT_FREEZING: true
+                # GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_FIELD_NUMBER_PAD: true
+                # GROCY_FEATURE_FLAG_SHOPPINGLIST_MULTIPLE_LISTS: true
+                # GROCY_FEATURE_FLAG_RECIPES_MEALPLAN: true
+                # GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS: true
+                # GROCY_FEATURE_FLAG_THERMAL_PRINTER: false
+                # GROCY_FEATURE_FLAG_DISABLE_BROWSER_BARCODE_CAMERA_SCANNING: false
+                # GROCY_FEATURE_FLAG_AUTO_TORCH_ON_WITH_CAMERA: true
+                # Sunday = 0
+                # Monday = 1
+                # Int only
+                GROCY_CALENDAR_FIRST_DAY_OF_WEEK: 0
+                GROCY_MEAL_PLAN_FIRST_DAY_OF_WEEK: 0
+                # stock, shoppinglist, recipes, chores, tasks, batteries, equipment, calendar, mealplan
+                GROCY_ENTRY_PAGE: 'stock'
 
     ingress:
       main:
