@@ -12,6 +12,14 @@
   },
   "packageRules": [
     {
+      "description": "HelmRelease chart versions from TrueCharts HelmRepository cannot store OCI digests",
+      "matchManagers": ["flux"],
+      "matchDatasources": ["docker"],
+      "matchFileNames": ["**/helm-release.yaml", "**/helm-release.yml", "**/helm-release.yaml.j2", "**/helm-release.yml.j2"],
+      "matchPackageNames": ["oci.trueforge.org/truecharts/**"],
+      "pinDigests": false
+    },
+    {
       "description": "Use distinct branches for Docker updates",
       "matchManagers": [
         "docker-compose",
