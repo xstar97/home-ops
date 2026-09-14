@@ -11,35 +11,37 @@
   },
   "customManagers": [
     {
+      "description": "Process Grafana dashboards (url)",
       "customType": "regex",
-      "description": [
-        "Process Grafana dashboards"
-      ],
+      "managerFilePatterns": ["/grafanadashboard\\.yaml(?:\\.j2)?$/"],
       "matchStrings": [
-        "# renovate: depName=\"(?<depName>[^\"\\r\\n]+)\"[ \\t]*\\r?\\n[ \\t]+id:[ \\t]+(?<packageName>\\d+)[ \\t]*\\r?\\n[ \\t]+revision:[ \\t]+(?<currentValue>\\d+)"
+        "dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download"
       ],
       "datasourceTemplate": "custom.grafana-dashboards",
       "versioningTemplate": "regex:^(?<major>\\d+)$",
-      "managerFilePatterns": [
-        "/(?:^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/"
-      ]
+      "autoReplaceStringTemplate": "dashboards/{{depName}}/revisions/{{newValue}}/download"
+    },
+    {
+      "description": "Process Grafana dashboards (grafanaCom)",
+      "customType": "regex",
+      "managerFilePatterns": ["/grafanadashboard\\.yaml(?:\\.j2)?$/"],
+      "matchStrings": [
+        "grafanaCom:\\s*\\n\\s*id:\\s*(?<depName>\\d+)\\s*\\n\\s*revision:\\s*(?<currentValue>\\d+)"
+      ],
+      "datasourceTemplate": "custom.grafana-dashboards",
+      "versioningTemplate": "regex:^(?<major>\\d+)$",
+      "autoReplaceStringTemplate": "grafanaCom:\n    id: {{depName}}\n    revision: {{newValue}}"
     }
   ],
   "packageRules": [
     {
-      "addLabels": [
-        "renovate/grafana-dashboard"
-      ],
-      "matchDatasources": [
-        "custom.grafana-dashboards"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "addLabels": ["renovate/grafana-dashboard"],
+      "matchDatasources": ["custom.grafana-dashboards"],
+      "matchUpdateTypes": ["major"],
       "semanticCommitType": "chore",
       "semanticCommitScope": "grafana-dashboards",
-      "commitMessageTopic": "dashboard {{depName}}",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      "commitMessageTopic": "dashboard {{sourceDirectory}}",
+      "commitMessageExtra": "({{currentVersion}} ➔ {{newVersion}})"
     }
   ]
 }
