@@ -61,7 +61,7 @@ spec:
                 liveness:
                   path: "/api/system/info"
                 readiness:
-                  path: "/api/system/info"
+                  path: "/api"
                 startup:
                   type: tcp
               env:
