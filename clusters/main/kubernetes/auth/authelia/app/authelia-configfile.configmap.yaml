@@ -14,6 +14,10 @@ data:
     access_control:
       rules:
         - domain: "grocy.${DOMAIN_2}"
+          policy: bypass
+          resources:
+            - "^/api.*$"
+        - domain: "grocy.${DOMAIN_2}"
           policy: one_factor
           subject:
             - 'group:lldap_admin'
