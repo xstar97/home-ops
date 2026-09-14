@@ -35,17 +35,40 @@ spec:
       group: assets
     global:
       stopAll: false
+
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-grocy"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-grocy"
+
+    configmap:
+      settingoverrides:
+        enabled: true
+        data:
+          AUTH_CLASS.txt: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
+          REVERSE_PROXY_AUTH_HEADER.txt: "Remote-User"
+          REVERSE_PROXY_AUTH_USE_ENV.txt: "false"
+          DISABLE_AUTH.txt: "false"
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+              probes:
+                liveness:
+                  path: "/api/system/info"
+                readiness:
+                  path: "/api/system/info"
+                startup:
+                  type: tcp
+                  
     ingress:
       main:
         enabled: true
         ingressClassName: "external"
-        # annotations:
-        #   nginx.ingress.kubernetes.io/auth-response-headers: "Remote-User,Remote-Groups,Remote-Name,Remote-Email"
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:
@@ -61,17 +84,7 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                # Authelia authenticates against LLDAP and forwards the username.
-                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
-                GROCY_REVERSE_PROXY_AUTH_HEADER: "Remote-User"
-                GROCY_REVERSE_PROXY_AUTH_USE_ENV: false
-                GROCY_DISABLE_AUTH: false
+
     persistence:
       config:
         volsync:
@@ -82,3 +95,31 @@ spec:
               enabled: true
             src:
               enabled: true
+      auth-class:
+        enabled: true
+        type: configmap
+        objectName: settingoverrides
+        mountPath: /data/AUTH_CLASS.txt
+        subPath: AUTH_CLASS.txt
+        readOnly: true
+      reverse-proxy-auth-header:
+        enabled: true
+        type: configmap
+        objectName: settingoverrides
+        mountPath: /data/REVERSE_PROXY_AUTH_HEADER.txt
+        subPath: REVERSE_PROXY_AUTH_HEADER.txt
+        readOnly: true
+      reverse-proxy-auth-use-env:
+        enabled: true
+        type: configmap
+        objectName: settingoverrides
+        mountPath: /data/REVERSE_PROXY_AUTH_USE_ENV.txt
+        subPath: REVERSE_PROXY_AUTH_USE_ENV.txt
+        readOnly: true
+      disable-auth:
+        enabled: true
+        type: configmap
+        objectName: settingoverrides
+        mountPath: /data/DISABLE_AUTH.txt
+        subPath: DISABLE_AUTH.txt
+        readOnly: true
