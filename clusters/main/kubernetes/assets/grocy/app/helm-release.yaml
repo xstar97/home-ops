@@ -35,28 +35,21 @@ spec:
       group: assets
     global:
       stopAll: false
-
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-grocy"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-grocy"
-
-    configmap:
-      settingoverrides:
-        enabled: true
-        data:
-          AUTH_CLASS.txt: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
-          REVERSE_PROXY_AUTH_HEADER.txt: "Remote-User"
-          REVERSE_PROXY_AUTH_USE_ENV.txt: "false"
-          DISABLE_AUTH.txt: "false"
+    image:
+      repository: ghcr.io/trueforge-org/grocy
+      tag: 4.7.1@sha256:2815f994b7c350c0f80cef0895da12c730308b07dff6a595192d0afa56bf1ba4
+      pullPolicy: IfNotPresent
 
     workload:
       main:
         podSpec:
           containers:
             main:
-              env:
               probes:
                 liveness:
                   path: "/api/system/info"
@@ -64,7 +57,12 @@ spec:
                   path: "/api/system/info"
                 startup:
                   type: tcp
-                  
+              env:
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
+                GROCY_REVERSE_PROXY_AUTH_HEADER: "Remote-User"
+                GROCY_REVERSE_PROXY_AUTH_USE_ENV: false
+                GROCY_DISABLE_AUTH: false
+
     ingress:
       main:
         enabled: true
@@ -95,31 +93,3 @@ spec:
               enabled: true
             src:
               enabled: true
-      auth-class:
-        enabled: true
-        type: configmap
-        objectName: settingoverrides
-        mountPath: /config/data/settingoverrides/AUTH_CLASS.txt
-        subPath: AUTH_CLASS.txt
-        readOnly: true
-      reverse-proxy-auth-header:
-        enabled: true
-        type: configmap
-        objectName: settingoverrides
-        mountPath: /config/data/settingoverrides/REVERSE_PROXY_AUTH_HEADER.txt
-        subPath: REVERSE_PROXY_AUTH_HEADER.txt
-        readOnly: true
-      reverse-proxy-auth-use-env:
-        enabled: true
-        type: configmap
-        objectName: settingoverrides
-        mountPath: /config/data/settingoverrides/REVERSE_PROXY_AUTH_USE_ENV.txt
-        subPath: REVERSE_PROXY_AUTH_USE_ENV.txt
-        readOnly: true
-      disable-auth:
-        enabled: true
-        type: configmap
-        objectName: settingoverrides
-        mountPath: /config/data/settingoverrides/DISABLE_AUTH.txt
-        subPath: DISABLE_AUTH.txt
-        readOnly: true
