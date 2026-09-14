@@ -45,6 +45,13 @@ spec:
       tag: 4.7.1@sha256:2815f994b7c350c0f80cef0895da12c730308b07dff6a595192d0afa56bf1ba4
       pullPolicy: IfNotPresent
 
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+
     workload:
       main:
         podSpec:
@@ -52,11 +59,9 @@ spec:
             main:
               probes:
                 liveness:
-                  #path: "/api/system/info"
-                  type: tcp
+                  path: "/api/system/info"
                 readiness:
-                  type: tcp
-                  #path: "/api/system/info"
+                  path: "/api/system/info"
                 startup:
                   type: tcp
               env:
