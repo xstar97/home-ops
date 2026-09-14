@@ -99,27 +99,27 @@ spec:
         enabled: true
         type: configmap
         objectName: settingoverrides
-        mountPath: /data/AUTH_CLASS.txt
+        mountPath: /config/data/settingoverrides/AUTH_CLASS.txt
         subPath: AUTH_CLASS.txt
         readOnly: true
       reverse-proxy-auth-header:
         enabled: true
         type: configmap
         objectName: settingoverrides
-        mountPath: /data/REVERSE_PROXY_AUTH_HEADER.txt
+        mountPath: /config/data/settingoverrides/REVERSE_PROXY_AUTH_HEADER.txt
         subPath: REVERSE_PROXY_AUTH_HEADER.txt
         readOnly: true
       reverse-proxy-auth-use-env:
         enabled: true
         type: configmap
         objectName: settingoverrides
-        mountPath: /data/REVERSE_PROXY_AUTH_USE_ENV.txt
+        mountPath: /config/data/settingoverrides/REVERSE_PROXY_AUTH_USE_ENV.txt
         subPath: REVERSE_PROXY_AUTH_USE_ENV.txt
         readOnly: true
       disable-auth:
         enabled: true
         type: configmap
         objectName: settingoverrides
-        mountPath: /data/DISABLE_AUTH.txt
+        mountPath: /config/data/settingoverrides/DISABLE_AUTH.txt
         subPath: DISABLE_AUTH.txt
         readOnly: true
