@@ -35,6 +35,15 @@ spec:
       group: media
     global:
       stopAll: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        # runAsNonRoot: true
+        # runAsUser: 568
+        # runAsGroup: 568
+      pod:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-plex"
