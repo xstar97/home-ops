@@ -16,7 +16,7 @@ data:
         - domain: "grocy.${DOMAIN_2}"
           policy: bypass
           resources:
-            - "^/api.*$"
+            - "^/api(?:/.*)?$"
         - domain: "grocy.${DOMAIN_2}"
           policy: one_factor
           subject:
