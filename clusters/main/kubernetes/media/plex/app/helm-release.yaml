@@ -99,9 +99,10 @@ spec:
             credentials: rfs-restic
             dest:
               enabled: true
+              cacheCapacity: 120Gi
             src:
               enabled: true
-              cacheCapacity: 30Gi
+              cacheCapacity: 120Gi
       transcode:
         enabled: true
         type: emptyDir
