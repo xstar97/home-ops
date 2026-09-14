@@ -44,8 +44,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "external"
-        annotations:
-          nginx.ingress.kubernetes.io/auth-response-headers: "Remote-User,Remote-Groups,Remote-Name,Remote-Email"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/auth-response-headers: "Remote-User,Remote-Groups,Remote-Name,Remote-Email"
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:
