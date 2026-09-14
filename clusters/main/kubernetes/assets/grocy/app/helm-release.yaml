@@ -52,9 +52,11 @@ spec:
             main:
               probes:
                 liveness:
-                  path: "/api/system/info"
+                  #path: "/api/system/info"
+                  type: tcp
                 readiness:
-                  path: "/api/system/info"
+                  type: tcp
+                  #path: "/api/system/info"
                 startup:
                   type: tcp
               env:
