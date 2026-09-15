@@ -1,87 +1,26 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
-    "managerFilePatterns": [
-      "/\\.ya?ml(?:\\.j2)?$/"
-    ]
+    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"],
+    "branchPrefix": "renovate/flux-"
   },
   "kubernetes": {
-    "managerFilePatterns": [
-      "/\\.ya?ml(?:\\.j2)?$/"
-    ]
+    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"],
+    "branchPrefix": "renovate/kubernetes-"
+  },
+  "github-actions": {
+    "branchPrefix": "renovate/githubactions-"
+  },
+  "devcontainer": {
+    "branchPrefix": "renovate/devcontainer-"
   },
   "packageRules": [
     {
-      "description": "HelmRelease chart versions from TrueCharts HelmRepository cannot store OCI digests",
-      "matchManagers": ["flux"],
-      "matchDatasources": ["docker"],
-      "matchFileNames": ["**/helm-release.yaml", "**/helm-release.yml", "**/helm-release.yaml.j2", "**/helm-release.yml.j2"],
-      "matchPackageNames": ["oci.trueforge.org/truecharts/**"],
-      "pinDigests": false
-    },
-    {
-      "description": "Use distinct branches for Docker updates",
-      "matchManagers": [
-        "docker-compose",
-        "dockerfile"
-      ],
-      "additionalBranchPrefix": "docker-"
-    },
-    {
-      "description": "Use distinct branches for Flux updates",
-      "matchManagers": [
-        "flux"
-      ],
-      "additionalBranchPrefix": "flux-"
-    },
-    {
-      "description": "Use distinct branches for Kubernetes updates",
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "additionalBranchPrefix": "kubernetes-"
-    },
-    {
-      "description": "Use distinct branches for GitHub Actions updates",
-      "matchManagers": [
-        "github-actions"
-      ],
-      "additionalBranchPrefix": "githubactions-"
-    },
-    {
-      "description": "Use distinct branches for Dev Container updates",
-      "matchManagers": [
-        "devcontainer"
-      ],
-      "additionalBranchPrefix": "devcontainer-"
-    },
-    {
-      "description": "Use distinct branches for Mise updates",
-      "matchManagers": [
-        "mise"
-      ],
-      "additionalBranchPrefix": "mise-"
-    },
-    {
       "description": "Disable docker datasource for Kubernetes manager on HelmRelease files",
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchFileNames": [
-        "**/helm-release.yaml",
-        "**/helm-release.yml",
-        "**/helm-release.yaml.j2",
-        "**/helm-release.yml.j2"
-      ],
+      "matchManagers": ["kubernetes"],
+      "matchDatasources": ["docker"],
+      "matchFileNames": ["**/helm-release.yaml"],
       "enabled": false
     }
-  ],
-  "helm-values": {
-    "managerFilePatterns": [
-      "/(?:^|/)helm-release\\.ya?ml(?:\\.j2)?$/"
-    ]
-  }
+  ]
 }
