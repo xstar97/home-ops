@@ -42,6 +42,7 @@ delPods = "mise chart --pods-delete --confirm"
 podInfo = "mise chart -pods-info"
 volClean = "mise volsync --cleanup --dry-run"
 kUps = "mise run kUps --"
+cnpgRepair = "mise run cnpg:repair --"
 
 [tasks.kUps]
 description = "Get or describe Kubernetes and Talos upgrades"
@@ -63,4 +64,128 @@ case "${1:-}" in
 esac
 
 kubecolor "$action" kubernetesupgrades,talosupgrades
+'''
+
+[tasks."cnpg:repair"]
+description = "Diagnose unhealthy CNPG clusters and optionally recycle unhealthy replicas"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+
+namespace=""
+apply=false
+all_namespaces=true
+
+usage() {
+  cat <<'EOF'
+Usage: mise run cnpg:repair -- [-n <namespace> | -A] [--apply]
+
+Defaults to all namespaces.
+
+Diagnoses every CloudNativePG Cluster in a namespace or across all namespaces.
+With --apply, deletes
+only unhealthy replica pods so the CNPG operator can recreate them. It never
+deletes a current primary or any PVC.
+
+Examples:
+  mise run cnpg:repair
+  mise run cnpg:repair -- -n ggrequestz
+  mise run cnpg:repair -- -A
+  mise run cnpg:repair -- -n ggrequestz --apply
+EOF
+}
+
+while (($#)); do
+  case "$1" in
+    -n|--namespace)
+      namespace="${2:-}"
+      all_namespaces=false
+      shift 2
+      ;;
+    -A|--all-namespaces)
+      all_namespaces=true
+      shift
+      ;;
+    --apply)
+      apply=true
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+done
+
+if [[ "$all_namespaces" == true && -n "$namespace" ]]; then
+  echo "Use either --namespace or --all-namespaces, not both." >&2
+  usage >&2
+  exit 2
+fi
+
+if [[ "$all_namespaces" == true ]]; then
+  mapfile -t clusters < <(kubectl get cluster.postgresql.cnpg.io -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name --no-headers)
+else
+  mapfile -t clusters < <(kubectl get cluster.postgresql.cnpg.io -n "$namespace" -o custom-columns=NAME:.metadata.name --no-headers)
+fi
+
+if [[ -z "${clusters[0]:-}" ]]; then
+  if [[ "$all_namespaces" == true ]]; then
+    echo "No CNPG clusters found."
+  else
+    echo "No CNPG clusters found in namespace: $namespace"
+  fi
+  exit 0
+fi
+
+for cluster_ref in "${clusters[@]}"; do
+  if [[ "$all_namespaces" == true ]]; then
+    read -r cluster_namespace cluster <<< "$cluster_ref"
+  else
+    cluster_namespace="$namespace"
+    cluster="$cluster_ref"
+  fi
+  primary="$(kubectl get cluster.postgresql.cnpg.io "$cluster" -n "$cluster_namespace" -o jsonpath='{.status.currentPrimary}')"
+  ready="$(kubectl get cluster.postgresql.cnpg.io "$cluster" -n "$cluster_namespace" -o jsonpath='{range .status.conditions[?(@.type=="Ready")]}{.status}{end}')"
+  archiving="$(kubectl get cluster.postgresql.cnpg.io "$cluster" -n "$cluster_namespace" -o jsonpath='{range .status.conditions[?(@.type=="ContinuousArchiving")]}{.status}{end}')"
+
+  echo
+  echo "CNPG cluster: $cluster_namespace/$cluster"
+  echo "  primary: ${primary:-unknown}"
+  echo "  ready: ${ready:-unknown}; continuous archiving: ${archiving:-not configured}"
+  kubectl get pods -n "$cluster_namespace" -l "cnpg.io/cluster=$cluster" \
+    -o custom-columns=NAME:.metadata.name,READY:.status.containerStatuses[0].ready,PHASE:.status.phase,RESTARTS:.status.containerStatuses[0].restartCount --no-headers
+
+  mapfile -t instances < <(kubectl get pods -n "$cluster_namespace" -l "cnpg.io/cluster=$cluster" -o custom-columns=NAME:.metadata.name --no-headers)
+
+  for pod in "${instances[@]}"; do
+    [[ "$pod" == "$primary" ]] && continue
+    pod_ready="$(kubectl get pod "$pod" -n "$cluster_namespace" -o jsonpath='{range .status.conditions[?(@.type=="Ready")]}{.status}{end}')"
+    if [[ "$pod_ready" == "True" ]]; then
+      continue
+    fi
+
+    echo "  unhealthy replica: $pod"
+    kubectl logs -n "$cluster_namespace" "$pod" --tail=25 2>/dev/null \
+      | grep -E -i 'error|fatal|startup probe|archive|wal|no such bucket' \
+      | tail -10 \
+      | sed 's/^/    /' || true
+
+    if [[ "$apply" == true ]]; then
+      echo "  recycling unhealthy replica: $pod"
+      kubectl delete pod -n "$cluster_namespace" "$pod"
+    else
+      echo "  diagnostic only; rerun with --apply to recycle this replica"
+    fi
+  done
+
+  if [[ "$archiving" == "False" ]]; then
+    echo "  warning: continuous archiving is failing; inspect the log lines above before recycling replicas"
+  fi
+done
 '''
