@@ -44,7 +44,7 @@ spec:
     image:
       repository: ghcr.io/linuxserver/doublecommander
       pullPolicy: IfNotPresent
-      tag: latest@sha256:ea0c05580c7dddf47c788bd79b49a6b0b032a1135fba32322e5aef5c2551ab57
+      tag: latest@sha256:efd6e23446d4eca9a29e3ff81b1209e18a13465fa50073d4de4fb51e233a98ac
     service:
       main:
         type: ClusterIP
