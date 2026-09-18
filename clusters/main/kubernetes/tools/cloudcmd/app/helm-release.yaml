@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/coderaiser/cloudcmd
       pullPolicy: IfNotPresent
-      tag: 19.20.8-alpine@sha256:a82bdf861c883164df96c93fddfbdb31c50c7d969b1d8222858281b2547bcdfc
+      tag: 19.21.0-alpine@sha256:ec8575e1055ec6bf430e0becc0bd3c1f5660bd60348cd45ea5c949e58604ee41
     securityContext:
       container:
         readOnlyRootFilesystem: false
