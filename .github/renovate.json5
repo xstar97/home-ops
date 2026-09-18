@@ -29,6 +29,15 @@
     "**/archive/**",
     "**/resources/**"
   ],
+  "packageRules": [
+    {
+      "description": "Show updates discovered by custom regex managers in their own dashboard category",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "dependencyDashboardCategory": "Regex"
+    }
+  ],
   "pinDigests": true,
   "separateMinorPatch": true,
   "automergeType": "pr"
