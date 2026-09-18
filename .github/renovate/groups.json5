@@ -76,8 +76,8 @@
         "/siderolabs/talosctl/",
         "/siderolabs/installer/"
       ],
-      "versioning": "semver",
-      "allowedVersions": "<{{major}}.{{add minor 2}}.0"
+      "versioning": "semver-coerced",
+      "allowedVersions": "<1.16.0"
     },
     {
       "description": [
@@ -93,7 +93,8 @@
       "matchPackageNames": [
         "/siderolabs/kubelet/",
         "/alpine/kubectl/"
-      ]
+      ],
+      "versioning": "semver-coerced"
     },
     {
       "description": [
@@ -109,8 +110,8 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "versioning": "semver",
-      "allowedVersions": "<{{major}}.{{add minor 2}}.0"
+      "versioning": "semver-coerced",
+      "allowedVersions": "<1.16.0"
     },
     {
       "description": [
@@ -125,7 +126,8 @@
       ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "versioning": "semver-coerced"
     }
   ]
 }
