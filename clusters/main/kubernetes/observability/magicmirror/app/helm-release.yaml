@@ -41,7 +41,7 @@ spec:
     image:
       repository: karsten13/magicmirror
       pullPolicy: IfNotPresent
-      tag: alpine-v2.37.0@sha256:2f81ccc3068217b30ba01cab9ddcfd5db338717556d78d25c7297117326d9f10
+      tag: alpine-v2.37.0@sha256:6850cd43bfd83c2f03131d186ba4cc78c4a32581564b953032a396e0bd7f7b6a
     mmpmImage:
       repository: karsten13/mmpm
       pullPolicy: IfNotPresent
