@@ -37,6 +37,7 @@ services:
       homepage.href: https://wud.${BASE_DOMAIN_0}
       homepage.widget.type: whatsupdocker
       homepage.widget.url: http://wud:3000
+      homepage.widget.key: ${WUD_HP_KEY}
 networks:
   network_internal:
     external: true
