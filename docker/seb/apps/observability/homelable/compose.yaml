@@ -13,7 +13,7 @@ x-healthcheckBE: &healthcheckBE
   start_period: 15s
   
 x-healthcheckMCP: &healthcheckMCP
-  test: curl -f http://localhost:8001/health || exit 1
+  test: curl -fsS http://localhost:8001/health || exit 1
   interval: 30s
   timeout: 10s
   retries: 3
