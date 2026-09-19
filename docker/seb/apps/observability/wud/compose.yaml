@@ -13,6 +13,8 @@ services:
     restart: on-failure
     environment:
       WUD_SERVER_PORT: 3000
+    env_file:
+      - wud.enc.env
     networks:
       - network_internal
     expose:
