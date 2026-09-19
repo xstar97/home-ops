@@ -15,6 +15,3 @@
     - wol:
         - abbr: WL
           href: https://wol.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}/
-    - wud:
-        - abbr: WD
-          href: https://wud.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}/
