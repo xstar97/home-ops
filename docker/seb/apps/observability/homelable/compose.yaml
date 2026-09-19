@@ -1,11 +1,45 @@
-x-healthcheck: &healthcheckBackend
-  test: curl -f http://localhost:8080/health || exit 1
+x-healthcheckFE: &healthcheckFE
+  test: curl -f http://localhost:80/api/v1/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+x-healthcheckBE: &healthcheckBE
+  test: curl -f http://localhost:8000/api/v1/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+  
+x-healthcheckMCP: &healthcheckMCP
+  test: curl -f http://localhost:8001/health || exit 1
   interval: 30s
   timeout: 10s
   retries: 3
   start_period: 15s
 
 services:
+  frontend:
+    image: ghcr.io/pouzor/homelable-frontend:3.4.2@sha256:d9115568828e4b72a1960d64936fa92bedd2d9a00ff133b8efc98c7cc0fb0c9d
+    container_name: homelable-frontend
+    restart: unless-stopped
+    expose:
+      - "80"
+    healthcheck: *healthcheckFE
+    depends_on:
+      - backend
+    networks:
+      - internal
+      - network_internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homelable.rule: Host(`homelable.${BASE_DOMAIN_0}`)
+      traefik.http.services.homelable.loadbalancer.server.port: 80
+      traefik.http.routers.homelable.entrypoints: websecure
+      traefik.http.routers.homelable.tls: true
+      traefik.http.routers.homelable.tls.certResolver: cf
+      traefik.http.routers.homelable.middlewares: error-pages-middleware
   backend:
     image: ghcr.io/pouzor/homelable-backend:3.4.2@sha256:b6d122e9879a3ade4680a21d0cae485f2382c3e9eecdf8ae1aa8a0a59642f6f0
     container_name: homelable-backend
@@ -14,6 +48,7 @@ services:
       - internal
     expose:
       - "8000"
+    healthcheck: *healthcheckBE
     cap_add:
       - NET_RAW
     # MAC addresses: on this bridge network the scanner can never see them —
@@ -34,6 +69,7 @@ services:
     restart: unless-stopped
     expose:
       - "8001"
+    healthcheck: *healthcheckMCP
     env_file:
       - homelable.enc.env
     environment:
@@ -43,25 +79,6 @@ services:
     networks:
       - internal
 
-  frontend:
-    image: ghcr.io/pouzor/homelable-frontend:3.4.2@sha256:d9115568828e4b72a1960d64936fa92bedd2d9a00ff133b8efc98c7cc0fb0c9d
-    container_name: homelable-frontend
-    restart: unless-stopped
-    expose:
-      - "80"
-    depends_on:
-      - backend
-    networks:
-      - internal
-      - network_internal
-    labels:
-      traefik.enable: true
-      traefik.http.routers.homelable.rule: Host(`homelable.${BASE_DOMAIN_0}`)
-      traefik.http.services.homelable.loadbalancer.server.port: 80
-      traefik.http.routers.homelable.entrypoints: websecure
-      traefik.http.routers.homelable.tls: true
-      traefik.http.routers.homelable.tls.certResolver: cf
-      traefik.http.routers.homelable.middlewares: error-pages-middleware
 networks:
   network_internal:
     external: true
