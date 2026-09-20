@@ -56,7 +56,7 @@ spec:
                 RENOVATE_CACHE_DIR: /tmp/renovate/cache
                 # ["extract", "lookup", "full"]
                 RENOVATE_DRY_RUN: "full"
-                RENOVATE_REPOSITORIES: ["xstar97/home-ops"]
+                RENOVATE_REPOSITORIES: xstar97/home-ops
 
     persistence:
       configmap-vol:
