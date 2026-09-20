@@ -2,111 +2,64 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "type/major"
-      ]
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["type/major"]
     },
     {
-      "matchUpdateTypes": [
-        "minor"
-      ],
-      "addLabels": [
-        "type/minor"
-      ]
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["type/minor"]
     },
     {
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "addLabels": [
-        "type/patch"
-      ]
+      "matchUpdateTypes": ["patch"],
+      "addLabels": ["type/patch"]
     },
     {
-      "matchUpdateTypes": [
-        "digest"
-      ],
-      "addLabels": [
-        "type/digest"
-      ]
+      "matchUpdateTypes": ["digest"],
+      "addLabels": ["type/digest"]
     },
     {
-      "matchUpdateTypes": [
-        "pin",
-        "pinDigest"
-      ],
-      "addLabels": [
-        "type/pin"
-      ]
+      "matchUpdateTypes": ["pin", "pinDigest"],
+      "addLabels": ["type/pin"]
     },
     {
-      "matchDatasources": [
-        "github-runners"
-      ],
-      "addLabels": [
-        "renovate/github-runners"
-      ]
+      "matchDatasources": ["github-runners"],
+      "addLabels": ["renovate/github-runners"]
     },
     {
-      "matchDatasources": [
-        "github-releases",
-        "github-tags"
-      ],
-      "addLabels": [
-        "renovate/github-release"
-      ]
+      "matchDatasources": ["github-releases", "github-tags"],
+      "addLabels": ["renovate/github-release"]
     },
     {
-      "matchDatasources": [
-        "docker"
-      ],
-      "addLabels": [
-        "renovate/container"
-      ]
+      "matchDatasources": ["docker"],
+      "addLabels": ["renovate/container"]
     },
     {
-      "matchDatasources": [
-        "helm"
-      ],
-      "addLabels": [
-        "renovate/helm"
-      ]
+      "matchDatasources": ["helm"],
+      "addLabels": ["renovate/helm"]
     },
     {
-      "matchManagers": [
-        "mise"
-      ],
-      "addLabels": [
-        "renovate/mise"
-      ]
+      "matchDatasources": ["kubernetes-api"],
+      "addLabels": ["renovate/kubernetes-api"]
     },
     {
-      "matchPackageNames": [
-        "/siderolabs/"
-      ],
-      "addLabels": [
-        "system-upgrade"
-      ],
-      "separateMinorPatch": true
+      "matchPackageNames": ["/siderolabs/"],
+      "addLabels": ["system-upgrade"]
     },
     {
-      "matchPackageNames": [
-        "/fluxcd/"
-      ],
-      "addLabels": [
-        "fluxcd-update"
-      ]
+      "matchPackageNames": ["/flux-operator/", "/flux-instance/"],
+      "addLabels": ["flux-update"]
+    },    
+    {
+      "matchPackageNames": ["/longhorn/"],
+      "addLabels": ["longhorn-update"]
     },
     {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "addLabels": [
-        "renovate/github-action"
-      ]
+      "matchPackageNames": ["/cilium/"],
+      "addLabels": ["cilium-update"]
+    },
+    {
+      "matchManagers": ["mise"],
+      "addLabels": ["renovate/mise"]
     }
   ]
 }
