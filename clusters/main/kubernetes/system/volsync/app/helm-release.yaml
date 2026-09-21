@@ -34,3 +34,44 @@ spec:
       repository: quay.io/backube/volsync
       pullPolicy: IfNotPresent
       tag: 0.16.0@sha256:f9cd9aaa33de9e71239c86bed2d255341160f6115c13767a0aed1b9fd1e5aff9
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              args:
+                - --health-probe-bind-address=:8081
+                - --metrics-bind-address=0.0.0.0:8080
+                - --metrics-secure=false
+                - --metrics-require-rbac=false
+                - --leader-elect
+                - --rclone-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --restic-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --rsync-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --rsync-tls-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --syncthing-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --scc-name=volsync-privileged-mover
+            kube-rbac-proxy:
+              enabled: false
+    metrics:
+      main:
+        enabled: true
+        type: servicemonitor
+        endpoints:
+          - port: metrics
+            path: /metrics
+            scheme: http
+        targetSelector: metrics
+    service:
+      main:
+        ports:
+          main:
+            port: 8081
+            protocol: http
+      metrics:
+        enabled: true
+        ports:
+          metrics:
+            enabled: true
+            port: 8080
+            protocol: http
