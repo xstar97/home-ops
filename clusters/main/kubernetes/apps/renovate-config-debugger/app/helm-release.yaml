@@ -85,14 +85,15 @@ spec:
               imageSelector: image
               envFrom:
                 - secretRef:
-                    name: "renovate-config-debugger"
+                    name: renovate-config-debugger
               env:
                 RCD_OAUTH_WORKER_URL: '{{ printf "http://%v-proxy:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.proxy.port }}'
-                # RCD_GITHUB_APP_SLUG: "my-renovate-config-debugger"
+                RCD_GITHUB_APP_SLUG: "my-renovate-config-debugger"
+
             proxy:
               imageSelector: proxyImage
               envFrom:
                 - secretRef:
-                    name: "renovate-config-debugger"
+                    name: renovate-config-debugger
               env:
-                ALLOWED_ORIGINS: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+                ALLOWED_ORIGINS: "https://debugger.renovate.${DOMAIN_2}"
