@@ -40,6 +40,10 @@ spec:
       repository: ghcr.io/secustor/renovate-config-debugger
       pullPolicy: IfNotPresent
       tag: 0.3.1@sha256:163bf568c0710fdb5c4d68b720957eff87acbf727c5a339af7794df98dffa501
+    proxyImage:
+      repository: ghcr.io/secustor/renovate-config-debugger-oauth-proxy
+      pullPolicy: IfNotPresent
+      tag: 0.3.1@sha256:b0b88bfd09d068064701a76244f77d296d683d4b524b05c0473eda4e49d16c9f
 
     securityContext:
       container:
@@ -54,6 +58,8 @@ spec:
         ports:
           main:
             port: 80
+          proxy:
+            port: 8788
 
     ingress:
       main:
@@ -70,3 +76,29 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+              env:
+                RCD_GITHUB_CLIENT_ID:
+                  secretKeyRef:
+                    name: renovate-config-debugger
+                    key: RCD_GITHUB_CLIENT_ID
+                RCD_OAUTH_WORKER_URL: '{{ printf "http://%v-proxy:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.proxy.port }}'
+                # RCD_GITHUB_APP_SLUG: "my-renovate-config-debugger"
+            proxy:
+              imageSelector: proxyImage
+              env:
+                GITHUB_CLIENT_ID:
+                  secretKeyRef:
+                    name: renovate-config-debugger
+                    key: GITHUB_CLIENT_ID
+                GITHUB_CLIENT_SECRET:
+                  secretKeyRef:
+                    name: renovate-config-debugger
+                    key: GITHUB_CLIENT_SECRET
+                ALLOWED_ORIGINS: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
