@@ -34,7 +34,7 @@ spec:
     gatus:
       group: core
     global:
-      stopAll: true
+      stopAll: false
 
     image:
       repository: ghcr.io/secustor/renovate-config-debugger
