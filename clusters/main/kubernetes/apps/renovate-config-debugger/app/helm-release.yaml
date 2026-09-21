@@ -91,6 +91,7 @@ spec:
                 RCD_GITHUB_APP_SLUG: "my-renovate-config-debugger"
 
             proxy:
+              enabled: true
               imageSelector: proxyImage
               # envFrom:
               #   - secretRef:
