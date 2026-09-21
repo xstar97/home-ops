@@ -33,19 +33,14 @@ spec:
 
     ingress:
       enabled: true
-      ingressClassName: "internal"
+      ingressClassName: "external"
       annotations:
         cert-manager.io/cluster-issuer: general-le-prod
         cert-manager.io/private-key-rotation-policy: Always
+      host: renovate.${DOMAIN_2}
       tls:
-        - hosts:
-            - renovate.${DOMAIN_2}
-          secretName: renovate-tls-0
-      hosts:
-        - host: renovate.${DOMAIN_2}
-          paths:
-            - path: /
-              pathType: Prefix
+        enabled: true
+        secretName: renovate-tls-0
 
     webhook:
       enabled: true
