@@ -34,7 +34,7 @@ spec:
     gatus:
       group: core
     global:
-      stopAll: false
+      stopAll: true
 
     configmap:
       config:
