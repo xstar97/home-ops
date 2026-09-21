@@ -36,7 +36,7 @@ spec:
     image:
       repository: ghcr.io/museofficial/muse
       pullPolicy: IfNotPresent
-      tag: pr-1276
+      tag: pr-1276@sha256:c666e6a2da22678e6fdd6dedae78c19e5029d22cc34e6379d98aa6e23ba09d2c
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-muse"
