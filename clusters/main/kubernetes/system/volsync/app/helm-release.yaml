@@ -34,3 +34,56 @@ spec:
       repository: quay.io/backube/volsync
       pullPolicy: IfNotPresent
       tag: 0.16.0@sha256:f9cd9aaa33de9e71239c86bed2d255341160f6115c13767a0aed1b9fd1e5aff9
+
+      metrics:
+        # Disable auth checks when scraping metrics (allow anyone to scrape)
+        disableAuth: true
+
+      # -- Options for the main traefik service, where the entrypoints traffic comes from
+      # from.
+      service:
+        main:
+          ports:
+            main:
+              port: 8081
+              targetPort: 8081
+              protocol: http
+        metrics:
+          enabled: true
+          type: ClusterIP
+          ports:
+            metrics:
+              enabled: true
+              port: 8080
+              targetPort: 8080
+              # protocol: https
+
+    metrics:
+      main:
+        enabled: true
+        type: servicemonitor
+        endpoints:
+          - port: metrics
+            path: /metrics
+            scheme: http
+            # tlsConfig:
+            # insecureSkipVerify: true
+        targetSelector: metrics
+
+    workload:
+      main:
+        replicas: 1
+        strategy: RollingUpdate
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  path: "/healthz"
+                readiness:
+                  path: "/readyz"
+                startup:
+                  path: "/readyz"
+            kube-rbac-proxy:
+              enabled: false
+              imageSelector: proxyImage
