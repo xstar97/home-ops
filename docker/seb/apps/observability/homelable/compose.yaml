@@ -21,7 +21,7 @@ x-healthcheckMCP: &healthcheckMCP
 
 services:
   frontend:
-    image: ghcr.io/pouzor/homelable-frontend:3.4.2@sha256:d9115568828e4b72a1960d64936fa92bedd2d9a00ff133b8efc98c7cc0fb0c9d
+    image: ghcr.io/pouzor/homelable-frontend:3.5.0@sha256:c5adb1ce2781345140d2c85d3120ae92cb35c0958cf9664cd2a7207089fb4327
     container_name: homelable-frontend
     restart: unless-stopped
     expose:
@@ -41,7 +41,7 @@ services:
       traefik.http.routers.homelable.tls.certResolver: cf
       traefik.http.routers.homelable.middlewares: error-pages-middleware
   backend:
-    image: ghcr.io/pouzor/homelable-backend:3.4.2@sha256:b6d122e9879a3ade4680a21d0cae485f2382c3e9eecdf8ae1aa8a0a59642f6f0
+    image: ghcr.io/pouzor/homelable-backend:3.5.0@sha256:64452d231e3227af54ea4e126850cdd6a89b2b169d22bd345e212986ba7621df
     container_name: homelable-backend
     restart: unless-stopped
     networks:
@@ -64,7 +64,7 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/homelable/data:/app/data
   mcp:
-    image: ghcr.io/pouzor/homelable-mcp:3.4.2@sha256:8a086289bb1fca7388de3424a54f9b54570362e2662a98b9b2599fc0db4ee9d1
+    image: ghcr.io/pouzor/homelable-mcp:3.5.0@sha256:811dcf1e463c1945c697fbb358c6489ab496ffc00c36f48a1e63e77df3cca5be
     container_name: homelable-mcp
     restart: unless-stopped
     expose:
