@@ -18,3 +18,4 @@ resources:
   - weave-gitops.yaml
   - stakater.yaml
   - home-operations.yaml
+  - renovate-operator.yaml
