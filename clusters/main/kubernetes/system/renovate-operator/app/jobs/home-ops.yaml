@@ -1,14 +1,23 @@
 apiVersion: renovate-operator.mogenius.com/v1alpha1
 kind: RenovateJob
 metadata:
-  name: renovate
+  name: renovate-github
   namespace: renovate-operator
 spec:
-  schedule: "0 2 * * *"       # run daily at 02:00
-  secretRef: renovate-secret
+  discoveryFilters:
+    - xstar97/home-ops
   provider:
     name: github
-  image: ghcr.io/renovatebot/renovate:44.104.1@sha256:1ef5a268aa8368a193b19482ab59e2afa5e7bd0ab2844e8721ca83a29be7bbe4
-  parallelism: 3
-  discoveryFilters:
-    - "xstar97/home-ops"              # replace with your org or user
+    endpoint: ""  # optional, defaults to https://api.github.com
+  image: renovate/renovate:43.104.1
+  parallelism: 5
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  schedule: 0 * * * *
+  githubAppReference:
+    secretName: github-app-credentials
+    appIdSecretKey: APP_ID
+    installationIdSecretKey: INSTALL_ID
+    pemSecretKey: PEM
