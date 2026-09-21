@@ -35,9 +35,9 @@ spec:
       pullPolicy: IfNotPresent
       tag: 0.16.0@sha256:f9cd9aaa33de9e71239c86bed2d255341160f6115c13767a0aed1b9fd1e5aff9
 
-      metrics:
-        # Disable auth checks when scraping metrics (allow anyone to scrape)
-        disableAuth: true
+    metrics:
+      # Disable auth checks when scraping metrics (allow anyone to scrape)
+      disableAuth: true
 
       # -- Options for the main traefik service, where the entrypoints traffic comes from
       # from.
