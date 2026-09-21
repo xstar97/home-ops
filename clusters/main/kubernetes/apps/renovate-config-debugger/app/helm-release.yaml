@@ -96,5 +96,21 @@ spec:
               # envFrom:
               #   - secretRef:
               #       name: renovate-config-debugger
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.main.ports.proxy.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.main.ports.proxy.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.main.ports.proxy.port }}"
               env:
                 ALLOWED_ORIGINS: "https://debugger.renovate.${DOMAIN_2}"
