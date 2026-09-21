@@ -60,8 +60,17 @@ spec:
           containers:
             main:
               args:
+                - --health-probe-bind-address=:8081
+                - --metrics-bind-address=127.0.0.1:8080
                 - --metrics-require-rbac=false
                 - --metrics-secure=false
+                - --leader-elect
+                - --rclone-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --restic-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --rsync-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --rsync-tls-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --syncthing-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+                - --scc-name=volsync-privileged-mover
               probes:
                 liveness:
                   path: "/healthz"
