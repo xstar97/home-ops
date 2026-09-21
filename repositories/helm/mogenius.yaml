@@ -3,9 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: renovate-operator
+  name: mogenius
   namespace: flux-system
 spec:
-  type: oci
   interval: 2h
-  url: oci://ghcr.io/mogenius/helm-charts/renovate-operator
+  url: https://helm.mogenius.com/public
