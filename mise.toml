@@ -6,11 +6,11 @@ kubectl = "1.37.0"
 kubecolor = "0.8.0"
 oxker = "0.13.4"
 talosctl = "1.14.1"
-usage = "6.10.0"
+usage = "6.11.0"
 viddy = "1.3.1"
 weave-gitops = "0.38.0"
 codex = "0.149.0"
-aws-cli = "2.36.49"
+aws-cli = "2.36.50"
 
 [settings]
 auto_install = true
