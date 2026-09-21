@@ -54,11 +54,14 @@ spec:
 
     service:
       main:
+        enabled: true
         type: ClusterIP
         ports:
           main:
+            enabled: true
             port: 80
           proxy:
+            enabled: true
             port: 8788
 
     ingress:
