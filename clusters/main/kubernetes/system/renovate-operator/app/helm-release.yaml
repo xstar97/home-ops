@@ -48,5 +48,4 @@ spec:
 
     webhook:
       enabled: true
-      # baseUrl: https://renovate.${DOMAIN_2}
       unifiedWebhookHost: true
