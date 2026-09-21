@@ -3,7 +3,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Process annotated dependency versions",
+      "description": "Process annotated dependencies",
       "managerFilePatterns": [
         "/\\.env(?:\\.j2)?$/",
         "/\\.sh(?:\\.j2)?$/",
@@ -14,13 +14,9 @@
         // foobar_version: v1.0.0
         // # renovate: datasource=docker depName=ghcr.io/foo/bar
         // FOOBAR_VERSION=v1.0.0
-        // Match the immediately following YAML or environment assignment. Renovate
-        // runs this expression against the entire file, so explicit line boundaries
-        // prevent an annotation from being paired with a later, unrelated value.
-        "(?:^|\\r\\n|\\r|\\n)[ \\t]*# renovate: datasource=(?<datasource>[^\\s]+) depName=(?<depName>[^\\s]+)(?: versioning=(?<versioning>[^\\s]+))?(?:\\r\\n|\\r|\\n)(?<indentation>[ \\t]*)(?:[A-Za-z_][A-Za-z0-9_-]*:[ \\t]*|[A-Za-z_][A-Za-z0-9_]*=)(?:&[^\\s]+[ \\t]+)?(?<currentValue>[^\\s#]+)"
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)"
       ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}"
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     }
   ]
 }
