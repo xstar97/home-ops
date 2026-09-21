@@ -31,6 +31,9 @@ spec:
     keepHistory: false
   values:
 
+    policy:
+      enabled: true
+
     ingress:
       enabled: true
       ingressClassName: "internal"
