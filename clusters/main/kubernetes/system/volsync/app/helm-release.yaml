@@ -58,16 +58,6 @@ spec:
               targetPort: 8080
               protocol: https
 
-    metrics:
-      main:
-        enabled: true
-        type: servicemonitor
-        endpoints:
-          - port: metrics
-            path: /metrics
-            scheme: https
-        targetSelector: metrics
-
     workload:
       main:
         podSpec:
