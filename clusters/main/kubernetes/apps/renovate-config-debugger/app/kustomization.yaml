@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
-  - rcd.secret.yaml
 components:
   - ../../../../components/notifications/discord
   - ../../../../components/gatus/service

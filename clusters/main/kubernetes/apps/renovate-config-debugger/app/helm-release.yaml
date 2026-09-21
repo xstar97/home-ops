@@ -40,10 +40,6 @@ spec:
       repository: ghcr.io/secustor/renovate-config-debugger
       pullPolicy: IfNotPresent
       tag: 0.3.1@sha256:163bf568c0710fdb5c4d68b720957eff87acbf727c5a339af7794df98dffa501
-    proxyImage:
-      repository: ghcr.io/secustor/renovate-config-debugger-oauth-proxy
-      pullPolicy: IfNotPresent
-      tag: 0.3.1@sha256:b0b88bfd09d068064701a76244f77d296d683d4b524b05c0473eda4e49d16c9f
 
     securityContext:
       container:
@@ -60,9 +56,6 @@ spec:
           main:
             enabled: true
             port: 80
-          proxy:
-            enabled: true
-            port: 8788
 
     ingress:
       main:
@@ -79,41 +72,3 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              imageSelector: image
-              envFrom:
-                - secretRef:
-                    name: renovate-config-debugger-app-template
-              env:
-                RCD_OAUTH_WORKER_URL: '{{ printf "http://%v-proxy:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.proxy.port }}'
-                RCD_GITHUB_APP_SLUG: "my-renovate-config-debugger"
-
-            proxy:
-              enabled: true
-              imageSelector: proxyImage
-              envFrom:
-                - secretRef:
-                    name: renovate-config-debugger-app-template
-              probes:
-                liveness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.main.ports.proxy.port }}"
-                readiness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.main.ports.proxy.port }}"
-                startup:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.main.ports.proxy.port }}"
-              env:
-                ALLOWED_ORIGINS: "https://debugger.renovate.${DOMAIN_2}"
