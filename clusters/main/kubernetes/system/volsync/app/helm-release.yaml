@@ -67,6 +67,7 @@ spec:
         ports:
           main:
             port: 8081
+            targetPort: 8081
             protocol: http
       metrics:
         enabled: true
@@ -74,4 +75,5 @@ spec:
           metrics:
             enabled: true
             port: 8080
+            targetPort: 8080
             protocol: http
