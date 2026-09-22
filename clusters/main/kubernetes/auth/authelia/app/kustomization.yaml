@@ -10,4 +10,3 @@ components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord
   - ../../../../components/gatus/service
-  - .decrypted~authelia-oidc.secret.yaml
