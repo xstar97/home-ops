@@ -66,7 +66,8 @@ spec:
                 GF_AUTH_GENERIC_OAUTH_GROUPS_ATTRIBUTE_PATH: groups
                 GF_AUTH_GENERIC_OAUTH_USE_PKCE: true
                 GF_AUTH_GENERIC_OAUTH_AUTH_STYLE: InHeader
-
+                GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: >-
+                              contains(groups[*], 'lldap_admin') && 'GrafanaAdmin' || 'Viewer'
                 GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: true
                 GF_AUTH_GENERIC_OAUTH_AUTO_LOGIN: true
 
