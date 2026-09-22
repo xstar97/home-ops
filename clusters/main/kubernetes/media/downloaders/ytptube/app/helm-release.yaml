@@ -49,6 +49,13 @@ spec:
         ports:
           main:
             port: 8081
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                YTP_MONITOR_ENABLED: true
     ingress:
       main:
         enabled: true
