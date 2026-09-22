@@ -7,3 +7,4 @@ resources:
   - jobs
 components:
   - ../../../../components/notifications/discord
+  - .decrypted~renovate.secret.yaml

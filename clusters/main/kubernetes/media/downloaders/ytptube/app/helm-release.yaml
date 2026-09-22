@@ -49,6 +49,25 @@ spec:
         ports:
           main:
             port: 8081
+    configmap:
+      ytptube-config:
+        enabled: true
+        data:
+          config.toml: |
+            [auth]
+            external_user = "owner"
+
+            [auth.oidc]
+            issuer = "https://auth.${DOMAIN_2}"
+            client_id = "ytptube"
+            client_secret = "${AUTHELIA_CLIENT_SECRET_YTPTUBE}"
+            redirect_uri = "https://ytptube.${DOMAIN_2}/ytptube/api/auth/oidc/callback"
+
+            [auth.remote_user]
+            enabled = true
+            header = "Remote-User"
+            trusted_proxies = ["${PODNET}","${SVCNET}"]
+
     workload:
       main:
         podSpec:
@@ -68,6 +87,10 @@ spec:
         integrations:
           nginx:
             enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -83,6 +106,13 @@ spec:
               enabled: true
             src:
               enabled: true
+      ytptube-config:
+        enabled: true
+        type: configmap
+        mountPath: /config/config.toml
+        objectName: ytptube-config
+        readOnly: true
+        subPath: config.toml
       downloads:
         enabled: true
         type: nfs
