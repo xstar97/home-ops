@@ -62,11 +62,7 @@ spec:
             client_id = "ytptube"
             client_secret = "${AUTHELIA_CLIENT_SECRET_YTPTUBE}"
             redirect_uri = "https://ytptube.${DOMAIN_2}/ytptube/api/auth/oidc/callback"
-
-            [auth.remote_user]
-            enabled = true
-            header = "Remote-User"
-            trusted_proxies = ["${PODNET}","${SVCNET}"]
+            
 
     workload:
       main:
