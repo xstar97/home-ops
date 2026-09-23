@@ -111,6 +111,13 @@ data:
               - email_verified
               - preferred_username
               - name
+          renovate_operator:
+            id_token:
+              - groups
+              - email
+              - email_verified
+              - preferred_username
+              - name
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -232,6 +239,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_ytptube'
+          renovate_operator:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_renovate'
         # Registered OIDC relying parties.
         clients:
           - client_id: "romm"
@@ -514,7 +528,7 @@ data:
             require_pkce: true
             pkce_challenge_method: 'S256'
             redirect_uris:
-              - 'https://ytptube.${DOMAIN_0}/ytptube/api/auth/oidc/callback'
+              - 'https://ytptube.${DOMAIN_2}/ytptube/api/auth/oidc/callback'
             scopes:
               - 'openid'
               - 'profile'
@@ -525,3 +539,23 @@ data:
             grant_types:
               - 'authorization_code'
             token_endpoint_auth_method: 'client_secret_basic'
+
+          - client_id: renovate-operator
+            client_name: Renovate Operator
+            client_secret: {{ secret "/config/secret/clients_renovate_operator_client_secret" }}
+            authorization_policy: renovate_operator
+            claims_policy: renovate_operator
+            require_pkce: true
+            pkce_challenge_method: S256
+            redirect_uris:
+              - https://renovate.${DOMAIN_2}/oauth2/callback
+            scopes:
+              - openid
+              - profile
+              - email
+              - groups
+            response_types:
+              - code
+            grant_types:
+              - authorization_code
+            token_endpoint_auth_method: client_secret_basic

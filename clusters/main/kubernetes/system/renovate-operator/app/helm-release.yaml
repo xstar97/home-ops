@@ -30,10 +30,35 @@ spec:
   uninstall:
     keepHistory: false
   values:
-
     policy:
       enabled: true
+    webhook:
+      enabled: true
+      unifiedWebhookHost: true
+    auth:
+      oidc:
+        enabled: true
+        issuerUrl: https://auth.${DOMAIN_2}
+        clientId: renovate-operator
+        existingSecret: oidc-secret
+        secretKey: renovate-operator-oidc
+        # sessionSecretKey: session-secret
+        groupsClaim: groups
+        additionalScopes:
+          - groups
+        pkceEnabled: true
 
+    authorization:
+      enabled: true
+      defaults:
+        readerGroups:
+          - lldap_renovate
+        adminGroups:
+          - lldap_admin
+        readerUsers: []
+        adminUsers: []
+        anonymousRead: false
+        anonymousReadLogs: false
     ingress:
       enabled: true
       ingressClassName: "external"
@@ -45,7 +70,3 @@ spec:
         - hosts:
             - renovate.${DOMAIN_2}
           secretName: renovate-tls-0
-
-    webhook:
-      enabled: true
-      unifiedWebhookHost: true
