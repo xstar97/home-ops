@@ -37,7 +37,7 @@ spec:
       unifiedWebhookHost: true
     auth:
       oidc:
-        enabled: true
+        enabled: false
         issuerUrl: https://auth.${DOMAIN_2}
         clientId: renovate-operator
         existingSecret: oidc-secret
@@ -48,7 +48,7 @@ spec:
           - groups
         pkceEnabled: true
     authorization:
-      enabled: true
+      enabled: false
       defaults:
         readerGroups:
           - lldap_renovate
