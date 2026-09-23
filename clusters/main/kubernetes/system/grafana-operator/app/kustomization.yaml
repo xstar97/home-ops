@@ -3,8 +3,6 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
-  # - grafana.secret.yaml
-  - grafana.yaml
   - dashboards.yaml
   - datasource.yaml
 components:
