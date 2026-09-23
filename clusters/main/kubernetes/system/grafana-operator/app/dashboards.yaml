@@ -1,10 +1,13 @@
+### infrastructure
 ---
+# cert-manager
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: cert-manager
   namespace: grafana
 spec:
+  folderRef: infrastructure
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -14,14 +17,15 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
-
 ---
+# cnpg dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: cnpg
   namespace: grafana
 spec:
+  folderRef: infrastructure
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -31,91 +35,15 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
-
 ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: flux-cluster
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: flux-control-plane
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: node-feature-discovery
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  url: https://github.com/kubernetes-sigs/node-feature-discovery/raw/refs/tags/v0.18.3/examples/grafanadash
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: metallb
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  grafanaCom:
-    id: 20162
-    revision: 6
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: nginx
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  url: https://github.com/kubernetes/ingress-nginx/raw/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
+# blocky dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: blocky
   namespace: grafana
 spec:
+  folderRef: infrastructure
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -123,67 +51,15 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
-    - inputName: VAR_BLOCKY_URL
-      datasourceName: http://blocky.blocky.svc.cluster.local:4000
-
 ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: volsync
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  grafanaCom:
-    id: 21356
-    revision: 3
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-    - inputName: VAR_REPLICATIONDESTNAME
-      datasourceName: ".*-dest|.*-bootstrap"
-
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: arrs
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/main/examples/grafana/dashboard2.json
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: cilium
-  namespace: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  grafanaCom:
-    id: 21431
-    revision: 6
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
+# longhorn dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: longhorn
   namespace: grafana
 spec:
+  folderRef: infrastructure
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -194,13 +70,120 @@ spec:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
 
+
+### gitops
 ---
+# flux-cluster dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: flux-cluster
+  namespace: grafana
+spec:
+  folderRef: gitops
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+---
+# flux-control-plane dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: flux-control-plane
+  namespace: grafana
+spec:
+  folderRef: gitops
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+
+
+### kubernetes
+---
+# node-feature-discovery dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-feature-discovery
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://github.com/kubernetes-sigs/node-feature-discovery/raw/refs/tags/v0.18.3/examples/grafanadash
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+---
+# metallb dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: metallb
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 20162
+    revision: 6
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+---
+### ingress-nginx dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: nginx
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://github.com/kubernetes/ingress-nginx/raw/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+---
+# cilium dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: cilium
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 21431
+    revision: 6
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+---
+# grafana kubernetes dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: kubernetes
   namespace: grafana
 spec:
+  folderRef: kubernetes
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -210,20 +193,60 @@ spec:
   datasources:
     - inputName: DS_VICTORIAMETRICS_PROD_ALL
       datasourceName: Prometheus
-
 ---
+# node-exporter dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: node-exporter
   namespace: grafana
 spec:
+  folderRef: kubernetes
   instanceSelector:
     matchLabels:
       dashboards: grafana
   grafanaCom:
     id: 1860
     revision: 45
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+
+### storage
+---
+# volsync dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: volsync
+  namespace: grafana
+spec:
+  folderRef: storage
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 21356
+    revision: 3
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+
+
+### media
+---
+### arrs dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: arrs
+  namespace: grafana
+spec:
+  folderRef: media
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/main/examples/grafana/dashboard2.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus

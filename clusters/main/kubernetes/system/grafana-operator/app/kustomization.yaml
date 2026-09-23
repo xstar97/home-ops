@@ -7,5 +7,6 @@ resources:
   - datasource.yaml
   - grafana.secret.yaml
   - grafana-external.yaml
+  - grafana-folders.yaml
 components:
   - ../../../../components/notifications/discord
