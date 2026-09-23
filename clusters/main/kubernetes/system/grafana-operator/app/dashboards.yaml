@@ -115,24 +115,6 @@ spec:
 
 ### kubernetes
 ---
-# Grafana Operator dashboard
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: grafana-operator
-  namespace: grafana
-spec:
-  folderRef: kubernetes
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  grafanaCom:
-    id: 22785
-    revision: 2
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
----
 # node-feature-discovery dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
