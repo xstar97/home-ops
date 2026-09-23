@@ -11,6 +11,7 @@ spec:
 
   datasource:
     name: Prometheus
+    uid: prometheus
     type: prometheus
     access: proxy
     url: http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc:9090
