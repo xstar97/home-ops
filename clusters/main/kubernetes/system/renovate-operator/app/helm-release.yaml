@@ -40,7 +40,7 @@ spec:
         enabled: true
         issuerUrl: https://auth.${DOMAIN_2}
         clientId: renovate-operator
-        existingSecret: renovate-operator-oidc
+        existingSecret: oidc-secret
         secretKey: client-secret
         # sessionSecretKey: session-secret
         groupsClaim: groups
