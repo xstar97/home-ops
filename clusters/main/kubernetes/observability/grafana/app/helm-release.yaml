@@ -46,6 +46,9 @@ spec:
     workload:
       main:
         podSpec:
+          initContainers:
+            download-dashboards:
+              enabled: false
           containers:
             main:
               env:
@@ -266,9 +269,6 @@ spec:
             id: 1860
             revision: 45
 
-    persistence:
-      sc-dashboard-config:
-        enabled: false    
     cnpg:
       main:
         mode: recovery
