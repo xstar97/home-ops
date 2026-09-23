@@ -71,6 +71,64 @@ spec:
                 GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: true
                 GF_AUTH_GENERIC_OAUTH_AUTO_LOGIN: true
 
+
+
+workload:
+  main:
+    replicas: 1
+    strategy: Recreate
+    podSpec:
+      initContainers:
+        download-dashboards:
+          enabled: true
+          type: init
+          imageSelector: ubuntuImage
+          command: /download-dashboards.sh
+      containers:
+        main:
+          env:
+            GF_SECURITY_ADMIN_USER: "admin"
+            GF_SECURITY_ADMIN_PASSWORD: "testpassword"
+            GF_INSTALL_PLUGINS: ""
+            GF_AUTH_LDAP_ENABLED: "false"
+            GF_AUTH_LDAP_ALLOW_SIGN_UP: "false"
+            GF_SERVER_HTTP_PORT: 3000
+            GF_DATABASE_TYPE: postgres
+            GF_DATABASE_NAME: "{{ .Values.cnpg.main.user }}"
+            GF_DATABASE_USER: "{{ .Values.cnpg.main.database }}"
+            GF_DATABASE_SSL_MODE: disable
+            GF_DATABASE_HOST:
+              secretKeyRef:
+                name: cnpg-main-urls
+                key: host
+            GF_DATABASE_PASSWORD:
+              secretKeyRef:
+                name: cnpg-main-user
+                key: password
+          probes:
+            liveness:
+              path: "/api/health"
+            readiness:
+              path: "/api/health"
+            startup:
+              path: "/api/health"
+        dashboards:
+          enabled: false
+          imageSelector: sidecarImage
+        datasources:
+          enabled: false
+          imageSelector: sidecarImage
+        alerts:
+          enabled: false
+          imageSelector: sidecarImage
+        plugins:
+          enabled: false
+          imageSelector: sidecarImage
+        notifiers:
+          enabled: false
+          imageSelector: sidecarImage
+
+
     ingress:
       main:
         enabled: true
