@@ -74,16 +74,16 @@ spec:
               enabled: false
               imageSelector: sidecarImage
             datasources:
-              enabled: false
+              enabled: true
               imageSelector: sidecarImage
             alerts:
-              enabled: false
+              enabled: true
               imageSelector: sidecarImage
             plugins:
-              enabled: false
+              enabled: true
               imageSelector: sidecarImage
             notifiers:
-              enabled: false
+              enabled: true
               imageSelector: sidecarImage
 
 
