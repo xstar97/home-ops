@@ -22,8 +22,8 @@ spec:
       name: Authelia
       allow_sign_up: "true"
 
-      client_id: ${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
-      client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+      client_id: "grafana"
+      client_secret: ${AUTHELIA_CLIENT_GRAFANA_SECRET}
 
       scopes: "openid profile email groups"
 
@@ -40,22 +40,3 @@ spec:
       groups_attribute_path: groups
 
       allow_assign_grafana_admin: "true"
-
-  deployment:
-    spec:
-      template:
-        spec:
-          containers:
-            - name: grafana
-              env:
-                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: grafana-oidc
-                      key: client-id
-
-                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      name: grafana-oidc
-                      key: client-secret
