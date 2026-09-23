@@ -18,7 +18,22 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
-
+---
+# blocky
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: blocky
+  namespace: grafana
+spec:
+  folderRef: infrastructure
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
 ---
 # cnpg dashboard
 apiVersion: grafana.integreatly.org/v1beta1
