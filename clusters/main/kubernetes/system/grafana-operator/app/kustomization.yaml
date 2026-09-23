@@ -5,5 +5,7 @@ resources:
   - namespace.yaml
   - dashboards.yaml
   - datasource.yaml
+  - grafana.secret.yaml
+  - grafana-external.yaml
 components:
   - ../../../../components/notifications/discord
