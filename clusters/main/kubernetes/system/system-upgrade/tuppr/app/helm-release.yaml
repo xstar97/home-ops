@@ -35,6 +35,14 @@ spec:
         enabled: true
       dashboards:
         enabled: true
+        namespace: grafana
+        grafanaOperator:
+          enabled: true
+          allowCrossNamespaceImport: true
+          resyncPeriod: 10m
+          matchLabels:
+            dashboards: grafana
+
     notification:
       enabled: true
       secretName: tuppr-notifications
