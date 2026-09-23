@@ -4,7 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: nvidia-gpu-operator
-  namespace: gpu-operator
+  namespace: nvidia-gpu-operator
 spec:
   interval: 5m
   timeout: 25m

@@ -11,4 +11,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: gpu-operator
+  targetNamespace: nvidia-gpu-operator
