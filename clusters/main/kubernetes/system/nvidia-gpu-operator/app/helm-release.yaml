@@ -32,13 +32,17 @@ spec:
   values:
     mig:
       strategy: none
+
     driver:
       enabled: false
+
     toolkit:
       enabled: false
+
     nfd:
       enabled: false
       nodefeaturerules: false
+
     devicePlugin:
       config:
         name: device-plugin-config
