@@ -96,4 +96,4 @@ spec:
           instanceSelector:
             matchLabels:
               dashboards: grafana
-          folderRef: Network
+          folderRef: network
