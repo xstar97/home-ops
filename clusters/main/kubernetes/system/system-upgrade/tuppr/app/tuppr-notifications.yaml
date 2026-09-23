@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: tuppr-notifications
+    namespace: system-upgrade
+type: Opaque
+stringData:
+    url: ENC[AES256_GCM,data:WKE6VU72AqH8EvpL9TeiVb4/eBxuJgZbx6vDZ933AhTaPSqoeoVYb6lVLHMN7mjQzUd+KahWqUY9epnI02pDN6uuzEeHGEcnc33mA/xBDtaw6VasPbCWun3oK4wp6fOx2M8=,iv:9YkuQmtXzgbaORCD902g3qlBq4VpFXKvHQmp/4PsU10=,tag:WWD00aRZW5+p+LiQsR90Ew==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByU2JKQ2x0anhjSVNtRnhL
+            RFc0MmgwQkpXc0RtZmtmZjdMYlZWK3FsaGtVCk5uN0l1bzc5dFYwL2ZHU0pscGE3
+            NWx0TUtQTnpNajkxNWo5OGZ5ckhKS1kKLS0tIGNiN1A1aCtBRENsZnVra1NqSW55
+            S0Jsc3JhQm1lc3k2dGp3RmJxY2lScXcKBXhDTX2Ow+Xh9at/HxAe3Jp3LFusZ9Ha
+            FtWVsqJcCz0CtV/DirJPQR9ZSljoiLU/fp0HbA1L57M1lZ5d3WId2Q==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
+    encrypted_regex: ((?i)(displayname|email|pass|ca|id|bootstraptoken|secretboxencryptionsecret|secrets|secrets|password|cert|secret($|[^N])|key|token|^data$|^stringData))
+    lastmodified: "2026-08-08T18:42:02Z"
+    mac: ENC[AES256_GCM,data:wkDCLZShY12vAuO8i0ZCGWZvYPQKcH1y6RfmXV6uFyqq+fJ82+h2Zi/fEaVv6ns1NR51OndLAWMHDE4BJUffQRys2ZumfffB+it9pFjM7w2roWswhRy/YSWQSip204MYvOR5F6NgZq4o1//M6QRklJIrufu3gvgGksNce5x1bws=,iv:UVuak6QejyvXkwlgrIFU+Lbmob45mSa2esD+EERkjVg=,tag:cYC/ELCQZg7tKTMYLfLBQw==,type:str]
+    shamir_threshold: 3
+    version: 3.13.1

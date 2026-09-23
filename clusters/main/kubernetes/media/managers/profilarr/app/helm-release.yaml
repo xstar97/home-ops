@@ -1,0 +1,133 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: profilarr
+  namespace: profilarr
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: profilarr
+      version: 4.8.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    gatus:
+      group: media-managers
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-profilarr"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-profilarr"
+
+    image:
+      repository: ghcr.io/dictionarry-hub/profilarr
+      pullPolicy: IfNotPresent
+      tag: 2.2.0@sha256:ddcdd0f340043c2ec0a85ca74b9a6be9be42b1c0288c75fc36a26a43f695860b 
+    parserImage:
+      repository: ghcr.io/dictionarry-hub/profilarr-parser
+      pullPolicy: IfNotPresent
+      tag: 2.2.0@sha256:3cd3f8c4979ee66304a518462cc6c5b59825bae6b25e7dfa51b30178b9265df7
+
+    service:
+      parser:
+        enabled: true
+        type: ClusterIP
+        ports:
+          parser:
+            enabled: true
+            port: 5000
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # PORT: "{{ .Values.service.main.ports.main.port }}"
+                HOST: 0.0.0.0
+                # Auth mode (on, oidc, off)
+                AUTH: "oidc"
+                OIDC_CLIENT_ID: "profilarr"
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PROFILARR}"
+                OIDC_DISCOVERY_URL: "https://auth.${DOMAIN_2}/.well-known/openid-configuration"
+                ORIGIN: "{{ .Values.chartContext.appUrl }}"
+                PARSER_HOST: '{{ printf "http://%v-parser" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                PARSER_PORT: "{{  .Values.service.parser.ports.parser.port }}"
+                # PROFILARR_BULLETIN_URL: "https://raw.githubusercontent.com/Dictionarry-Hub/bulletin/main"
+            parser:
+              enabled: true
+              imageSelector: parserImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.parser.ports.parser.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.parser.ports.parser.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.parser.ports.parser.port }}"
+  
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/custom-http-errors: "599"
+        hosts:
+          - host: profilarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: false

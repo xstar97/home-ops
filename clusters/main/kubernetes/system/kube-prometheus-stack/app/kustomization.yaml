@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - helm-release.yaml
+  - alertmanagerconfig.yaml
+  - alertmanager.secret.yaml
+  # - promethuesrule.yaml
+  - scrapeconfig.yaml
+components:
+  - ../../../../components/notifications/discord

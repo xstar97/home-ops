@@ -1,0 +1,90 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: fileflows-external-node
+  namespace: fileflows
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: fileflows
+      version: 16.16.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: docker.io/revenz/fileflows
+      tag: modded-26.09@sha256:d607add36d66fbeb9598888e5d6b2cb1aa0ea544d7d599941d47d55185c9a39a
+      pullPolicy: IfNotPresent
+    gatus:
+      group: media
+      path: "/api/system/version"
+    global:
+      stopAll: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: nvidia
+          hostname: fileflows-external-node
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+              env:
+                ServerUrl: "http://fileflows.fileflows.svc.cluster.local:10242"
+                FFNODE: 1
+                FF_AGENT: 1
+                FF_AGENT_MODE: Signalr
+              resources:
+                limits:
+                  cpu: 4000m
+                  memory: 8000Mi
+                  nvidia.com/gpu: 1
+    persistence:
+      temp:
+        enabled: true
+        type: emptyDir
+        mountPath: /temp
+        medium: "" # Memory
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: ${MEDIA_LOCAL}
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: ${DOWNLOADS_LOCAL}

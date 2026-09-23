@@ -1,0 +1,377 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: magicmirror
+  namespace: magicmirror
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.23.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-magicmirror"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-magicmirror"
+    image:
+      repository: karsten13/magicmirror
+      pullPolicy: IfNotPresent
+      tag: alpine-v2.37.0@sha256:6850cd43bfd83c2f03131d186ba4cc78c4a32581564b953032a396e0bd7f7b6a
+    mmpmImage:
+      repository: karsten13/mmpm
+      pullPolicy: IfNotPresent
+      tag: 5.0.1@sha256:d96d89777d3074e2c7dd4d0b7ff05458659795af8fb96374dbc1f65a3014b997
+    securityContext:
+      container:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: ${MM_IP_0}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          main:
+            port: 8080
+      backend:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${MM_IP_0}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          backend1:
+            enabled: true
+            port: 7890
+          backend2:
+            enabled: true
+            port: 7891
+          backend3:
+            enabled: true
+            port: 6789
+          backend4:
+            enabled: true
+            port: 8907
+
+    configmap:
+      mm-config:
+        enabled: true
+        data:
+          config.js: |
+            
+            let modulesList = [
+              {
+                module: "MMM-mmpm"
+              },
+              {
+                module: "clock",
+                position: "top_left",
+                config: {
+                  displayType: "digital",
+                  timeFormat: 24,
+                  showWeek: false,
+                  displaySeconds: true,
+                  dateFormat: "dddd, MMMM Do yyyy"
+                }
+              },{
+              module: "MMM-PrometheusAlerts",
+              position: "top_left",
+              config: {
+                instances: [
+                  {
+                    url: "https://prometheus.${DOMAIN_2}"
+                  }
+                ]
+              }
+            },
+              {
+                module: "MMM-SevereWeatherAlerts",
+                position: "top_right",
+                config: {
+                  location: "HomeTown",
+                  latitude: ${MM_WEATHER_LAT_0},
+                  longitude: ${MM_WEATHER_LON_0},
+                  updateInterval: 600000, // 10 minutes
+                  showForecast: true,
+                  forecastDays: 4,
+                  units: "imperial",
+                  rotated: false
+                }
+              },
+              {
+                module: "MMM-DynamicWeather",
+                position: "fullscreen_above",
+                config: {
+                  // See https://github.com/scottcl88/MMM-DynamicWeather
+                  api_key: "${MM_OPEN_WEATHER_MAP_API}",
+                  lat: ${MM_WEATHER_LAT_0},
+                  lon: ${MM_WEATHER_LON_0}
+                }
+              }
+            ];
+
+            let config = {
+              address: "0.0.0.0",
+              port: {{ .Values.service.main.ports.main.port }},
+              basePath: "/",
+              ipWhitelist: [],
+              useHttps: false,
+              httpsPrivateKey: "",
+              httpsCertificate: "",
+              language: "en",
+              locale: "en-US",
+              logLevel: [
+                "INFO",
+                "LOG",
+                "WARN",
+                "ERROR"
+                // Add "DEBUG" for even more logging
+              ],
+              timeFormat: 24,
+              units: "metric",
+              modules: modulesList
+            };
+
+            /*************** DO NOT EDIT THE LINE BELOW ***************/
+            if (typeof module !== "undefined") { module.exports = config; }
+      mm-css:
+        enabled: true
+        data:
+          custom.css: |
+            .clock {
+            font-size: 72px;
+            font-weight: 300;
+            }
+
+            .date {
+                font-size: 28px;
+                opacity: .7;
+            }
+
+            .weather {
+                font-size: 24px;
+            }
+
+            .MMM-OpenWeatherForecast {
+                width: 100%;
+                text-align: center;
+            }
+
+            .MMM-OpenWeatherForecast table {
+                width: 100%;
+            }
+
+            .MMM-WeatherAlerts {
+                color: #ff5555;
+                font-size: 28px;
+                font-weight: bold;
+            }
+      mmpm-env:
+        enabled: true
+        data:
+          mmpm-env.json: |
+            {
+            "MMPM_MAGICMIRROR_ROOT": "/home/node/MagicMirror",
+            "MMPM_MAGICMIRROR_URI": '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}',
+            "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
+            "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
+            "MMPM_IS_DOCKER_IMAGE": true,
+            "MMPM_LOG_LEVEL": "INFO"
+            }
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                NODE_ENV: production
+                MM_PORT: "{{ .Values.service.main.ports.main.port }}"
+                MM_SCENARIO: "server"
+                MM_CONFIG_FILE: "/opt/magic_mirror/config/config.js"
+                MM_SHOW_CURSOR: false
+            mmpm:
+              enabled: true
+              imageSelector: mmpmImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.backend.ports.backend1.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.backend.ports.backend1.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.backend.ports.backend1.port }}"
+              env:
+                MMPM_MAGICMIRROR_ROOT: /home/node/MagicMirror
+                MMPM_MAGICMIRROR_URI: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+                MMPM_IS_DOCKER_IMAGE: true
+              
+    ingress:
+      main:
+        enabled: false
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+          nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+        hosts:
+          - host: server.mm.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+      mmpm:
+        enabled: false
+        ingressClassName: internal
+        targetSelector:
+          backend: backend1
+        hosts:
+          - host: pkgmanager.mm.${DOMAIN_2}
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod    
+    
+    persistence:
+      config:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/config"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      mm-config:
+        enabled: true
+        type: configmap
+        objectName: mm-config
+        subPath: config.js
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/config/config.js"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/config/config.js"
+        readOnly: true
+      mm-css:
+        enabled: true
+        type: configmap
+        objectName: mm-css
+        subPath: custom.css
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/config/custom.css"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/config/custom.css"
+        readOnly: true
+      modules:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/modules"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/modules"
+        volsync:
+          - name: modules
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      css:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: "/opt/magic_mirror/css"
+            mmpm:
+              mountPath: "/home/node/MagicMirror/css"
+        volsync:
+          - name: css
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      mmpm-config:
+        enabled: true
+        targetSelector:
+          main:
+            mmpm:
+              mountPath: "/home/node/.config/mmpm"
+        volsync:
+          - name: mmpmconfig
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      mmpm-env:
+        enabled: true
+        type: configmap
+        objectName: mmpm-env
+        subPath: mmpm-env.json
+        targetSelector:
+          main:
+            mmpm:
+              mountPath: /home/node/.config/mmpm/mmpm-env.json
+        readOnly: true
+      

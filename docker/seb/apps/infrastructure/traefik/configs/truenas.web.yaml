@@ -1,0 +1,15 @@
+http:
+  routers:
+    truenas-web:
+      rule: 'Host(`truenas.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: truenas-web-service
+      tls:
+        certResolver: cf
+
+  services:
+    truenas-web-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "TRUENAS_LOCAL_DOMAIN" }}:81'

@@ -1,0 +1,209 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: omada-controller
+  namespace: omada-controller
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: omada-controller
+      version: 19.12.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: networking
+    global:
+      stopAll: false
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 4000Mi
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-omada-controller"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-omada-controller"
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: "${OMADA_IP}"
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          main:
+            port: 8043
+      omada:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: "${OMADA_IP}"
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          manage:
+            protocol: http
+            enabled: true
+            port: 8088
+          portal:
+            protocol: https
+            enabled: true
+            port: 8843
+          # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v4*.
+          managerv1:
+            enabled: true
+            protocol: tcp
+            port: 29811
+          # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v4*.
+          adoptv1:
+            enabled: true
+            protocol: tcp
+            port: 29812
+          # When upgrading the firmware for the Omada devices running firmware fully adapted to Omada Controller v4*.
+          upgradev1:
+            enabled: true
+            protocol: tcp
+            port: 29813
+          # Omada Controller and Omada Discovery Utility manage the Omada devices running firmware fully adapted to Omada Controller v5*.
+          managerv2:
+            enabled: true
+            protocol: tcp
+            port: 29814
+          # Starting from v5.9, Omada Controller receives Device Info, Packet Capture Files, and DPI Application Statistic Data from the Omada devices.
+          transferv2:
+            enabled: true
+            protocol: tcp
+            port: 29815
+          # Starting from v5.9, Omada Controller establishes the remote control terminal session with the Omada devices.
+          rtty:
+            enabled: true
+            protocol: tcp
+            port: 29816
+          # To ensure proper communication between devices and the Controller, TCP port 29817 must be open.
+          monitor:
+            enabled: true
+            protocol: tcp
+            port: 29817
+          # Omada Controller and Omada Discovery Utility discover Omada devices.
+          discovery:
+            enabled: true
+            protocol: udp
+            port: 29810
+          # Omada Controller can be discovered by the Omada APP within the same network through this port.
+          app:
+            enabled: true
+            protocol: udp
+            port: 27001
+          # The factory-installed discovery port for the OLT
+          management:
+            enabled: true
+            protocol: udp
+            port: 19810
+      comm:
+        enabled: false
+        ports:
+          comm:
+            enabled: false
+      omada-tcp:
+        enabled: false
+        ports:
+          omada-tcp1:
+            enabled: false
+          omada-tcp2:
+            enabled: false
+          omada-tcp3:
+            enabled: false
+          omada-tcp4:
+            enabled: false
+      omada-udp:
+        enabled: false
+        ports:
+          omada-udp1:
+            enabled: false
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: omada.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: "Networking"
+            widget:
+              custom:
+                type: omada
+                username: "${OMADA_USER}"
+                password: '${OMADA_PASS}'
+                site: '${OMADA_SITE}'
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                MANAGE_HTTPS_PORT: "{{ .Values.service.main.ports.main.port }}"
+                MANAGE_HTTP_PORT: "{{ .Values.service.omada.ports.manage.port }}"
+                PORTAL_HTTPS_PORT: "{{ .Values.service.omada.ports.portal.port }}"
+                PORT_ADOPT_V1: "{{ .Values.service.omada.ports.adoptv1.port }}"
+                PORT_APP_DISCOVERY: "{{ .Values.service.omada.ports.app.port }}"
+                PORT_DISCOVERY: "{{ .Values.service.omada.ports.discovery.port }}"
+                PORT_MANAGER_V1: "{{ .Values.service.omada.ports.managerv1.port }}"
+                PORT_MANAGER_V2: "{{ .Values.service.omada.ports.managerv2.port }}"
+                PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transferv2.port }}"
+                PORT_RTTY: "{{ .Values.service.omada.ports.rtty.port }}"
+                PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgradev1.port }}"
+                PORT_DEVICE_MONITOR: "{{ .Values.service.omada.ports.monitor.port }}"
+                # ROOTLESS: "true"
+                # PUSERNAME: 568
+                # PGROUP: 568
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      work:
+        volsync:
+          - name: work
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

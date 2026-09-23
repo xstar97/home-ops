@@ -1,0 +1,21 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  mcp-adguard-home:
+    scale: 1
+    image: ghcr.io/samik081/mcp-adguard-home:0.9.2@sha256:9d31309397fb4f8a28ecf0855ef70cd4f5a2b8cbfe5d30c093c9b0efc05172fb
+    container_name: mcp-adguard-home
+    restart: on-failure
+    expose:
+      - "3000"
+    healthcheck: *healthcheck
+    env_file:
+      - ./mcp.enc.env
+networks:
+  internal:
+    driver: bridge

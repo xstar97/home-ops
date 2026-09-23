@@ -1,0 +1,15 @@
+http:
+  routers:
+    truenas-rustfs:
+      rule: 'Host(`rustfs.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: truenas-rustfs-service
+      tls:
+        certResolver: cf
+
+  services:
+    truenas-rustfs-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "TRUENAS_LOCAL_DOMAIN" }}:30293'

@@ -1,0 +1,30 @@
+apiVersion: renovate-operator.mogenius.com/v1alpha1
+kind: RenovateJob
+metadata:
+  name: renovate-github
+  namespace: renovate-operator
+spec:
+  discoveryFilters:
+    - xstar97/home-ops
+  provider:
+    name: github
+    endpoint: "https://api.github.com"  # optional, defaults to https://api.github.com
+  image: renovate/renovate:44.109.0@sha256:1dd9537c7a47d2cbcbd7414afaa2bbe9732981c1a3d2cb4ab95907532d5b99c1
+  parallelism: 5
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  schedule: 0 * * * *
+  githubAppReference:
+    secretName: github-app-credentials
+    appIdSecretKey: APP_ID
+    installationIdSecretKey: INSTALL_ID
+    pemSecretKey: PEM
+  webhook:
+    enabled: true
+    authentication:
+      enabled: true
+      secretRef:
+        name: renovate-webhook-token
+        key: token

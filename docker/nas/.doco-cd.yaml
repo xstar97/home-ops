@@ -1,0 +1,21 @@
+name: doco-cd-updater
+reference: main
+working_dir: ./docker/nas/.doco-cd
+compose_files:
+  - compose.updater.yaml
+force_recreate: true
+
+---
+name: Nas
+working_dir: ./docker/nas/apps
+auto_discovery:
+  enabled: true
+  depth: 0
+  delete: true
+env_files:
+  - ../../secrets.enc.env
+  - ../../base.enc.env
+force_recreate: false
+reconciliation:
+  enabled: true
+  interval: 3600

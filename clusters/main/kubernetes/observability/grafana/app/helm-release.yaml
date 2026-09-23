@@ -1,0 +1,271 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: grafana
+      version: 23.16.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: observability
+
+    global:
+      stopAll: false
+
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-renovate"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-renovate"
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                GF_SERVER_ROOT_URL: https://grafana.${DOMAIN_2}
+                GF_AUTH_DISABLE_LOGIN_FORM: true
+                GF_AUTH_GENERIC_OAUTH_ENABLED: true
+                GF_AUTH_GENERIC_OAUTH_NAME: Authelia
+                GF_AUTH_GENERIC_OAUTH_ICON: signin
+                GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
+                GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "${AUTHELIA_CLIENT_GRAFANA_SECRET}"
+                GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email groups"
+                GF_AUTH_GENERIC_OAUTH_EMPTY_SCOPES: false
+                GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.${DOMAIN_2}/api/oidc/authorization
+                GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.${DOMAIN_2}/api/oidc/token
+                GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.${DOMAIN_2}/api/oidc/userinfo
+                GF_AUTH_GENERIC_OAUTH_LOGIN_ATTRIBUTE_PATH: preferred_username
+                GF_AUTH_GENERIC_OAUTH_NAME_ATTRIBUTE_PATH: name
+                GF_AUTH_GENERIC_OAUTH_GROUPS_ATTRIBUTE_PATH: groups
+                GF_AUTH_GENERIC_OAUTH_USE_PKCE: true
+                GF_AUTH_GENERIC_OAUTH_AUTH_STYLE: InHeader
+                GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: >-
+                              contains(groups[*], 'lldap_admin') && 'GrafanaAdmin' || 'Viewer'
+                GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: true
+                GF_AUTH_GENERIC_OAUTH_AUTO_LOGIN: true
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+        hosts:
+          - host: grafana.${DOMAIN_2}
+
+    configmap:
+      datasource-loki:
+        enabled: false
+        labels:
+          grafana_datasource: "1"
+        data:
+          datasource-loki.yaml: |-
+            apiVersion: 1
+            datasources:
+              - name: Loki
+                type: loki
+                uid: loki
+                url: http://loki-headless.loki.svc.cluster.local:3100
+                access: proxy
+                isDefault: false
+                jsonData:
+                  maxLines: 250   
+    
+    dashboards:
+      grafana:
+        cert-manager:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Cert-manager-Kubernetes"
+            id: 20842
+            revision: 3
+        cnpg:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="CloudNativePG"
+            id: 20417
+            revision: 4
+        flux-cluster:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json
+        flux-control-plane:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
+        node-feature-discovery:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          url: https://github.com/kubernetes-sigs/node-feature-discovery/raw/refs/tags/v0.18.3/examples/grafana-dash
+        metallb:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Metallb"
+            id: 20162
+            revision: 6
+        nginx:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          url: https://github.com/kubernetes/ingress-nginx/raw/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
+        blocky:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+            - name: "$${VAR_BLOCKY_URL}"
+              value: "https://blocky.${DOMAIN_2}"
+          url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
+        volsync:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+            - name: "$${VAR_REPLICATIONDESTNAME}"
+              value: '.*-dest|.*-bootstrap'
+          marketplace:
+            # renovate: depName="VolSync Dashboard"
+            id: 21356
+            revision: 3        
+        # logs-container:
+        #   enabled: false
+        #   datasource:
+        #     - name: "$${DS_LOKI}"
+        #       value: loki
+        #   marketplace:
+            # renovate: depName="Container Log Dashboard"
+        #     id: 16966
+        #     revision: 1
+        arrs:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/main/examples/grafana/dashboard2.json
+        cloudflared:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Cloudflared"
+            id: 17457
+            revision: 6   
+        docker:
+          enabled: false
+          datasource:
+            - name: "$${DS_DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Docker Monitoring"
+            id: 9621
+            revision: 2
+        cilium:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Cilium"
+            id: 21431
+            revision: 6
+        longhorn:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Longhorn"
+            id: 23521
+            revision: 2
+        k8s:
+          enabled: true
+          datasource:
+            - name: "$${DS__VICTORIAMETRICS-PROD-ALL}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="k8s"
+            id: 15661
+            revision: 2
+        node:
+          enabled: true
+          datasource:
+            - name: "$${DS_PROMETHEUS}"
+              value: Prometheus
+          marketplace:
+            # renovate: depName="Node Exporter Full"
+            id: 1860
+            revision: 45
+    
+    cnpg:
+      main:
+        mode: recovery
+        cluster:
+          singleNode: true
+        monitoring:
+          enablePodMonitor: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#10_0_*_*_*
+              schedule: "10 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

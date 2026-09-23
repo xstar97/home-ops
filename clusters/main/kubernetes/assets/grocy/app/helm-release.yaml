@@ -1,0 +1,163 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grocy
+  namespace: grocy
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: grocy
+      version: 22.11.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: assets
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-grocy"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-grocy"
+    image:
+      repository: ghcr.io/trueforge-org/grocy
+      tag: 4.7.1@sha256:9fcbf64f7327f7af131b3ba4d318e3db067c9e1fea70a0e5724448bf429fd23f
+      pullPolicy: IfNotPresent
+
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  type: tcp
+                readiness:
+                  type: tcp
+                startup:
+                  type: tcp
+              env:
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\Auth\ReverseProxyAuthMiddleware'
+                GROCY_REVERSE_PROXY_AUTH_HEADER: "Remote-User"
+                GROCY_REVERSE_PROXY_AUTH_USE_ENV: false
+                GROCY_DISABLE_AUTH: false
+                # Default permissions for new users. Must use Grocy's technical names from User.php.
+                # https://github.com/grocy/grocy/blob/master/controllers/Users/User.php
+                # --- admin ---
+                #   ["ADMIN", "BATTERIES", "CALENDAR", "CHORES", "EQUIPMENT", "MASTER_DATA_EDIT",
+                #    "RECIPES", "RECIPES_MEALPLAN", "SHOPPINGLIST", "STOCK", "TASKS", "USERS",
+                #    "USERS_CREATE", "USERS_EDIT", "USERS_EDIT_SELF", "USERS_READ"]
+                # --- user with priv ---
+                #   ["BATTERIES", "BATTERIES_TRACK_CHARGE_CYCLE", "BATTERIES_UNDO_CHARGE_CYCLE",
+                #    "CALENDAR", "CHORES", "CHORE_TRACK_EXECUTION", "CHORE_UNDO_EXECUTION", "EQUIPMENT",
+                #    "RECIPES", "RECIPES_MEALPLAN", "SHOPPINGLIST", "SHOPPINGLIST_ITEMS_ADD",
+                #    "SHOPPINGLIST_ITEMS_DELETE", "STOCK", "STOCK_CONSUME", "STOCK_EDIT",
+                #    "STOCK_INVENTORY", "STOCK_OPEN", "STOCK_PURCHASE", "STOCK_TRANSFER", "TASKS",
+                #    "TASKS_MARK_COMPLETED", "TASKS_UNDO_EXECUTION", "USERS_EDIT_SELF"]
+                # --- user with basic ---
+                #   ["BATTERIES", "CALENDAR", "CHORES", "EQUIPMENT", "RECIPES", "SHOPPINGLIST",
+                #    "STOCK", "TASKS", "USERS_EDIT_SELF"]
+                # Defaulting to a non-admin basic-user baseline for new users instead of ADMIN.
+                GROCY_DEFAULT_PERMISSIONS: '["BATTERIES","CALENDAR","CHORES","EQUIPMENT","RECIPES","SHOPPINGLIST","STOCK","TASKS","USERS_EDIT_SELF"]'
+                # GROCY_GROCYCODE_TYPE: '2D'
+                # GROCY_LABEL_PRINTER_WEBHOOK: ''
+                # GROCY_LABEL_PRINTER_RUN_SERVER: true
+                # GROCY_LABEL_PRINTER_PARAMS: '["font_family=Source Sans Pro (Regular)"]'
+                # GROCY_LABEL_PRINTER_HOOK_JSON: true
+                # thermal printer
+                # GROCY_TPRINTER_IS_NETWORK_PRINTER: false
+                # GROCY_TPRINTER_PRINT_QUANTITY_NAME: true
+                # GROCY_TPRINTER_PRINT_NOTES: true
+                # GROCY_TPRINTER_IP: '127.0.0.1'
+                # GROCY_TPRINTER_PORT: 9100
+                # GROCY_TPRINTER_CONNECTOR: '/dev/usb/lp0'
+
+                # Feature flags for Grocy
+                # GROCY_FEATURE_FLAG_STOCK: true
+                # GROCY_FEATURE_FLAG_SHOPPINGLIST: true
+                # GROCY_FEATURE_FLAG_RECIPES: true
+                # GROCY_FEATURE_FLAG_CHORES: true
+                # GROCY_FEATURE_FLAG_TASKS: true
+                # GROCY_FEATURE_FLAG_BATTERIES: true
+                # GROCY_FEATURE_FLAG_EQUIPMENT: true
+                # GROCY_FEATURE_FLAG_CALENDAR: true
+                # Sub feature flags
+                # GROCY_FEATURE_FLAG_LABEL_PRINTER: false
+                # GROCY_FEATURE_FLAG_STOCK_PRICE_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_LOCATION_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_PRODUCT_OPENED_TRACKING: true
+                # GROCY_FEATURE_FLAG_STOCK_PRODUCT_FREEZING: true
+                # GROCY_FEATURE_FLAG_STOCK_BEST_BEFORE_DATE_FIELD_NUMBER_PAD: true
+                # GROCY_FEATURE_FLAG_SHOPPINGLIST_MULTIPLE_LISTS: true
+                # GROCY_FEATURE_FLAG_RECIPES_MEALPLAN: true
+                # GROCY_FEATURE_FLAG_CHORES_ASSIGNMENTS: true
+                # GROCY_FEATURE_FLAG_THERMAL_PRINTER: false
+                # GROCY_FEATURE_FLAG_DISABLE_BROWSER_BARCODE_CAMERA_SCANNING: false
+                # GROCY_FEATURE_FLAG_AUTO_TORCH_ON_WITH_CAMERA: true
+                # Sunday = 0
+                # Monday = 1
+                # Int only
+                GROCY_CALENDAR_FIRST_DAY_OF_WEEK: 0
+                GROCY_MEAL_PLAN_FIRST_DAY_OF_WEEK: 0
+                # stock, shoppinglist, recipes, chores, tasks, batteries, equipment, calendar, mealplan
+                GROCY_ENTRY_PAGE: 'stock'
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: grocy.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

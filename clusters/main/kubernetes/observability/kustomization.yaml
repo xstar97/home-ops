@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - headlamp/ks.yaml
+  - kromgo/ks.yaml
+  - gatus/ks.yaml
+  - homepage/ks.yaml
+  - peanut/ks.yaml
+  - speedtest-tracker/ks.yaml
+  # - grafana/ks.yaml
+  - iperf3-webui/ks.yaml
+  - unpoller/ks.yaml
+  - magicmirror/ks.yaml

@@ -1,0 +1,267 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+  namespace: homepage
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: homepage
+      version: 13.7.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: observability
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-homepage"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-homepage"
+
+    forceConfigFromValues: true
+
+    configmap:
+      config:
+        enabled: true
+        data:
+          # https://gethomepage.dev/configs/custom-css-js/
+          custom.js: ""
+          custom.css: ""
+          kubernetes.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/kubernetes/
+
+            mode: cluster
+          settings.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/
+
+            providers:
+              openweathermap: openweathermapapikey
+              weatherapi: weatherapiapikey
+              longhorn:
+                url: http://longhorn-frontend.longhorn-system.svc.cluster.local:80
+              finnhub: "${HP_FINNHUB_API_KEY}"
+
+            quicklaunch:
+              searchDescriptions: true
+              hideInternetSearch: true
+              showSearchSuggestions: true
+              hideVisitURL: true
+              provider: google # google, duckduckgo, bing, baidu, brave or custom
+
+            layout:
+              Media Server:
+                tab: Media
+              Media Downloads:
+                tab: Media
+              Media Transcoder:
+                tab: Media
+              Media Requests:
+                tab: Media
+              Media Indexer:
+                tab: Media
+              Media Manager:
+                tab: Media
+                style: row
+                columns: 3
+              Games:
+                tab: Games
+              Networking:
+                tab: Networking
+              Monitoring:
+                tab: Monitoring
+              Inventory:
+                tab: Monitoring
+              Money:
+                tab: Monitoring
+              Servers:
+                tab: Monitoring
+
+          widgets.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/widgets/
+
+            - datetime:
+                text_size: xl
+                locale: en
+                format:
+                  dateStyle: long
+                  timeStyle: long
+
+            - kubernetes:
+                cluster:
+                  # Shows cluster-wide statistics
+                  show: true
+                  # Shows the aggregate CPU stats
+                  cpu: true
+                  # Shows the aggregate memory stats
+                  memory: true
+                  # Shows a custom label
+                  showLabel: true
+                  label: "cluster"
+                nodes:
+                  # Shows node-specific statistics
+                  show: true
+                  # Shows the CPU for each node
+                  cpu: true
+                  # Shows the memory for each node
+                  memory: true
+                  # Shows the label, which is always the node name
+                  showLabel: true
+
+            - resources:
+                cpu: true
+                memory: true
+                # disk: /
+
+            - longhorn:
+                # Show the expanded view
+                expanded: true
+                # Shows a node representing the aggregate values
+                total: true
+                # Shows the node names as labels
+                labels: true
+                # Show the nodes
+                nodes: true
+
+            - stocks:
+                provider: finnhub
+                color: true # optional, defaults to true
+                cache: 1 # optional, default caches results for 1 minute
+                watchlist:
+                  - GME
+                  - AMC
+                  - NVDA
+                  - AMD
+                  - TSM
+                  - MSFT
+                  - AAPL
+                  - BRK.A
+
+          services.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/services/
+
+
+            - Networking:
+
+              - opnsense:
+                  icon: opnsense.png
+                  href: "https://router.${DOMAIN_0}"
+                  siteMonitor: http://${ROUTER_IP}:444
+                  widget:
+                    type: opnsense
+                    url: http://${ROUTER_IP}:444
+                    username: ${OPNSENSE_USER_NAME}
+                    password: ${OPNSENSE_USER_PASS}
+                    # wan: opt1 # optional, defaults to wan
+
+              - cloudflared:
+                  icon: cloudflare.png
+                  id: talos-cf-tunnel
+                  widget:
+                    type: cloudflared
+                    accountid: ${CF_ACCOUNT_ID} 
+                    tunnelid: ${CF_TUNNEL_ID} 
+                    key: ${CF_TUNNEL_KEY}
+
+            - Monitoring:
+
+                - scrutiny:
+                    icon: scrutiny.svg
+                    href: https://scrutiny.${DOMAIN_0}
+                    siteMonitor: http://${SEB_IP}:10080/web/dashboard
+                    description: "Nas"
+                    widget:
+                      type: scrutiny
+                      url: http://${SEB_IP}:10080
+
+                - Home Assistant:
+                    icon: home-assistant.svg
+                    href: https://homeassistant.${DOMAIN_0}
+                    siteMonitor: http://${HA_IP}:8123
+                    description: "Open source home automation that puts local control and privacy first."
+                    widget:
+                      type: homeassistant
+                      url:  http://${HA_IP}:8123
+                      key: "${HP_HA_API_KEY}"
+
+          bookmarks.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/bookmarks/
+
+            - Developer:
+                - Home-Ops:
+                    - abbr: GH
+                      href: https://github.com/xstar97/home-ops
+                - GitOps:
+                    - abbr: GO
+                      href: https://gitops.${DOMAIN_2}
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: homepage.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                HOMEPAGE_ALLOWED_HOSTS: "homepage.${DOMAIN_2}"
+
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

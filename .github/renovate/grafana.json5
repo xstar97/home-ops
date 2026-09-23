@@ -1,0 +1,47 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customDatasources": {
+    "grafana-dashboards": {
+      "defaultRegistryUrlTemplate": "https://grafana.com/api/dashboards/{{packageName}}",
+      "format": "json",
+      "transformTemplates": [
+        "{\"releases\":[{\"version\": $string(revision)}]}"
+      ]
+    }
+  },
+  "customManagers": [
+    {
+      "description": "Process Grafana dashboards (url)",
+      "customType": "regex",
+      "managerFilePatterns": ["/grafanadashboard\\.yaml(?:\\.j2)?$/"],
+      "matchStrings": [
+        "dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download"
+      ],
+      "datasourceTemplate": "custom.grafana-dashboards",
+      "versioningTemplate": "regex:^(?<major>\\d+)$",
+      "autoReplaceStringTemplate": "dashboards/{{depName}}/revisions/{{newValue}}/download"
+    },
+    {
+      "description": "Process Grafana dashboards (grafanaCom)",
+      "customType": "regex",
+      "managerFilePatterns": ["/grafanadashboard\\.yaml(?:\\.j2)?$/"],
+      "matchStrings": [
+        "grafanaCom:\\s*\\n\\s*id:\\s*(?<depName>\\d+)\\s*\\n\\s*revision:\\s*(?<currentValue>\\d+)"
+      ],
+      "datasourceTemplate": "custom.grafana-dashboards",
+      "versioningTemplate": "regex:^(?<major>\\d+)$",
+      "autoReplaceStringTemplate": "grafanaCom:\n    id: {{depName}}\n    revision: {{newValue}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "addLabels": ["renovate/grafana-dashboard"],
+      "matchDatasources": ["custom.grafana-dashboards"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "grafana-dashboards",
+      "commitMessageTopic": "dashboard {{sourceDirectory}}",
+      "commitMessageExtra": "({{currentVersion}} ➔ {{newVersion}})"
+    }
+  ]
+}

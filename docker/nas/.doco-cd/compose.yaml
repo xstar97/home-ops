@@ -1,0 +1,88 @@
+services:
+  apprise:
+    image: caronc/apprise:v1.5.4@sha256:c5ea17408c10fd84c8fdb05a421114a1a677b16343c274bf9b1a55701b530829
+    container_name: apprise
+    restart: unless-stopped
+    networks:
+      - internal
+    expose:
+      - "8000"
+    environment:
+      TZ: America/New_York
+      APPRISE_WORKER_COUNT: 1
+      APPRISE_STATEFUL_MODE: simple
+      # APPRISE_ADMIN: "y"
+    volumes:
+      - ${DOCKER_DATA_DIR}/apprise/config:/config
+      - ${DOCKER_DATA_DIR}/apprise/attach:/attach
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.120@sha256:8799df51462a1b2058c60e35d1ce19830cc38afebe99494342e819cdaadad545
+    container_name: doco-cd
+    restart: unless-stopped
+    depends_on:
+      apprise:
+        condition: service_healthy
+    networks:
+      - internal
+      - network_internal
+    ports:
+      - "9080:9080"
+      - "9120:9120"
+    environment:
+      TZ: America/New_York
+      HTTP_PORT: 9080
+      APPRISE_API_URL: http://apprise:8000/notify
+      APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
+      APPRISE_NOTIFY_LEVEL: success
+      DOCKER_SWARM_FEATURES: "false"
+      DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
+      PASS_ENV: "false"
+      POLL_CONFIG: |
+        - url: https://github.com/xstar97/home-ops
+          reference: main
+          interval: 3600
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - webhook_secret
+      - git_access_token
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - doco_data:/data
+      # - ${SSH_KEY_FILE}:/run/secrets/ssh_private_key:ro
+      # - ${AGEKEY_FILE}:/run/secrets/sops_age_key:ro
+      # - ${WEBHOOK_FILE}:/run/secrets/webhook_secret:ro
+      # - ${GIT_ACCESS_TOKEN_FILE}:/run/secrets/git_access_token:ro
+    healthcheck:
+      test: ["CMD", "/doco-cd", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+networks:
+  internal:
+    driver: bridge
+  network_internal:
+    external: true
+volumes:
+  doco_data: {}
+secrets:
+  ssh_private_key:
+    file: ${SSH_KEY_FILE}
+  sops_age_key:
+    file: ${AGEKEY_FILE}
+  webhook_secret:
+    file: ${WEBHOOK_FILE}
+  git_access_token:
+    file: ${GAT_FILE}

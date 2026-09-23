@@ -1,0 +1,42 @@
+x-healthcheckWeb: &healthcheck
+  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:8080"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 30s
+
+services:
+  fmd:
+    scale: 1
+    image: registry.gitlab.com/fmd-foss/fmd-server:0.17.0-alpine@sha256:a62ef951f8d9e8b4b36fee193201cf9c3fb05f0a03a736abfea595a002a75d88
+    container_name: fmd
+    restart: on-failure
+    healthcheck: *healthcheck
+    user: "${PUID:-1000}:${PGID:-1000}"
+    expose:
+      - "8080"
+    networks:
+      - network_internal
+    env_file:
+      - ./fmd.enc.env
+    environment:
+      FMD_DATABASEDIR: /var/lib/fmd-server/db
+      FMD_PORTINSECURE: "8080"
+      FMD_PORTSECURE: "8443"
+      FMD_METRICSADDRPORT: "[::1]:9100"
+      #FMD_WEBDIR=
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db/
+    labels:
+      traefik.enable: true
+      traefik.http.routers.fmd.rule: Host(`fmd.${BASE_DOMAIN_0}`)
+      traefik.http.services.fmd.loadbalancer.server.port: 8080
+      traefik.http.routers.fmd.entrypoints: websecure
+      traefik.http.routers.fmd.tls: true
+      traefik.http.routers.fmd.tls.certResolver: cf
+      traefik.http.routers.fmd.middlewares: error-pages-middleware
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

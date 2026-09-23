@@ -1,0 +1,118 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actual
+  namespace: actual
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: actualserver
+      version: 16.16.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: financial
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-actual"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-actual"
+    # image:
+    #   repository: ghcr.io/actualbudget/actual
+    #   pullPolicy: IfNotPresent
+    #   tag: edge-alpine@sha256:411265508fc98bde943e50672577c021ad6f28d45b064327b8f32f4f0fc19231 # 26.6.0@sha256:74385f8067f401e61f0be9e343c471705c42dfaa195295c40c5b2f15f4dcc9d4
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                ACTUAL_DATA_DIR: "{{ .Values.persistence.data.mountPath }}"
+                # ACTUAL_SERVER_FILES
+                # ACTUAL_USER_FILES
+                # ACTUAL_WEB_ROOT
+                # ACTUAL_CONFIG_PATH
+                # ACTUAL_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # password, header, or openid
+                ACTUAL_LOGIN_METHOD: openid
+                ACTUAL_ALLOWED_LOGIN_METHODS: "password, header. openid"
+                # Trusted proxy CIDRs
+                # ACTUAL_TRUSTED_PROXIES: ""
+                # Trusted auth proxy CIDRs
+                # ACTUAL_TRUSTED_AUTH_PROXIES: ""
+                # Token lifetime (never, openid-provider, or seconds)
+                # ACTUAL_TOKEN_EXPIRATION: never
+                ACTUAL_OPENID_DISCOVERY_URL: https://auth.${DOMAIN_2}
+                ACTUAL_OPENID_CLIENT_ID: actual-budget
+                ACTUAL_OPENID_CLIENT_SECRET: ${AUTHELIA_CLIENT_ACTUAL_BUDGET_SECRET}
+                ACTUAL_OPENID_SERVER_HOSTNAME: "{{ .Values.chartContext.appUrl }}"
+                ACTUAL_OPENID_AUTH_METHOD: openid # oauth2
+                ACTUAL_CORS_PROXY_ENABLED: true
+                # Force OpenID authentication
+                # ACTUAL_OPENID_ENFORCE: false
+                # manual or login
+                # ACTUAL_USER_CREATION_MODE: manual
+                # ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB: 20
+                # ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB: 50
+                # ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB: 20
+                # ACTUAL_GITHUB_TOKEN
+                # ACTUAL_OPENID_PROVIDER_NAME
+                # ACTUAL_OPENID_AUTHORIZATION_ENDPOINT
+                # ACTUAL_OPENID_TOKEN_ENDPOINT
+                # ACTUAL_OPENID_USERINFO_ENDPOINT
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: actual.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

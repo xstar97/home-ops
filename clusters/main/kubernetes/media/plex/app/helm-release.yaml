@@ -1,0 +1,125 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  interval: 30m
+  timeout: 45m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: plex
+      version: 22.10.4
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media
+    global:
+      stopAll: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        # runAsNonRoot: true
+        # runAsUser: 568
+        # runAsGroup: 568
+      pod:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-plex"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-plex"
+    plex:
+      serverIP: ${PLEX_IP}
+      disableGDM: true
+      requireHTTPS: false
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: ${PLEX_IP}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          main:
+            port: 32400
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: nvidia
+          containers:
+            main:
+              env:
+                PLEX_CLAIM: "" # "${PLEX_CLAIM_TOKEN}"
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: plex.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: true
+            group: Media Server
+            widget:
+              custom:
+                key: ${PLEX_TOKEN_PAL}
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: rfs-restic
+            dest:
+              enabled: true
+              cacheCapacity: 120Gi
+            src:
+              enabled: true
+              cacheCapacity: 120Gi
+      transcode:
+        enabled: true
+        type: emptyDir
+        mountPath: /transcode
+        medium: "" # Memory
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: ${MEDIA_LOCAL}

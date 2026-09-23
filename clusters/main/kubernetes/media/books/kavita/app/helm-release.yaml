@@ -1,0 +1,135 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kavita
+  namespace: kavita
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.23.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-books
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-kavita"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-kavita"
+    image:
+      pullPolicy: IfNotPresent
+      repository: ghcr.io/kareadita/kavita
+      tag: 0.9.0.2@sha256:880a8feff0833e860575f8e08788e4b4f59f8659afd17206566aae88a525130d
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        # runAsNonRoot: false
+        # runAsUser: 0
+        # runAsGroup: 0
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 5000
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        # annotations:
+          # nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        hosts:
+          - host: kavita.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: true
+            group: "Media Server"
+            icon: kavita
+            description: "Kavita is a rocket fueled self-hosted digital library which supports a vast array of file formats"
+            widget:
+              type: kavita
+              custom:
+                username: "${KAVITA_USER}"
+                password: "${KAVITA_PASS}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    configmap:
+      kavita-config:
+        enabled: true
+        data:
+          appsettings.json: |
+            {
+              "TokenKey": "${KAVITA_TOKEN_KEY}",
+              "Port": {{ .Values.service.main.ports.main.port }},
+              "IpAddresses": "0.0.0.0",
+              "BaseUrl": "/",
+              "Cache": 75
+            }
+    persistence:
+      kavita-config:
+        enabled: true
+        type: configmap
+        mountPath: /tmp/config/appsettings.json
+        objectName: kavita-config
+        readOnly: true
+        subPath: appsettings.json
+      config:
+        enabled: true
+        mountPath: "/kavita/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+          - name: kavita-config
+            type: restic
+            credentials: rfs-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "${MEDIA_LOCAL}"

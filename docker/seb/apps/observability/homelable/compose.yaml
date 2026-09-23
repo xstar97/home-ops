@@ -1,0 +1,86 @@
+x-healthcheckFE: &healthcheckFE
+  test: curl -f http://localhost:80/api/v1/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+x-healthcheckBE: &healthcheckBE
+  test: curl -f http://localhost:8000/api/v1/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+  
+x-healthcheckMCP: &healthcheckMCP
+  test: curl -fsS http://localhost:8001/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  frontend:
+    image: ghcr.io/pouzor/homelable-frontend:3.5.0@sha256:c5adb1ce2781345140d2c85d3120ae92cb35c0958cf9664cd2a7207089fb4327
+    container_name: homelable-frontend
+    restart: unless-stopped
+    expose:
+      - "80"
+    healthcheck: *healthcheckFE
+    depends_on:
+      - backend
+    networks:
+      - internal
+      - network_internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homelable.rule: Host(`homelable.${BASE_DOMAIN_0}`)
+      traefik.http.services.homelable.loadbalancer.server.port: 80
+      traefik.http.routers.homelable.entrypoints: websecure
+      traefik.http.routers.homelable.tls: true
+      traefik.http.routers.homelable.tls.certResolver: cf
+      traefik.http.routers.homelable.middlewares: error-pages-middleware
+  backend:
+    image: ghcr.io/pouzor/homelable-backend:3.5.0@sha256:64452d231e3227af54ea4e126850cdd6a89b2b169d22bd345e212986ba7621df
+    container_name: homelable-backend
+    restart: unless-stopped
+    networks:
+      - internal
+    expose:
+      - "8000"
+    healthcheck: *healthcheckBE
+    cap_add:
+      - NET_RAW
+    # MAC addresses: on this bridge network the scanner can never see them —
+    # ARP is layer 2 and every LAN host is one hop away behind the Docker
+    # gateway. To collect MACs (and so keep DHCP devices matched across an IP
+    # change), put the backend on the LAN: comment out the `networks:` key
+    # above and uncomment the line below (Linux hosts only).
+    # network_mode: host
+    env_file:
+      - homelable.enc.env
+    environment:
+      SQLITE_PATH: /app/data/homelab.db
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/homelable/data:/app/data
+  mcp:
+    image: ghcr.io/pouzor/homelable-mcp:3.5.0@sha256:811dcf1e463c1945c697fbb358c6489ab496ffc00c36f48a1e63e77df3cca5be
+    container_name: homelable-mcp
+    restart: unless-stopped
+    expose:
+      - "8001"
+    healthcheck: *healthcheckMCP
+    env_file:
+      - homelable.enc.env
+    environment:
+      BACKEND_URL: "http://homelable-backend:8000"
+    depends_on:
+      - backend
+    networks:
+      - internal
+
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

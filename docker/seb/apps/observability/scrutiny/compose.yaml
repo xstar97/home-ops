@@ -1,0 +1,99 @@
+x-healthcheckWeb: &healthcheckDb
+  test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+x-healthcheckApi: &healthcheckWeb
+  test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+x-healthcheckCollector: &healthcheckCollector
+  test: ["CMD-SHELL", "exec /bin/httpcheck -t 5 \"$${COLLECTOR_API_ENDPOINT}/api/health\""]
+  interval: 30s
+  timeout: 5s
+  retries: 3
+  start_period: 2m
+
+services:
+  scrutiny-db:
+    scale: 1
+    image: influxdb:2.9.1-alpine@sha256:38e81dd3af50d085704d970815210dae3d094c5a8a70d7a8f336716889022ea2
+    container_name: scrutiny-db
+    restart: on-failure
+    healthcheck: *healthcheckDb
+    expose:
+      - "8086"
+    networks:
+      - internal
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/scrutiny/db:/var/lib/influxdb2
+
+  scrutiny-web:
+    scale: 1
+    image: ghcr.io/analogj/scrutiny:v0.9.4-web@sha256:a566f3c2e804d2534fa8cb75f813c75a4a356a57186239ecf96eab851517ab77
+    container_name: scrutiny-web
+    restart: on-failure
+    healthcheck: *healthcheckWeb
+    ports:
+      - 10080:8080
+    networks:
+      - network_internal
+      - internal
+    environment:
+      SCRUTINY_WEB_INFLUXDB_HOST: 'scrutiny-db'
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/scrutiny/config:/opt/scrutiny/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.scrutiny.rule: Host(`scrutiny.${BASE_DOMAIN_0}`)
+      traefik.http.services.scrutiny.loadbalancer.server.port: 8080
+      traefik.http.routers.scrutiny.entrypoints: websecure
+      traefik.http.routers.scrutiny.tls: true
+      traefik.http.routers.scrutiny.tls.certResolver: cf
+      traefik.http.routers.scrutiny.middlewares: error-pages-middleware
+      homepage.group: Monitoring
+      homepage.name: Scrutiny
+      homepage.icon: scrutiny.png
+      homepage.href: http://scrutiny.${BASE_DOMAIN_0}/web/dashboard
+      homepage.description: Hard Drive S.M.A.R.T Monitoring 
+      homepage.widget.type: scrutiny
+      homepage.widget.url: http://${SEB_HOSTNAME_LOCAL}:10080
+  scrutiny-collector:
+    scale: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: scrutiny-collector-custom:v0.9.3
+    container_name: scrutiny-collector
+    restart: on-failure
+    healthcheck: *healthcheckCollector
+    labels:
+      wud.watch: false
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    networks:
+      - internal
+    environment:
+      COLLECTOR_API_ENDPOINT: 'http://scrutiny-web:8080'
+      COLLECTOR_HOST_ID: 'scrutiny-collector-seb'
+      # If true forces the collector to run on startup (cron will be started after the collector completes)
+      # see: https://github.com/AnalogJ/scrutiny/blob/master/docs/TROUBLESHOOTING_DEVICE_COLLECTOR.md#collector-trigger-on-startup
+      COLLECTOR_RUN_STARTUP: true
+    volumes:
+      - '/run/udev:/run/udev:ro'
+    depends_on:
+      scrutiny-web:
+        condition: service_healthy
+    devices:
+      - "/dev/sda" # 512GB SSD MQ08B54106998
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

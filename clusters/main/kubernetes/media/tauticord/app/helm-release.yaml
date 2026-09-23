@@ -1,0 +1,152 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tauticord
+  namespace: tauticord
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.23.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media
+      path: "/health"
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-tauticord"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-tauticord"
+    image:
+      # renovate: datasource=docker depName=codeberg.org/nwithan8/tauticord
+      repository: codeberg.org/nwithan8/tauticord
+      pullPolicy: IfNotPresent
+      tag: 6.1.0@sha256:9aefe03e24090db0bbfc5b447ce4c150d9ab0c1d0f9c90d035af89d4846f956e
+
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8283
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                  path: "/health"
+                readiness:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                  path: "/health"
+                startup:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                  path: "/health"
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hosts:
+          - host: tauticord.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      logs:
+        enabled: true
+        mountPath: "/logs"
+      monitor:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "/monitor"
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          annotations:
+          gatus.home-operations.com/enabled: "false"
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
+          hosts:
+            - host: editor.tauticord.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          tls: []

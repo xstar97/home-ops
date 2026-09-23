@@ -1,0 +1,59 @@
+x-healthcheck: &healthcheck
+  test: ["CMD","/usr/bin/httpcheck","-t","5","http://localhost:8080/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  gatus:
+    scale: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        GATUS_VERSION: v5.34.0
+        MC_VERSION: 1.3.0
+    image: gatus-custom:v5.34.0
+    container_name: gatus
+    restart: on-failure
+    environment:
+      GATUS_CONFIG_PATH: /config
+      SEB_HOSTNAME_LOCAL: "${SEB_HOSTNAME_LOCAL}"
+      TRUENAS_HOSTNAME_LOCAL: ${TRUENAS_HOSTNAME_LOCAL}
+      TALOS_VIP_IP: ${TALOS_VIP_IP}
+      GOTIFY_TOKEN: ${GOTIFY_TOKEN}
+      ROUTER_HOSTNAME_LOCAL: ${ROUTER_HOSTNAME_LOCAL}
+      GATUS_IP_TALOS: ${GATUS_IP_TALOS}
+    networks:
+      - network_internal
+    expose:
+      - "8080"
+    healthcheck: *healthcheck
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/gatus/data:/data
+      # - ${BASE_DOCKER_DATA_DIR}/gatus/config:/config
+      - ./configs/config.yaml:/config/config.yaml:ro
+      - ./configs/core.yaml:/config/core.yaml:ro
+      - ./configs/network.yaml:/config/network.yaml:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gatus.rule: Host(`gatus.${BASE_DOMAIN_0}`)
+      traefik.http.services.gatus.loadbalancer.server.port: 8080
+      traefik.http.routers.gatus.entrypoints: websecure
+      traefik.http.routers.gatus.tls: true
+      traefik.http.routers.gatus.tls.certResolver: cf
+      traefik.http.routers.gatus.middlewares: error-pages-middleware
+      homepage.group: Core
+      homepage.name: Gatus
+      homepage.icon: gatus.png
+      homepage.href: https://gatus.${BASE_DOMAIN_0}
+      homepage.widget.type: gatus
+      homepage.widget.url: http://gatus:8080
+      homepage.description: Status Page
+      wud.watch: false
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

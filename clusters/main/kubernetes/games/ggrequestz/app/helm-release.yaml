@@ -1,0 +1,179 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ggrequestz
+  namespace: ggrequestz
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.23.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+      skipEmptyWalArchiveCheck: true
+    gatus:
+      group: games
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-ggrequestz"
+      rfs-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-ggrequestz"
+    image:
+      repository: ghcr.io/xtreemmak/ggrequestz
+      pullPolicy: IfNotPresent
+      tag: 1.5.0@sha256:32a55965b4d76bbe3dc8d0552afd882f74d6ed8c494ee6a4355ba7573f038466
+    securityContext:
+      container:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  type: tcp
+                readiness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - /bin/sh
+                    - -c
+                    - wget -qO- http://127.0.0.1:3000/api/health | grep -q '"status":"ok"'
+                startup:
+                  enabled: true
+                  type: tcp
+              env:
+                PM2_INSTANCES: 1
+                POSTGRES_POOL_MAX: 10
+                APP_PORT: "{{ .Values.service.main.ports.main.port }}"
+                ORIGIN: "{{ .Values.chartContext.appUrl }}"
+                PUBLIC_SITE_URL: "{{ .Values.chartContext.appUrl }}"
+                # Database Configuration
+                POSTGRES_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                POSTGRES_PORT: 5432
+                POSTGRES_DB: "{{ .Values.cnpg.main.database }}"
+                POSTGRES_USER: "{{ .Values.cnpg.main.user }}"
+                POSTGRES_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                # Redis Cache (recommended for production)
+                REDIS_URL:
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                    key: url
+                REDIS_EXTERNAL_PORT: 6379
+                REDIS_MAX_MEMORY: 512mb
+                # Session Secret (generate a random 64-character string for production)
+                SESSION_SECRET: "${GGREQUESTZ_SESSION_SECRET}"
+                # IGDB API Credentials (required for game data)
+                # Get these from: https://dev.twitch.tv/console
+                IGDB_CLIENT_ID: "${ROMM_IGDB_CLIENT_ID}"
+                IGDB_CLIENT_SECRET: "${ROMM_IGDB_CLIENT_SECRET}"
+                # Gotify Push Notifications (optional)
+                # GOTIFY_URL: https://gotify.yourdomain.com
+                # GOTIFY_TOKEN: your_gotify_token
+
+                # ROMM Game Library Integration (optional)
+                ROMM_SERVER_URL: http://romm.romm.svc.cluster.local:10680
+                ROMM_SERVER_URL_PUBLIC: "https://romm.${DOMAIN_2}"
+                ROMM_API_TOKEN: "${GGREQUESTZ_ROMM_API_TOKEN_ADMIN}"
+                # ROMM_USERNAME: ""
+                # ROMM_PASSWORD: ""
+                # Choose authentication method: basic, oidc, oidc_generic, or authentik
+                AUTH_METHOD: oidc
+                # OIDC Provider Configuration
+                OIDC_ISSUER_URL: https://auth.${DOMAIN_2}
+                OIDC_CLIENT_ID: ggrequestz
+                OIDC_CLIENT_SECRET: ${AUTHELIA_CLIENT_SECRET_GGREQUESTZ}
+                OIDC_REDIRECT_URI: '{{ printf "%s/%s" .Values.chartContext.appUrl "api/auth/callback" }}'
+                OIDC_PROVIDER_NAME: "Login with Authelia"
+                # Optional: Custom endpoints (auto-discovered if not set)
+                OIDC_AUTH_URL: https://auth.${DOMAIN_2}/api/oidc/authorization
+                OIDC_TOKEN_URL: https://auth.${DOMAIN_2}/api/oidc/token
+                OIDC_USERINFO_URL: https://auth.${DOMAIN_2}/api/oidc/userinfo
+
+                # Optional: Additional scopes
+                OIDC_ROLE_MAP: "lldap_ggrequestz_viewer:viewer,lldap_ggrequestz_manager:manager"
+                OIDC_ADMIN_GROUP: "lldap_admin:admin"
+                OIDC_SCOPES: openid email profile groups
+                OIDC_GROUPS_CLAIM: groups
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: ggrequestz.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    redis:
+      enabled: true
+    cnpg:
+      main:
+        enabled: true
+        user: ggrequestz
+        database: ggrequestz
+        mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          # Keep the recovered cluster's new WAL archive separate from the
+          # server name used as the recovery source.
+          revision: "1"
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#50_0_*_*_*
+              schedule: "55 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

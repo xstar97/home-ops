@@ -1,0 +1,43 @@
+services:
+  doco-cd-updater:
+    image: ghcr.io/kimdre/doco-cd:0.120@sha256:8799df51462a1b2058c60e35d1ce19830cc38afebe99494342e819cdaadad545
+    container_name: doco-cd-updater
+    restart: unless-stopped
+    environment:
+      TZ: America/New_York
+      HTTP_PORT: 8000
+      DOCKER_SWARM_FEATURES: "false"
+      DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
+      PASS_ENV: "false"
+      POLL_CONFIG: |
+        - url: https://github.com/xstar97/home-ops
+          reference: main
+          interval: 300
+          target: updater
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      SCHEDULER_ENABLED: "false"
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - git_access_token
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - doco_updater_data:/data
+    healthcheck:
+      test: ["CMD", "/doco-cd", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+volumes:
+  doco_updater_data: {}
+secrets:
+  ssh_private_key:
+    file: ${SSH_KEY_FILE}
+  sops_age_key:
+    file: ${AGEKEY_FILE}
+  git_access_token:
+    file: ${GAT_FILE}

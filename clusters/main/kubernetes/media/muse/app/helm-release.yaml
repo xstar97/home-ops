@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: muse
+  namespace: muse
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: muse
+      version: 9.10.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/museofficial/muse
+      pullPolicy: IfNotPresent
+      tag: pr-1276@sha256:c666e6a2da22678e6fdd6dedae78c19e5029d22cc34e6379d98aa6e23ba09d2c
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-muse"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-muse"
+    muse:
+      discord:
+        token: "${MUSE_DISCORD_TOKEN}"
+      spotify:
+        client:
+          id: "${MUSE_SPOTIFY_CLIENT_ID}"
+          secret: "${MUSE_SPOTIFY_CLIENT_SECRET}"
+      youtube:
+        key: "${MUSE_YOUTUBE_API_KEY}"
+      bot:
+        # online (Online)
+        # idle (Away)
+        # dnd (Do not Disturb)
+        status: "online"
+        # PLAYING (Playing XYZ)
+        # LISTENING (Listening to XYZ)
+        # WATCHING (Watching XYZ)
+        # STREAMING (Streaming XYZ)
+        activity:
+          type: "LISTENING"
+          detail: "To your shitty music taste"
+          url: "https://links.xstar97thenoob.com"
+        # If you have Muse running in a lot of guilds (10+)
+        # you may want to set to true to registering commands bot-wide
+        # rather than for each guild (may take hours for commands to propagate)
+        register_commands: false
+      cache:
+        # 512MB | 10GB
+        limit: 2GB
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

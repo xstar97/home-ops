@@ -1,0 +1,236 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-exporter
+  namespace: kube-prometheus-stack
+spec:
+  groups:
+    # --------------------------------------------------------------------------
+    # Node exporter
+    # --------------------------------------------------------------------------
+    - name: node-exporter.rules
+      rules:
+        # TrueNAS → 98%
+        - alert: NodeMemoryHighUtilizationTrueNAS
+          expr: |
+            100 * (
+              1 - (
+                node_memory_MemAvailable_bytes{
+                  job="node-exporter",
+                  instance="${CONFIG_TRUENAS_IP}:9100"
+                }
+                /
+                node_memory_MemTotal_bytes{
+                  job="node-exporter",
+                  instance="${CONFIG_TRUENAS_IP}:9100"
+                }
+              )
+            ) > 98
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host is running out of memory (TrueNAS)
+            description: |
+              TrueNAS uses RAM aggressively as ZFS ARC cache.
+              Memory usage is above 98% on {{ $labels.instance }}.
+              Current value: {{ printf "%.2f" $value }}%.
+
+        # All other nodes → 90%
+        - alert: NodeMemoryHighUtilization
+          expr: |
+            100 * (
+              1 - (
+                node_memory_MemAvailable_bytes{
+                  job="node-exporter",
+                  instance!="${CONFIG_TRUENAS_IP}:9100"
+                }
+                /
+                node_memory_MemTotal_bytes{
+                  job="node-exporter",
+                  instance!="${CONFIG_TRUENAS_IP}:9100"
+                }
+              )
+            ) > 90
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host is running out of memory
+            description: |
+              Memory usage is above 90% on {{ $labels.instance }}.
+              Current value: {{ printf "%.2f" $value }}%.
+
+        # ----------------------------------------------------------------------
+        # ETCD → 50% attention
+        # ----------------------------------------------------------------------
+        - alert: EtcdDBUsageAttention
+          expr: |
+            (
+              100 *
+              (
+                etcd_mvcc_db_total_size_in_bytes -
+                etcd_mvcc_db_total_size_in_use_in_bytes
+              )
+              /
+              etcd_mvcc_db_total_size_in_bytes
+            ) > 50
+            and
+            (
+              100 *
+              (
+                etcd_mvcc_db_total_size_in_bytes -
+                etcd_mvcc_db_total_size_in_use_in_bytes
+              )
+              /
+              etcd_mvcc_db_total_size_in_bytes
+            ) <= 75
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: Etcd DB fragmentation above 50%
+            description: |
+              Etcd DB fragmentation is above 50% on {{ $labels.instance }}.
+              Current value: {{ printf "%.2f" $value }}%.
+
+        # ----------------------------------------------------------------------
+        # ETCD → 75% critical
+        # ----------------------------------------------------------------------
+        - alert: EtcdDBUsageCritical
+          expr: |
+            (
+              100 *
+              (
+                etcd_mvcc_db_total_size_in_bytes -
+                etcd_mvcc_db_total_size_in_use_in_bytes
+              )
+              /
+              etcd_mvcc_db_total_size_in_bytes
+            ) > 75
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: Etcd DB fragmentation critically high
+            description: |
+              Etcd DB fragmentation is above 75% on {{ $labels.instance }}.
+              Current value: {{ printf "%.2f" $value }}%.
+
+    # --------------------------------------------------------------------------
+    # Renovate operator
+    # --------------------------------------------------------------------------
+    - name: renovate-operator
+      rules:
+        - alert: RenovateRunFailed
+          expr: renovate_operator_run_failed == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Renovate run failed for {{ $labels.project }}"
+            description: >-
+              The last Renovate run for project {{ $labels.project }}
+              in job {{ $labels.renovate_job }} failed.
+
+        - alert: RenovateDependencyIssues
+          expr: renovate_operator_dependency_issues == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Renovate detected dependency issues for {{ $labels.project }}"
+            description: >-
+              The last Renovate run for project {{ $labels.project }}
+              in job {{ $labels.renovate_job }} had warnings or errors.
+              Check the Dependency Dashboard or Renovate logs for details.
+
+        # SRE: runs taking dangerously close to the 30m default job timeout.
+        - alert: RenovateJobDurationHigh
+          expr: |
+            histogram_quantile(
+              0.95,
+              sum(
+                rate(renovate_operator_job_duration_seconds_bucket[1h])
+              ) by (le, renovate_job)
+            ) > 1500
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Renovate job p95 duration is high for {{ $labels.renovate_job }}"
+            description: >-
+              p95 job duration is approaching the 1800s
+              (JOB_TIMEOUT_SECONDS) default.
+
+        # SRE: automerge has flatlined while the open-PR backlog keeps growing.
+        - alert: RenovateAutomergeStalled
+          expr: |
+            sum(
+              rate(renovate_operator_pull_requests_merged_total[6h])
+            ) == 0
+            and
+            sum(renovate_operator_open_pull_requests) > 0
+          for: 6h
+          labels:
+            severity: warning
+          annotations:
+            summary: "No Renovate PRs merged in 6h while open PRs exist"
+            description: >-
+              Automerge may be broken or gated; the dependency-update
+              backlog is not draining.
+
+        # SRE: a schedule that should have fired is overdue.
+        - alert: RenovateScheduleMissed
+          expr: |
+            time() - renovate_operator_schedule_next_run_timestamp_seconds > 3600
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Renovate schedule overdue for {{ $labels.renovate_job }}"
+            description: >-
+              The next planned run is more than an hour in the past.
+
+        # SecOps: sustained webhook HMAC signature failures.
+        - alert: RenovateWebhookSignatureFailures
+          expr: |
+            sum(
+              rate(renovate_operator_webhook_signature_verification_failures_total[10m])
+            ) by (provider) > 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Renovate webhook signature failures from {{ $labels.provider }}"
+            description: >-
+              HMAC signature verification is failing; investigate forged
+              or misconfigured webhooks.
+
+        # SecOps: policy engine is not enforcing.
+        - alert: RenovateOperatorPolicyNotEnforcing
+          expr: max(renovate_operator_policy_enabled) == 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Renovate operator is not enforcing its policy"
+            description: >-
+              Anyone who can write a RenovateJob can have the operator read
+              secrets in that namespace and redirect its credentials.
+              Set policy.enabled=true.
+
+        # SecOps: jobs are being refused.
+        - alert: RenovateOperatorPolicyDenials
+          expr: |
+            sum(
+              rate(renovate_operator_policy_denials_total[15m])
+            ) by (check) > 0
+          for: 15m
+          labels:
+            severity: info
+          annotations:
+            summary: "Renovate operator is refusing jobs ({{ $labels.check }})"
+            description: >-
+              Run `kubectl get renovatejobs -A -o wide` and check the
+              Accepted condition for the value that needs allowlisting.

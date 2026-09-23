@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "TalosCluster",
+  "image": "oci.trueforge.org/containerforge/devcontainer:4.1.1@sha256:87c357c9fd23f599fafbb7f9dedac6e9f9fe1b33c336deed458042f2c722b64f",
+  "runArgs": [
+    "--name=devcontainer",
+    "--security-opt=seccomp=unconfined",
+    "--security-opt=apparmor=unconfined",
+    "--cap-add=SYS_ADMIN"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest",
+      "moby": false,
+      "dockerDashComposeVersion": "none",
+      "installDockerBuildx": true,
+      "installDockerComposeSwitch": false
+    }
+  },
+  "postCreateCommand": "bash \"${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh\"",
+  "postStartCommand": "bash \"${containerWorkspaceFolder}/.devcontainer/init.sh\"",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "albert.TabOut",
+        "mikestead.dotenv",
+        "mitchdenny.ecdc",
+        "signageos.signageos-vscode-sops",
+        "EditorConfig.editorconfig",
+        "PKief.material-icon-theme",
+        "usernamehw.errorlens",
+        "redhat.vscode-yaml",
+        "weaveworks.vscode-gitops-tools",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker",
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "openai.chatgpt"
+      ]
+    }
+  }
+}

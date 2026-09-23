@@ -1,0 +1,46 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:8080/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  gotify:
+    # scale: 1
+    image: ghcr.io/gotify/server:3.1.1@sha256:44fc5bbd1c0618878e33073d38c2c13126b48f245c3fe12236b1da48eb203b86
+    container_name: gotify
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "8080"
+    healthcheck: *healthcheck
+    environment:
+      TZ: America/New_York
+      GOTIFY_SERVER_PORT: "8080"
+      GOTIFY_HP_WIDGET_KEY: "${GOTIFY_HP_WIDGET_KEY}"
+      GOTIFY_DEFAULTUSER_PASS: "${GOTIFY_DEFAULTUSER_PASS}"
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/gotify/data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gotify.rule: Host(`gotify.${BASE_DOMAIN_0}`)
+      traefik.http.services.gotify.loadbalancer.server.port: 8080
+      traefik.http.routers.gotify.entrypoints: websecure
+      traefik.http.routers.gotify.tls: true
+      traefik.http.routers.gotify.tls.certResolver: cf
+      traefik.http.routers.gotify.middlewares: error-pages-middleware
+      homepage.group: Core
+      homepage.name: Gotify
+      homepage.icon: gotify.png
+      homepage.href: https://gotify.${BASE_DOMAIN_0}
+      homepage.widget.type: gotify
+      homepage.widget.url: http://gotify:8080
+      homepage.widget.key: "${GOTIFY_HP_WIDGET_KEY}"
+      homepage.description: Alert service
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

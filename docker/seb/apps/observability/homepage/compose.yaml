@@ -1,0 +1,38 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/healthcheck"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  homepage:
+    scale: 1
+    image: ghcr.io/gethomepage/homepage:v2.4.0@sha256:643bd0be730d40f69d58028a55d1a896739333e8815786df42bc97f109ecbe61
+    container_name: homepage
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "3000"
+    healthcheck: *healthcheck
+    env_file:
+      - ./hp.enc.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${BASE_DOCKER_DATA_DIR}/homepage/config:/app/config
+      - ./configs/bookmarks.yaml:/app/config/bookmarks.yaml:ro
+      - ./configs/services.yaml:/app/config/services.yaml:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homepage.rule: Host(`homepage.${BASE_DOMAIN_0}`)
+      traefik.http.services.homepage.loadbalancer.server.port: 3000
+      traefik.http.routers.homepage.entrypoints: websecure
+      traefik.http.routers.homepage.tls: true
+      traefik.http.routers.homepage.tls.certResolver: cf
+      traefik.http.routers.homepage.middlewares: error-pages-middleware
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

@@ -1,0 +1,34 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "/bin/httpcheck", "-t", "5", "http://127.0.0.1:9100/metrics"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  node-exporter:
+    scale: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: node-exporter-custom:v1.12.1-distroless
+    container_name: node-exporter
+    restart: on-failure
+    command:
+      - '--path.rootfs=/host'
+    # networks:
+    #   - network_internal
+    ports:
+      - "9100:9100"
+    healthcheck: *healthcheck
+    volumes:
+      - '/:/host:ro,rslave'
+    mem_limit: 128m
+    cpus: 0.25
+    labels:
+      wud.watch: false
+networks:
+  # network_internal:
+  #   external: true
+  internal:
+    driver: bridge

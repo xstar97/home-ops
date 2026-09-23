@@ -1,0 +1,133 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": [
+        "Group Mise tool updates"
+      ],
+      "groupName": "Mise",
+      "matchManagers": [
+        "mise"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": [
+        "Actions Runner Controller Group"
+      ],
+      "groupName": "Actions Runner Controller",
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "matchPackageNames": [
+        "/gha-runner-scale-set/"
+      ]
+    },
+    {
+      "description": [
+        "Flux Group"
+      ],
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "versioning": "semver",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "matchPackageNames": [
+        "/fluxcd/"
+      ]
+    },
+    {
+      "description": [
+        "Intel Device Plugins Group"
+      ],
+      "groupName": "Intel-Device-Plugins",
+      "matchDatasources": [
+        "helm"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "matchPackageNames": [
+        "/intel-device-plugins/"
+      ]
+    },
+    {
+      "description": [
+        "Group Talos updates and allow only the current or next minor release"
+      ],
+      "groupName": "Talos",
+      "matchDatasources": [
+        "docker"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "matchPackageNames": [
+        "/siderolabs/talosctl/",
+        "/siderolabs/installer/"
+      ],
+      "versioning": "semver-coerced",
+      "allowedVersions": "<1.16.0"
+    },
+    {
+      "description": [
+        "Kubernetes Group"
+      ],
+      "groupName": "Kubernetes",
+      "matchDatasources": [
+        "docker"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "matchPackageNames": [
+        "/siderolabs/kubelet/",
+        "/alpine/kubectl/"
+      ],
+      "versioning": "semver-coerced"
+    },
+    {
+      "description": [
+        "Group Mise Talos updates with Talos updates"
+      ],
+      "groupName": "Talos",
+      "matchManagers": [
+        "mise"
+      ],
+      "matchPackageNames": [
+        "talosctl"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "versioning": "semver-coerced",
+      "allowedVersions": "<1.16.0"
+    },
+    {
+      "description": [
+        "Group Mise Kubernetes updates with Kubernetes updates"
+      ],
+      "groupName": "Kubernetes",
+      "matchManagers": [
+        "mise"
+      ],
+      "matchPackageNames": [
+        "kubectl"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "versioning": "semver-coerced"
+    }
+  ]
+}
