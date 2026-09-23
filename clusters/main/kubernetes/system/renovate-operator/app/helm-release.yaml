@@ -40,14 +40,13 @@ spec:
         enabled: true
         issuerUrl: https://auth.${DOMAIN_2}
         clientId: renovate-operator
-        existingSecret: oidc-secret
-        secretKey: renovate-operator-oidc
+        existingSecret: renovate-operator-oidc
+        secretKey: client-secret
         # sessionSecretKey: session-secret
         groupsClaim: groups
         additionalScopes:
           - groups
         pkceEnabled: true
-
     authorization:
       enabled: true
       defaults:
