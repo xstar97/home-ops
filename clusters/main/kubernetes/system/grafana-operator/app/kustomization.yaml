@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
-  - grafana.secret.yaml
-  - grafana.yaml
+  # - grafana.secret.yaml
+   #- grafana.yaml
 components:
   - ../../../../components/notifications/discord
