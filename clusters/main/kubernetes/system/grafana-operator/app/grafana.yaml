@@ -38,6 +38,8 @@ spec:
       login_attribute_path: preferred_username
       name_attribute_path: name
       groups_attribute_path: groups
+      role_attribute_path: >-
+        contains(groups[*], 'lldap_admin') && 'GrafanaAdmin' || 'Viewer'
 
       allow_assign_grafana_admin: "true"
 
