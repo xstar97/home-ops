@@ -90,3 +90,9 @@ spec:
         enabled: true
         labels:
           grafana_dashboard: "1"
+        namespace: grafana
+        grafanaDashboard:
+          allowCrossNamespaceImport: true
+          instanceSelector:
+            matchLabels:
+              dashboards: grafana
