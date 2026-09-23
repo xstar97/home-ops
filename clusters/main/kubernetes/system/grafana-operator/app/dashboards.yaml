@@ -40,24 +40,6 @@ spec:
       datasourceName: Prometheus
 
 ---
-# blocky dashboard
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: blocky
-  namespace: grafana
-spec:
-  folderRef: infrastructure
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  # renovate: depName="Blocky"
-  url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: Prometheus
-
----
 # longhorn dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
