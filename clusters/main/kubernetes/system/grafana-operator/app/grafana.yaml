@@ -60,3 +60,11 @@ spec:
                     name: grafana-service
                     port:
                       number: 3000
+
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteOnce
+    size: 100Gi
