@@ -42,7 +42,7 @@ spec:
           resyncPeriod: 10m
           matchLabels:
             dashboards: grafana
-          folderRef: infrastructure
+          folder: infrastructure
 
     notification:
       enabled: true
