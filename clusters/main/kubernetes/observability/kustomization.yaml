@@ -7,7 +7,7 @@ resources:
   - homepage/ks.yaml
   - peanut/ks.yaml
   - speedtest-tracker/ks.yaml
-  # - grafana/ks.yaml
+  - grafana/ks.yaml
   - iperf3-webui/ks.yaml
   - unpoller/ks.yaml
   - magicmirror/ks.yaml

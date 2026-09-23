@@ -109,7 +109,7 @@ spec:
     dashboards:
       grafana:
         cert-manager:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -118,7 +118,7 @@ spec:
             id: 20842
             revision: 3
         cnpg:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -127,25 +127,25 @@ spec:
             id: 20417
             revision: 4
         flux-cluster:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json
         flux-control-plane:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
         node-feature-discovery:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
           url: https://github.com/kubernetes-sigs/node-feature-discovery/raw/refs/tags/v0.18.3/examples/grafana-dash
         metallb:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -154,13 +154,13 @@ spec:
             id: 20162
             revision: 6
         nginx:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
           url: https://github.com/kubernetes/ingress-nginx/raw/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
         blocky:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -168,7 +168,7 @@ spec:
               value: "https://blocky.${DOMAIN_2}"
           url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
         volsync:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -188,13 +188,13 @@ spec:
         #     id: 16966
         #     revision: 1
         arrs:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
           url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/main/examples/grafana/dashboard2.json
         cloudflared:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -212,7 +212,7 @@ spec:
             id: 9621
             revision: 2
         cilium:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -221,7 +221,7 @@ spec:
             id: 21431
             revision: 6
         longhorn:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
@@ -230,7 +230,7 @@ spec:
             id: 23521
             revision: 2
         k8s:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS__VICTORIAMETRICS-PROD-ALL}"
               value: Prometheus
@@ -239,7 +239,7 @@ spec:
             id: 15661
             revision: 2
         node:
-          enabled: true
+          enabled: false
           datasource:
             - name: "$${DS_PROMETHEUS}"
               value: Prometheus
