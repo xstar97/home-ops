@@ -36,8 +36,11 @@ spec:
       enabled: false
     devicePlugin:
       config:
-        map:
-          default: |-
+        create: true
+        name: time-slicing-config
+        default: any
+        data:
+          any: |-
             version: v1
             flags:
               migStrategy: none
