@@ -37,7 +37,7 @@ spec:
         enabled: true
         namespace: grafana
         grafanaOperator:
-          enabled: true
+          enabled: false
           allowCrossNamespaceImport: true
           resyncPeriod: 10m
           matchLabels:
