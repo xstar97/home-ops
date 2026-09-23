@@ -33,7 +33,3 @@ spec:
     serviceMonitor:
       # -- Whether to create a ServiceMonitor
       enabled: true
-    dashboard:
-      enabled: true
-      labels:
-        dashboards: grafana
