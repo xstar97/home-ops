@@ -150,7 +150,7 @@ spec:
     matchLabels:
       dashboards: grafana
   # renovate: depName="ingress-nginx" datasource=github-tags
-  url: https://github.com/kubernetes/ingress-nginx/raw/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
+  url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
