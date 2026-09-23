@@ -4,7 +4,7 @@ resources:
   - helm-release.yaml
   - namespace.yaml
   # - grafana.secret.yaml
-  # - grafana.yaml
+  - grafana.yaml
   - dashboards.yaml
   - datasource.yaml
 components:

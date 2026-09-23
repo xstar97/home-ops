@@ -4,67 +4,11 @@ kind: Grafana
 metadata:
   name: grafana
   namespace: grafana
-  labels:
-    dashboards: grafana
 spec:
+  client:
+    timeout: 30
+  service:
+    name: grafana
   config:
-    log:
-      mode: console
-
     server:
-      root_url: https://grafana.${DOMAIN_2}
-
-    auth:
-      disable_login_form: "true"
-
-    auth.basic:
-      enabled: "false"
-
-    auth.generic_oauth:
-      enabled: "true"
-      name: Authelia
-      allow_sign_up: "true"
-
-      client_id: "grafana"
-      client_secret: ${AUTHELIA_CLIENT_GRAFANA_SECRET}
-
-      scopes: "openid profile email groups"
-
-      auth_url: https://auth.${DOMAIN_2}/api/oidc/authorization
-      token_url: https://auth.${DOMAIN_2}/api/oidc/token
-      api_url: https://auth.${DOMAIN_2}/api/oidc/userinfo
-
-      use_pkce: "true"
-      use_refresh_token: "true"
-
-      email_attribute_path: email
-      login_attribute_path: preferred_username
-      name_attribute_path: name
-      groups_attribute_path: groups
-      role_attribute_path: >-
-        contains(groups[*], 'lldap_admin') && 'GrafanaAdmin' || 'Viewer'
-
-      allow_assign_grafana_admin: "true"
-
-  ingress:
-    spec:
-      ingressClassName: internal
-      rules:
-        - host: grafana.${DOMAIN_2}
-          http:
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: grafana-service
-                    port:
-                      number: 3000
-
-  persistence:
-    enabled: true
-    type: pvc
-    storageClassName: longhorn
-    accessModes:
-      - ReadWriteOnce
-    size: 100Gi
+      root_url: http://grafana.grafana.svc.cluster.local:3000
