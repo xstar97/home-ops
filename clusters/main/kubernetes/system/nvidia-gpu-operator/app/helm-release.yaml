@@ -46,6 +46,7 @@ spec:
     devicePlugin:
       config:
         name: device-plugin-config
+        default: default
         create: true
         data:
           default: |-
