@@ -41,17 +41,17 @@ spec:
 
       allow_assign_grafana_admin: "true"
 
-    ingress:
-      spec:
-        ingressClassName: internal
-        rules:
-          - host: grafana.${DOMAIN_2}
-            http:
-              paths:
-                - path: /
-                  pathType: Prefix
-                  backend:
-                    service:
-                      name: grafana-service
-                      port:
-                        number: 3000
+  ingress:
+    spec:
+      ingressClassName: internal
+      rules:
+        - host: grafana.${DOMAIN_2}
+          http:
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: grafana-service
+                    port:
+                      number: 3000
