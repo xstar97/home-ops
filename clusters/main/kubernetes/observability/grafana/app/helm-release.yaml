@@ -46,9 +46,6 @@ spec:
     workload:
       main:
         podSpec:
-          initContainers:
-            download-dashboards:
-              enabled: false
           containers:
             main:
               env:
