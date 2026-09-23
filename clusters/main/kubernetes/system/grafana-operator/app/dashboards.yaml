@@ -12,11 +12,13 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="Cert-manager-Kubernetes"
     id: 20842
     revision: 3
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # cnpg dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -30,11 +32,13 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="CloudNativePG"
     id: 20417
     revision: 4
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # blocky dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -47,10 +51,12 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  # renovate: depName="Blocky"
   url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # longhorn dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -64,6 +70,7 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="Longhorn"
     id: 23521
     revision: 2
   datasources:
@@ -84,10 +91,12 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  # renovate: depName="FluxCD"
   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # flux-control-plane dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -100,6 +109,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  # renovate: depName="FluxCD"
   url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
   datasources:
     - inputName: DS_PROMETHEUS
@@ -119,10 +129,12 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
-  url: https://github.com/kubernetes-sigs/node-feature-discovery/raw/refs/tags/v0.18.3/examples/grafanadash
+  # renovate: depName="Node Feature Discovery" datasource=github-tags
+  url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/refs/tags/v0.18.3/examples/grafana-dashboard.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # metallb dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -136,13 +148,15 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="Metallb"
     id: 20162
     revision: 6
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
-### ingress-nginx dashboard
+# ingress-nginx dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
@@ -153,10 +167,12 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  # renovate: depName="ingress-nginx" datasource=github-tags
   url: https://github.com/kubernetes/ingress-nginx/raw/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # cilium dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -170,11 +186,13 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="Cilium"
     id: 21431
     revision: 6
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 ---
 # grafana kubernetes dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -188,11 +206,13 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="k8s"
     id: 15661
     revision: 2
   datasources:
     - inputName: DS_VICTORIAMETRICS_PROD_ALL
       datasourceName: Prometheus
+
 ---
 # node-exporter dashboard
 apiVersion: grafana.integreatly.org/v1beta1
@@ -206,11 +226,13 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="Node Exporter Full"
     id: 1860
     revision: 45
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+
 
 ### storage
 ---
@@ -226,6 +248,7 @@ spec:
     matchLabels:
       dashboards: grafana
   grafanaCom:
+    # renovate: depName="VolSync Dashboard"
     id: 21356
     revision: 3
   datasources:
@@ -235,7 +258,7 @@ spec:
 
 ### media
 ---
-### arrs dashboard
+# arrs dashboard
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
@@ -246,6 +269,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  # renovate: depName="Exportarr"
   url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/main/examples/grafana/dashboard2.json
   datasources:
     - inputName: DS_PROMETHEUS
