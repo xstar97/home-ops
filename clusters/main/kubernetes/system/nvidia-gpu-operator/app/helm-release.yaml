@@ -32,22 +32,23 @@ spec:
   values:
     mig:
       strategy: none
-
     driver:
       enabled: false
-
     toolkit:
       enabled: false
-
     nfd:
       enabled: false
       nodefeaturerules: false
-
+    validator:
+      cuda:
+        env:
+          - name: WITH_WORKLOAD
+            value: "false"
     devicePlugin:
       config:
         name: device-plugin-config
-        default: default
         create: true
+        default: default
         data:
           default: |-
             version: v1
