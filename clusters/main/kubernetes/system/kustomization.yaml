@@ -13,5 +13,5 @@ resources:
   - volsync/ks.yaml
   - generic-device-plugin/ks.yaml
   # - nvidia-device-plugin/ks.yaml
-  - nvidia-gpu-operator/ks.yaml
+  # - nvidia-gpu-operator/ks.yaml
   - renovate-operator/ks.yaml
