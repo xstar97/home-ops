@@ -10,4 +10,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+postBuild:
+  substitute:
+    DOMAIN_2: ${DOMAIN_2}
+    GF_AUTH_GENERIC_OAUTH_CLIENT_ID: ${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
+    GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
