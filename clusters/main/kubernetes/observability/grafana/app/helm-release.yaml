@@ -105,6 +105,8 @@ spec:
           - host: grafana.${DOMAIN_2}
 
     configmap:
+      dashboard-provider:
+        enabled: false
       datasource-loki:
         enabled: false
         labels:
@@ -263,7 +265,10 @@ spec:
             # renovate: depName="Node Exporter Full"
             id: 1860
             revision: 45
-    
+
+    persistence:
+      sc-dashboard-config:
+        enabled: false    
     cnpg:
       main:
         mode: recovery
