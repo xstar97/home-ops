@@ -19,13 +19,13 @@ access_control:
       resources:
         - '^/api/.*$'
 
-    # Require one-factor authentication for the specified groups.
+    # Require one-factor authentication for all groups.
     - domain:
         - '*.${DOMAIN_2}'
+        - '${DOMAIN_2}'
       policy: one_factor
-      subject:
-        - 'group:admins'
-        - 'group:users'
+      # subject:
+      #  - 'group:lldap_admin'
 
 identity_providers:
   oidc:
@@ -157,123 +157,135 @@ identity_providers:
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
 
       romm:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_romm'
 
       ggrequestz:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_ggrequestz_manager'
+              - 'group:lldap_ggrequestz_viewer'
 
       grafana:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
-              - 'group:users'
+              - 'group:lldap_admin'
+              - 'group:lldap_grafana'
 
       paperless:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_paperless'
 
       actual:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_actual'
 
       vaultwarden:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_vaultwarden'
 
       wallos:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_wallos'
 
       audiobookrequest:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
-              - 'group:users'
+              - 'group:lldap_admin'
+              - 'group:lldap_audiobookrequest'
 
       yarnl:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_yarnl'
 
       kavita:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
-              - 'group:users'
+              - 'group:lldap_admin'
+              - 'group:lldap_kavita'
 
       homebox:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_homebox'
 
       homelable:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_homelable'
 
       profilarr:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_profilarr'
 
       hass:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
-              - 'group:users'
+              - 'group:lldap_admin'
+              - 'group:lldap_hass'
 
       ytptube:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
+              - 'group:lldap_ytptube'
 
       renovate_operator:
         default_policy: deny
         rules:
           - policy: one_factor
             subject:
-              - 'group:admins'
+              - 'group:lldap_admin'
 
     clients:
       - client_id: 'romm'
