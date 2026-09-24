@@ -105,6 +105,7 @@ spec:
               enabled: true
               url: http://grafana.grafana.svc.cluster.local:3000
               custom:
+                version: 2
                 username: homepage
                 password: homepage
           certManager:
