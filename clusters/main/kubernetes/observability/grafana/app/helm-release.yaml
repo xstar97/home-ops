@@ -102,6 +102,8 @@ spec:
             enabled: true
             group: Monitoring
             widget:
+              enabled: true
+              url: http://grafana.grafana.svc.cluster.local:3000
               custom:
                 username: homepage
                 password: homepage
