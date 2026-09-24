@@ -6,6 +6,18 @@ resources:
   - namespace.yaml
   - authelia-oidc.secret.yaml
   - authelia-configfile.configmap.yaml
+configMapGenerator:
+  - name: authelia-config-file
+    namespace: authelia
+    files:
+      - config.yml=./config.yml
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: authelia
+    meta.helm.sh/release-namespace: authelia
 components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord

@@ -1,0 +1,526 @@
+# yaml-language-server: $schema=https://www.authelia.com/schemas/v4.39/json-schema/configuration.json
+
+session:
+  cookies:
+    - domain: '${DOMAIN_0}'
+      authelia_url: 'https://auth.${DOMAIN_0}'
+      default_redirection_url: 'https://${DOMAIN_1}'
+      expiration: 24h
+      inactivity: 60m
+      name: authelia_session
+
+access_control:
+  default_policy: deny
+  rules:
+    # Bypass authentication for Grocy API.
+    - domain:
+        - 'grocy.${DOMAIN_0}'
+      policy: bypass
+      resources:
+        - '^/api/.*$'
+
+    # Require one-factor authentication for the specified groups.
+    - domain:
+        - '*.${DOMAIN_0}'
+      policy: one_factor
+      subject:
+        - 'group:admins'
+        - 'group:users'
+
+identity_providers:
+  oidc:
+    lifespans:
+      access_token: 1h
+      authorize_code: 1m
+      id_token: 1h
+      refresh_token: 90m
+
+    enable_client_debug_messages: true
+    enforce_pkce: public_clients_only
+
+    cors:
+      endpoints:
+        - authorization
+        - token
+        - userinfo
+      allowed_origins_from_client_redirect_uris: true
+
+    claims_policies:
+      default:
+        id_token:
+          - email
+          - email_verified
+          - alt_emails
+          - groups
+          - name
+          - preferred_username
+          - nickname
+
+      romm:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      homelable:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      ggrequestz:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      grafana:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      yarnl:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      homebox:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      profilarr:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      hass:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      ytptube:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+      renovate_operator:
+        id_token:
+          - email
+          - email_verified
+          - groups
+          - name
+          - preferred_username
+
+    hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
+
+    # Schema warning is expected because the schema cannot evaluate
+    # the Authelia template to the resulting PEM value.
+    jwks:
+      - key: |
+          {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
+
+    authorization_policies:
+      admin:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      romm:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      ggrequestz:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      grafana:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+              - 'group:users'
+
+      paperless:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      actual:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      vaultwarden:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      wallos:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      audiobookrequest:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+              - 'group:users'
+
+      yarnl:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      kavita:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+              - 'group:users'
+
+      homebox:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      homelable:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      profilarr:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      hass:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+              - 'group:users'
+
+      ytptube:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+      renovate_operator:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:admins'
+
+    clients:
+      - client_id: 'romm'
+        client_name: 'RomM'
+        client_secret: '{{ secret "/config/secret/clients_romm_client_secret" }}'
+        public: false
+        claims_policy: 'romm'
+        authorization_policy: 'romm'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://romm.${DOMAIN_0}/api/oauth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'yarnl'
+        client_name: 'YARNL'
+        client_secret: '{{ secret "/config/secret/clients_yarnl_client_secret" }}'
+        public: false
+        claims_policy: 'yarnl'
+        authorization_policy: 'yarnl'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://yarnl.${DOMAIN_0}/oauth/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'ggrequestz'
+        client_name: 'GGRequestz'
+        client_secret: '{{ secret "/config/secret/clients_ggrequestz_client_secret" }}'
+        public: false
+        claims_policy: 'ggrequestz'
+        authorization_policy: 'ggrequestz'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://ggrequestz.${DOMAIN_0}/oauth2/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'grafana'
+        client_name: 'Grafana'
+        client_secret: '{{ secret "/config/secret/clients_grafana_client_secret" }}'
+        public: false
+        claims_policy: 'grafana'
+        authorization_policy: 'grafana'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://grafana.${DOMAIN_0}/login/generic_oauth'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'paperless'
+        client_name: 'Paperless'
+        client_secret: '{{ secret "/config/secret/clients_paperless_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'paperless'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://paperless.${DOMAIN_0}/accounts/oidc/authelia/login/callback/'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'actual-budget'
+        client_name: 'Actual Budget'
+        client_secret: '{{ secret "/config/secret/clients_actual_budget_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'actual'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://actual.${DOMAIN_0}/openid/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'vaultwarden'
+        client_name: 'Vaultwarden'
+        client_secret: '{{ secret "/config/secret/clients_vaultwarden_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'vaultwarden'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://vaultwarden.${DOMAIN_0}/identity/connect/oidc-signin'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'wallos'
+        client_name: 'Wallos'
+        client_secret: '{{ secret "/config/secret/clients_wallos_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'wallos'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://wallos.${DOMAIN_0}/api/oauth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'audiobookrequest'
+        client_name: 'AudiobookRequest'
+        client_secret: '{{ secret "/config/secret/clients_audiobookrequest_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'audiobookrequest'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://audiobookrequest.${DOMAIN_0}/api/auth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'kavita'
+        client_name: 'Kavita'
+        client_secret: '{{ secret "/config/secret/clients_kavita_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'kavita'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://kavita.${DOMAIN_0}/signin-oidc'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'homebox'
+        client_name: 'Homebox'
+        client_secret: '{{ secret "/config/secret/clients_homebox_client_secret" }}'
+        public: false
+        claims_policy: 'homebox'
+        authorization_policy: 'homebox'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://homebox.${DOMAIN_0}/auth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'profilarr'
+        client_name: 'Profilarr'
+        client_secret: '{{ secret "/config/secret/clients_profilarr_client_secret" }}'
+        public: false
+        claims_policy: 'profilarr'
+        authorization_policy: 'profilarr'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://profilarr.${DOMAIN_0}/api/auth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'homelable'
+        client_name: 'HomeLABLE'
+        client_secret: '{{ secret "/config/secret/clients_homelable_client_secret" }}'
+        public: false
+        claims_policy: 'homelable'
+        authorization_policy: 'homelable'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://homelable.${DOMAIN_0}/oauth2/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'homeassistant'
+        client_name: 'Home Assistant'
+        client_secret: '{{ secret "/config/secret/clients_hass_client_secret" }}'
+        public: false
+        claims_policy: 'hass'
+        authorization_policy: 'hass'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://homeassistant.${DOMAIN_0}/auth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'ytptube'
+        client_name: 'YTPtTube'
+        client_secret: '{{ secret "/config/secret/clients_ytptube_client_secret" }}'
+        public: false
+        claims_policy: 'ytptube'
+        authorization_policy: 'ytptube'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://ytptube.${DOMAIN_0}/oauth2/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'renovate-operator'
+        client_name: 'Renovate Operator'
+        client_secret: '{{ secret "/config/secret/clients_renovate_operator_client_secret" }}'
+        public: false
+        claims_policy: 'renovate_operator'
+        authorization_policy: 'renovate_operator'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://renovate.${DOMAIN_0}/oauth2/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        token_endpoint_auth_method: 'client_secret_post'
