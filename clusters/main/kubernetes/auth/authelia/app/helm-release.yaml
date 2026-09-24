@@ -123,7 +123,7 @@ spec:
       configfile:
         enabled: true
         type: configmap
-        objectName: authelia-config-file
+        objectName: authelia-configfile
         expandObjectName: false
         mountPath: /configuration.yaml
         subPath: configuration.yaml
