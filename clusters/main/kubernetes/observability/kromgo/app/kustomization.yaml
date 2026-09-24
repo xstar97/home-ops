@@ -6,6 +6,5 @@ metadata:
 resources:
   - namespace.yaml
   - helm-release.yaml
-  - configs
 components:
   - ../../../../components/notifications/discord
