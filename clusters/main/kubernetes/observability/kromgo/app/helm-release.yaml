@@ -53,9 +53,10 @@ spec:
     persistence:
       configfile:
         enabled: true
+        type: configmap
         objectName: kromgo-config
-        mountPath: /config/config.yaml
-        subPath: config.yaml
+        expandObjectName: false
+        mountPath: /config
         readOnly: true
       config:
         enabled: true
