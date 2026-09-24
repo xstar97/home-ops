@@ -82,6 +82,15 @@ spec:
                 # JELU_SESSION_DURATION: 604800
                 LANGUAGE: en_US:en
                 
+                JELU_AUTH_LDAP_ENABLED: "false"
+                JELU_AUTH_LDAP_URL: "ldap://127.0.0.1:389/dc=home,dc=lab"
+                JELU_AUTH_LDAP_USERDN_PATTERNS_0: "uid={0}"
+                JELU_AUTH_LDAP_USERDN_PATTERNS_1: "cn={0},ou=users"
+                JELU_AUTH_LDAP_USERSEARCHFILTER: "(cn={0})"
+
+                JELU_AUTH_PROXY_ENABLED: "false"
+                JELU_AUTH_PROXY_ADMINNAME: "adminproxy"
+                
                 SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_PROVIDER: authelia
                 SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_ID: jelu
                 SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_JELU}"
