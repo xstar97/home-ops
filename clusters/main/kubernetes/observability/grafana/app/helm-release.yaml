@@ -295,23 +295,23 @@ spec:
       sc-dashboard-config:
         enabled: false
 
-      main:
-        mode: recovery
-        cluster:
-          singleNode: true
-        monitoring:
-          enablePodMonitor: true
-        backups:
-          enabled: true
-          credentials: cf-restic
-          retentionPolicy: "7d"
-          scheduledBackups:
-            - name: daily-backup
-              # https://crontab.guru/#10_0_*_*_*
-              schedule: "10 0 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
-        recovery:
-          method: object_store
-          credentials: cf-restic
+    main:
+      mode: recovery
+      cluster:
+        singleNode: true
+      monitoring:
+        enablePodMonitor: true
+      backups:
+        enabled: true
+        credentials: cf-restic
+        retentionPolicy: "7d"
+        scheduledBackups:
+          - name: daily-backup
+            # https://crontab.guru/#10_0_*_*_*
+            schedule: "10 0 * * *"
+            backupOwnerReference: self
+            immediate: true
+            suspend: false
+      recovery:
+        method: object_store
+        credentials: cf-restic
