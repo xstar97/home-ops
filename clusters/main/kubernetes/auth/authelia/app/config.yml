@@ -8,18 +8,6 @@ session:
       expiration: 24h
       inactivity: 60m
       name: authelia_session
-    - domain: '${DOMAIN_1}'
-      authelia_url: 'https://auth.${DOMAIN_2}'
-      default_redirection_url: 'https://homepage.${DOMAIN_1}'
-      expiration: 24h
-      inactivity: 60m
-      name: authelia_session
-    - domain: '${DOMAIN_0}'
-      authelia_url: 'https://auth.${DOMAIN_2}'
-      default_redirection_url: 'https://homepage.${DOMAIN_0}'
-      expiration: 24h
-      inactivity: 60m
-      name: authelia_session
 
 access_control:
   default_policy: deny
