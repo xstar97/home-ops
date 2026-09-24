@@ -18,6 +18,7 @@ generatorOptions:
   annotations:
     meta.helm.sh/release-name: authelia
     meta.helm.sh/release-namespace: authelia
+    reloader.stakater.com/match: "true"
 components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord
