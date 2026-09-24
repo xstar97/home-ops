@@ -143,6 +143,13 @@ identity_providers:
           - 'name'
           - 'preferred_username'
 
+      vaultwarden:
+        id_token:
+          - email
+          - email_verified
+          - preferred_username
+          - name
+
     hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
 
     # Schema warning is expected because the schema cannot evaluate
