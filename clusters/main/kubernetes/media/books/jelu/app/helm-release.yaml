@@ -81,16 +81,21 @@ spec:
                 JELU_FILES_IMAGES: "{{.Values.persistence.images.mountPath }}"
                 # JELU_SESSION_DURATION: 604800
                 LANGUAGE: en_US:en
-                # LDAP                
-                # JELU_AUTH_LDAP_ENABLED=false
-                # JELU_AUTH_LDAP_URL=ldap://127.0.0.1:389/dc=home,dc=lab
-                # JELU_AUTH_LDAP_USERDN_PATTERNS_0=uid={0}
-                # JELU_AUTH_LDAP_USERDN_PATTERNS_1=cn={0},ou=users
-                # JELU_AUTH_LDAP_USERSEARCHFILTER=(cn={0})
-                # JELU_AUTH_PROXY_ENABLED=false
-                # JELU_AUTH_PROXY_ADMINNAME=adminproxy
-                # JELU_METADATA_CALIBRE_PATH: /usr/bin/fetch-ebook-metadata
-                # QTWEBENGINE_DISABLE_SANDBOX: 1
+                
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_PROVIDER: authelia
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_ID: jelu
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_JELU}"
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_NAME: Authelia
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_SCOPE: openid,email
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_AUTHORIZATION_GRANT_TYPE: authorization_code
+                SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_REDIRECT_URI: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+
+                SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_USER_NAME_ATTRIBUTE: sub
+                SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_ISSUER_URI: https://auth.${DOMAIN_2}
+
+                JELU_AUTH_OAUTH2_ACCOUNT_CREATION: "true"
+                JELU_AUTH_OIDC_EMAIL_VERIFICATION: "true"
+
     persistence:
       config:
         enabled: true

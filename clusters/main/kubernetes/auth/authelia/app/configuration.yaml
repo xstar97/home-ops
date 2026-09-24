@@ -621,3 +621,22 @@ identity_providers:
         grant_types:
           - authorization_code
         token_endpoint_auth_method: client_secret_basic
+      
+      - client_id: 'jelu'
+        client_name: 'Jelu'
+        client_secret: '{{ secret "/config/secret/clients_jelu_client_secret" }}'
+        public: false
+        claims_policy: 'default'
+        authorization_policy: 'jelu'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://jelu.${DOMAIN_2}/login/oauth2/code/authelia'
+        scopes:
+          - openid
+          - email
+        response_types:
+          - code
+        grant_types:
+          - authorization_code
+        token_endpoint_auth_method: 'client_secret_basic'
