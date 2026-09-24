@@ -434,6 +434,7 @@ spec:
           gethomepage.dev/href: "https://prometheus.${DOMAIN_2}"
           gethomepage.dev/widget.type: "prometheus"
           gethomepage.dev/widget.url: "http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090"
+          gethomepage.dev/pod-selector: "prometheus-kube-prometheus-stack-0"
         hosts:
           - prometheus.${DOMAIN_2}
         paths:

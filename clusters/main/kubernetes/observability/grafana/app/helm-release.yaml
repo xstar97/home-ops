@@ -102,12 +102,8 @@ spec:
             enabled: true
             group: Monitoring
             widget:
-              enabled: true
+              enabled: false
               url: http://grafana.grafana.svc.cluster.local:3000
-              custom:
-                version: 2
-                username: homepage
-                password: homepage
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
