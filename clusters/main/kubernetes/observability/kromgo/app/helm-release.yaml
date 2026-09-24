@@ -60,6 +60,6 @@ spec:
         subPath: config.yaml
         readOnly: true
       config:
-        enabled: true
+        enabled: false
         mountPath: /config
         targetSelectAll: true
