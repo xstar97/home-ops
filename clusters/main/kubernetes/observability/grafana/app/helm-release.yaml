@@ -124,6 +124,31 @@ spec:
                 jsonData:
                   maxLines: 250   
     
+      config:
+        enabled: true
+        data:
+          grafana.ini: |-
+            [feature_toggles]
+            grafanaAdvisor = true
+
+            [paths]
+            data = /var/lib/grafana/
+            logs = /var/log/grafana
+            plugins = /var/lib/grafana/plugins
+            provisioning = /etc/grafana/provisioning
+
+            [analytics]
+            check_for_updates = true
+
+            [log]
+            mode = console
+
+            [grafana_net]
+            url = https://grafana.net
+
+            [server]
+            domain = "{{ if (and .Values.ingress.main.enabled .Values.ingress.main.hosts) }}{{ .Values.ingress.main.hosts | first }}{{ else }}''{{ end }}"
+
     dashboards:
       grafana:
         cert-manager:
@@ -269,31 +294,6 @@ spec:
     persistence:
       sc-dashboard-config:
         enabled: false
-
-    config:
-      enabled: true
-      data:
-        grafana.ini: |-
-          [feature_toggles]
-          grafanaAdvisor = true
-
-          [paths]
-          data = /var/lib/grafana/
-          logs = /var/log/grafana
-          plugins = /var/lib/grafana/plugins
-          provisioning = /etc/grafana/provisioning
-
-          [analytics]
-          check_for_updates = true
-
-          [log]
-          mode = console
-
-          [grafana_net]
-          url = https://grafana.net
-
-          [server]
-          domain = "{{ if (and .Values.ingress.main.enabled .Values.ingress.main.hosts) }}{{ .Values.ingress.main.hosts | first }}{{ else }}''{{ end }}"
 
       main:
         mode: recovery
