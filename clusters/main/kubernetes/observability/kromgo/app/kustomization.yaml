@@ -10,9 +10,9 @@ configMapGenerator:
   - name: kromgo-config
     namespace: kromgo
     files:
-      - config.yaml=./config.yaml
+      - config.yaml
 generatorOptions:
-  disableNameSuffixHash: false
+  disableNameSuffixHash: true
   annotations:
     meta.helm.sh/release-name: kromgo
     meta.helm.sh/release-namespace: kromgo
