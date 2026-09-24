@@ -61,8 +61,8 @@ identity_providers:
           - email
           - email_verified
           - groups
-          - name
           - preferred_username
+          - name
 
       homelable:
         id_token:
@@ -309,116 +309,153 @@ identity_providers:
         token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'yarnl'
-        client_name: 'YARNL'
+        client_name: "YarnL"
         client_secret: '{{ secret "/config/secret/clients_yarnl_client_secret" }}'
         public: false
-        claims_policy: 'yarnl'
-        authorization_policy: 'yarnl'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
+        claims_policy: "yarnl"
+        authorization_policy: "yarnl"
+        grant_types:
+          - authorization_code
         redirect_uris:
-          - 'https://yarnl.${DOMAIN_2}/oauth/callback'
+          - "https://yarnl.${DOMAIN_2}/api/auth/oidc/callback"
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - "openid"
+          - "email"
+          - "profile"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_basic"
 
       - client_id: 'ggrequestz'
-        client_name: 'GGRequestz'
+        client_name: 'ggRequestZ'
         client_secret: '{{ secret "/config/secret/clients_ggrequestz_client_secret" }}'
         public: false
-        claims_policy: 'ggrequestz'
+        claims_policy: "ggrequestz"
         authorization_policy: 'ggrequestz'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://ggrequestz.${DOMAIN_2}/oauth2/callback'
+          - "https://ggrequestz.${DOMAIN_2}/api/auth/callback"
         scopes:
-          - openid
-          - profile
-          - email
+          - "openid"
+          - "email"
+          - "profile"
+          - "groups"
         token_endpoint_auth_method: 'client_secret_post'
 
       - client_id: 'grafana'
         client_name: 'Grafana'
         client_secret: '{{ secret "/config/secret/clients_grafana_client_secret" }}'
         public: false
-        claims_policy: 'grafana'
+        claims_policy: "grafana"
         authorization_policy: 'grafana'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://grafana.${DOMAIN_2}/login/generic_oauth'
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'paperless'
         client_name: 'Paperless'
         client_secret: '{{ secret "/config/secret/clients_paperless_client_secret" }}'
         public: false
-        claims_policy: 'default'
         authorization_policy: 'paperless'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://paperless.${DOMAIN_2}/accounts/oidc/authelia/login/callback/'
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'actual-budget'
-        client_name: 'Actual Budget'
+        client_name: 'Actual-Budget'
         client_secret: '{{ secret "/config/secret/clients_actual_budget_client_secret" }}'
         public: false
-        claims_policy: 'default'
         authorization_policy: 'actual'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
+        require_pkce: false
         redirect_uris:
           - 'https://actual.${DOMAIN_2}/openid/callback'
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'vaultwarden'
         client_name: 'Vaultwarden'
         client_secret: '{{ secret "/config/secret/clients_vaultwarden_client_secret" }}'
         public: false
-        claims_policy: 'default'
         authorization_policy: 'vaultwarden'
+        claims_policy: 'vaultwarden'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://vaultwarden.${DOMAIN_2}/identity/connect/oidc-signin'
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - 'openid'
+          - 'offline_access'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+          - 'refresh_token'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'wallos'
         client_name: 'Wallos'
         client_secret: '{{ secret "/config/secret/clients_wallos_client_secret" }}'
         public: false
-        claims_policy: 'default'
+        claims_policy: "default"
         authorization_policy: 'wallos'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
+        pre_configured_consent_duration: "1y"
         redirect_uris:
-          - 'https://wallos.${DOMAIN_2}/api/oauth/oidc/callback'
+          - 'https://wallos.${DOMAIN_2}/'
+        grant_types:
+          - "refresh_token"
+          - "authorization_code"
+        response_types:
+          - "code"
+        response_modes:
+          - "form_post"
+          - "query"
+          - "fragment"
         scopes:
-          - openid
-          - profile
-          - email
+          - 'openid'
+          - 'email'
+          - 'profile'
+          - 'groups'
+          - 'offline_access'
         token_endpoint_auth_method: 'client_secret_post'
+        userinfo_signed_response_alg: "none"
 
       - client_id: 'audiobookrequest' 
         client_name: 'AudioBookRequest'
@@ -442,68 +479,84 @@ identity_providers:
         token_endpoint_auth_method: 'client_secret_post'
 
       - client_id: 'kavita'
-        client_name: 'Kavita'
+        client_name: kavita
         client_secret: '{{ secret "/config/secret/clients_kavita_client_secret" }}'
+        consent_mode: implicit
+        claims_policy: default
         public: false
-        claims_policy: 'default'
-        authorization_policy: 'kavita'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
-        redirect_uris:
-          - 'https://kavita.${DOMAIN_2}/signin-oidc'
+        authorization_policy: kavita
         scopes:
           - openid
+          - groups
           - profile
           - email
+          - offline_access
+        redirect_uris:
+          - https://kavita.${DOMAIN_2}/signin-oidc
+        userinfo_signed_response_alg: none
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'
 
       - client_id: 'homebox'
-        client_name: 'Homebox'
+        client_name: 'HomeBox'
         client_secret: '{{ secret "/config/secret/clients_homebox_client_secret" }}'
         public: false
-        claims_policy: 'homebox'
+        claims_policy: "homebox"
         authorization_policy: 'homebox'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://homebox.${DOMAIN_2}/auth/oidc/callback'
+          - "https://homebox.${DOMAIN_2}/api/v1/users/login/oidc/callback"
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - 'openid'
+          - 'groups'
+          - 'email'
+          - 'profile'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'profilarr'
-        client_name: 'Profilarr'
+        client_name: "Profilarr"
         client_secret: '{{ secret "/config/secret/clients_profilarr_client_secret" }}'
         public: false
-        claims_policy: 'profilarr'
-        authorization_policy: 'profilarr'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
+        claims_policy: "profilarr"
+        authorization_policy: "profilarr"
+        grant_types:
+          - authorization_code
         redirect_uris:
-          - 'https://profilarr.${DOMAIN_2}/api/auth/oidc/callback'
+          - "https://profilarr.${DOMAIN_2}/auth/oidc/callback"
         scopes:
           - openid
-          - profile
           - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - profile
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_post
 
       - client_id: 'homelable'
-        client_name: 'HomeLABLE'
+        client_name: "homelable"
         client_secret: '{{ secret "/config/secret/clients_homelable_client_secret" }}'
         public: false
-        claims_policy: 'homelable'
-        authorization_policy: 'homelable'
+        claims_policy: "homelable"
+        authorization_policy: "homelable"
         require_pkce: true
         pkce_challenge_method: 'S256'
+        grant_types:
+          - authorization_code
         redirect_uris:
-          - 'https://homelable.${DOMAIN_0}/oauth2/callback'
+          - "https://homelable.${DOMAIN_0}/api/v1/auth/oidc/callback"
         scopes:
           - openid
-          - profile
           - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - profile
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_basic
 
       - client_id: 'homeassistant'
         client_name: 'Home Assistant'
@@ -522,33 +575,42 @@ identity_providers:
         token_endpoint_auth_method: 'client_secret_post'
 
       - client_id: 'ytptube'
-        client_name: 'YTPtTube'
+        client_name: 'YTPTube'
         client_secret: '{{ secret "/config/secret/clients_ytptube_client_secret" }}'
         public: false
-        claims_policy: 'ytptube'
-        authorization_policy: 'ytptube'
+        claims_policy: "ytptube"
+        authorization_policy: "ytptube"
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://ytptube.${DOMAIN_2}/oauth2/callback'
+          - 'https://ytptube.${DOMAIN_2}/ytptube/api/auth/oidc/callback'
         scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: 'renovate-operator'
-        client_name: 'Renovate Operator'
+        client_name: Renovate Operator
         client_secret: '{{ secret "/config/secret/clients_renovate_operator_client_secret" }}'
-        public: false
-        claims_policy: 'renovate_operator'
-        authorization_policy: 'renovate_operator'
+        authorization_policy: renovate_operator
+        claims_policy: renovate_operator
         require_pkce: true
-        pkce_challenge_method: 'S256'
+        pkce_challenge_method: S256
         redirect_uris:
-          - 'https://renovate.${DOMAIN_2}/oauth2/callback'
+          - https://renovate.${DOMAIN_2}/oauth2/callback
         scopes:
           - openid
           - profile
           - email
-        token_endpoint_auth_method: 'client_secret_post'
+          - groups
+        response_types:
+          - code
+        grant_types:
+          - authorization_code
+        token_endpoint_auth_method: client_secret_basic
