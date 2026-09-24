@@ -39,7 +39,7 @@ spec:
     image:
       repository: ghcr.io/secustor/renovate-config-debugger
       pullPolicy: IfNotPresent
-      tag: 0.3.1@sha256:163bf568c0710fdb5c4d68b720957eff87acbf727c5a339af7794df98dffa501
+      tag: 0.4.0@sha256:fc15a0158b915fa3cc63dfb8551c42b9274739f48b13a26da2d77690a5e55a09
 
     securityContext:
       container:
