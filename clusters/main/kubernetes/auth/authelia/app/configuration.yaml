@@ -14,14 +14,14 @@ access_control:
   rules:
     # Bypass authentication for Grocy API.
     - domain:
-        - 'grocy.${DOMAIN_0}'
+        - 'grocy.${DOMAIN_2}'
       policy: bypass
       resources:
         - '^/api/.*$'
 
     # Require one-factor authentication for the specified groups.
     - domain:
-        - '*.${DOMAIN_0}'
+        - '*.${DOMAIN_2}'
       policy: one_factor
       subject:
         - 'group:admins'
@@ -285,7 +285,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://romm.${DOMAIN_0}/api/oauth/oidc/callback'
+          - 'https://romm.${DOMAIN_2}/api/oauth/oidc/callback'
         scopes:
           - openid
           - profile
@@ -301,7 +301,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://yarnl.${DOMAIN_0}/oauth/callback'
+          - 'https://yarnl.${DOMAIN_2}/oauth/callback'
         scopes:
           - openid
           - profile
@@ -317,7 +317,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://ggrequestz.${DOMAIN_0}/oauth2/callback'
+          - 'https://ggrequestz.${DOMAIN_2}/oauth2/callback'
         scopes:
           - openid
           - profile
@@ -333,7 +333,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://grafana.${DOMAIN_0}/login/generic_oauth'
+          - 'https://grafana.${DOMAIN_2}/login/generic_oauth'
         scopes:
           - openid
           - profile
@@ -349,7 +349,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://paperless.${DOMAIN_0}/accounts/oidc/authelia/login/callback/'
+          - 'https://paperless.${DOMAIN_2}/accounts/oidc/authelia/login/callback/'
         scopes:
           - openid
           - profile
@@ -365,7 +365,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://actual.${DOMAIN_0}/openid/callback'
+          - 'https://actual.${DOMAIN_2}/openid/callback'
         scopes:
           - openid
           - profile
@@ -381,7 +381,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://vaultwarden.${DOMAIN_0}/identity/connect/oidc-signin'
+          - 'https://vaultwarden.${DOMAIN_2}/identity/connect/oidc-signin'
         scopes:
           - openid
           - profile
@@ -397,20 +397,19 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://wallos.${DOMAIN_0}/api/oauth/oidc/callback'
+          - 'https://wallos.${DOMAIN_2}/api/oauth/oidc/callback'
         scopes:
           - openid
           - profile
           - email
         token_endpoint_auth_method: 'client_secret_post'
 
-      - client_id: 'audiobookrequest'
+      - client_id: 'audiobookrequest' 
         client_name: 'AudioBookRequest'
         client_secret: '{{ secret "/config/secret/clients_abr_client_secret" }}'
         public: false
-        claims_policy: 'audiobookrequest'
         authorization_policy: 'audiobookrequest'
-        require_pkce: false
+        require_pkce: 'false'
         redirect_uris:
           - 'https://abr.${DOMAIN_2}/auth/oidc'
         scopes:
@@ -435,7 +434,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://kavita.${DOMAIN_0}/signin-oidc'
+          - 'https://kavita.${DOMAIN_2}/signin-oidc'
         scopes:
           - openid
           - profile
@@ -451,7 +450,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://homebox.${DOMAIN_0}/auth/oidc/callback'
+          - 'https://homebox.${DOMAIN_2}/auth/oidc/callback'
         scopes:
           - openid
           - profile
@@ -467,7 +466,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://profilarr.${DOMAIN_0}/api/auth/oidc/callback'
+          - 'https://profilarr.${DOMAIN_2}/api/auth/oidc/callback'
         scopes:
           - openid
           - profile
@@ -515,7 +514,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://ytptube.${DOMAIN_0}/oauth2/callback'
+          - 'https://ytptube.${DOMAIN_2}/oauth2/callback'
         scopes:
           - openid
           - profile
@@ -531,7 +530,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://renovate.${DOMAIN_0}/oauth2/callback'
+          - 'https://renovate.${DOMAIN_2}/oauth2/callback'
         scopes:
           - openid
           - profile
