@@ -13,5 +13,8 @@ configMapGenerator:
       - config.yaml=./config.yaml
 generatorOptions:
   disableNameSuffixHash: true
+  annotations:
+    meta.helm.sh/release-name: kromgo
+    meta.helm.sh/release-namespace: kromgo
 components:
   - ../../../../components/notifications/discord

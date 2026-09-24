@@ -50,13 +50,6 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
 
-    configmap:
-      kromgo-config:
-        enabled: true
-        data:
-          config.yaml: >-
-            {{ .Files.Get "config.yaml" | indent 8 }}
-
     persistence:
       configfile:
         enabled: true
