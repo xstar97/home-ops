@@ -34,6 +34,9 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+  variables:
+    - name: VAR_BLOCKY_URL
+      value: http://blocky.blocky.svc.cluster.local:4000
 ---
 # cnpg dashboard
 apiVersion: grafana.integreatly.org/v1beta1
