@@ -53,9 +53,10 @@ spec:
     persistence:
       configfile:
         enabled: true
-        type: configmap
-        objectName: kromgo-config-file
-        expandObjectName: expandObjectName
+        type: custom                   # Required for referencing external resources
+        volumeSpec:
+          configMap:
+            name: kromgo-config-file   # The exact name of your generated ConfigMap
         mountPath: /config
         readOnly: true
       config:
