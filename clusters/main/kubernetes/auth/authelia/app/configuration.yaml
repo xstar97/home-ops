@@ -135,6 +135,13 @@ identity_providers:
           - groups
           - name
           - preferred_username
+  
+      audiobookrequest:
+        id_token:
+          - 'email'
+          - 'groups'
+          - 'name'
+          - 'preferred_username'
 
     hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
 
@@ -395,6 +402,28 @@ identity_providers:
           - openid
           - profile
           - email
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'audiobookrequest'
+        client_name: 'AudioBookRequest'
+        client_secret: '{{ secret "/config/secret/clients_abr_client_secret" }}'
+        public: false
+        claims_policy: 'audiobookrequest'
+        authorization_policy: 'audiobookrequest'
+        require_pkce: false
+        redirect_uris:
+          - 'https://abr.${DOMAIN_2}/auth/oidc'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'
 
       - client_id: 'kavita'
