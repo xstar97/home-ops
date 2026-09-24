@@ -223,6 +223,9 @@ spec:
                 - Home-Ops:
                     - abbr: GH
                       href: https://github.com/xstar97/home-ops
+                - HeadLamp:
+                    - abbr: HL
+                      href: https://headlamp.${DOMAIN_2}
                 - GitOps:
                     - abbr: GO
                       href: https://gitops.${DOMAIN_2}
@@ -232,6 +235,9 @@ spec:
                 - HomePage Seb:
                     - abbr: HPS
                       href: https://homepage.${DOMAIN_0}
+                - selfh:
+                    - abbr: SHST
+                      href: https://selfh.st/apps/?sort=recent
 
     ingress:
       main:
