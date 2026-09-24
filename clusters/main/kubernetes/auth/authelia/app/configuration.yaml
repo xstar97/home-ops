@@ -215,6 +215,14 @@ identity_providers:
               - 'group:lldap_admin'
               - 'group:lldap_vaultwarden'
 
+      jelu:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:lldap_admin'
+              - 'group:lldap_jelu'
+
       wallos:
         default_policy: deny
         rules:
