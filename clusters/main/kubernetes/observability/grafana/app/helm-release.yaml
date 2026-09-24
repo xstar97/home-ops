@@ -101,6 +101,10 @@ spec:
           homepage:
             enabled: true
             group: Monitoring
+            widget:
+              custom:
+                username: homepage
+                password: homepage
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
