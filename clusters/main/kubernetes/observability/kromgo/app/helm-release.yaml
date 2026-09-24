@@ -33,36 +33,7 @@ spec:
       stopAll: false
     gatus:
       group: observability
-    configsImage:
-      repository: ghcr.io/home-operations/k8s-sidecar
-      pullPolicy: IfNotPresent
-      tag: 2.11.2@sha256:2e18fa6af75c94fb9aff610fba3386e7d518b0d639ecf0948aecaa071b126be0
 
-    workload:
-      main:
-        podSpec:
-          containers:
-            configs:
-              enabled: true
-              imageSelector: configsImage
-              probes:
-                liveness:
-                  enabled: true
-                  port: "{{ .Values.service.main.ports.main.port }}"
-                readiness:
-                  enabled: true
-                  port: "{{ .Values.service.main.ports.main.port }}"
-                startup:
-                  enabled: true
-                  port: "{{ .Values.service.main.ports.main.port }}"
-              env:
-                FOLDER: "{{ .Values.persistence.config.mountPath }}"
-                LABEL: kromgo.greenehomelab.com/enabled
-                NAMESPACE: kromgo
-                RESOURCE: configmap
-                UNIQUE_FILENAMES: false
-                METHOD: WATCH
-                HEALTH_PORT: "9999"
     ingress:
       main:
         enabled: true
@@ -81,48 +52,12 @@ spec:
 
     persistence:
       configfile:
-        enabled: false
+        enabled: true
+        objectName: kromgo-config
+        mountPath: /config/config.yaml
+        subPath: config.yaml
+        readOnly: true
       config:
         enabled: true
         mountPath: /config
         targetSelectAll: true
-
-    # -- Whether Role Based Access Control objects like roles and rolebindings should be created
-    rbac:
-      main:
-        enabled: true
-        primary: true
-        clusterWide: true
-        rules:
-          - apiGroups:
-              - "networking.k8s.io"
-            resources:
-              - "ingresses"
-            verbs:
-              - "get"
-              - "list"
-              - "watch"
-          - apiGroups: [""]
-            resources:
-              - "configmaps"
-              - "secrets"
-              - "services"
-            verbs:
-              - "get"
-              - "list"
-              - "watch"
-          - apiGroups:
-              - "gateway.networking.k8s.io"
-            resources:
-              - "httproutes"
-            verbs:
-              - "get"
-              - "list"
-              - "watch"
-    # -- The service account the pods will use to interact with the Kubernetes API
-    serviceAccount:
-      main:
-        enabled: true
-        primary: true
-    podOptions:
-      automountServiceAccountToken: true
