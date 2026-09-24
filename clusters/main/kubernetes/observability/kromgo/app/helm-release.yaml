@@ -54,7 +54,7 @@ spec:
       configfile:
         enabled: true
         type: configmap
-        objectName: kromgo-config
+        objectName: kromgo-config-file
         expandObjectName: false
         mountPath: /config
         readOnly: true
