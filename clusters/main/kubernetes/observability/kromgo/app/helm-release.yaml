@@ -61,3 +61,12 @@ spec:
         enabled: true
         mountPath: /config
         targetSelectAll: true
+
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
