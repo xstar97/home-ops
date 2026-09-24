@@ -427,7 +427,13 @@ spec:
           nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
           nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
           nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
-        
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "Prometheus"
+          gethomepage.dev/group: "Monitoring"
+          gethomepage.dev/icon: "prometheus.png"
+          gethomepage.dev/href: "https://prometheus.${DOMAIN_2}"
+          gethomepage.dev/widget.type: "prometheus"
+          gethomepage.dev/widget.url: "http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090"
         hosts:
           - prometheus.${DOMAIN_2}
         paths:

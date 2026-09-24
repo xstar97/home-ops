@@ -226,6 +226,12 @@ spec:
                 - GitOps:
                     - abbr: GO
                       href: https://gitops.${DOMAIN_2}
+                - Renovate Operator:
+                    - abbr: RO
+                      href: https://renovate.${DOMAIN_2}
+                - HomePage Seb:
+                    - abbr: HPS
+                      href: https://homepage.${DOMAIN_0}
 
     ingress:
       main:
