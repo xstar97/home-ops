@@ -397,22 +397,6 @@ identity_providers:
           - email
         token_endpoint_auth_method: 'client_secret_post'
 
-      - client_id: 'audiobookrequest'
-        client_name: 'AudiobookRequest'
-        client_secret: '{{ secret "/config/secret/clients_audiobookrequest_client_secret" }}'
-        public: false
-        claims_policy: 'default'
-        authorization_policy: 'audiobookrequest'
-        require_pkce: true
-        pkce_challenge_method: 'S256'
-        redirect_uris:
-          - 'https://audiobookrequest.${DOMAIN_0}/api/auth/oidc/callback'
-        scopes:
-          - openid
-          - profile
-          - email
-        token_endpoint_auth_method: 'client_secret_post'
-
       - client_id: 'kavita'
         client_name: 'Kavita'
         client_secret: '{{ secret "/config/secret/clients_kavita_client_secret" }}'
