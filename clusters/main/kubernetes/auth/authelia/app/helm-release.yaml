@@ -123,18 +123,10 @@ spec:
       configfile:
         enabled: true
         type: configmap
-        objectName: authelia-configfile
+        objectName: authelia-config-file
         expandObjectName: false
         mountPath: /configuration.yaml
         subPath: configuration.yaml
-        readOnly: true
-      configfile2:
-        enabled: true
-        type: configmap
-        objectName: authelia-config-file
-        expandObjectName: false
-        mountPath: /config/config.yml
-        subPath: config.yml
         readOnly: true
       secrets:
         enabled: true
