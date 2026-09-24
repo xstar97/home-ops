@@ -18,5 +18,6 @@ generatorOptions:
   annotations:
     meta.helm.sh/release-name: kromgo
     meta.helm.sh/release-namespace: kromgo
+    reloader.stakater.com/match: "true"
 components:
   - ../../../../components/notifications/discord
