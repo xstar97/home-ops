@@ -41,7 +41,7 @@ services:
       traefik.http.routers.homelable.tls.certResolver: cf
       traefik.http.routers.homelable.middlewares: error-pages-middleware
   backend:
-    image: ghcr.io/pouzor/homelable-backend:3.5.0@sha256:64452d231e3227af54ea4e126850cdd6a89b2b169d22bd345e212986ba7621df
+    image: ghcr.io/pouzor/homelable-backend:3.5.1@sha256:54dfa4b12843f0098141260e75e863a9638ced535a1618cd7b8826bf1718dd62
     container_name: homelable-backend
     restart: unless-stopped
     networks:
