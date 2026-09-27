@@ -1,0 +1,107 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bindarr
+  namespace: bindarr
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.23.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-bindarr"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-bindarr"
+    image:
+      repository: ghcr.io/linuxserver/bindarr
+      pullPolicy: IfNotPresent
+      tag: 1.8.5@sha256:7a05b7e975ccdfd3b3a77075f76b778e4d15f9d7a4a15a19050ebf4e90e71e87
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3001
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                PORT: "{{ .Values.service.main.ports.main.port }}"
+                HTTPS_PORT: ""
+
+                PUBLIC_BASE_URL: "https://bindarr.${DOMAIN_2}"
+                TRUST_PROXY: "1"
+
+                OIDC_ENABLED: "true"
+                OIDC_ISSUER_URL: "https://auth.${DOMAIN_2}"
+                OIDC_CLIENT_ID: "bindarr"
+                OIDC_PROVIDER_NAME: "Authelia"
+                OIDC_USER_CLAIM: "preferred_username"
+                OIDC_AUTO_PROVISION: "true"
+                OIDC_ALLOW_USERNAME_LINK: "false"
+                OIDC_TOKEN_ENDPOINT_AUTH_METHOD: "client_secret_basic"
+
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_BINDARR}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+        hosts:
+          - host: bindarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      database:
+        enabled: true
+        mountPath: "/app/database"
+        volsync:
+          - name: database
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

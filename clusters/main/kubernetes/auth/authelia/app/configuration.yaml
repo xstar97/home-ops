@@ -302,6 +302,14 @@ identity_providers:
             subject:
               - 'group:lldap_admin'
 
+      bindarr:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:lldap_admin'
+              - 'group:lldap_bindarr'
+
     clients:
       - client_id: 'romm'
         client_name: 'RomM'
@@ -647,4 +655,24 @@ identity_providers:
           - code
         grant_types:
           - authorization_code
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: 'bindarr'
+        client_name: 'Bindarr'
+        client_secret: '{{ secret "/config/secret/clients_bindarr_client_secret" }}'
+        public: false
+        authorization_policy: 'bindarr'
+        claims_policy: 'default'
+        require_pkce: false
+        redirect_uris:
+          - 'https://bindarr.${DOMAIN_2}/api/auth/oidc/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
         token_endpoint_auth_method: 'client_secret_basic'
