@@ -64,9 +64,11 @@ spec:
               env:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 HTTPS_PORT: ""
-
                 PUBLIC_BASE_URL: "https://bindarr.${DOMAIN_2}"
                 TRUST_PROXY: "1"
+
+                DB_PATH: "{{ .Values.persistence.database.mountPath }}/bindarr.db"
+                CV_MODEL_DIR: "{{ .Values.persistence.models.mountPath }}"
 
                 OIDC_ENABLED: "true"
                 OIDC_ISSUER_URL: "https://auth.${DOMAIN_2}"
@@ -76,8 +78,8 @@ spec:
                 OIDC_AUTO_PROVISION: "true"
                 OIDC_ALLOW_USERNAME_LINK: "false"
                 OIDC_TOKEN_ENDPOINT_AUTH_METHOD: "client_secret_basic"
-
                 OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_BINDARR}"
+
     ingress:
       main:
         enabled: true
@@ -99,6 +101,17 @@ spec:
         mountPath: "/app/database"
         volsync:
           - name: database
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      models:
+        enabled: true
+        mountPath: "/app/database/models"
+        volsync:
+          - name: models
             type: restic
             credentials: cf-restic
             dest:
