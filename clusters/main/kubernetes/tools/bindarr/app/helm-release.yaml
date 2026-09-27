@@ -41,7 +41,7 @@ spec:
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-bindarr"
     image:
-      repository: ghcr.io/linuxserver/bindarr
+      repository: ghcr.io/thenotoriousjeremy/bindarr
       pullPolicy: IfNotPresent
       tag: 1.8.5@sha256:7a05b7e975ccdfd3b3a77075f76b778e4d15f9d7a4a15a19050ebf4e90e71e87
     securityContext:
