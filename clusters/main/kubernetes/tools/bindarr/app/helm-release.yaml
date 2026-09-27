@@ -65,7 +65,7 @@ spec:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 HTTPS_PORT: ""
                 PUBLIC_BASE_URL: "https://bindarr.${DOMAIN_2}"
-                TRUST_PROXY: "1"
+                TRUST_PROXY: "2"
 
                 DB_PATH: "{{ .Values.persistence.database.mountPath }}/bindarr.db"
                 CV_MODEL_DIR: "{{ .Values.persistence.models.mountPath }}"
