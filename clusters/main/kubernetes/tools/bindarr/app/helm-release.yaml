@@ -83,7 +83,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: "external"
         integrations:
           nginx:
             enabled: true
@@ -95,6 +95,7 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+
     persistence:
       database:
         enabled: true
