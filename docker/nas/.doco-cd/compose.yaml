@@ -1,33 +1,12 @@
 services:
-  apprise:
-    image: caronc/apprise:v2.0.0@sha256:cc5ef662ad2a4a25958f1eddbf87f2e95f9bf637ea481f1adcec18312ad262f5
-    container_name: apprise
-    restart: unless-stopped
-    networks:
-      - internal
-    expose:
-      - "8000"
-    environment:
-      TZ: America/New_York
-      APPRISE_WORKER_COUNT: 1
-      APPRISE_STATEFUL_MODE: simple
-      # APPRISE_ADMIN: "y"
-    volumes:
-      - ${DOCKER_DATA_DIR}/apprise/config:/config
-      - ${DOCKER_DATA_DIR}/apprise/attach:/attach
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.122@sha256:c301a4ebe864be8e73103015d20c84784e3ced9f4f65e0f28baf71e2c350bb18
     container_name: doco-cd
     restart: unless-stopped
     depends_on:
-      apprise:
-        condition: service_healthy
+      - dockerproxy
+      # apprise:
+      #   condition: service_healthy
     networks:
       - internal
       - network_internal
@@ -52,13 +31,14 @@ services:
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      DOCKER_HOST: tcp://dockerproxy:2375
     secrets:
       - ssh_private_key
       - sops_age_key
       - webhook_secret
       - git_access_token
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      # - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
       # - ${SSH_KEY_FILE}:/run/secrets/ssh_private_key:ro
       # - ${AGEKEY_FILE}:/run/secrets/sops_age_key:ro
@@ -70,6 +50,43 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
+    container_name: dockerproxy
+    restart: unless-stopped
+    ports:
+      - "2375:2375"
+    environment:
+      # Required by every installation
+      PING: 1
+      VERSION: 1
+      INFO: 1
+      EVENTS: 1
+      CONTAINERS: 1
+      IMAGES: 1
+      NETWORKS: 1
+      VOLUMES: 1
+      DISTRIBUTION: 1
+      # Docker Swarm only, omit these on a standalone daemon
+      # SERVICES: 1
+      # TASKS: 1
+      # NODES: 1 
+      # SECRETS: 1
+      # CONFIGS: 1
+      # Required to deploy anything
+      POST: 1
+      DELETE: 1 
+      # Endpoints doco-cd never uses
+      AUTH: 0
+      BUILD: 0
+      COMMIT: 0
+      EXEC: 0
+      PLUGINS: 0
+      SESSION: 0
+      SWARM: 0
+      SYSTEM: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 networks:
   internal:
     driver: bridge
