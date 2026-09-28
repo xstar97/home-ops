@@ -85,6 +85,9 @@ services:
       SESSION: 0
       SWARM: 0
       SYSTEM: 0
+    networks:
+      - network_internal
+      - internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 networks:
