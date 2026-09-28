@@ -1,7 +1,7 @@
 http:
   routers:
     truenas-dozzle:
-      rule: 'Host(`dozzle.truenas.{{ env "DOMAIN_0" }}`)'
+      rule: 'Host(`dozzle.nas.{{ env "DOMAIN_0" }}`)'
       entryPoints:
         - websecure
       service: truenas-dozzle-service
@@ -12,4 +12,4 @@ http:
     truenas-dozzle-service:
       loadBalancer:
         servers:
-          - url: 'http://dozzle.nas.local'
+          - url: 'http://dozzle.nas.local:80'
