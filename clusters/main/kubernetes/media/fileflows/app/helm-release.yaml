@@ -33,7 +33,7 @@ spec:
   values:
     image:
       repository: docker.io/revenz/fileflows
-      tag: modded-26.09@sha256:ebd5bbd41830181e76bfa51dc97bf4755149d038f924d1e3adbba40f7c64c280
+      tag: modded-26.09@sha256:861a525b82d96acd371b1405416a60e2ee5e031a86956b21ed2db93d6df56a41
       pullPolicy: IfNotPresent
     gatus:
       group: media
