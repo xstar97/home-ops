@@ -41,6 +41,10 @@ spec:
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-homepage"
 
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+
     forceConfigFromValues: true
 
     configmap:
