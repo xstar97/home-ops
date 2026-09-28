@@ -16,10 +16,11 @@ services:
     restart: on-failure
     command:
       - '--path.rootfs=/host'
-    # networks:
-    #   - network_internal
-    ports:
-      - "9100:9100"
+    networks:
+      - internal
+      - network_internal
+    expose:
+      - "9100"
     healthcheck: *healthcheck
     volumes:
       - '/:/host:ro,rslave'
@@ -27,8 +28,12 @@ services:
     cpus: 0.25
     labels:
       wud.watch: false
+      traefik.enable: "true"
+      traefik.http.routers.node-exporter.rule: Host(`node-exporter.nas.local`)
+      traefik.http.routers.node-exporter.entrypoints: web
+      traefik.http.services.node-exporter.loadbalancer.server.port: "9100"
 networks:
-  # network_internal:
-  #   external: true
+  network_internal:
+    external: true
   internal:
     driver: bridge

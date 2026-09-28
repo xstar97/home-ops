@@ -16,13 +16,19 @@ services:
     environment:
       STACKS_DIR: "/opt/hawser-stacks"
     networks:
+      - internal
       - network_internal
-    ports:
-      - 2376:2376
+    expose:
+      - "2376"
     healthcheck: *healthcheck
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - hawser_data:/opt/hawser-stacks
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.hawser.rule: Host(`hawser.nas.local`)
+      traefik.http.routers.hawser.entrypoints: web
+      traefik.http.services.hawser.loadbalancer.server.port: "2376"
 networks:
   network_internal:
     external: true

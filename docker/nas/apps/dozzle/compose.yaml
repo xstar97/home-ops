@@ -17,6 +17,7 @@ services:
       DOZZLE_ENABLE_SHELL: true
       DOZZLE_NO_ANALYTICS: true
     networks:
+      - internal
       - network_internal
     expose:
       - "30064"
@@ -31,3 +32,5 @@ services:
 networks:
   network_internal:
     external: true
+  internal:
+    driver: bridge
