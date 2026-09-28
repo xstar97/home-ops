@@ -61,6 +61,15 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  type: http
+                  path: "/api/health"
+                readiness:
+                  type: http
+                  path: "/api/health"
+                startup:
+                  type: tcp
               env:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 HTTPS_PORT: ""
