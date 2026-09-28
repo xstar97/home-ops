@@ -214,6 +214,27 @@ spec:
                       url:  http://${HA_IP}:8123
                       key: "${HP_HA_API_KEY}"
 
+            - Inventory:
+
+                - Bindarr:
+                    icon: http://bindarr-app-template.bindarr.svc.cluster.local:3001/logo.svg
+                    href: https://bindarr.${DOMAIN_2}
+                    description: Trading Card Collection
+                    widget:
+                      type: customapi
+                      url: http://bindarr-app-template.bindarr.svc.cluster.local:3001/api/stats/networth
+                      refreshInterval: 60000
+                      headers:
+                        Authorization: Bearer ${BINDARR_HP_API_KEY}
+                      mappings:
+                        - field: totalCards
+                          label: Cards
+                          format: number
+                        - field: totalValue
+                          label: Collection
+                          format: float
+                          prefix: "$"
+
           bookmarks.yaml: |
             ---
             # For configuration options and examples, please see:

@@ -326,6 +326,7 @@ LINKWARDEN_API_KEY: ENC[AES256_GCM,data:YDaVFrev12ItL4TcqbP5PSif/nTeCxLmupgPXnYD
 #ENC[AES256_GCM,data:7up4l0578Zo9xxp/Lcq0iuU=,iv:ACbSsTZjf9wGeuF6ObzbeFiw3UQ7Zk6WFj/tzT9zmDI=,tag:NSk8fEmkMzGdf3wsVFFerA==,type:comment]
 RECEIPT_WRANGLER_ENCRYPTION_KEY: ENC[AES256_GCM,data:3yAe+bp3zktwMIp9gttthL25s4/45E90GwtVQ29DDp4=,iv:BdzcUHbpvxcAy0Vslh5Lg5Qsaz1FiL2MHr10UWpxiyk=,tag:+V/e6CwropHmV3W3jPbDug==,type:str]
 RECEIPT_WRANGLER_SECRET_KEY: ENC[AES256_GCM,data:5bDJcGgy7c70pULke+DMM4tbQ81fxjRLJLiDL1cC3OA=,iv:W3ZR/FAnI4n+pIXQzzGW0TmK5UK/sxx8U4bBpdNTFL0=,tag:nBdiGCseo0W5FITxXZ4Dug==,type:str]
+BINDARR_HP_API_KEY: ENC[AES256_GCM,data:KRplNtzLXUP9gJOPD1Uj6aYvjNtky2D376PP6kXrV3dB1dLhcrmIfNF4+G++N5ArueenZw==,iv:/SjK4IspbFDFCA++BB3cJHcZGaBQcwmgJ0Tf0XSduUM=,tag:iVTFNkftz/RsmpAD9dirLQ==,type:str]
 #ENC[AES256_GCM,data:n/fv8GkjgCE1kw==,iv:1piPZlpqrdyNt5Dd8W8YJWxb5tJ3Sv3PDxxIegUQ9cM=,tag:9vRzgcC2wZJd190o1JapwQ==,type:comment]
 GITHUB_USER: ENC[AES256_GCM,data:QaymB+2Qrw==,iv:fKVWvvRCyDo/M21W96WNxImuM/2mwWbig+x782ZPD+c=,tag:/RWcr4OQCZO9ahjAvskqwg==,type:str]
 GITHUB_EMAIL: ENC[AES256_GCM,data:jSP4OvFD1dRwjt32qsKioaieA68a,iv:dz8ZypVaG6P+WBJo670TIbUk7y0qCW45JUhS5M3lp2w=,tag:x1J5FKiSweN7EccE8v+Ccw==,type:str]
@@ -351,8 +352,8 @@ sops:
             kkJT8wWqE0O+gpX8nc5Dy7UP1vilgAuaJmilTbQrZw2A33cuLXtp2g==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1q9mu36rp8zc4fy9pexe2mxlu4rk4ef3gg4tts6j0x5svsctdx5yscrk8rx
-    lastmodified: "2026-09-27T12:23:26Z"
-    mac: ENC[AES256_GCM,data:Ce0ZpBAieQLo4wbIO4haDLohGc0T1ef3/hRV8L/QryVGBYMKFBtesQ0vVPjCyMvDEh3AY0XtMX7QbxtfLcNT5S/gz0VLHoTeRs/jD0Um9fzHWO5NY+Vl72yi7WMh73IuOECBt097Z8R776kzg34+XoRqsS45X15JsCpAyVe3xWo=,iv:6sILlXZcVlrNTCdWBmC7U0Q+Csi/2fempMR0qSg2LjA=,tag:Eb2PjYbNRRCgkBi6GVhbQw==,type:str]
+    lastmodified: "2026-09-28T02:01:24Z"
+    mac: ENC[AES256_GCM,data:zlBW5qHIQE1is8EGnHdu07pGl71LKvXPczVTudMyNuoP/96Pq3swORemAId5R0rK5W2/X0Oy24Hv/vY4rCw+Oh20UtOFCkN27ejqDJorMihbUcipY1fw4rbiETYSkVuTkIsRsA54RCQzLfpeawJc+Uz5Cz+p7sjmABmuPBSv0Bw=,iv:ew6hBIsw+G6IX7S9RclKzb7S3D7NZaUWgcZl5Kd8zbc=,tag:lhRmH/sg3d2r9u+xL/Hlxg==,type:str]
     shamir_threshold: 3
     unencrypted_suffix: _unencrypted
     version: 3.13.3
