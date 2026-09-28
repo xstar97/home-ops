@@ -5,6 +5,11 @@
 #  - compose.updater.yaml
 #force_recreate: true
 # ---
+name: doco-cd
+working_dir: ./docker/nas/.doco-cd
+compose_files: [compose.yaml]
+timeout: 120
+---
 name: Nas
 working_dir: ./docker/nas/apps
 auto_discovery:

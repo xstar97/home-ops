@@ -43,6 +43,7 @@ services:
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb
       PASS_ENV: "false"
+      SELF_UPDATE_ENABLED: "true"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
