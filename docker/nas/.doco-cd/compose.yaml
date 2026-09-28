@@ -7,7 +7,6 @@ services:
       - internal
     expose:
       - "8000"
-      - "9120"
     environment:
       TZ: America/New_York
       APPRISE_WORKER_COUNT: 1
@@ -32,9 +31,9 @@ services:
     networks:
       - internal
       - network_internal
-    ports:
-      - "9080:9080"
-      - "9120:9120"
+    expose:
+      - "9080"
+      - "9120"
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
