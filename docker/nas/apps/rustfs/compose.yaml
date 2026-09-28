@@ -28,14 +28,15 @@ services:
       - logs:/app/logs
     labels:
       traefik.enable: "true"
-      traefik.http.routers.rustfs.rule: Host(`web.rustfs.nas.local`)
+      traefik.http.routers.rustfs.rule: Host(`s3.rustfs.nas.local`)
       traefik.http.routers.rustfs.entrypoints: web
+      traefik.http.routers.rustfs.service: rustfs
       traefik.http.services.rustfs.loadbalancer.server.port: "30292"
       # RustFS Console
-      traefik.http.routers.rustfs-console.rule: Host(`console.rustfs.nas.local`)
-      traefik.http.routers.rustfs-console.entrypoints: web
-      traefik.http.routers.rustfs-console.service: rustfs-console
-      traefik.http.services.rustfs-console.loadbalancer.server.port: "30293"
+      traefik.http.routers.rustfs-web.rule: Host(`web.rustfs.nas.local`)
+      traefik.http.routers.rustfs-web.entrypoints: web
+      traefik.http.routers.rustfs-web.service: rustfs-web
+      traefik.http.services.rustfs-web.loadbalancer.server.port: "30293"
 networks:
   network_internal:
     external: true
