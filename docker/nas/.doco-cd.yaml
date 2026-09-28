@@ -19,7 +19,7 @@ auto_discovery:
 env_files:
   - ../../secrets.enc.env
   - ../../base.enc.env
-force_recreate: false
+force_recreate: true
 reconciliation:
   enabled: true
   interval: 3600
