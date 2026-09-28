@@ -1,0 +1,43 @@
+x-healthcheck: &healthcheck
+  test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ping | grep -q '^OK$' || exit 1"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 15s
+
+services:
+  traefik:
+    image: traefik:v3.7.13@sha256:24841fe2de7304c149343d877d2923b4c8800a38ba015dea9174c23b20e344a0
+    container_name: traefik
+    restart: on-failure
+    healthcheck: *healthcheck
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.network=network_internal
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --providers.file.watch=true
+      - --log.level=INFO
+      - --accesslog=true
+      - --api.insecure=true
+      - --ping=true
+    networks:
+      - network_internal
+    ports:
+      - "80:80"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+      - ./configs:/etc/traefik/dynamic
+    labels:
+      traefik.enable: "true"
+      # Traefik dashboard
+      traefik.http.routers.traefik.rule: Host(`traefik.nas.local`)
+      traefik.http.routers.traefik.entrypoints: web
+      traefik.http.routers.traefik.service: api@internal
+networks:
+  network_internal:
+    external: true

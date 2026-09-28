@@ -18,13 +18,16 @@ services:
       DOZZLE_NO_ANALYTICS: true
     networks:
       - network_internal
-    ports:
-      - 30064:30064
+    expose:
+      - "30064"
     healthcheck: *healthcheck
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.dozzle.rule: Host(`dozzle.nas.local`)
+      traefik.http.routers.dozzle.entrypoints: web
+      traefik.http.services.dozzle.loadbalancer.server.port: "30064"
 networks:
   network_internal:
     external: true
-  internal:
-    driver: bridge
