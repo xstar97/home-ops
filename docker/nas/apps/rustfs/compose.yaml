@@ -17,9 +17,9 @@ services:
     networks:
       - network_internal
       - internal
-    expose:
-      - "30292" # S3 API port
-      - "30293" # Console port
+    ports:
+      - "30292:30292" # S3 API port
+      - "30293:30293" # Console port
     env_file:
       - ./secrets.enc.env
     user: "568:568"
