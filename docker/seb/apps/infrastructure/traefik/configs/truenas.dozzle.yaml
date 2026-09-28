@@ -4,7 +4,7 @@ http:
       rule: 'Host(`dozzle.nas.{{ env "DOMAIN_0" }}`)'
       entryPoints:
         - websecure
-      service: truenas-dozzle-service
+      service: truenas-traefik-service
       middlewares:
         - truenas-dozzle-host
       tls:
@@ -17,7 +17,7 @@ http:
           Host: 'dozzle.nas.local'
 
   services:
-    truenas-dozzle-service:
+    truenas-traefik-service:
       loadBalancer:
         servers:
-          - url: 'http://10.0.0.171:80'
+          - url: 'http://{{ env "TRUENAS_LOCAL_DOMAIN" }}:80'
