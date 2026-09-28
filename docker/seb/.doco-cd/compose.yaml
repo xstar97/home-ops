@@ -1,7 +1,7 @@
 services:
   apprise:
     image: caronc/apprise:v2.0.0@sha256:cc5ef662ad2a4a25958f1eddbf87f2e95f9bf637ea481f1adcec18312ad262f5
-    # container_name: apprise
+    container_name: apprise
     restart: unless-stopped
     networks:
       - internal
@@ -23,7 +23,7 @@ services:
       start_period: 15s
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.122@sha256:c301a4ebe864be8e73103015d20c84784e3ced9f4f65e0f28baf71e2c350bb18
-    # container_name: doco-cd
+    container_name: doco-cd
     restart: unless-stopped
     depends_on:
       apprise:
@@ -31,9 +31,9 @@ services:
     networks:
       - internal
       - network_internal
-    expose:
-      - "9080"
-      - "9120"
+    ports:
+      - "9080:9080"
+      - "9120:9120"
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
@@ -43,7 +43,6 @@ services:
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb
       PASS_ENV: "false"
-      SELF_UPDATE_ENABLED: "true"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
