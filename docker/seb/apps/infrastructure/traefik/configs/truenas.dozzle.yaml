@@ -5,11 +5,19 @@ http:
       entryPoints:
         - websecure
       service: truenas-dozzle-service
+      middlewares:
+        - truenas-dozzle-host
       tls:
         certResolver: cf
+
+  middlewares:
+    truenas-dozzle-host:
+      headers:
+        customRequestHeaders:
+          Host: 'dozzle.nas.local'
 
   services:
     truenas-dozzle-service:
       loadBalancer:
         servers:
-          - url: 'http://dozzle.nas.local:80'
+          - url: 'http://10.0.0.171:80'
