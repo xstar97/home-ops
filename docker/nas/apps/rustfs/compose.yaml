@@ -20,8 +20,8 @@ services:
     ports:
       - "30292:30292" # S3 API port
       - "30293:30293" # Console port
-    env_file:
-      - ./secrets.enc.env
+    # env_file:
+    #   - ./secrets.enc.env
     environment:
       RUSTFS_ACCESS_KEY: "${RUSTFS_ACCESS_KEY}"
       RUSTFS_SECRET_KEY: "${RUSTFS_SECRET_KEY}"
