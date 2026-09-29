@@ -11,7 +11,7 @@ services:
     image: cloudflare/cloudflared:2026.9.3@sha256:072c067d25ccbe61d46e18f0d0723255f2bb5304f7317caa95b27031520ff92c
     container_name: cloudflared
     restart: on-failure
-    command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_0}
+    command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_NAS}
     networks:
       - network_internal
     expose:

@@ -1,17 +1,10 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: headlamp
   namespace: headlamp
 spec:
-  interval: 30m
-  timeout: 25m
-  maxHistory: 3
-  # enabled | warn
-  driftDetection:
-    mode: enabled
+  interval: 15m
   chart:
     spec:
       chart: headlamp
@@ -20,6 +13,11 @@ spec:
         kind: HelmRepository
         name: home-ops-mirror
         namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  driftDetection:
+    mode: warn
   install:
     createNamespace: true
     remediation:
@@ -30,9 +28,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+
   values:
-    gatus:
-      group: observability
+
     initContainers:
       - # Generate kubeconfig file. Can be removed when https://github.com/kubernetes-sigs/headlamp/issues/1826 is resolved
         command:
@@ -52,7 +50,7 @@ spec:
             value: "6443"
           - name: KUBECONFIG
             value: /home/headlamp/.config/Headlamp/kubeconfigs/config
-        image: alpine/kubectl:1.37.1@sha256:7b4cc9a9ce0d064cedeb85550266c11f2b32f010ca299525518646261e4d955e
+        image: alpine/kubectl:1.37.1
         name: create-kubeconfig
         securityContext:
           capabilities:
@@ -90,3 +88,29 @@ spec:
             source: https://artifacthub.io/packages/headlamp/headlamp-plugins/headlamp_cert-manager
             # renovate: datasource=docker depName=ghcr.io/headlamp-k8s/headlamp-plugin-cert-manager
             version: 0.1.0
+
+    service:
+      type: LoadBalancer
+      loadBalancerIP: ${HEADLAMP_IP}
+
+    # ingress:
+    #   enabled: true
+    #   annotations:
+    #     cert-manager.io/cluster-issuer: domain-0-le-prod
+    #     cert-manager.io/private-key-rotation-policy: Always
+    #   ingressClassName: internal
+    #   hosts:
+    #     - host: headlamp.${DOMAIN_0}
+    #       paths:
+    #         - pathType: Prefix
+    #           path: /
+    #           type: ImplementationSpecific
+    #           backend:
+    #             service:
+    #               name: headlamp
+    #               port:
+    #                 number: 80
+    #   tls:
+    #     - secretName: headlamp-tls-0
+    #       hosts:
+    #         - headlamp.${DOMAIN_0}

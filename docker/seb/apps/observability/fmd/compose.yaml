@@ -24,6 +24,7 @@ services:
       FMD_PORTINSECURE: "8080"
       FMD_PORTSECURE: "8443"
       FMD_METRICSADDRPORT: "[::1]:9100"
+      FMD_REGISTRATIONTOKEN: ${FMD_REGISTRATIONTOKEN}
       #FMD_WEBDIR=
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db/

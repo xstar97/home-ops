@@ -7,44 +7,8 @@ metadata:
   namespace: system-upgrade
 spec:
   interval: 1h
-  timeout: 25m
-  maxHistory: 3
-  # enabled | warn
-  driftDetection:
-    mode: enabled
   chartRef:
     kind: OCIRepository
     name: tuppr
-    namespace: flux-system
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    crds: CreateReplace
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  values:
-    monitoring:
-      serviceMonitor:
-        enabled: true
-      prometheusRule:
-        enabled: true
-      dashboards:
-        enabled: true
-        namespace: grafana
-        grafanaOperator:
-          enabled: true
-          allowCrossNamespaceImport: true
-          resyncPeriod: 10m
-          matchLabels:
-            dashboards: grafana
-          folder: infrastructure
-
-    notification:
-      enabled: true
-      secretName: tuppr-notifications
-      secretKey: url
+    namespace: flux-system     
+  values: {}

@@ -11,10 +11,15 @@ auto_discovery:
   enabled: true
   depth: 0
   delete: true
-env_files:
-  - ../../secrets.enc.env
-  - ../../base.enc.env
 force_recreate: true
 reconciliation:
   enabled: true
   interval: 3600
+env_files:
+  - ../../secrets.enc.env
+  - ../../base.enc.env
+external_secrets:
+  CF_TUNNEL_TOKEN_NAS: dffe6371-4a92-4c17-a85a-b4d40027d83a
+  DOCKHAND_HAWSER_TOKEN_NAS: 8a808d6d-2444-430a-832f-b4d400540184
+  RUSTFS_ACCESS_KEY: 82d19e1c-4c3f-4101-a0ff-b4d40056dd0a
+  RUSTFS_SECRET_KEY: 213abdd2-c87e-4c74-9614-b4d40057095e

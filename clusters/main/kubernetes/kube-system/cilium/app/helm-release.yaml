@@ -36,10 +36,12 @@ spec:
   values:
     # autoDirectNodeRoutes: true
     # routingMode: native
+    envoy:
+      enabled: false
     hubble:
       enabled: false
     cluster:
-      name: ${CLUSTERNAME}
+      name: main
       id: 1
     ipv4NativeRoutingCIDR: ${PODNET}
     securityContext:
@@ -74,7 +76,8 @@ spec:
     k8sServicePort: 7445
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    localRedirectPolicy: true
+    localRedirectPolicies:
+      enabled: true
     operator:
       rollOutPods: true
       replicas: 1     # When running multi node cluster, remove this line to let the operator decide how many replicas to run based on the number of nodes in the cluster.

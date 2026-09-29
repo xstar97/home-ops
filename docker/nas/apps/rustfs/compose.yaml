@@ -22,6 +22,18 @@ services:
       - "30293:30293" # Console port
     env_file:
       - ./secrets.enc.env
+    environment:
+      RUSTFS_ACCESS_KEY: "${RUSTFS_ACCESS_KEY}"
+      RUSTFS_SECRET_KEY: "${RUSTFS_SECRET_KEY}"
+      RUSTFS_OBS_LOGGER_LEVEL: "warn"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_CORS_ALLOWED_ORIGINS: "*"
+      RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: "*"
+      RUSTFS_OBS_ENVIRONMENT: "production"
+      RUSTFS_VOLUMES: "/rustfs/data0"
+      RUSTFS_ADDRESS: ":30292"
+      RUSTFS_OBS_LOG_DIRECTORY: ""
+      RUSTFS_CONSOLE_ADDRESS: ":30293"
     user: "568:568"
     volumes:
       - /mnt/kubernetes/backups:/rustfs/data0

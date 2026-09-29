@@ -4,14 +4,9 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: nginx-internal
-  namespace: nginx
+  namespace: nginx-internal
 spec:
-  interval: 30m
-  timeout: 25m
-  maxHistory: 3
-  # enabled | warn
-  driftDetection:
-    mode: enabled
+  interval: 15m
   chart:
     spec:
       chart: ingress-nginx
@@ -20,6 +15,9 @@ spec:
         kind: HelmRepository
         name: home-ops-mirror
         namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -31,17 +29,13 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    gatus:
-      group: core
-    nameOverride: nginx-internal
     controller:
-      replicaCount: 1
+      replicaCount: 2
       service:
         externalTrafficPolicy: Local
         annotations:
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
-          # metallb.universe.tf/ip-allocated-from-pool: main
       ingressClassByName: true
       watchIngressWithoutClass: true
       ingressClassResource:
@@ -49,9 +43,6 @@ spec:
         default: true
         controllerValue: k8s.io/internal
       config:
-        # remove 401
-        custom-http-errors: >-
-          403,404,500,501,502,503
         allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
@@ -70,31 +61,22 @@ spec:
         proxy-busy-buffers-size: 32k
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
-        proxy-real-ip-cidr: "${PODNET},${SVCNET}"
       metrics:
         enabled: true
-        serviceMonitor:
-          enabled: true
-          namespaceSelector:
-            any: true
+        # serviceMonitor:
+        #   enabled: true
+        #   namespaceSelector:
+        #     any: true
       extraArgs:
-        default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
+        default-ssl-certificate: "clusterissuer/certificate-issuer-domain-0-wildcard"
         publish-status-address: ${NGINX_INTERNAL_IP}
       terminationGracePeriodSeconds: 120
       publishService:
         enabled: false
       resources:
         requests:
-          cpu: 500m
+          cpu: 75m
         limits:
-          memory: 2048Mi
+          memory: 500Mi
     defaultBackend:
-      enabled: true
-      image:
-        repository: ghcr.io/tarampampam/error-pages
-        tag: '4.2.5@sha256:6d42b5d6e1a014fa2373e3587f9e85c25589a089fd5f6fc4f2a496858f5e365d'
-      extraEnvs:
-        - name: TEMPLATE_NAME # Optional: change the default theme
-          value: app-down
-        - name: SHOW_DETAILS # Optional: enables the output of additional information on error pages
-          value: 'true'
+      enabled: false

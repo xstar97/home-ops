@@ -1,5 +1,3 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -8,10 +6,6 @@ metadata:
 spec:
   interval: 5m
   releaseName: longhorn
-  timeout: 25m
-  maxHistory: 3
-  driftDetection:
-    mode: enabled
   chart:
     spec:
       chart: longhorn
@@ -30,32 +24,16 @@ spec:
     remediation:
       retries: 3
   values:
-    gatus:
-      group: core
     defaultSettings:
+      # Matches the Talos UserVolumeConfig named longhorn.
+      defaultDataPath: /var/mnt/longhorn
       # Increase to 3 for a multi-node cluster
       defaultReplicaCount: "1"
       # Overprovisioning might be needed when using volsync
       storageOverProvisioningPercentage: "100000"
-      storageReservedPercentageForDefaultDisk: "10"
-      # Do not reserve CPU for the replacement instance manager during upgrades.
-      # This single-node cluster has insufficient allocatable CPU for the default request.
-      guaranteedInstanceManagerCPU: "0"
       # v2DataEngine: true
-    csi:
-      attacherReplicaCount: 1
-      provisionerReplicaCount: 1
-      resizerReplicaCount: 1
-      snapshotterReplicaCount: 1
     persistence:
       # Set to false to pick another CSI as default
       defaultClass: true
       # Increase to 3 for a multi-node cluster
       defaultClassReplicaCount: 1
-    longhornUI:
-      replicas: 1
-    metrics:
-      serviceMonitor:
-        enabled: true
-    networkPolicies:
-      restrictInternalTraffic: false

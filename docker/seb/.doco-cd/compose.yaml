@@ -70,11 +70,15 @@ services:
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
+      SECRET_PROVIDER: bitwarden_sm
+      
     secrets:
       - ssh_private_key
       - sops_age_key
       - webhook_secret
       - git_access_token
+      - secret_provider_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
@@ -135,3 +139,5 @@ secrets:
     file: ${WEBHOOK_FILE}
   git_access_token:
     file: ${GAT_FILE}
+  secret_provider_access_token:
+    file: ${BITWARDEN_SM_FILE}

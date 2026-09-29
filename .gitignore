@@ -16,3 +16,15 @@ mounts/
 logs/
 kubeconfig
 utilities/
+
+# Clustertool
+/clustertool
+/clustertool.exe
+# Secrets
+age.agekey
+*.pub
+*.key
+*.decrypted~*.yaml
+# Kubernetes
+kubeconfig
+talosconfig

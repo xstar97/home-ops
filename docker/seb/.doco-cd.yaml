@@ -18,3 +18,8 @@ force_recreate: true
 reconciliation:
   enabled: true
   interval: 3600
+external_secrets:
+  CF_TUNNEL_TOKEN_SEB: 0675ef4c-0f97-4ecf-9036-b4d40025d1a0
+  FMD_REGISTRATIONTOKEN: b6c66aa4-b76e-4758-adb7-b4d4005fa57f
+  HOMELABLE_OIDC_CLIENT_SECRET: 69217af6-2216-4b59-a094-b4d400608e7c
+  
