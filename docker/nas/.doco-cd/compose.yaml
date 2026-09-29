@@ -5,13 +5,6 @@ x-healthcheck: &healthcheck
   retries: 3
   start_period: 15s
 
-x-healthcheckAppRise: &healthcheckAppRise
-  test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 15s
-
 x-healthcheckProxy: &healthcheckProxy
   test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:2375/_ping || exit 1"]
   interval: 30s
@@ -19,77 +12,12 @@ x-healthcheckProxy: &healthcheckProxy
   retries: 3
   start_period: 15s
 services:
-  apprise:
-    image: caronc/apprise:v2.0.0@sha256:cc5ef662ad2a4a25958f1eddbf87f2e95f9bf637ea481f1adcec18312ad262f5
-    container_name: apprise
-    restart: unless-stopped
-    networks:
-      - internal
-      - network_internal
-    expose:
-      - "8000"
-    healthcheck: *healthcheckAppRise
-    environment:
-      TZ: America/New_York
-      APPRISE_WORKER_COUNT: 1
-      APPRISE_STATEFUL_MODE: simple
-      # APPRISE_ADMIN: "y"
-    volumes:
-      - ${DOCKER_DATA_DIR}/apprise/config:/config
-      - ${DOCKER_DATA_DIR}/apprise/attach:/attach
-  doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.122@sha256:16e2db9a98d622711e7fc5c559186d0e020f6cbd08cf23b171b032b35d4e8c4b
-    container_name: doco-cd
-    restart: unless-stopped
-    depends_on:
-      apprise:
-        condition: service_healthy
-    networks:
-      - internal
-      - network_internal
-    ports:
-      - "9080:9080"
-      - "9120:9120"
-    healthcheck: *healthcheck
-    environment:
-      TZ: America/New_York
-      HTTP_PORT: 9080
-      APPRISE_API_URL: http://apprise:8000/notify
-      APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
-      APPRISE_NOTIFY_LEVEL: success
-      DOCKER_SWARM_FEATURES: "false"
-      DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
-      PASS_ENV: "false"
-      POLL_CONFIG: |
-        - url: https://github.com/xstar97/home-ops
-          reference: main
-          interval: 3600
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
-      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SSH_PRIVATE_KEY_PASSPHRASE: ""
-      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
-      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
-      GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
-      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
-      SECRET_PROVIDER: bitwarden_sm
-      SELF_UPDATE_ENABLED: "true"
-      SELF_UPDATE_STRATEGY: applier
-    secrets:
-      - ssh_private_key
-      - sops_age_key
-      - webhook_secret
-      - github_app_id
-      - github_app_private_key
-      - secret_provider_access_token
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - doco_data:/data
   dockerproxy:
     image: ghcr.io/tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
     container_name: dockerproxy
     restart: unless-stopped
-    ports:
-      - "2375:2375"
+    expose:
+      - "2375"
     healthcheck: *healthcheckProxy
     environment:
       # Required by every installation
@@ -125,6 +53,55 @@ services:
       - internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.122@sha256:16e2db9a98d622711e7fc5c559186d0e020f6cbd08cf23b171b032b35d4e8c4b
+    container_name: doco-cd
+    restart: unless-stopped
+    depends_on:
+      dockerproxy:
+        condition: service_healthy
+    networks:
+      - internal
+      - network_internal
+    ports:
+      - "9080:9080"
+      - "9120:9120"
+    healthcheck: *healthcheck
+    environment:
+      TZ: America/New_York
+      HTTP_PORT: 9080
+      APPRISE_API_URL: http://apprise:8000/notify
+      APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
+      APPRISE_NOTIFY_LEVEL: success
+      DOCKER_SWARM_FEATURES: "false"
+      DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
+      PASS_ENV: "false"
+      POLL_CONFIG: |
+        - url: https://github.com/xstar97/home-ops
+          reference: main
+          interval: 3600
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
+      GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
+      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
+      SECRET_PROVIDER: bitwarden_sm
+      SELF_UPDATE_ENABLED: "true"
+      SELF_UPDATE_STRATEGY: applier
+      DOCKER_HOST: tcp://dockerproxy:2375
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - webhook_secret
+      - github_app_id
+      - github_app_private_key
+      - secret_provider_access_token
+    volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      - doco_data:/data
+  
 networks:
   internal:
     driver: bridge
