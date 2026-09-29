@@ -138,6 +138,6 @@ secrets:
   webhook_secret:
     file: ${WEBHOOK_FILE}
   git_access_token:
-    file: ${GAT_FILE}
+    file: ./git-access-token.enc.txt
   secret_provider_access_token:
     file: ${BITWARDEN_SM_FILE}
