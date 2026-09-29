@@ -4,6 +4,6 @@ resources:
   - helm-release.yaml
   - namespace.yaml
   - renovate.secret.yaml
-  - jobs
+  # - jobs
 components:
   - ../../../../components/notifications/discord
