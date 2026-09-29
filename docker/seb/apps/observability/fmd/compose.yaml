@@ -17,7 +17,7 @@ services:
       - "8080"
     networks:
       - network_internal
-    env_file:
+    # env_file:
       - ./fmd.enc.env
     environment:
       FMD_DATABASEDIR: /var/lib/fmd-server/db
