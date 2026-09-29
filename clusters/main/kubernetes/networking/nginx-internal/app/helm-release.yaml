@@ -43,6 +43,8 @@ spec:
         default: true
         controllerValue: k8s.io/internal
       config:
+        custom-http-errors: >-
+          403,404,500,501,502,503
         allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
@@ -68,7 +70,7 @@ spec:
         #   namespaceSelector:
         #     any: true
       extraArgs:
-        default-ssl-certificate: "clusterissuer/certificate-issuer-domain-0-wildcard"
+        default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
         publish-status-address: ${NGINX_INTERNAL_IP}
       terminationGracePeriodSeconds: 120
       publishService:
@@ -79,4 +81,12 @@ spec:
         limits:
           memory: 500Mi
     defaultBackend:
-      enabled: false
+      enabled: true
+      image:
+        repository: ghcr.io/tarampampam/error-pages
+        tag: '4.2.5@sha256:6d42b5d6e1a014fa2373e3587f9e85c25589a089fd5f6fc4f2a496858f5e365d'
+      extraEnvs:
+        - name: TEMPLATE_NAME # Optional: change the default theme
+          value: app-down
+        - name: SHOW_DETAILS # Optional: enables the output of additional information on error pages
+          value: 'true'
