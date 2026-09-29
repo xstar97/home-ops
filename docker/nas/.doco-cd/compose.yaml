@@ -12,53 +12,13 @@ x-healthcheckProxy: &healthcheckProxy
   retries: 3
   start_period: 15s
 services:
-  dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:v0.5.0@sha256:1f5038b54f06c3e18422902cf00ba21803d1c97805aae032e5e6673d532d3459
-    container_name: dockerproxy
-    restart: unless-stopped
-    expose:
-      - "2375"
-    healthcheck: *healthcheckProxy
-    environment:
-      # Required by every installation
-      PING: 1
-      VERSION: 1
-      INFO: 1
-      EVENTS: 1
-      CONTAINERS: 1
-      IMAGES: 1
-      NETWORKS: 1
-      VOLUMES: 1
-      DISTRIBUTION: 1
-      # Docker Swarm only, omit these on a standalone daemon
-      # SERVICES: 1
-      # TASKS: 1
-      # NODES: 1 
-      # SECRETS: 1
-      # CONFIGS: 1
-      # Required to deploy anything
-      POST: 1
-      DELETE: 1 
-      EXEC: 1
-      AUTH: 0
-      BUILD: 0
-      COMMIT: 0
-      PLUGINS: 0
-      SESSION: 0
-      SWARM: 0
-      SYSTEM: 0
-    networks:
-      - network_internal
-      - internal
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.122@sha256:16e2db9a98d622711e7fc5c559186d0e020f6cbd08cf23b171b032b35d4e8c4b
     container_name: doco-cd
     restart: unless-stopped
-    depends_on:
-      dockerproxy:
-        condition: service_healthy
+    # depends_on:
+    #   dockerproxy:
+     #   condition: service_healthy
     networks:
       - internal
       - network_internal
@@ -89,7 +49,7 @@ services:
       SECRET_PROVIDER: bitwarden_sm
       SELF_UPDATE_ENABLED: "true"
       SELF_UPDATE_STRATEGY: applier
-      DOCKER_HOST: tcp://dockerproxy:2375
+      # DOCKER_HOST: tcp://dockerproxy:2375
     secrets:
       - ssh_private_key
       - sops_age_key
@@ -98,7 +58,7 @@ services:
       - github_app_private_key
       - secret_provider_access_token
     volumes:
-      # - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
   
 networks:
