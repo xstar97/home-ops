@@ -68,14 +68,18 @@ services:
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
-      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      # GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
+      GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
       SECRET_PROVIDER: bitwarden_sm
     secrets:
       - ssh_private_key
       - sops_age_key
       - webhook_secret
-      - git_access_token
+      # - git_access_token
+      - github_app_id
+      - github_app_private_key
       - secret_provider_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -135,8 +139,11 @@ secrets:
     file: ${AGEKEY_FILE}
   webhook_secret:
     file: ${WEBHOOK_FILE}
-  git_access_token:
-    file: ${GAT_FILE}
+  # git_access_token:
+  #  file: ${GAT_FILE}
+  github_app_id:
+    file: ${GITHUB_APP_ID_FILE}
+  github_app_private_key:
+    file: ${GITHUB_APP_PRIVATE_KEY_FILE}
   secret_provider_access_token:
     file: ${BITWARDEN_SM_FILE}
-
