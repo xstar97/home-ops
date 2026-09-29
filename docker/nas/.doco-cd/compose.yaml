@@ -39,11 +39,10 @@ services:
       # Required to deploy anything
       POST: 1
       DELETE: 1 
-      # Endpoints doco-cd never uses
+      EXEC: 1
       AUTH: 0
       BUILD: 0
       COMMIT: 0
-      EXEC: 0
       PLUGINS: 0
       SESSION: 0
       SWARM: 0
