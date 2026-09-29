@@ -11,4 +11,5 @@ resources:
   - snapshot-controller/ks.yaml
   - volsync/ks.yaml
   - nvidia-gpu-operator/ks.yaml
+  - grafana-operator/ks.yaml
   

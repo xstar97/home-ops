@@ -1,0 +1,14 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: external-grafana
+  namespace: grafana
+  labels:
+    dashboards: grafana
+spec:
+  external:
+    url: http://grafana.grafana.svc.cluster.local:3000
+    apiKey:
+      name: grafana-operator-credentials
+      key: service_account_token
