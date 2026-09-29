@@ -12,4 +12,4 @@ resources:
   - volsync/ks.yaml
   - nvidia-gpu-operator/ks.yaml
   - grafana-operator/ks.yaml
-  
+  - renovate-operator/ks.yaml
