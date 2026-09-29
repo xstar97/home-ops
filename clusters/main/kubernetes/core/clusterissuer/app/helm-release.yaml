@@ -67,7 +67,7 @@ spec:
           # Options: HTTP01, cloudflare, route53, akamai, digitalocean, rfc2136, acmedns
           type: "cloudflare"
           # for cloudflare
-          cfapitoken: "${DOMAIN_CLOUDFLARE_GENERAL_TOKEN}"
+          cfapitoken: "${DOMAIN_GENERAL_CLOUDFLARE_TOKEN}"
 
     ## Remove these if you do NOT want to use clusterissuer
     clusterCertificates:
