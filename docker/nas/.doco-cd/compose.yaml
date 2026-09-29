@@ -38,6 +38,8 @@ services:
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
       SECRET_PROVIDER: bitwarden_sm
+      SELF_UPDATE_ENABLED: "true"
+      SELF_UPDATE_STRATEGY: applier
     secrets:
       - ssh_private_key
       - sops_age_key

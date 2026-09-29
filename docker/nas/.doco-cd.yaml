@@ -1,11 +1,11 @@
-name: doco-cd-updater
+name: doco-cd
 reference: main
 working_dir: ./docker/nas/.doco-cd
 compose_files:
-  - compose.updater.yaml
+  - compose.yaml
 force_recreate: true
 ---
-name: Nas
+name: nas
 working_dir: ./docker/nas/apps
 auto_discovery:
   enabled: true
