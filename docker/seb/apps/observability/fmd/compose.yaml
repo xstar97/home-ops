@@ -18,7 +18,7 @@ services:
     networks:
       - network_internal
     # env_file:
-      - ./fmd.enc.env
+    #   - ./fmd.enc.env
     environment:
       FMD_DATABASEDIR: /var/lib/fmd-server/db
       FMD_PORTINSECURE: "8080"
