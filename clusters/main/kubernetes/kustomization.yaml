@@ -8,4 +8,5 @@ resources:
   - kube-system
   - networking
   - observability
+  - media
   - system
