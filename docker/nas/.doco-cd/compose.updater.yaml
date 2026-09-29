@@ -17,12 +17,14 @@ services:
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_access_token
+      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
+      GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       SCHEDULER_ENABLED: "false"
     secrets:
       - ssh_private_key
       - sops_age_key
-      - git_access_token
+      - github_app_id
+      - github_app_private_key
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_updater_data:/data
@@ -39,5 +41,7 @@ secrets:
     file: ${SSH_KEY_FILE}
   sops_age_key:
     file: ${AGEKEY_FILE}
-  git_access_token:
-    file: ${GAT_FILE}
+  github_app_id:
+    file: ${GITHUB_APP_ID_FILE}
+  github_app_private_key:
+    file: ${GITHUB_APP_PRIVATE_KEY_FILE}

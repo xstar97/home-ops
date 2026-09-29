@@ -5,12 +5,6 @@ x-healthcheck: &healthcheck
   retries: 3
   start_period: 15s
 
-x-healthcheckProxy: &healthcheckProxy
-  test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:2375/_ping || exit 1"]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 15s
 services:
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.122@sha256:16e2db9a98d622711e7fc5c559186d0e020f6cbd08cf23b171b032b35d4e8c4b
