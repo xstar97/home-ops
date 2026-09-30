@@ -62,14 +62,14 @@ volumes:
   doco_data: {}
 secrets:
   sops_age_key:
-    file: ${SOPS_AGEKEY_FILE}
+    file: ${FILE_SOPS_AGE_KEY}
   webhook_secret:
-    file: ${WEBHOOK_FILE}
+    file: ${FILE_DC_WEBHOOK}
   ssh_private_key:
     file: ${SSH_KEY_FILE}
-  github_app_private_key:
-    file: ${GH_APP_PRIV_KEY_FILE}
   github_app_id:
-    file: ${GITHUB_APP_ID_FILE}
+    file: ${FILE_GH_APP_ID}
+  github_app_private_key:
+    file: ${FILE_GH_APP_PRIVATE_KEY}
   secret_provider_access_token:
-    file: ${BITWARDEN_SM_FILE}
+    file: ${FILE_BW_SM_ACCESS_TOKEN}
