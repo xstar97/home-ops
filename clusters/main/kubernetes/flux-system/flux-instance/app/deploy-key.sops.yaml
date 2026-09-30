@@ -4,24 +4,24 @@ metadata:
   name: deploy-key
   namespace: flux-system
 stringData:
-  identity: ENC[AES256_GCM,data:Z+t/WjYU4OY3VT+eoXoxGzuNE3YGFJCzRHy+kIBDEmf8opPWDEyaajSy2UM9RaOZ4j8H1YvA8Mn33RZg6TQOEdHkC93u69YQbgcMNN1Uob198D86b5Fg4HdKmpAD67y+BnOH9U2BMGN8uAzI5OxRkfsAgAdvFRcXN3eLWAzT8bjRcqNhItrdgQ9mJapbtsWdfyb+OTvOgvCc0N8U1tgXC11dbdO+xWpMi4QRd3DoAOxqJARrqLiTWDdBBzXqsvIwVUBG/cfFX0kL36bMa4tENb9g5u1mpeh47Z/TlC5xyweYvW+0mtGDuMcH+/UzNrLxP+P47TPn2Ce216CQLaTgk2XvgWq4GLcnGmhKlhKvOZK2zNAxScWa3eCYcRDVyixZ,iv:a9Yw8pX6nREHY64BaKknbGFR/GxEqXwsiavKbMo8msA=,tag:3NdUKdqf0ToxE7RPvROX0A==,type:str]
-  identity.pub: ENC[AES256_GCM,data:Zwn2jbdjiTwFH+Zc9USjA6vo7NdpqQ79dlQSKl/P2l68ajxlI4/mmdEPEoX5Zk/07pL0xn4sA2uarWOBDZGx2nN+cfee5/EvDNDNdl4wxeKdJJGL4howHujckdwH3a762OBoaQiLie4LvMPPy6FPxqO6+sPvCtHzY1MpkLl1rsjScYdNRK1aurg2OJYzojSTuctLX/ZE9MLIXVlmlwlWHWmBqEUdtDIxf6jSzTPCjEZrsEEyzjYTvt+gJwk/d0Sn0TTLnd862KSf+WNdCQ==,iv:nKR8Jw7lAm5ixq3SCf706fWYiBDGSzgV2A+l4mPiFnU=,tag:ns7LynGW9IAenAtGjBNv9Q==,type:str]
-  known_hosts: ENC[AES256_GCM,data:TbD1oQMebglFT2RAH1Xx8Zz8ZcD7u5/1UFIHxmw/S7kBO3y1uHtWEas0Nok5PsDp9HLVjmv0bcJ8QIujz4xWjr6LfOrXeD7egrqzQsor3pBc+mXhhjINn/xtOuEkcxHWCSMLpVxYFM6aE4BtctG9w2ermaB1uNQ/BU8n1waVzfgoUrY2XFaE8c8vMiTQQVEQ8ErlmP4IruGNGXO0ANZjBakkOrxhy2qrEsf0,iv:H2yQh/EDPVby24yOBQLdTpXebvx5OqLKGYDceMNX0o4=,tag:t6CVMySLSHlAh681Y7DcWw==,type:str]
+  identity: ENC[AES256_GCM,data:JjcnaMVKEKr2zF7KdAs7YCdYe32TQIPiQymNG0EDTpW9Pl6TBevPX7UsxlaKXq5KiT/jwH9IQKBmJtcXGx2HNh8G2/P0uiq1wilx8T7uIb0IwtZlpVaIyroyc/dt1YncnTakBCG3YUxXMdJLMn2nxGA1iYxrlBJ58f2WCLBoyn9dz8HRnP3njorcEZGSoFP/IRwGr9UAR7Gjxsq+EajuGdF7f36+3oHvU5HhjvKQc9eyg9TuG4C0DQtHZx5lsBUuE2SmDXlhQdFotlBsjh56S4AtM7K8uUzmR3JCd2qtd7IZQPjc5cCZ9wMEsHoi6kBuPvceG+833VzLlLiGqTbtgUqw5eBSAKVFNe1ege6FQB/y7mOrsOmvEhICrZHTfA1L,iv:t1CZgyCjXLOSHNZR1HXNS32qGBuZlH5oHjYY+6Kxenk=,tag:mOBuI6qGoxtKwtud0p1N2Q==,type:str]
+  identity.pub: ENC[AES256_GCM,data:uB7rerZ6Ij7OO3mpFl06/D5nLctvMvQxu45ZRhJKukYnk4IY5rgDKno2V1/v1XPhf19S6WQwjvFFI/qHOh8/EwjupNv0aCgEOZi4kkxrAtESx23Os6J/xk+lcLhBOG2VSA5CaYGAFjNQvxKDD57eS3K59Ty6jEtfwtuqvY3cZU3flMzuZeoTC+Jvf/gdeE1nIW47zyIgQ3ThNzSvAabQM/s9RtnnjFoyNrvgNeg5dPo9C2W2ZfFURKCtGgAm5K/g0SjvXV0cQtl5kZ7oDg==,iv:8rwtOLeAoGldP/bqrWQMH7/EidK1PqhwQIiNx6tm7EM=,tag:wAbCXr03TLW+7jF07+UMYg==,type:str]
+  known_hosts: ENC[AES256_GCM,data:b1m8As7RotYau1OpyoHh+wiy0WG2zypedFgdWXRY+pxEDMHhb7OWnJMdB3RcYEMINGV5IcB0eB89YgjEcZKXq0kT9Vi2cXVGJ4gPz3SVOf2DTUEPlbA2EI5XJbYFMFjWNhhAtt9JJmbems24RYtnm4cmmTeXvgkBNQryot5W5vDXSf+Qe2kUhG4sopTZ7Q3EZix4TpxOzjoFnZWuQAxs6u0Uz9+mVpORh4ku,iv:NH68xcoSFfbrKXIdv5LMQUeDerJj1dB7HdbTdIm3N/4=,tag:NAiMD/DTMgdcjobqdPRUQw==,type:str]
 type: Opaque
 sops:
   age:
     - enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBLOHBGRE9EdEY4L25WTnNP
-        Q0RmdWU0QytEdTdTTnBHSUlRUzUvYm8wclRnClBMTUFodks0YzRJeTRqTmpueVhH
-        Q1VFTjRvazliTzVVbUQraTBWQUszYlUKLS0tIDg3Nit2OXUzTnRoaW0rRlJGNmtQ
-        NzkreFNvbzhBSm9pWDdLZ1g0OG9qazAK1qYAr7YpR/AYkmDN0GvuPKnTY708Pwj3
-        oZF23Yh6Avkin2/32izS33/MK8Pt0Cicq7kHlHvqIBdDeTNyfUr9DQ==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBJdmtVSWNWWkNzd3hLQWdH
+        dHJ6dG5BSmNIdUw4NDdUU3NFQnJpOVM2czNBCjUrRXp3Ti9kdnFqenMyQTNEUko2
+        bnJRZjlvVnR5eFBQOVVJbG45MXNDSzQKLS0tIFNETG9DL1FlOFVMY3NDMnRadDQv
+        OElodTFlU3ZNbmRqZDhUYXA1bFFyZEkKwaVi/OA9cjP0Pj+2toVWFCOV064tI2J3
+        l0TEZvRzPnaMZEeLTLHRqIm4hKbB4zdq9blBoAmPJm7AfyKsK1ZpwA==
         -----END AGE ENCRYPTED FILE-----
       recipient: age1tjamjeztwth5x76q52tftufdhmq97uluww3upcacps0zl04szqcqdetaan
   encrypted_regex: ^(data|stringData)$
-  lastmodified: "2026-09-29T05:42:52Z"
-  mac: ENC[AES256_GCM,data:+Mz/kfJgXzHVIHdW+8mBtAONoBKDxk5NmiLhNcRpGx4NHBi8wpqZ1QQgTE+96mn51UPpfH5VIcRQM+zul28jVwekIC8s6vgtucz98WGhTOWX4PoNSQJPzKS452fHJIV7DIDbgDa7oJVb9lU/t/cMCP5YdH72NUaZacKavHGuA8M=,iv:68uyM021bzRZfK9x+BTXf69Vk/6v2OpkK8RIlXMyRwE=,tag:HWzYzOzMkobiYDmuroiYgA==,type:str]
+  lastmodified: "2026-09-30T03:24:43Z"
+  mac: ENC[AES256_GCM,data:8qD5cfDDH09DkIgcPYPoBR2VH+G6rS1Zzjk+wG4uEoPJBpIjK3mPk9wsEIBA2z0TGgkEHWhniIK20tqROoSGOwK3LHI9JUUAtw/dk5MotLFZNjvxNEBbbnBw/yeA2GiMJx60XKAz+blI2+o+o+eTN/fWd/mv8MORUCz/47YYQYs=,iv:H+y5ZV8hbCrEDN+t0n/99nb/yGdnER4WujhFYOdXSTM=,tag:G8ZG1XOplZlTw3SN8+KUTQ==,type:str]
   mac_only_encrypted: true
   shamir_threshold: 3
   version: 3.13.3
