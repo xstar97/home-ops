@@ -17,9 +17,6 @@ services:
       - "9080:9080"
       - "9120:9120"
     healthcheck: *healthcheck
-    # env_file:
-    #  - .env
-    #  - ./secrets.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
