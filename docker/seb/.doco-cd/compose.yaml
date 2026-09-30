@@ -40,7 +40,7 @@ services:
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       # WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
-      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      #WEBHOOK_SECRET: ${WEBHOOK_SECRET}
       GITHUB_APP_ID_FILE: /run/secrets/github_app_id
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
     secrets:
