@@ -48,7 +48,7 @@ services:
       - github_app_private_key
       - sops_age_key
       - github_app_id
-      - webhook_secret
+      # - webhook_secret
       - secret_provider_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
