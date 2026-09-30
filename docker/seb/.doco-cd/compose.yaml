@@ -19,7 +19,7 @@ services:
     healthcheck: *healthcheck
     env_file:
       - .env
-      # - ./secrets.enc.env
+      - ./secrets.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
@@ -33,23 +33,23 @@ services:
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 3600
-      SSH_PRIVATE_KEY_PASSPHRASE: ""
-      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
-      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
-      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
-      GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
-      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
       SECRET_PROVIDER: bitwarden_sm
       SELF_UPDATE_ENABLED: "true"
       SELF_UPDATE_STRATEGY: applier
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
+      # WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      # GITHUB_APP_ID_FILE: /run/secrets/github_app_id
+      # SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
     secrets:
       - sops_age_key
       - ssh_private_key
-      - github_app_id
       - github_app_private_key
-      - webhook_secret
-      - secret_provider_access_token
+      # - github_app_id
+      # - webhook_secret
+      # - secret_provider_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
@@ -65,11 +65,11 @@ secrets:
     file: ${AGEKEY_FILE}
   ssh_private_key:
     file: ${SSH_KEY_FILE}
-  github_app_id:
-    file: ${GITHUB_APP_ID_FILE}
   github_app_private_key:
     file: ${GITHUB_APP_PRIVATE_KEY_FILE}
-  webhook_secret:
-    file: ${WEBHOOK_FILE}
-  secret_provider_access_token:
-    file: ${BITWARDEN_SM_FILE}
+  # github_app_id:
+  #   file: ${GITHUB_APP_ID_FILE}
+  # webhook_secret:
+  #   file: ${WEBHOOK_FILE}
+  # secret_provider_access_token:
+  #   file: ${BITWARDEN_SM_FILE}
