@@ -16,8 +16,8 @@ services:
     restart: on-failure
     command:
       - '--path.rootfs=/host'
-    # networks:
-    #   - network_internal
+    networks:
+      - network_internal
     ports:
       - "9100:9100"
     healthcheck: *healthcheck
