@@ -16,7 +16,6 @@ reconciliation:
   enabled: true
   interval: 3600
 env_files:
-  - ../../secrets.enc.env
   - ../../base.enc.env
 external_secrets:
   CF_TUNNEL_TOKEN_NAS: dffe6371-4a92-4c17-a85a-b4d40027d83a

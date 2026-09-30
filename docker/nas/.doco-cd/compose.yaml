@@ -17,9 +17,6 @@ services:
       - "9080:9080"
       - "9120:9120"
     healthcheck: *healthcheck
-    env_file:
-      - .env
-      - ./secrets.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
@@ -39,21 +36,20 @@ services:
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
+      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
-      # WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
-      # GITHUB_APP_ID_FILE: /run/secrets/github_app_id
-      # SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
+      WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
     secrets:
       - sops_age_key
       - ssh_private_key
+      - webhook_secret
+      - secret_provider_access_token
+      - github_app_id
       - github_app_private_key
-      # - webhook_secret
-      # - github_app_id
-      # - secret_provider_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
-  
 networks:
   internal:
     driver: bridge
@@ -63,14 +59,14 @@ volumes:
   doco_data: {}
 secrets:
   sops_age_key:
-    file: ${AGEKEY_FILE}
+    file: ${FILE_AGEKEYE}
   ssh_private_key:
-    file: ${SSH_KEY_FILE}
+    file: ${FILE_SSH_KEY}
+  webhook_secret:
+    file: ${FILE_DC_WEBHOOK}
+  secret_provider_access_token:
+    file: ${FILE_BW_SM_ACCESS_TOKEN}
+  github_app_id:
+    file: ${FILE_GH_APP_ID}
   github_app_private_key:
-    file: ${GITHUB_APP_PRIVATE_KEY_FILE}
-  # webhook_secret:
-  #  file: ${WEBHOOK_FILE}
-  # github_app_id:
-  #   file: ${GITHUB_APP_ID_FILE}
-  # secret_provider_access_token:
-  #   file: ${BITWARDEN_SM_FILE}
+    file: ${FILE_GH_APP_PRIVATE_KEY}
