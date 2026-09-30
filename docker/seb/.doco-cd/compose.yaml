@@ -66,13 +66,13 @@ secrets:
     file: ${AGEKEY_FILE}
   ssh_private_key:
     file: ${SSH_KEY_FILE}
+  github_app_private_key:
+    file: ${GITHUB_APP_PRIVATE_KEY_FILE}
   # webhook_secret:
   #   file: ${WEBHOOK_FILE}
   # git_access_token:
   #   file: ${GAT_FILE}
   # github_app_id:
   #   file: ${GITHUB_APP_ID_FILE}
-  github_app_private_key:
-    file: ${GITHUB_APP_PRIVATE_KEY_FILE}
   # secret_provider_access_token:
   #   file: ${BITWARDEN_SM_FILE}
