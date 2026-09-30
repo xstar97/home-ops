@@ -36,17 +36,17 @@ services:
       SECRET_PROVIDER: bitwarden_sm
       SELF_UPDATE_ENABLED: "true"
       SELF_UPDATE_STRATEGY: applier
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       # WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       # GITHUB_APP_ID_FILE: /run/secrets/github_app_id
       # SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
     secrets:
-      - sops_age_key
       - ssh_private_key
       - github_app_private_key
+      - sops_age_key
       # - github_app_id
       # - webhook_secret
       # - secret_provider_access_token
@@ -61,12 +61,12 @@ networks:
 volumes:
   doco_data: {}
 secrets:
-  sops_age_key:
-    file: ${AGEKEY_FILE}
   ssh_private_key:
     file: ${SSH_KEY_FILE}
   github_app_private_key:
-    file: ./github-app-private-key.enc.txt
+    file: ${GH_APP_PRIV_KEY_FILE}
+  sops_age_key:
+    file: ${SOPS_AGEKEY_FILE}
   # github_app_id:
   #   file: ${GITHUB_APP_ID_FILE}
   # webhook_secret:
