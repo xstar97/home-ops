@@ -66,7 +66,7 @@ secrets:
   webhook_secret:
     file: ${FILE_DC_WEBHOOK}
   ssh_private_key:
-    file: ${SSH_KEY_FILE}
+    file: ${FILE_SSH_PRIVATE_KEY}
   github_app_id:
     file: ${FILE_GH_APP_ID}
   github_app_private_key:
