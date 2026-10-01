@@ -22,8 +22,8 @@ services:
       homepage.name: CloudFlared
       homepage.icon: cloudflare.png
       homepage.widget.type: cloudflared
-      # homepage.widget.tunnelid: ${CF_TUNNEL_ID_0}
-      # homepage.widget.accountid: ${CF_ACCOUNT_ID_0}
+      homepage.widget.tunnelid: ${CF_TUNNEL_ID_SEB}
+      homepage.widget.accountid: ${CF_ACCOUNT_ID_SEB}
       homepage.widget.key: ${CF_TUNNEL_TOKEN_SEB}
 networks:
   network_internal:
