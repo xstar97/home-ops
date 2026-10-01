@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   pkvault:
-    scale: 1
+    scale: 0
     image: ghcr.io/chnapy/pkvault:2.3.4@sha256:49cffcb01fa12e25819ab5b948f8a7e5de28952bb710e66887ea5f29b728389b
     container_name: pkvault
     restart: on-failure
