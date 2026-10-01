@@ -63,13 +63,16 @@ spec:
             main:
               probes:
                 liveness:
-                  type: http
-                  path: /
+                  enabled: false
+                  # type: http
+                  # path: /
                 readiness:
-                  type: http
-                  path: /
+                  enabled: false
+                  # type: http
+                  # path: /
                 startup:
-                  type: tcp
+                  enabled: false
+                  # type: tcp
               env:
                 HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
     ingress:
