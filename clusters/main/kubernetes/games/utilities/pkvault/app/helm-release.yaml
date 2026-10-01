@@ -48,6 +48,8 @@ spec:
         runAsGroup: 0
         runAsNonRoot: false
         readOnlyRootFilesystem: false
+      pod:
+        fsGroup: 0
     service:
       main:
         type: ClusterIP
@@ -108,7 +110,3 @@ spec:
               enabled: true
             src:
               enabled: true
-      nginx:
-        enabled: true
-        type: emptyDir
-        mountPath: /run/nginx
