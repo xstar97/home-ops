@@ -56,20 +56,20 @@ spec:
             port: 3000
     workload:
       main:
-      podSpec:
-        containers:
-          main:
-            probes:
-              liveness:
-                type: http
-                path: /
-              readiness:
-                type: http
-                path: /
-              startup:
-                type: tcp
-            env:
-              HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  type: http
+                  path: /
+                readiness:
+                  type: http
+                  path: /
+                startup:
+                  type: tcp
+              env:
+                HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
     ingress:
       main:
         enabled: true
