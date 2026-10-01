@@ -221,7 +221,7 @@ spec:
             - Inventory:
 
                 - Bindarr:
-                    icon: http://bindarr-app-template.bindarr.svc.cluster.local:3001/logo.svg
+                    icon: /icons/bindarr.svg
                     href: https://bindarr.${DOMAIN_2}
                     description: Trading Card Collection
                     widget:
@@ -305,3 +305,11 @@ spec:
       icons:
         enabled: true
         mountPath: /app/public/icons
+        volsync:
+          - name: icons
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
