@@ -24,7 +24,7 @@ services:
       homepage.widget.type: cloudflared
       homepage.widget.tunnelid: ${CF_TUNNEL_ID_SEB}
       homepage.widget.accountid: ${CF_ACCOUNT_ID_SEB}
-      homepage.widget.key: ${CF_TUNNEL_TOKEN_SEB}
+      homepage.widget.key: ${CF_TUNNEL_KEY_SEB_HP}
 networks:
   network_internal:
     external: true
