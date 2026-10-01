@@ -4,4 +4,4 @@ resources:
   # - minecraft
   # - ggrequestz/ks.yaml
   - romm/ks.yaml
-  - utilities
+  # - utilities

@@ -1,0 +1,34 @@
+x-healthcheck: &healthcheck
+  test: curl -fs http://localhost:3000 || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  pkvault:
+    scale: 1
+    image: ghcr.io/chnapy/pkvault:2.3.4@sha256:49cffcb01fa12e25819ab5b948f8a7e5de28952bb710e66887ea5f29b728389b
+    container_name: pkvault
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "3000"
+    healthcheck: *healthcheck
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/pkvault/config:/pkvault
+      - ${BASE_DOCKER_DATA_DIR}/pkvault/saves:/data/saves
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pkvault.rule: Host(`pkvault.${BASE_DOMAIN_0}`)
+      traefik.http.services.pkvault.loadbalancer.server.port: 3000
+      traefik.http.routers.pkvault.entrypoints: websecure
+      traefik.http.routers.pkvault.tls: true
+      traefik.http.routers.pkvault.tls.certResolver: cf
+      traefik.http.routers.pkvault.middlewares: error-pages-middleware
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
