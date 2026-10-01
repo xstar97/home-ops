@@ -9,7 +9,7 @@ spec:
   provider:
     name: github
     endpoint: "https://api.github.com"  # optional, defaults to https://api.github.com
-  image: renovate/renovate:44.127.0@sha256:fda891b98c5191f33eb2396ccef3f0a474fcf27f4f9e41ecd41ef814351bc5d8
+  image: renovate/renovate:44.130.0@sha256:db260258821a9558b6226f9052b97421924c5b9cc8fbde7262f3e1c794f99d17
   parallelism: 5
   resources:
     requests:
