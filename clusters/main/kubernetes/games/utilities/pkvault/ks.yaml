@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/games/pkvault/app
+  path: clusters/main/kubernetes/games/utilities/pkvault/app
   prune: true
   sourceRef:
     kind: GitRepository
