@@ -54,13 +54,22 @@ spec:
         ports:
           main:
             port: 3000
-    # workload:
-    #   main:
-    #     podSpec:
-    #       containers:
-    #         main:
-    #           env:
-    #             TEST: 1
+    workload:
+      main:
+      podSpec:
+        containers:
+          main:
+            probes:
+              liveness:
+                type: http
+                path: /
+              readiness:
+                type: http
+                path: /
+              startup:
+                type: tcp
+            env:
+              HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
     ingress:
       main:
         enabled: true
@@ -90,7 +99,7 @@ spec:
               enabled: true
       saves:
         enabled: true
-        mountPath: /pkvault/saves
+        mountPath: /data/saves
         volsync:
           - name: saves
             type: restic
