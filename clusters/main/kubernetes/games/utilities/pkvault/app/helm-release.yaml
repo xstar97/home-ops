@@ -108,3 +108,7 @@ spec:
               enabled: true
             src:
               enabled: true
+      nginx:
+        enabled: true
+        type: emptyDir
+        mountPath: /run/nginx
