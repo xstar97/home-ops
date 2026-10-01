@@ -302,7 +302,7 @@ spec:
               enabled: true
             src:
               enabled: true
-      icons:
+      public-icons:
         enabled: true
         mountPath: /app/public/icons
         volsync:
