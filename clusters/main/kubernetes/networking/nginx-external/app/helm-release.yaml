@@ -6,7 +6,12 @@ metadata:
   name: nginx-external
   namespace: nginx-external
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: ingress-nginx
@@ -15,9 +20,6 @@ spec:
         kind: HelmRepository
         name: home-ops-mirror
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
   install:
     createNamespace: true
     remediation:
@@ -29,6 +31,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: core
+    # nameOverride: nginx-external
     controller:
       replicaCount: 2
       service:
@@ -36,6 +41,7 @@ spec:
         annotations:
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_EXTERNAL_IP}
+          # metallb.universe.tf/ip-allocated-from-pool: main
       ingressClassByName: true
       watchIngressWithoutClass: false
       ingressClassResource:
@@ -43,6 +49,7 @@ spec:
         default: false
         controllerValue: k8s.io/external
       config:
+        # 401,
         custom-http-errors: >-
           403,404,500,501,502,503
         allow-snippet-annotations: true
@@ -63,12 +70,14 @@ spec:
         proxy-busy-buffers-size: 32k
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
+        forwarded-for-header: "CF-Connecting-IP"
+        proxy-real-ip-cidr: "${PODNET},${SVCNET}"
       metrics:
         enabled: true
-        # serviceMonitor:
-        #   enabled: true
-        #   namespaceSelector:
-        #     any: true
+        serviceMonitor:
+          enabled: true
+          namespaceSelector:
+            any: true
       extraArgs:
         default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
         publish-status-address: ${NGINX_EXTERNAL_IP}
