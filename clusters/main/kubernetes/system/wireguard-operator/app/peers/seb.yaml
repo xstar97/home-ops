@@ -1,8 +1,9 @@
----
 apiVersion: vpn.wireguard-operator.io/v1alpha1
 kind: WireguardPeer
 metadata:
-  name: test-peer
+  name: docker-seb
   namespace: wireguard-system
 spec:
   wireguardRef: vpn
+  address: 10.7.0.2
+  allowedIPs: "172.17.250.10/32"

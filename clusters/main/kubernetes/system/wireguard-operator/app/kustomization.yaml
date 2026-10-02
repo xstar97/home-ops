@@ -4,6 +4,6 @@ resources:
   - helm-release.yaml
   - namespace.yaml
   - server.yaml
-  - peer.yaml
+  - peers
 components:
   - ../../../../components/notifications/discord
