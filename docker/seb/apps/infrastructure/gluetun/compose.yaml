@@ -17,7 +17,7 @@ services:
     networks:
       - internal
       - network_internal
-    healthcheck: *healthcheck
+    # healthcheck: *healthcheck
     env_file:
       - ./gluetun.enc.env
     environment:
