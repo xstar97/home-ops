@@ -10,3 +10,5 @@ resources:
   - magicmirror/ks.yaml
   - peanut/ks.yaml
   - speedtest-tracker/ks.yaml
+  - gatus/ks.yaml
+  - unpoller/ks.yaml

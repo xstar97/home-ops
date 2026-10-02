@@ -1,3 +1,4 @@
+---
 apiVersion: vpn.wireguard-operator.io/v1alpha1
 kind: Wireguard
 metadata:
@@ -5,3 +6,4 @@ metadata:
   namespace: wireguard-system
 spec:
   mtu: "1380"
+  loadBalancerIP: 10.0.0.230
