@@ -6,8 +6,8 @@ metadata:
   name: wireguard-operator
   namespace: wireguard-system
 spec:
-  interval: 30m
-  timeout: 10m
+  interval: 5m
+  timeout: 25m
   maxHistory: 3
   driftDetection:
     mode: enabled
@@ -21,6 +21,14 @@ spec:
         namespace: flux-system
   install:
     createNamespace: true
-    crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    serviceMonitor:
+      enabled: true
