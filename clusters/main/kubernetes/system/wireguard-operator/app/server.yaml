@@ -5,5 +5,6 @@ metadata:
   name: vpn
   namespace: wireguard-system
 spec:
+  address: 10.0.0.230
   mtu: "1380"
-  loadBalancerIP: 10.0.0.230
+  serviceType: LoadBalancer
