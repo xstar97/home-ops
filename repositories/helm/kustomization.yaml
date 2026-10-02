@@ -20,3 +20,4 @@ resources:
   - home-operations.yaml
   - mogenius.yaml
   - grafana-operator.yaml
+  - nccloud.yaml
