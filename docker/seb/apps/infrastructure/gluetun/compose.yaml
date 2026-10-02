@@ -12,6 +12,7 @@ services:
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
+      - SYS_MODULE
     devices:
       - /dev/net/tun:/dev/net/tun
     networks:
@@ -28,6 +29,8 @@ services:
       HEALTH_VPN_DURATION_ADDITION: 30s
       HEALTH_VPN_INTERVAL: 30s
       HEALTH_VPN_RESTART_VPN: "off"
+    volumes:
+      - /lib/modules:/lib/modules:ro
 
 networks:
   network_internal:
