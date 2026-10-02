@@ -1,7 +1,7 @@
 apiVersion: vpn.wireguard-operator.io/v1alpha1
 kind: WireguardPeer
 metadata:
-  name: test
+  name: docker-nas
   namespace: wireguard-system
 spec:
   wireguardRef: vpn
