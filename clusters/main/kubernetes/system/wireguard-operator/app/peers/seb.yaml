@@ -6,4 +6,4 @@ metadata:
 spec:
   wireguardRef: vpn
   address: 10.7.0.2
-  allowedIPs: "172.17.250.10/32"
+  allowedIPs: "0.0.0.0/0"
