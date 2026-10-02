@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   gluetun:
-    image: qmcgaw/gluetun:v3.41.2
+    image: qmcgaw/gluetun:v3.41.3
     container_name: gluetun
     restart: unless-stopped
     cap_add:
