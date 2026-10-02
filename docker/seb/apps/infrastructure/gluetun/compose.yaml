@@ -24,6 +24,10 @@ services:
       TZ: America/New_York
       VPN_SERVICE_PROVIDER: custom
       VPN_TYPE: wireguard
+      HEALTH_VPN_DURATION_INITIAL: 30s
+      HEALTH_VPN_DURATION_ADDITION: 30s
+      HEALTH_VPN_INTERVAL: 30s
+      HEALTH_VPN_RESTART_VPN: "off"
 
 networks:
   network_internal:
