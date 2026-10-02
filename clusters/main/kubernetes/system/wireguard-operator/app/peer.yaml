@@ -1,0 +1,8 @@
+---
+apiVersion: vpn.wireguard-operator.io/v1alpha1
+kind: WireguardPeer
+metadata:
+  name: test-peer
+  namespace: wireguard-system
+spec:
+  wireguardRef: vpn
