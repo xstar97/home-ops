@@ -1,0 +1,35 @@
+x-healthcheck: &healthcheck
+  test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8000/ || exit 1"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3.41.2
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - internal
+      - network_internal
+    healthcheck: *healthcheck
+    environment:
+      TZ: America/New_York
+      # Custom WireGuard configuration
+      VPN_SERVICE_PROVIDER: custom
+      VPN_TYPE: wireguard
+      # Let Gluetun use the supplied WireGuard config.
+      WIREGUARD_INTERFACE: wg0
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/wireguard/data:/gluetun
+      - ${BASE_DOCKER_DATA_DIR}/wireguard/peers/seb.conf:/gluetun/wireguard/wg0.conf:ro
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
