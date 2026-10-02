@@ -1,0 +1,1013 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: wireguard-system
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.5
+  name: wireguardpeers.vpn.wireguard-operator.io
+spec:
+  group: vpn.wireguard-operator.io
+  names:
+    kind: WireguardPeer
+    listKind: WireguardPeerList
+    plural: wireguardpeers
+    singular: wireguardpeer
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.status
+      name: Status
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: WireguardPeer is the Schema for the wireguardpeers API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: The desired state of the peer.
+            properties:
+              address:
+                description: |-
+                  INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                  Important: Run "make" to regenerate code after modifying this file
+                  The address of the peer.
+                type: string
+              addressV6:
+                description: The IPv6 address of the peer.
+                type: string
+              allowedIPs:
+                description: The AllowedIPs of the peer.
+                type: string
+              disabled:
+                description: Set to true to temporarily disable the peer.
+                type: boolean
+              dns:
+                description: The DNS configuration for the peer.
+                type: string
+              dnsSearchDomain:
+                description: The DNS search domain(s) for the peer.
+                type: string
+              downloadSpeed:
+                properties:
+                  config:
+                    type: integer
+                  unit:
+                    enum:
+                    - mbps
+                    - kbps
+                    type: string
+                type: object
+              egressNetworkPolicies:
+                description: Egress network policies for the peer.
+                items:
+                  properties:
+                    action:
+                      description: Specifies the action to take when outgoing traffic
+                        from a Wireguard peer matches the policy. This could be 'Accept'
+                        or 'Reject'.
+                      enum:
+                      - ACCEPT
+                      - REJECT
+                      - Accept
+                      - Reject
+                      type: string
+                    protocol:
+                      description: Specifies the protocol to match for this policy.
+                        This could be TCP, UDP, or ICMP.
+                      enum:
+                      - TCP
+                      - UDP
+                      - ICMP
+                      type: string
+                    to:
+                      description: A struct that specifies the destination address
+                        and port for the traffic. This could include IP addresses
+                        or hostnames, as well as specific port numbers or port ranges.
+                      properties:
+                        ip:
+                          description: A string field that specifies the destination
+                            IP address for traffic that matches the policy.
+                          type: string
+                        port:
+                          description: An integer field that specifies the destination
+                            port number for traffic that matches the policy.
+                          format: int32
+                          type: integer
+                      type: object
+                  type: object
+                type: array
+              privateKeyRef:
+                description: The private key of the peer
+                properties:
+                  secretKeyRef:
+                    description: SecretKeySelector selects a key of a Secret.
+                    properties:
+                      key:
+                        description: The key of the secret to select from.  Must be
+                          a valid secret key.
+                        type: string
+                      name:
+                        default: ""
+                        description: |-
+                          Name of the referent.
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                        type: string
+                      optional:
+                        description: Specify whether the Secret or its key must be
+                          defined
+                        type: boolean
+                    required:
+                    - key
+                    type: object
+                    x-kubernetes-map-type: atomic
+                required:
+                - secretKeyRef
+                type: object
+              publicKey:
+                description: The key used by the peer to authenticate with the wg
+                  server.
+                type: string
+              uploadSpeed:
+                properties:
+                  config:
+                    type: integer
+                  unit:
+                    enum:
+                    - mbps
+                    - kbps
+                    type: string
+                type: object
+              wireguardRef:
+                description: The name of the Wireguard instance in k8s that the peer
+                  belongs to. The wg instance should be in the same namespace as the
+                  peer.
+                minLength: 1
+                type: string
+            required:
+            - wireguardRef
+            type: object
+          status:
+            description: A field that defines the observed state of the Wireguard
+              peer. This includes fields like the current configuration and status
+              of the peer.
+            properties:
+              conditions:
+                description: Conditions represent the latest available observations
+                  of the WireguardPeer's state.
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              message:
+                description: A string field that provides additional information about
+                  the status of the Wireguard peer. This could include error messages
+                  or other information that helps to diagnose issues with the peer.
+                type: string
+              status:
+                description: |-
+                  INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+                  Important: Run "make" to regenerate code after modifying this file
+                  A string field that represents the current status of the Wireguard peer. This could include values like ready, pending, or error.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.5
+  name: wireguards.vpn.wireguard-operator.io
+spec:
+  group: vpn.wireguard-operator.io
+  names:
+    kind: Wireguard
+    listKind: WireguardList
+    plural: wireguards
+    singular: wireguard
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.status
+      name: Status
+      type: string
+    - jsonPath: .status.address
+      name: Address
+      type: string
+    - jsonPath: .status.tunnel
+      name: Tunnel
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Wireguard is the Schema for the wireguards API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: WireguardSpec defines the desired state of Wireguard
+            properties:
+              address:
+                description: |-
+                  A string field that specifies the address for the Wireguard Service.
+                  When ServiceType is LoadBalancer, this can be used to request a fixed Service IP.
+                  If ExternalAddress is not set, this value is also used as the peer endpoint.
+                type: string
+              agent:
+                description: WireguardPodSpec defines spec for respective containers
+                  created for Wireguard
+                properties:
+                  resources:
+                    description: ResourceRequirements describes the compute resource
+                      requirements.
+                    properties:
+                      claims:
+                        description: |-
+                          Claims lists the names of resources, defined in spec.resourceClaims,
+                          that are used by this container.
+
+                          This is an alpha field and requires enabling the
+                          DynamicResourceAllocation feature gate.
+
+                          This field is immutable. It can only be set for containers.
+                        items:
+                          description: ResourceClaim references one entry in PodSpec.ResourceClaims.
+                          properties:
+                            name:
+                              description: |-
+                                Name must match the name of one entry in pod.spec.resourceClaims of
+                                the Pod where this field is used. It makes that resource available
+                                inside a container.
+                              type: string
+                          required:
+                          - name
+                          type: object
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - name
+                        x-kubernetes-list-type: map
+                      limits:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: |-
+                          Limits describes the maximum amount of compute resources allowed.
+                          More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                        type: object
+                      requests:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: |-
+                          Requests describes the minimum amount of compute resources required.
+                          If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+                          otherwise to an implementation-defined value. Requests cannot exceed Limits.
+                          More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                        type: object
+                    type: object
+                type: object
+              dns:
+                description: A string field that specifies the DNS server(s) to be
+                  used by the peers.
+                type: string
+              dnsSearchDomain:
+                description: A string field that specifies the DNS search domain(s)
+                  to be used by the peers.
+                type: string
+              enableIpForwardOnPodInit:
+                description: A boolean field that specifies whether IP forwarding
+                  should be enabled on the Wireguard VPN pod at startup. This can
+                  be useful to enable if the peers are having problems with sending
+                  traffic to the internet.
+                type: boolean
+              externalAddress:
+                description: |-
+                  A string field that specifies the external address where peers should connect to this Wireguard instance.
+                  When set, this is used for peer endpoints instead of Address or Service status.
+                type: string
+              ipv6Only:
+                description: |-
+                  IPv6Only indicates that only IPv6 connectivity should be configured for peers.
+                  When true and PeerCIDRv6 is set, the operator will not allocate new IPv4 peer addresses
+                  or configure IPv4 routing/NAT for this instance.
+                type: boolean
+              metric:
+                description: WireguardPodSpec defines spec for respective containers
+                  created for Wireguard
+                properties:
+                  resources:
+                    description: ResourceRequirements describes the compute resource
+                      requirements.
+                    properties:
+                      claims:
+                        description: |-
+                          Claims lists the names of resources, defined in spec.resourceClaims,
+                          that are used by this container.
+
+                          This is an alpha field and requires enabling the
+                          DynamicResourceAllocation feature gate.
+
+                          This field is immutable. It can only be set for containers.
+                        items:
+                          description: ResourceClaim references one entry in PodSpec.ResourceClaims.
+                          properties:
+                            name:
+                              description: |-
+                                Name must match the name of one entry in pod.spec.resourceClaims of
+                                the Pod where this field is used. It makes that resource available
+                                inside a container.
+                              type: string
+                          required:
+                          - name
+                          type: object
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - name
+                        x-kubernetes-list-type: map
+                      limits:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: |-
+                          Limits describes the maximum amount of compute resources allowed.
+                          More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                        type: object
+                      requests:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: |-
+                          Requests describes the minimum amount of compute resources required.
+                          If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+                          otherwise to an implementation-defined value. Requests cannot exceed Limits.
+                          More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                        type: object
+                    type: object
+                type: object
+              mtu:
+                description: A string field that specifies the maximum transmission
+                  unit (MTU) size for Wireguard packets for all peers.
+                type: string
+              nodeSelector:
+                additionalProperties:
+                  type: string
+                type: object
+              peerCIDR:
+                description: |-
+                  PeerCIDR is the IPv4 CIDR range from which Wireguard peer addresses will be allocated.
+                  If omitted (and IPv6Only is false), the operator will default to 10.8.0.0/24.
+                type: string
+              peerCIDRv6:
+                description: |-
+                  PeerCIDRv6 is the IPv6 CIDR range from which Wireguard peer IPv6 addresses will be allocated.
+                  When set, IPv6 support is enabled for this Wireguard instance.
+                type: string
+              port:
+                description: A field that specifies the value to use for a nodePort
+                  ServiceType
+                format: int32
+                type: integer
+              serviceAnnotations:
+                additionalProperties:
+                  type: string
+                description: A map of key value strings for service annotations
+                type: object
+              serviceType:
+                description: A field that specifies the type of Kubernetes service
+                  that should be used for the Wireguard VPN. This could be ClusterIP,
+                  NodePort or LoadBalancer, depending on the needs of the deployment.
+                type: string
+              tolerations:
+                description: A list of Kubernetes taint tolerations applied to the
+                  Wireguard pod.
+                items:
+                  description: |-
+                    The pod this Toleration is attached to tolerates any taint that matches
+                    the triple <key,value,effect> using the matching operator <operator>.
+                  properties:
+                    effect:
+                      description: |-
+                        Effect indicates the taint effect to match. Empty means match all taint effects.
+                        When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+                      type: string
+                    key:
+                      description: |-
+                        Key is the taint key that the toleration applies to. Empty means match all taint keys.
+                        If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+                      type: string
+                    operator:
+                      description: |-
+                        Operator represents a key's relationship to the value.
+                        Valid operators are Exists and Equal. Defaults to Equal.
+                        Exists is equivalent to wildcard for value, so that a pod can
+                        tolerate all taints of a particular category.
+                      type: string
+                    tolerationSeconds:
+                      description: |-
+                        TolerationSeconds represents the period of time the toleration (which must be
+                        of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+                        it is not set, which means tolerate the taint forever (do not evict). Zero and
+                        negative values will be treated as 0 (evict immediately) by the system.
+                      format: int64
+                      type: integer
+                    value:
+                      description: |-
+                        Value is the taint value the toleration matches to.
+                        If the operator is Exists, the value should be empty, otherwise just a regular string.
+                      type: string
+                  type: object
+                type: array
+              tunnel:
+                description: |-
+                  Tunnel configures optional traffic obfuscation. When enabled, a sidecar
+                  container tunnels WireGuard UDP traffic over WebSocket/TLS.
+                properties:
+                  dualMode:
+                    description: |-
+                      DualMode exposes both the direct WireGuard UDP port and the tunnel port on the service,
+                      and generates both a direct and a tunnel peer config. When false (default), only the
+                      tunnel port is exposed.
+                    type: boolean
+                  enabled:
+                    description: Enabled activates the tunnel sidecar.
+                    type: boolean
+                  image:
+                    description: 'Image is the container image for the tunnel sidecar.
+                      Default: "ghcr.io/erebe/wstunnel:latest".'
+                    type: string
+                  port:
+                    default: 443
+                    description: 'Port is the external port the tunnel listens on.
+                      Default: 443.'
+                    format: int32
+                    type: integer
+                  resources:
+                    description: Resources for the tunnel sidecar container.
+                    properties:
+                      claims:
+                        description: |-
+                          Claims lists the names of resources, defined in spec.resourceClaims,
+                          that are used by this container.
+
+                          This is an alpha field and requires enabling the
+                          DynamicResourceAllocation feature gate.
+
+                          This field is immutable. It can only be set for containers.
+                        items:
+                          description: ResourceClaim references one entry in PodSpec.ResourceClaims.
+                          properties:
+                            name:
+                              description: |-
+                                Name must match the name of one entry in pod.spec.resourceClaims of
+                                the Pod where this field is used. It makes that resource available
+                                inside a container.
+                              type: string
+                          required:
+                          - name
+                          type: object
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - name
+                        x-kubernetes-list-type: map
+                      limits:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: |-
+                          Limits describes the maximum amount of compute resources allowed.
+                          More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                        type: object
+                      requests:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: |-
+                          Requests describes the minimum amount of compute resources required.
+                          If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+                          otherwise to an implementation-defined value. Requests cannot exceed Limits.
+                          More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+                        type: object
+                    type: object
+                  type:
+                    default: wstunnel
+                    description: Type selects the tunneling implementation. Currently
+                      only "wstunnel" is supported.
+                    enum:
+                    - wstunnel
+                    type: string
+                type: object
+              useWgUserspaceImplementation:
+                description: A boolean field that specifies whether to use the userspace
+                  implementation of Wireguard instead of the kernel one.
+                type: boolean
+            type: object
+          status:
+            description: WireguardStatus defines the observed state of Wireguard
+            properties:
+              address:
+                description: A string field that specifies the address for the Wireguard
+                  VPN server that is currently being used.
+                type: string
+              conditions:
+                description: Conditions represent the latest available observations
+                  of the Wireguard's state.
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              dns:
+                type: string
+              message:
+                description: A string field that provides additional information about
+                  the status of Wireguard. This could include error messages or other
+                  information that helps to diagnose issues with the wg instance.
+                type: string
+              port:
+                description: A string field that specifies the port for the Wireguard
+                  VPN server that is currently being used.
+                type: string
+              resources:
+                description: Resource-level status information for associated Kubernetes
+                  resources.
+                items:
+                  description: Resource describes the observed state of a related
+                    Kubernetes resource.
+                  properties:
+                    image:
+                      description: The container image when applicable (e.g., for
+                        Deployments).
+                      type: string
+                    name:
+                      description: The resource name (e.g., my-wg-dep, my-wg-svc).
+                      type: string
+                    status:
+                      description: A short status string (e.g., Ready, Pending, Error).
+                      type: string
+                    type:
+                      description: The resource type (e.g., Deployment, Service, ConfigMap,
+                        Secret).
+                      type: string
+                  type: object
+                type: array
+              status:
+                description: A string field that represents the current status of
+                  Wireguard. This could include values like ready, pending, or error.
+                type: string
+              tunnel:
+                description: The active tunnel type (e.g., "wstunnel") or empty when
+                  tunneling is disabled.
+                type: string
+              uniqueIdentifier:
+                description: A stable identifier for the Wireguard instance (e.g.,
+                  server public key).
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wireguard-controller-manager
+  namespace: wireguard-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wireguard-metrics-reader
+  namespace: wireguard-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: wireguard-leader-election-role
+  namespace: wireguard-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: wireguard-manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - pods
+  - secrets
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+- apiGroups:
+  - vpn.wireguard-operator.io
+  resources:
+  - wireguardpeers
+  - wireguards
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - vpn.wireguard-operator.io
+  resources:
+  - wireguardpeers/finalizers
+  - wireguards/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - vpn.wireguard-operator.io
+  resources:
+  - wireguardpeers/status
+  - wireguards/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: wireguard-metrics-reader
+rules:
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wireguard-leader-election-rolebinding
+  namespace: wireguard-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: wireguard-leader-election-role
+subjects:
+- kind: ServiceAccount
+  name: wireguard-controller-manager
+  namespace: wireguard-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: wireguard-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: wireguard-manager-role
+subjects:
+- kind: ServiceAccount
+  name: wireguard-controller-manager
+  namespace: wireguard-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: wireguard-metrics-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: wireguard-metrics-reader
+subjects:
+- kind: ServiceAccount
+  name: wireguard-metrics-reader
+  namespace: wireguard-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: wireguard-controller-manager-metrics-service
+  namespace: wireguard-system
+spec:
+  ports:
+  - name: metrics
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    control-plane: controller-manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: wireguard-controller-manager
+  namespace: wireguard-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+      labels:
+        control-plane: controller-manager
+    spec:
+      containers:
+      - args:
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=:8080
+        - --leader-elect
+        - --agent-image=ghcr.io/nccloud/wireguard-operator/agent:v2.11.0
+        command:
+        - /manager
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: ghcr.io/nccloud/wireguard-operator/manager:v2.11.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: manager
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65534
+          runAsNonRoot: false
+          runAsUser: 65534
+      securityContext:
+        fsGroup: 65534
+        runAsNonRoot: true
+      serviceAccountName: wireguard-controller-manager
+      terminationGracePeriodSeconds: 10
