@@ -4,11 +4,6 @@ metadata:
   name: docker-seb
   namespace: wireguard-system
 spec:
+  wireguardRef: metrics
   address: 10.7.0.2
-  allowedIPs: "172.16.0.0/16,172.17.0.0/16,172.18.0.0/16"
-  privateKeyRef:
-    secretKeyRef:
-      key: privateKey
-      name: docker-seb-peer
-  publicKey: MpCbTC7hDcOfNt1/fUej8Vu1wbd9/MHX7xRtZncwp0k=
-  wireguardRef: vpn
+  allowedIPs: "0.0.0.0/0"

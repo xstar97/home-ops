@@ -4,6 +4,6 @@ metadata:
   name: docker-nas
   namespace: wireguard-system
 spec:
-  wireguardRef: vpn
+  wireguardRef: metrics
   address: 10.7.0.3
   allowedIPs: "0.0.0.0/0"
