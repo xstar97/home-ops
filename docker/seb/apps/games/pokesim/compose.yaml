@@ -1,5 +1,5 @@
 x-healthcheck: &healthcheck
-  test: curl -fs http://localhost:8000/health/ready || exit 1
+  test: curl -fs http://localhost:8000/healthz || exit 1
   interval: 30s
   timeout: 10s
   retries: 3

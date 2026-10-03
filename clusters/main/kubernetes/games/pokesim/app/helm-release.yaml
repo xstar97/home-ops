@@ -62,10 +62,10 @@ spec:
               probes:
                 liveness:
                   type: http
-                  path: /health
+                  path: /healthz
                 readiness:
                   type: http
-                  path: /health/ready
+                  path: /healthz
                 startup:
                   type: tcp
               args:
