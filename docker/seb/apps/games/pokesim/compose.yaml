@@ -1,0 +1,45 @@
+x-healthcheck: &healthcheck
+  test: curl -fs http://localhost:8000/health/ready || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  pokesim:
+    scale: 1
+    image: ghcr.io/afk-sapien/pokesim:0.4.16@sha256:08086a8179193bf672481867cdaacb99a920fc98e3627cc6420b756989560c0e
+    container_name: pokesim
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "8000"
+    healthcheck: *healthcheck
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/pokesim/data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    # read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    stop_grace_period: 90s
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pokesim.rule: Host(`pokesim.${BASE_DOMAIN_0}`)
+      traefik.http.services.pokesim.loadbalancer.server.port: 8000
+      traefik.http.routers.pokesim.entrypoints: websecure
+      traefik.http.routers.pokesim.tls: true
+      traefik.http.routers.pokesim.tls.certResolver: cf
+      traefik.http.routers.pokesim.middlewares: error-pages-middleware
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

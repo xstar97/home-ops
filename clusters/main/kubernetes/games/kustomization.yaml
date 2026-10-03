@@ -4,5 +4,5 @@ resources:
   # - minecraft
   # - ggrequestz/ks.yaml
   - romm/ks.yaml
-  - pokesim/ks.yaml
+  # - pokesim/ks.yaml
   # - utilities
