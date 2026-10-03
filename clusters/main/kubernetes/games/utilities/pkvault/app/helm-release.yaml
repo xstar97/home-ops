@@ -222,3 +222,7 @@ spec:
         mountPath: /etc/nginx/nginx.conf
         subPath: nginx.conf
         readOnly: true
+      run:
+        enabled: true
+        type: emptyDir
+        mountPath: /run/nginx
