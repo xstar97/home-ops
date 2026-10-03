@@ -63,7 +63,7 @@ spec:
               type: init
               image:
                 repository: curlimages/curl
-                tag: "8.11.1"
+                tag: "8.22.0"
                 pullPolicy: IfNotPresent
               securityContext:
                 runAsUser: 0
