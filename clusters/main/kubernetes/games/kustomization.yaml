@@ -5,4 +5,4 @@ resources:
   # - ggrequestz/ks.yaml
   - romm/ks.yaml
   - pokesim/ks.yaml
-  # - utilities
+  - utilities

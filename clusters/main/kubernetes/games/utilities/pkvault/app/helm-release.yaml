@@ -73,8 +73,8 @@ spec:
                 startup:
                   enabled: false
                   # type: tcp
-              env:
-                HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
+              # env:
+              #   HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
     ingress:
       main:
         enabled: true
@@ -96,6 +96,17 @@ spec:
         mountPath: /pkvault
         volsync:
           - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      config-saves:
+        enabled: true
+        mountPath: /pkvault/saves
+        volsync:
+          - name: config-saves
             type: restic
             credentials: cf-restic
             dest:
