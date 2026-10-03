@@ -70,7 +70,8 @@ spec:
                   path: /health/ready
                 startup:
                   enabled: true
-                  type: tcp
+                  type: http
+                  path: /health/ready
               args:
               - python 
               - -m 
