@@ -156,8 +156,9 @@ spec:
                 startup:
                   enabled: false
                   # type: tcp
-              # env:
-              #   HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
+              env:
+                HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
+    
     ingress:
       main:
         enabled: true
