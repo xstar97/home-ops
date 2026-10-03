@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   gluetun:
     image: qmcgaw/gluetun:v3.41.3
-    scale: 0
+    scale: 1
     container_name: gluetun
     restart: unless-stopped
     cap_add:
@@ -26,7 +26,7 @@ services:
       TZ: America/New_York
       VPN_SERVICE_PROVIDER: custom
       VPN_TYPE: wireguard
-      WIREGUARD_ALLOWED_IPS: "0.0.0.0/0"
+      WIREGUARD_ALLOWED_IPS: "172.17.0.0/16"
       WIREGUARD_MTU: 1380
       HEALTH_VPN_DURATION_INITIAL: 30s
       HEALTH_VPN_DURATION_ADDITION: 30s
