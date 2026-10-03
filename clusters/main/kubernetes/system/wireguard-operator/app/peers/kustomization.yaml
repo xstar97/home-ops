@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - seb.yaml
   - nas.yaml
+  - prometheus.yaml
