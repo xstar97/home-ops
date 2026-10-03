@@ -226,3 +226,7 @@ spec:
         enabled: true
         type: emptyDir
         mountPath: /run/nginx
+      varrun:
+        enabled: false
+        type: emptyDir
+        mountPath: /var/run
