@@ -44,10 +44,10 @@ spec:
       tag: 2.3.4@sha256:49cffcb01fa12e25819ab5b948f8a7e5de28952bb710e66887ea5f29b728389b
     securityContext:
       container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
-        runAsNonRoot: false
-        readOnlyRootFilesystem: false
       pod:
         fsGroup: 568
     service:
@@ -56,106 +56,11 @@ spec:
         ports:
           main:
             port: 3000
-
-    configmap:
-      config:
-        enabled: true
-        data:
-          supervisord.conf: |
-            [supervisord]
-            nodaemon=true
-            user=root
-            logfile=/dev/fd/1
-            logfile_maxbytes=0
-            pidfile=/var/run/supervisord.pid
-
-            [program:backend]
-            command=dotnet /app/backend/PKVault.Backend.dll
-            directory=/app/backend
-            autostart=true
-            autorestart=true
-            stdout_logfile=/dev/fd/1
-            stdout_logfile_maxbytes=0
-            redirect_stderr=true
-            environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="0",ASPNETCORE_ENVIRONMENT="Production",ASPNETCORE_URLS="http://127.0.0.1:5000"
-
-            [program:nginx]
-            command=nginx -g "daemon off;"
-            autostart=true
-            autorestart=true
-            stdout_logfile=/dev/fd/1
-            stdout_logfile_maxbytes=0
-            redirect_stderr=true
-
-            [program:healthcheck]
-            command=/bin/sh -c 'curl -f http://127.0.0.1:3000/ || exit 1'
-            autostart=false
-            autorestart=true
-            startsecs=1
-            stdout_logfile=/dev/fd/1
-            stdout_logfile_maxbytes=0
-            redirect_stderr=true
-
-          nginx.conf: |
-            pid /run/nginx/nginx.pid;
-
-            events {
-                worker_connections 1024;
-            }
-
-            http {
-                include /etc/nginx/mime.types;
-                default_type application/octet-stream;
-
-                client_max_body_size 60M;
-
-                server {
-                    listen 3000;
-
-                    # Static files (SPA fallback)
-                    location / {
-                        root /app/frontend;
-                        index index.html;
-                        try_files $uri $uri/ /index.html;
-                    }
-
-                    # Proxy backend API calls
-                    location /api/ {
-                        proxy_pass http://127.0.0.1:5000/api/;
-                        proxy_http_version 1.1;
-                        proxy_set_header Upgrade $http_upgrade;
-                        proxy_set_header Connection keep-alive;
-                        proxy_set_header Host $host;
-                        proxy_set_header X-Real-IP $remote_addr;
-                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                        proxy_set_header X-Forwarded-Proto $scheme;
-                        proxy_cache_bypass $http_upgrade;
-                    }
-
-                    # Swagger/UI
-                    location /swagger {
-                        proxy_pass http://127.0.0.1:5000/swagger;
-                    }
-                }
-            }
-
     workload:
       main:
         podSpec:
           containers:
             main:
-              probes:
-                liveness:
-                  enabled: false
-                  # type: http
-                  # path: /
-                readiness:
-                  enabled: false
-                  # type: http
-                  # path: /
-                startup:
-                  enabled: false
-                  # type: tcp
               env:
                 HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
     
@@ -208,20 +113,6 @@ spec:
               enabled: true
             src:
               enabled: true
-      supervisord-config:
-        enabled: false
-        type: "configmap"
-        objectName: config
-        mountPath: /etc/supervisor/conf.d/supervisord.conf
-        subPath: supervisord.conf
-        readOnly: true
-      nginx-config:
-        enabled: false
-        type: "configmap"
-        objectName: config
-        mountPath: /etc/nginx/nginx.conf
-        subPath: nginx.conf
-        readOnly: true
       run:
         enabled: true
         type: emptyDir
