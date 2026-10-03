@@ -19,6 +19,7 @@ services:
     environment:
       # application settings
       PORT: "8000"
+      HOST: 0.0.0.0
       PUBLIC_URL: "https://pokesim.${BASE_DOMAIN_0}"
     volumes:
       - data:/data

@@ -80,7 +80,9 @@ spec:
               env:
                 # application settings
                 PORT: "{{ .Values.service.main.ports.main.port }}"
+                HOST: 0.0.0.0
                 PUBLIC_URL: "{{ .Values.chartContext.appUrl }}"
+                ROM_PATH: /roms/pokered.gb
     ingress:
       main:
         enabled: true
@@ -100,6 +102,7 @@ spec:
       data:
         enabled: true
         mountPath: /data
+        targetSelectAll: true
         volsync:
           - name: data
             type: restic
@@ -108,3 +111,42 @@ spec:
               enabled: true
             src:
               enabled: true
+      roms:
+        enabled: true
+        mountPath: /roms
+        targetSelectAll: true
+        volsync:
+          - name: roms
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.pokesim.${DOMAIN_2}
+              paths:
+                - path: /
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
