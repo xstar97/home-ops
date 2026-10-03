@@ -207,10 +207,6 @@ spec:
               enabled: true
             src:
               enabled: true
-      run:
-        enabled: true
-        type: emptyDir
-        mountPath: /run/nginx
       supervisord-config:
         enabled: true
         type: "configmap"
