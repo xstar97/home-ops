@@ -90,7 +90,7 @@ spec:
             redirect_stderr=true
 
             [program:healthcheck]  # global healthcheck
-            command=curl -f http://localhost:3000 || exit 1
+            command=curl -f http://0.0.0.0:3000 || exit 1
             autostart=true
             autorestart=true
             startsecs=3
@@ -121,7 +121,7 @@ spec:
 
                     # proxy backend API calls
                     location /api/ {
-                        proxy_pass http://localhost:5000/api/;
+                        proxy_pass http://0.0.0.0:5000/api/;
                         proxy_http_version 1.1;
                         proxy_set_header Upgrade $http_upgrade;
                         proxy_set_header Connection keep-alive;
@@ -134,7 +134,7 @@ spec:
 
                     # Swagger/UI
                     location /swagger {
-                        proxy_pass http://localhost:5000/swagger;
+                        proxy_pass http://0.0.0.0:5000/swagger;
                     }
                 }
             }
