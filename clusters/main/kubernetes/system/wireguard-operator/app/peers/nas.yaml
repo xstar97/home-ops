@@ -1,0 +1,9 @@
+apiVersion: vpn.wireguard-operator.io/v1alpha1
+kind: WireguardPeer
+metadata:
+  name: nas
+  namespace: wireguard-system
+spec:
+  wireguardRef: metrics
+  address: 10.7.0.3
+  allowedIPs: "0.0.0.0/0"
