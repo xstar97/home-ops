@@ -78,7 +78,7 @@ spec:
             stdout_logfile_maxbytes=0
             # stderr_logfile=/dev/fd/2
             redirect_stderr=true
-            environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="0",ASPNETCORE_ENVIRONMENT="Production",ASPNETCORE_URLS="http://+:5000"
+            environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="0",ASPNETCORE_ENVIRONMENT="Production",ASPNETCORE_URLS="http://0.0.0.0:3000"
 
             [program:nginx]
             command=nginx -g "daemon off;"
@@ -121,7 +121,7 @@ spec:
 
                     # proxy backend API calls
                     location /api/ {
-                        proxy_pass http://0.0.0.0:5000/api/;
+                        proxy_pass http://0.0.0.0:3000/api/;
                         proxy_http_version 1.1;
                         proxy_set_header Upgrade $http_upgrade;
                         proxy_set_header Connection keep-alive;
@@ -134,7 +134,7 @@ spec:
 
                     # Swagger/UI
                     location /swagger {
-                        proxy_pass http://0.0.0.0:5000/swagger;
+                        proxy_pass http://0.0.0.0:3000/swagger;
                     }
                 }
             }
