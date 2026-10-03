@@ -209,14 +209,14 @@ spec:
             src:
               enabled: true
       supervisord-config:
-        enabled: true
+        enabled: false
         type: "configmap"
         objectName: config
         mountPath: /etc/supervisor/conf.d/supervisord.conf
         subPath: supervisord.conf
         readOnly: true
       nginx-config:
-        enabled: true
+        enabled: false
         type: "configmap"
         objectName: config
         mountPath: /etc/nginx/nginx.conf
