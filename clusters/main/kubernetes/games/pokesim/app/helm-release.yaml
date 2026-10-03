@@ -61,16 +61,16 @@ spec:
             main:
               probes:
                 liveness:
-                  enabled: false
-                  # type: http
-                  # path: /healthz
+                  enabled: true
+                  type: http
+                  path: /health/live
                 readiness:
-                  enabled: false
-                  # type: http
-                  # path: /healthz
+                  enabled: true
+                  type: http
+                  path: /health/ready
                 startup:
-                  enabled: false
-                  # type: tcp
+                  enabled: true
+                  type: tcp
               args:
               - python 
               - -m 
