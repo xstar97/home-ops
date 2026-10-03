@@ -49,7 +49,7 @@ spec:
         runAsNonRoot: false
         readOnlyRootFilesystem: false
       pod:
-        fsGroup: 568
+        fsGroup: 0
     service:
       main:
         type: ClusterIP
