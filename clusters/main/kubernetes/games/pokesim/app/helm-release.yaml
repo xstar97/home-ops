@@ -68,6 +68,15 @@ spec:
                   path: /
                 startup:
                   type: tcp
+              args:
+              - python 
+              - -m 
+              - pokesim
+              - serve
+              - --data-dir
+              - /data
+              - --host
+              - 0.0.0.0
               env:
                 # application settings
                 PORT: "{{ .Values.service.main.ports.main.port }}"
