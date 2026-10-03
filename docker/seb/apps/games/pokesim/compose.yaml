@@ -17,7 +17,7 @@ services:
       - "8000"
     healthcheck: *healthcheck
     volumes:
-      - ${BASE_DOCKER_DATA_DIR}/pokesim/data:/data
+      - data:/data
     security_opt:
       - no-new-privileges:true
     cap_drop: [ALL]
@@ -38,6 +38,8 @@ services:
       traefik.http.routers.pokesim.tls: true
       traefik.http.routers.pokesim.tls.certResolver: cf
       traefik.http.routers.pokesim.middlewares: error-pages-middleware
+volumes:
+  data: {}
 networks:
   network_internal:
     external: true
