@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   pokesim:
-    scale: 1
+    scale: 0
     image: ghcr.io/afk-sapien/pokesim:0.4.16@sha256:08086a8179193bf672481867cdaacb99a920fc98e3627cc6420b756989560c0e
     container_name: pokesim
     restart: on-failure
