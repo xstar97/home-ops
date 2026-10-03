@@ -33,6 +33,8 @@ services:
       HEALTH_VPN_DURATION_ADDITION: 30s
       HEALTH_VPN_INTERVAL: 30s
       HEALTH_VPN_RESTART_VPN: "on"
+      DNS_UPSTREAM_RESOLVER_TYPE: "plain"
+      DNS_ADDRESS: "blocky-dns.blocky.svc.cluster.local:53"
     volumes:
       - /lib/modules:/lib/modules:ro
 
