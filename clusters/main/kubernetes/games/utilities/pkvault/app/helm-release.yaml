@@ -76,7 +76,6 @@ spec:
             autorestart=true
             stdout_logfile=/dev/fd/1
             stdout_logfile_maxbytes=0
-            # stderr_logfile=/dev/fd/2
             redirect_stderr=true
             environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="0",ASPNETCORE_ENVIRONMENT="Production",ASPNETCORE_URLS="http://0.0.0.0:3000"
 
@@ -86,42 +85,44 @@ spec:
             autorestart=true
             stdout_logfile=/dev/fd/1
             stdout_logfile_maxbytes=0
-            # stderr_logfile=/dev/fd/2
             redirect_stderr=true
+            priority=20
 
-            [program:healthcheck]  # global healthcheck
-            command=curl -f http://127.0.0.1:3000 || exit 1
+            [program:healthcheck]
+            command=/bin/sh -c 'curl -f http://127.0.0.1:3000 || exit 1'
             autostart=true
             autorestart=true
-            startsecs=30
+            startsecs=3
+            startretries=10
+            priority=30
             stdout_logfile=/dev/fd/1
             stdout_logfile_maxbytes=0
-            # stderr_logfile=/dev/fd/2
             redirect_stderr=true
+
           nginx.conf: |
+            pid /tmp/nginx.pid;
+
             events {
                 worker_connections 1024;
             }
 
             http {
-                include       /etc/nginx/mime.types;
-                default_type  application/octet-stream;
+                include /etc/nginx/mime.types;
+                default_type application/octet-stream;
 
                 client_max_body_size 60M;
 
                 server {
                     listen 3000;
 
-                    # static files (SPA fallback)
                     location / {
                         root /app/frontend;
                         index index.html;
                         try_files $uri $uri/ /index.html;
                     }
 
-                    # proxy backend API calls
                     location /api/ {
-                        proxy_pass http://0.0.0.0:3000/api/;
+                        proxy_pass http://127.0.0.1:3000/api/;
                         proxy_http_version 1.1;
                         proxy_set_header Upgrade $http_upgrade;
                         proxy_set_header Connection keep-alive;
@@ -132,9 +133,8 @@ spec:
                         proxy_cache_bypass $http_upgrade;
                     }
 
-                    # Swagger/UI
                     location /swagger {
-                        proxy_pass http://0.0.0.0:3000/swagger;
+                        proxy_pass http://127.0.0.1:3000/swagger;
                     }
                 }
             }
