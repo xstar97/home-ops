@@ -44,12 +44,12 @@ spec:
       tag: 2.3.4@sha256:49cffcb01fa12e25819ab5b948f8a7e5de28952bb710e66887ea5f29b728389b
     securityContext:
       container:
-        runAsUser: 0
+        runAsUser: 568
         runAsGroup: 0
         runAsNonRoot: false
-        readOnlyRootFilesystem: false
+        readOnlyRootFilesystem: true
       pod:
-        fsGroup: 33
+        fsGroup: 568
     service:
       main:
         type: ClusterIP
