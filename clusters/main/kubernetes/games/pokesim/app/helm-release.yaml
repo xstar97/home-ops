@@ -143,6 +143,8 @@ spec:
                 HOST: 0.0.0.0
                 PUBLIC_URL: "{{ .Values.chartContext.appUrl }}"
                 ROM_PATH: /roms/pokered.gb
+                SPEED: "2"
+                VIEWER_ONLY: "1"
     ingress:
       main:
         enabled: true
