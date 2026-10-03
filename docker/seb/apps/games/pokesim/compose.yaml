@@ -16,6 +16,10 @@ services:
     expose:
       - "8000"
     healthcheck: *healthcheck
+    environment:
+      # application settings
+      PORT: "8000"
+      PUBLIC_URL: "https://pokesim.${BASE_DOMAIN_0}"
     volumes:
       - data:/data
     security_opt:
