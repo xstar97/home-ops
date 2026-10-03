@@ -77,7 +77,7 @@ spec:
             stdout_logfile=/dev/fd/1
             stdout_logfile_maxbytes=0
             redirect_stderr=true
-            environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="0",ASPNETCORE_ENVIRONMENT="Production",ASPNETCORE_URLS="http://+:5000"
+            environment=DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="0",ASPNETCORE_ENVIRONMENT="Production",ASPNETCORE_URLS="http://127.0.0.1:5000"
 
             [program:nginx]
             command=nginx -g "daemon off;"
