@@ -57,63 +57,6 @@ spec:
     workload:
       main:
         podSpec:
-          initContainers:
-            download-rom:
-              enabled: false
-              type: init
-              image:
-                repository: curlimages/curl
-                tag: "8.22.0"
-                pullPolicy: IfNotPresent
-              securityContext:
-                runAsUser: 0
-                runAsGroup: 0
-              command:
-                - /bin/sh
-                - -ec
-                - |
-                  ROMM_URL="http://romm.romm.svc.cluster.local:10680"
-
-                  mkdir -p /roms
-
-                  echo "Looking up Pokémon Red in RomM..."
-                  # create ROMM_TOKEN
-                  ROM_JSON="$(
-                    curl \
-                      --fail \
-                      --silent \
-                      --show-error \
-                      -H "Authorization: Bearer ${ROMM_TOKEN}" \
-                      "${ROMM_URL}/api/roms?search=Pokemon%20Red"
-                  )"
-
-                  ROM_ID="$(
-                    echo "${ROM_JSON}" |
-                      sed -n 's/.*"id":[[:space:]]*\([0-9][0-9]*\).*/\1/p' |
-                      head -n 1
-                  )"
-
-                  if [ -z "${ROM_ID}" ]; then
-                    echo "ERROR: Could not find Pokémon Red in RomM"
-                    exit 1
-                  fi
-
-                  echo "Found Pokémon Red with RomM ID ${ROM_ID}"
-
-                  curl \
-                    --fail \
-                    --location \
-                    --silent \
-                    --show-error \
-                    --retry 5 \
-                    --retry-all-errors \
-                    -H "Authorization: Bearer ${ROMM_TOKEN}" \
-                    "${ROMM_URL}/api/roms/${ROM_ID}/content/pokered.gb" \
-                    -o /roms/pokered.gb
-
-                  test -s /roms/pokered.gb
-
-                  echo "Pokémon Red downloaded successfully."
           containers:
             main:
               probes:
