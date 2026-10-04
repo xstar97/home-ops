@@ -6,4 +6,4 @@ resources:
   - nas-docker.yaml
   - nas-node.yaml
   - speedtest.yaml
-
+  - opnsense.yaml

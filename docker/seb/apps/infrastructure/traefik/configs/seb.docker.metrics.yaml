@@ -1,0 +1,28 @@
+http:
+  routers:
+    seb-docker-metrics:
+      rule: 'Host(`metrics.docker.seb.local`) && Path(`/metrics`)'
+      entryPoints:
+        - web
+      service: seb-docker-metrics-service
+
+    seb-docker-metrics-root:
+      rule: 'Host(`metrics.docker.seb.local`) && Path(`/`)'
+      entryPoints:
+        - web
+      middlewares:
+        - seb-docker-metrics-redirect
+      service: seb-docker-metrics-service
+
+  middlewares:
+    seb-docker-metrics-redirect:
+      redirectRegex:
+        regex: '^http://([^/]+)/$'
+        replacement: 'http://${1}/metrics'
+        permanent: false
+
+  services:
+    seb-docker-metrics-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "SEB_LOCAL_DOMAIN" }}:9323'
