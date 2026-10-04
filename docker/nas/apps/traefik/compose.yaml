@@ -24,6 +24,8 @@ services:
       - --ping=true
     networks:
       - network_internal
+    environment:
+      TRUENAS_LOCAL_DOMAIN: $TRUENAS_HOSTNAME_LOCAL
     ports:
       - "80:80"
     volumes:
