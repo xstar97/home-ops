@@ -1,7 +1,7 @@
 http:
   routers:
     truenas-docker-metrics:
-      rule: 'Host(`metrics.docker.truenas.nas.local`)'
+      rule: 'Host(`metrics.docker.nas.local`)'
       entryPoints:
         - web
       service: truenas-docker-metrics-service
