@@ -1,0 +1,144 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter-seb
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SEB_IP}:9100
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: node-seb
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: doco-cd-seb
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SEB_IP}:9120
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: doco-cd-seb
+    - action: replace
+      targetLabel: job
+      replacement: doco-cd-seb
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: docker-seb
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SEB_IP}:9323
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: docker-seb
+    - action: replace
+      targetLabel: job
+      replacement: docker-seb
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter-nas
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9100
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: node-nas
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: doco-cd-nas
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9120
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: doco-cd-nas
+    - action: replace
+      targetLabel: job
+      replacement: doco-cd-nas
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: docker-nas
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${SCALE_IP}:9323
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: docker-nas
+    - action: replace
+      targetLabel: job
+      replacement: docker-nas
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: exporter-speedtest
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - speedtest-tracker.speedtest-tracker.svc.cluster.local:9004
+  metricsPath: /prometheus
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: exporter-speedtest
+    - action: replace
+      targetLabel: job
+      replacement: exporter-speedtest
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: exporter-opnsense
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${ROUTER_IP}:9273
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: exporter-opnsense
+    - action: replace
+      targetLabel: job
+      replacement: exporter-opnsense
