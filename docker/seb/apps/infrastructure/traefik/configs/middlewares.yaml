@@ -3,7 +3,7 @@ http:
     https-redirectscheme:
       redirectScheme:
         scheme: https
-        permanent: true
+        permanent: false
     default-headers:
       headers:
         frameDeny: true
