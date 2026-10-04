@@ -445,13 +445,6 @@ spec:
             hosts:
               - prometheus.${DOMAIN_2}
       prometheusSpec:
-        containers:
-          - name: debug-curl
-            image: curlimages/curl:8.16.0
-            command:
-              - /bin/sh
-              - -c
-              - sleep infinity
         dnsConfig:
           nameservers:
             - 10.0.0.1
