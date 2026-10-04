@@ -444,20 +444,20 @@ spec:
           - secretName: prometheus-general-tls
             hosts:
               - prometheus.${DOMAIN_2}
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:v3.41.3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          envFrom:
+            - secretRef:
+                name: prometheus-wireguard
+          volumeMounts:
+            - name: dev-net-tun
+              mountPath: /dev/net/tun
       prometheusSpec:
-        containers:
-            - name: gluetun
-              image: qmcgaw/gluetun:v3.41.3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027
-              securityContext:
-                capabilities:
-                  add:
-                    - NET_ADMIN
-              envFrom:
-                - secretRef:
-                    name: prometheus-wireguard
-              volumeMounts:
-                - name: dev-net-tun
-                  mountPath: /dev/net/tun
         scrapeClasses:
           - default: true
             fallbackScrapeProtocol: PrometheusText0.0.4
