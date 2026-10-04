@@ -26,6 +26,7 @@ services:
       - network_internal
     environment:
       TRUENAS_LOCAL_DOMAIN: $TRUENAS_HOSTNAME_LOCAL
+      TRUENAS_LOCAL_IP: $TRUENAS_IP
     ports:
       - "80:80"
     volumes:
