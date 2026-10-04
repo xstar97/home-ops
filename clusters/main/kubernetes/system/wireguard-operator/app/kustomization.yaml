@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
-  - servers
-  - peers
+  # - servers
+  # - peers
 components:
   - ../../../../components/notifications/discord
