@@ -16,6 +16,12 @@ services:
     healthcheck: *healthcheck
     env_file:
       - ./mcp.enc.env
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.mcp-adguard-home.rule: Host(`mcp-adguard-home.seb.local`)
+      traefik.http.routers.mcp-adguard-home.entrypoints: web
+      traefik.http.routers.mcp-adguard-home.service: mcp-adguard-home
+      traefik.http.services.mcp-adguard-home.loadbalancer.server.port: "3000"
 networks:
   internal:
     driver: bridge

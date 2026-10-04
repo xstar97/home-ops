@@ -28,7 +28,9 @@ services:
       traefik.enable: "true"
       traefik.http.routers.dozzle.rule: Host(`dozzle.nas.local`)
       traefik.http.routers.dozzle.entrypoints: web
+      traefik.http.routers.dozzle.service: dozzle
       traefik.http.services.dozzle.loadbalancer.server.port: "30064"
+ 
 networks:
   network_internal:
     external: true

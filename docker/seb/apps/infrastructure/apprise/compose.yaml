@@ -24,6 +24,12 @@ services:
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/apprise/config:/config
       - ${BASE_DOCKER_DATA_DIR}/apprise/attach:/attach
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.apprise.rule: Host(`apprise.seb.local`)
+      traefik.http.routers.apprise.entrypoints: web
+      traefik.http.routers.apprise.service: apprise
+      traefik.http.services.apprise.loadbalancer.server.port: "8000"
 networks:
   network_internal:
     external: true

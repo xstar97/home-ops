@@ -26,17 +26,11 @@ services:
     mem_limit: 128m
     cpus: 0.25
     labels:
-      wud.watch: false
       traefik.enable: "true"
-      # traefik.http.routers.node-exporter.rule: Host(`node-exporter.seb.local`)
-      # traefik.http.routers.node-exporter.entrypoints: web
-      # traefik.http.services.node-exporter.loadbalancer.server.port: "9100"
-      traefik.http.routers.node-exporter.rule: Host(`node-exporter-seb.${BASE_DOMAIN_0}`)
+      traefik.http.routers.node-exporter.rule: Host(`node-exporter.seb.local`)
+      traefik.http.routers.node-exporter.entrypoints: web
+      traefik.http.routers.node-exporter.service: node-exporter
       traefik.http.services.node-exporter.loadbalancer.server.port: "9100"
-      traefik.http.routers.node-exporter.entrypoints: websecure
-      traefik.http.routers.node-exporter.tls: true
-      traefik.http.routers.node-exporter.tls.certResolver: cf
-      traefik.http.routers.node-exporter.middlewares: error-pages-middleware
 networks:
   network_internal:
     external: true
