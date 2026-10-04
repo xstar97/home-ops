@@ -1,0 +1,28 @@
+http:
+  routers:
+    router-metrics:
+      rule: 'Host(`metrics.router.local`) && Path(`/metrics`)'
+      entryPoints:
+        - web
+      service: router-metrics-service
+
+    router-metrics-root:
+      rule: 'Host(`metrics.router.local`) && Path(`/`)'
+      entryPoints:
+        - web
+      middlewares:
+        - router-metrics-redirect
+      service: router-metrics-service
+
+  middlewares:
+    router-metrics-redirect:
+      redirectRegex:
+        regex: '^http://([^/]+)/$'
+        replacement: 'http://${1}/metrics'
+        permanent: false
+
+  services:
+    router-metrics-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "ROUTER_LOCAL_DOMAIN" }}:9273'
