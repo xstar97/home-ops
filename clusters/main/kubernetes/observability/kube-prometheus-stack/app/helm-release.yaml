@@ -445,6 +445,9 @@ spec:
             hosts:
               - prometheus.${DOMAIN_2}
       prometheusSpec:
+        dnsConfig:
+          nameservers:
+            - 10.0.0.1
         scrapeClasses:
           - default: true
             fallbackScrapeProtocol: PrometheusText0.0.4
