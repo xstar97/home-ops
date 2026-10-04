@@ -1,10 +1,26 @@
 http:
   routers:
     truenas-docker-metrics:
-      rule: 'Host(`metrics.docker.nas.local`)'
+      rule: 'Host(`metrics.docker.nas.local`) && Path(`/metrics`)'
       entryPoints:
         - web
       service: truenas-docker-metrics-service
+
+    truenas-docker-metrics-root:
+      rule: 'Host(`metrics.docker.nas.local`) && Path(`/`)'
+      entryPoints:
+        - web
+      middlewares:
+        - truenas-docker-metrics-redirect
+      service: truenas-docker-metrics-service
+
+  middlewares:
+    truenas-docker-metrics-redirect:
+      redirectRegex:
+        regex: '^http://([^/]+)/$'
+        replacement: 'http://${1}/metrics'
+        permanent: false
+
   services:
     truenas-docker-metrics-service:
       loadBalancer:
