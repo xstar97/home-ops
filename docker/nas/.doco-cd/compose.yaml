@@ -58,11 +58,13 @@ services:
       traefik.http.routers.doco-cd-webhook.entrypoints: web
       traefik.http.routers.doco-cd-webhook.service: doco-cd-webhook
       traefik.http.services.doco-cd-webhook.loadbalancer.server.port: "9080"
+      traefik.http.services.doco-cd-webhook.loadbalancer.server.scheme: http
       # Doco-CD Metrics
       traefik.http.routers.doco-cd-metrics.rule: Host(`metrics.doco-cd.nas.local`)
       traefik.http.routers.doco-cd-metrics.entrypoints: web
       traefik.http.routers.doco-cd-metrics.service: doco-cd-metrics
       traefik.http.services.doco-cd-metrics.loadbalancer.server.port: "9120"
+      traefik.http.services.doco-cd-metrics.loadbalancer.server.scheme: http
 
 networks:
   internal:

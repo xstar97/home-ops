@@ -22,6 +22,7 @@ services:
       traefik.http.routers.mcp-adguard-home.entrypoints: web
       traefik.http.routers.mcp-adguard-home.service: mcp-adguard-home
       traefik.http.services.mcp-adguard-home.loadbalancer.server.port: "3000"
+      traefik.http.services.mcp-adguard-home.loadbalancer.server.scheme: http
 networks:
   internal:
     driver: bridge

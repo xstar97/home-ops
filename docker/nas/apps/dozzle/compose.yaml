@@ -30,7 +30,7 @@ services:
       traefik.http.routers.dozzle.entrypoints: web
       traefik.http.routers.dozzle.service: dozzle
       traefik.http.services.dozzle.loadbalancer.server.port: "30064"
- 
+      traefik.http.services.dozzle.loadbalancer.server.scheme: http
 networks:
   network_internal:
     external: true
