@@ -7,3 +7,6 @@ resources:
   - nas-node.yaml
   - speedtest.yaml
   - opnsense.yaml
+  - seb-doco-cd.yaml
+  - seb-docker.yaml
+  - seb-node.yaml

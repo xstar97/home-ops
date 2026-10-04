@@ -6,7 +6,6 @@ resources:
   - helm-release.yaml
   - alertmanagerconfig.yaml
   - promethuesrule.yaml
-  - scrapeconfig.yaml
   - alertmanager.secret.yaml
   - scrapes
 components:
