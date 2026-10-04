@@ -458,6 +458,11 @@ spec:
             volumeMounts:
               - name: dev-net-tun
                 mountPath: /dev/net/tun
+            volumes:
+              - name: dev-net-tun
+                hostPath:
+                  path: /dev/net/tun
+                  type: CharDevice
         scrapeClasses:
           - default: true
             fallbackScrapeProtocol: PrometheusText0.0.4
