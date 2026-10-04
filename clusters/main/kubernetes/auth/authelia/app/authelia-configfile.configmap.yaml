@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: authelia-configfile
+  name: authelia-configfile-old
   namespace: authelia
   annotations:
     reloader.stakater.com/match: "true"

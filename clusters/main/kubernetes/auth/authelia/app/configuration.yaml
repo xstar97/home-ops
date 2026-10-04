@@ -19,6 +19,13 @@ access_control:
       resources:
         - '^/api/.*$'
 
+    # Bypass authentication for Pokesim /games endpoint.
+    - domain:
+        - 'pokesim.${DOMAIN_2}'
+      policy: bypass
+      resources:
+        - '^/games/.*$'
+
     # Require one-factor authentication for all groups.
     - domain:
         - '*.${DOMAIN_2}'
