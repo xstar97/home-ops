@@ -50,6 +50,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
+    labels:
+      wud.watch: false
+      traefik.enable: "true"
+      traefik.http.routers.doco-cd-webhook.rule: Host(`webhook-doco-cd.seb.local`)
+      traefik.http.routers.doco-cd-webhook.entrypoints: web
+      traefik.http.services.doco-cd-webhook.loadbalancer.server.port: "9080"
+      traefik.http.routers.doco-cd-metrics.rule: Host(`metrics-doco-cd.seb.local`)
+      traefik.http.routers.doco-cd-metrics.entrypoints: web
+      traefik.http.services.doco-cd-metrics.loadbalancer.server.port: "9120"
 networks:
   internal:
     driver: bridge
