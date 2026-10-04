@@ -8,6 +8,5 @@ resources:
   - promethuesrule.yaml
   - scrapeconfig.yaml
   - alertmanager.secret.yaml
-  - wireguard.secret.yaml
 components:
   - ../../../../components/notifications/discord
