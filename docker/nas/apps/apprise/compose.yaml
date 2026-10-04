@@ -23,7 +23,14 @@ services:
       # APPRISE_ADMIN: "y"
     volumes:
       - ${DOCKER_DATA_DIR}/apprise/config:/config
-      - ${DOCKER_DATA_DIR}/apprise/attach:/attach
+      - ${DOCKER_DATA_DIR}/apprise/attach:/attac
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.apprise.rule: Host(`apprise.nas.local`)
+      traefik.http.routers.apprise.entrypoints: web
+      traefik.http.routers.apprise.service: apprise
+      traefik.http.services.apprise.loadbalancer.server.port: "8000"
+      traefik.http.services.apprise.loadbalancer.server.scheme: http
 networks:
   network_internal:
     external: true
