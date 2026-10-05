@@ -448,6 +448,11 @@ spec:
         dnsConfig:
           nameservers:
             - 10.0.0.1
+            - 172.17.0.10
+          searches:
+            - kube-prometheus-stack.svc.cluster.local
+            - svc.cluster.local
+            - cluster.local
         scrapeClasses:
           - default: true
             fallbackScrapeProtocol: PrometheusText0.0.4
