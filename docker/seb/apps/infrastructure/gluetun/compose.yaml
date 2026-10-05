@@ -31,8 +31,11 @@ services:
       FIREWALL_OUTBOUND_SUBNETS: "10.7.0.0/24,172.16.0.0/16,172.17.0.0/16"
       HEALTH_VPN_INTERVAL: 30s
       HEALTH_VPN_RESTART_VPN: "on"
-      DNS_UPSTREAM_RESOLVER_TYPE: "plain"
-      DNS_UPSTREAM_PLAIN_ADDRESSES: "10.0.0.1,172.17.0.10"
+      # DNS_UPSTREAM_RESOLVER_TYPE: "plain"
+      # DNS_UPSTREAM_PLAIN_ADDRESSES: "10.0.0.1,172.17.0.10"
+      DNS_SERVER: "on"
+      DNS_ADDRESS: "10.0.0.1,172.17.0.10"
+
     volumes:
       - /lib/modules:/lib/modules:ro
 
