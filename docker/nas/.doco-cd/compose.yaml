@@ -65,6 +65,8 @@ services:
       traefik.http.routers.doco-cd-metrics.service: doco-cd-metrics
       traefik.http.services.doco-cd-metrics.loadbalancer.server.port: "9120"
       traefik.http.services.doco-cd-metrics.loadbalancer.server.scheme: http
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "traefik.nas.local"
 
 networks:
   internal:
