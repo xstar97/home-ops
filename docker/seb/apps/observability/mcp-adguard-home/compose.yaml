@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   mcp-adguard-home:
     scale: 1
-    image: ghcr.io/samik081/mcp-adguard-home:0.10.0@sha256:c1c3d89a21d9c66f9f97d14eba3ee725827c70e2357687d598112b01d6cafbbe
+    image: ghcr.io/samik081/mcp-adguard-home:0.10.1@sha256:8b99f6c1be373537ae0ac08b607a6f7b43086b77ed20bdc0a5b0964fa7e3c9ff
     container_name: mcp-adguard-home
     restart: on-failure
     expose:
