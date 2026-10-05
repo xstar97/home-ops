@@ -41,6 +41,8 @@ services:
       traefik.http.services.wol.loadbalancer.server.url: http://${SEB_IP}:7777
       traefik.http.routers.wol.middlewares: error-pages-middleware
       wud.watch: false
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
 # networks:
 #   network_internal:
 #     external: true

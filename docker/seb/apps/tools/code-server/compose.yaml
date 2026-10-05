@@ -27,6 +27,8 @@ services:
       traefik.http.routers.code.tls: true
       traefik.http.routers.code.tls.certResolver: cf
       traefik.http.routers.code.middlewares: error-pages-middleware
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
 networks:
   network_internal:
     external: true

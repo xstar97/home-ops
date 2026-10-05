@@ -38,6 +38,8 @@ services:
       traefik.http.routers.prunemate.tls.certResolver: cf
       traefik.http.routers.prunemate.middlewares: error-pages-middleware
       wud.watch: false
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
 networks:
   network_internal:
     external: true

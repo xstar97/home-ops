@@ -52,6 +52,8 @@ services:
       homepage.widget.url: http://gatus:8080
       homepage.description: Status Page
       wud.watch: false
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
 networks:
   network_internal:
     external: true

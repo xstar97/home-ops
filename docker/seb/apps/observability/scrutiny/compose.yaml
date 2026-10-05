@@ -63,6 +63,8 @@ services:
       homepage.description: Hard Drive S.M.A.R.T Monitoring 
       homepage.widget.type: scrutiny
       homepage.widget.url: http://${SEB_HOSTNAME_LOCAL}:10080
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
   scrutiny-collector:
     scale: 1
     build:

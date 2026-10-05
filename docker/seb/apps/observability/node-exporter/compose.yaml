@@ -32,6 +32,8 @@ services:
       traefik.http.routers.node-exporter.service: node-exporter
       traefik.http.services.node-exporter.loadbalancer.server.port: "9100"
       traefik.http.services.node-exporter.loadbalancer.server.scheme: http
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
 networks:
   network_internal:
     external: true

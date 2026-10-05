@@ -31,6 +31,8 @@ services:
       traefik.http.routers.apprise.service: apprise
       traefik.http.services.apprise.loadbalancer.server.port: "8000"
       traefik.http.services.apprise.loadbalancer.server.scheme: http
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
 networks:
   network_internal:
     external: true
