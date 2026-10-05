@@ -41,15 +41,18 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
-      - ./configs:/etc/traefik/dynamic
+      - type: bind
+        source: ./configs
+        target: /etc/traefik/dynamic
+        read_only: true
     labels:
       traefik.enable: "true"
       # Traefik dashboard
       traefik.http.routers.traefik.rule: Host(`traefik.nas.local`)
       traefik.http.routers.traefik.entrypoints: web
       traefik.http.routers.traefik.service: api@internal
-      # Register dashboard DNS record with AdGuard.
-      adguard.dns: "truenas.local"
+      # DNS target for Docker labels and file-provider routers
+      adguard.dns: "${TRUENAS_HOSTNAME_LOCAL}"
   adguard-dns-companion:
     image: python:3.14-alpine@sha256:f6a589d43c42b9e7f7dc67a12d37132491f362859a5d750607710cc56da3bc72
     container_name: traefik-adguard-dns
@@ -64,6 +67,7 @@ services:
       ADGUARD_PASSWORD: ${ADGUARD_PASSWORD}
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
+      DYNAMIC_CONFIG_DIR: /etc/traefik/dynamic
       PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
@@ -74,6 +78,10 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+        read_only: true
+      - type: bind
+        source: ./configs
+        target: /etc/traefik/dynamic
         read_only: true
       - type: bind
         source: ./adguard-dns-companion.py
