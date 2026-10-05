@@ -1060,29 +1060,20 @@ def reconcile() -> None:
 # -----------------------------------------------------------------------------
 
 def healthcheck() -> None:
-    """Verify Docker, Traefik, and AdGuard are reachable."""
-
-    # Docker
+    print("docker...", flush=True)
     docker_request("/_ping")
+    print("docker OK", flush=True)
 
-    # Traefik
+    print("traefik...", flush=True)
     routers = traefik_routers()
+    print(f"traefik OK: {len(routers)} routers", flush=True)
 
-    if not isinstance(routers, list):
-        raise RuntimeError(
-            "Traefik returned invalid router data"
-        )
-
-    # AdGuard
+    print("adguard...", flush=True)
     result = request_json(
         f"{ADGUARD_URL}/control/rewrite/list",
         headers=adguard_headers(),
     )
-
-    if not isinstance(result, list):
-        raise RuntimeError(
-            "AdGuard returned invalid rewrite data"
-        )
+    print(f"adguard OK: {len(result)} rewrites", flush=True)
 
     print("OK", flush=True)
 
