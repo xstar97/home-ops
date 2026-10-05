@@ -2,272 +2,37 @@
 
 import base64
 import json
-import logging
 import os
 import re
 import socket
 import sys
 import time
-from http.client import HTTPConnection, HTTPSConnection
-from urllib.parse import urlparse
+import urllib.error
+import urllib.request
+from pathlib import Path
 
 
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
 
+ADGUARD_URL = os.environ.get("ADGUARD_URL", "").rstrip("/")
+ADGUARD_USERNAME = os.environ.get("ADGUARD_USERNAME", "")
+ADGUARD_PASSWORD = os.environ.get("ADGUARD_PASSWORD", "")
+
+TRAEFIK_API_URL = os.environ.get(
+    "TRAEFIK_API_URL",
+    "http://traefik:8080",
+).rstrip("/")
+
 DOCKER_SOCKET = "/var/run/docker.sock"
 
-ADGUARD_URL = os.environ["ADGUARD_URL"].rstrip("/")
-ADGUARD_USERNAME = os.environ["ADGUARD_USERNAME"]
-ADGUARD_PASSWORD = os.environ["ADGUARD_PASSWORD"]
-
-POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "30"))
-STATE_FILE = os.getenv("STATE_FILE", "/data/state.json")
-
-DYNAMIC_CONFIG_DIR = os.getenv(
-    "DYNAMIC_CONFIG_DIR",
-    "/etc/traefik/dynamic",
-)
-
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
-
-logging.basicConfig(
-    level=LOG_LEVEL,
-    format="%(asctime)s %(levelname)s %(message)s",
-)
-
-log = logging.getLogger("adguard-dns-companion")
+POLL_INTERVAL = int(os.environ.get("POLL_INTERVAL", "30"))
+STATE_FILE = os.environ.get("STATE_FILE", "/data/state.json")
 
 
 # -----------------------------------------------------------------------------
-# Docker HTTP client
-# -----------------------------------------------------------------------------
-
-class UnixHTTPConnection(HTTPConnection):
-    def __init__(self, socket_path):
-        super().__init__("localhost")
-        self.socket_path = socket_path
-
-    def connect(self):
-        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.sock.connect(self.socket_path)
-
-
-def docker_request(method, path):
-    conn = UnixHTTPConnection(DOCKER_SOCKET)
-
-    try:
-        conn.request(method, path)
-        response = conn.getresponse()
-        body = response.read()
-
-        if response.status >= 400:
-            raise RuntimeError(
-                f"Docker API returned HTTP {response.status}: "
-                f"{body.decode(errors='replace')}"
-            )
-
-        if not body:
-            return None
-
-        return json.loads(body)
-
-    finally:
-        conn.close()
-
-
-def get_running_containers():
-    return docker_request(
-        "GET",
-        "/containers/json?all=false",
-    )
-
-
-# -----------------------------------------------------------------------------
-# AdGuard HTTP client
-# -----------------------------------------------------------------------------
-
-def adguard_connection():
-    parsed = urlparse(ADGUARD_URL)
-
-    if parsed.scheme == "https":
-        return HTTPSConnection(parsed.netloc, timeout=10)
-
-    if parsed.scheme == "http":
-        return HTTPConnection(parsed.netloc, timeout=10)
-
-    raise RuntimeError(
-        f"Unsupported ADGUARD_URL scheme: {parsed.scheme}"
-    )
-
-
-def adguard_request(method, path, payload=None):
-    conn = adguard_connection()
-
-    auth = base64.b64encode(
-        f"{ADGUARD_USERNAME}:{ADGUARD_PASSWORD}".encode()
-    ).decode()
-
-    headers = {
-        "Authorization": f"Basic {auth}",
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    }
-
-    body = None
-
-    if payload is not None:
-        body = json.dumps(payload).encode()
-
-    try:
-        conn.request(
-            method,
-            path,
-            body=body,
-            headers=headers,
-        )
-
-        response = conn.getresponse()
-        response_body = response.read()
-
-        if response.status >= 400:
-            raise RuntimeError(
-                f"AdGuard API returned HTTP {response.status}: "
-                f"{response_body.decode(errors='replace')}"
-            )
-
-        if not response_body:
-            return None
-
-        return json.loads(response_body)
-
-    finally:
-        conn.close()
-
-
-# -----------------------------------------------------------------------------
-# AdGuard rewrites
-# -----------------------------------------------------------------------------
-
-def get_rewrites():
-    result = adguard_request(
-        "GET",
-        "/control/rewrite/list",
-    )
-
-    if not isinstance(result, list):
-        raise RuntimeError(
-            f"Unexpected AdGuard rewrite response: {result!r}"
-        )
-
-    return result
-
-
-def rewrite_key(domain, answer):
-    return f"{domain}\0{answer}"
-
-
-def add_rewrite(domain, answer):
-    log.info(
-        "Adding AdGuard rewrite: %s -> %s",
-        domain,
-        answer,
-    )
-
-    adguard_request(
-        "POST",
-        "/control/rewrite/add",
-        {
-            "domain": domain,
-            "answer": answer,
-        },
-    )
-
-
-def delete_rewrite(domain, answer):
-    log.info(
-        "Removing owned AdGuard rewrite: %s -> %s",
-        domain,
-        answer,
-    )
-
-    adguard_request(
-        "POST",
-        "/control/rewrite/delete",
-        {
-            "domain": domain,
-            "answer": answer,
-        },
-    )
-
-
-# -----------------------------------------------------------------------------
-# State
-# -----------------------------------------------------------------------------
-
-def load_state():
-    if not os.path.exists(STATE_FILE):
-        return {
-            "version": 1,
-            "records": {},
-        }
-
-    try:
-        with open(STATE_FILE, "r", encoding="utf-8") as f:
-            state = json.load(f)
-
-        if state.get("version") != 1:
-            log.warning(
-                "Ignoring incompatible state file: %s",
-                STATE_FILE,
-            )
-
-            return {
-                "version": 1,
-                "records": {},
-            }
-
-        if not isinstance(state.get("records"), dict):
-            raise ValueError("records must be an object")
-
-        return state
-
-    except Exception as exc:
-        log.warning(
-            "Unable to load state file %s: %s",
-            STATE_FILE,
-            exc,
-        )
-
-        return {
-            "version": 1,
-            "records": {},
-        }
-
-
-def save_state(state):
-    directory = os.path.dirname(STATE_FILE)
-
-    if directory:
-        os.makedirs(directory, exist_ok=True)
-
-    temporary = f"{STATE_FILE}.tmp"
-
-    with open(temporary, "w", encoding="utf-8") as f:
-        json.dump(
-            state,
-            f,
-            indent=2,
-            sort_keys=True,
-        )
-        f.write("\n")
-
-    os.replace(temporary, STATE_FILE)
-
-
-# -----------------------------------------------------------------------------
-# Host extraction
+# Traefik / Docker parsing
 # -----------------------------------------------------------------------------
 
 HOST_FUNCTION_RE = re.compile(
@@ -276,301 +41,525 @@ HOST_FUNCTION_RE = re.compile(
 )
 
 HOST_VALUE_RE = re.compile(
-    r"[`\"]([^`\"]+)[`\"]"
+    r"[`\"]([^`\"]+)[`\"]",
+)
+
+DOCKER_ROUTER_LABEL_RE = re.compile(
+    r"^traefik\.http\.routers\.([^\.]+)\.rule$",
+)
+
+HOSTNAME_RE = re.compile(
+    r"^[a-zA-Z0-9](?:[a-zA-Z0-9.-]*[a-zA-Z0-9])?$"
 )
 
 
-def extract_hosts(rule):
-    """
-    Extract exact Host() values.
+# -----------------------------------------------------------------------------
+# Generic HTTP
+# -----------------------------------------------------------------------------
 
-    Supports:
+def http_request(
+    url,
+    method="GET",
+    data=None,
+    headers=None,
+    timeout=10,
+):
+    request_headers = {
+        "Accept": "application/json",
+    }
 
-        Host(`foo.example.com`)
+    if headers:
+        request_headers.update(headers)
 
-        Host(`foo.example.com`, `bar.example.com`)
+    body = None
 
-        Host(`foo.example.com`) || Host(`bar.example.com`)
+    if data is not None:
+        body = json.dumps(data).encode("utf-8")
+        request_headers["Content-Type"] = "application/json"
 
-        Host(`foo.example.com`) && Path(`/metrics`)
-    """
+    request = urllib.request.Request(
+        url,
+        data=body,
+        headers=request_headers,
+        method=method,
+    )
 
-    hosts = set()
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        raw = response.read()
 
-    for match in HOST_FUNCTION_RE.finditer(rule):
-        arguments = match.group(1)
+        if not raw:
+            return None
 
-        for value in HOST_VALUE_RE.findall(arguments):
-            value = value.strip().lower()
-
-            if value:
-                hosts.add(value)
-
-    return sorted(hosts)
+        return json.loads(raw.decode("utf-8"))
 
 
 # -----------------------------------------------------------------------------
-# Docker label discovery
+# Docker Unix socket HTTP client
 # -----------------------------------------------------------------------------
 
-ROUTER_RULE_RE = re.compile(
-    r"^traefik\.http\.routers\.([^\.]+)\.rule$"
-)
+def docker_request(
+    path,
+    method="GET",
+    data=None,
+    timeout=10,
+):
+    body = None
+    headers = {
+        "Host": "localhost",
+        "Accept": "application/json",
+    }
+
+    if data is not None:
+        body = json.dumps(data).encode("utf-8")
+        headers["Content-Type"] = "application/json"
+
+    request = urllib.request.Request(
+        f"http://localhost{path}",
+        data=body,
+        headers=headers,
+        method=method,
+    )
+
+    class UnixSocketHTTPHandler(urllib.request.HTTPHandler):
+        def http_open(self, req):
+            return self.do_open(
+                lambda host, timeout=10, **kwargs: UnixSocketConnection(
+                    DOCKER_SOCKET,
+                    timeout=timeout,
+                ),
+                req,
+            )
+
+    class UnixSocketConnection:
+        def __init__(self, socket_path, timeout=10):
+            self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            self.sock.settimeout(timeout)
+            self.sock.connect(socket_path)
+
+        def makefile(self, *args, **kwargs):
+            return self.sock.makefile(*args, **kwargs)
+
+        def close(self):
+            self.sock.close()
+
+    opener = urllib.request.build_opener(
+        UnixSocketHTTPHandler()
+    )
+
+    with opener.open(request, timeout=timeout) as response:
+        raw = response.read()
+
+        if not raw:
+            return None
+
+        return json.loads(raw.decode("utf-8"))
 
 
-def get_docker_records(containers):
-    """
-    Discover DNS records from Docker labels.
+# -----------------------------------------------------------------------------
+# AdGuard client
+# -----------------------------------------------------------------------------
 
-    Required:
+def adguard_headers():
+    credentials = f"{ADGUARD_USERNAME}:{ADGUARD_PASSWORD}"
+    encoded = base64.b64encode(
+        credentials.encode("utf-8")
+    ).decode("ascii")
 
-        traefik.http.routers.<name>.rule
-        adguard.dns
+    return {
+        "Authorization": f"Basic {encoded}",
+    }
 
-    Example:
 
-        traefik.http.routers.dozzle.rule=Host(`dozzle.nas.local`)
-        adguard.dns=10.0.0.171
-    """
+def adguard_request(
+    path,
+    method="GET",
+    data=None,
+):
+    return http_request(
+        f"{ADGUARD_URL}{path}",
+        method=method,
+        data=data,
+        headers=adguard_headers(),
+    )
 
-    records = {}
 
-    for container in containers:
-        container_id = container["Id"]
+def get_adguard_rewrites():
+    response = adguard_request("/control/rewrite/list")
 
-        names = container.get("Names") or []
-        container_name = (
-            names[0].lstrip("/")
-            if names
-            else container_id[:12]
+    if not isinstance(response, list):
+        raise RuntimeError(
+            f"Unexpected AdGuard rewrite response: {response!r}"
         )
 
-        labels = container.get("Labels") or {}
+    return response
 
-        target = labels.get("adguard.dns")
+
+def add_adguard_rewrite(domain, answer):
+    adguard_request(
+        "/control/rewrite/add",
+        method="POST",
+        data={
+            "domain": domain,
+            "answer": answer,
+        },
+    )
+
+
+def delete_adguard_rewrite(domain, answer):
+    adguard_request(
+        "/control/rewrite/delete",
+        method="POST",
+        data={
+            "domain": domain,
+            "answer": answer,
+        },
+    )
+
+
+# -----------------------------------------------------------------------------
+# Traefik API
+# -----------------------------------------------------------------------------
+
+def get_traefik_routers():
+    response = http_request(
+        f"{TRAEFIK_API_URL}/api/http/routers"
+    )
+
+    if not isinstance(response, list):
+        raise RuntimeError(
+            f"Unexpected Traefik router response: {response!r}"
+        )
+
+    return response
+
+
+# -----------------------------------------------------------------------------
+# Docker discovery
+# -----------------------------------------------------------------------------
+
+def get_docker_containers():
+    containers = docker_request("/containers/json?all=1")
+
+    if not isinstance(containers, list):
+        raise RuntimeError(
+            f"Unexpected Docker container response: {containers!r}"
+        )
+
+    return containers
+
+
+def container_name(container):
+    names = container.get("Names") or []
+
+    if not names:
+        return ""
+
+    return names[0].lstrip("/")
+
+
+def get_container_labels(container):
+    return container.get("Labels") or {}
+
+
+def get_adguard_target(container):
+    labels = get_container_labels(container)
+    target = labels.get("adguard.dns", "").strip()
+
+    if not target:
+        return None
+
+    return target
+
+
+def build_docker_router_targets(containers):
+    """
+    Build:
+
+        router name -> target IP
+
+    from Docker labels.
+
+    The Traefik API remains the source of truth for the actual router rule.
+    These labels are only used to associate a Docker router with its
+    adguard.dns target.
+    """
+
+    router_targets = {}
+
+    for container in containers:
+        labels = get_container_labels(container)
+        target = labels.get("adguard.dns", "").strip()
 
         if not target:
             continue
 
-        target = target.strip()
-
-        if not target:
-            continue
-
-        for label, rule in labels.items():
-            match = ROUTER_RULE_RE.match(label)
+        for label, value in labels.items():
+            match = DOCKER_ROUTER_LABEL_RE.match(label)
 
             if not match:
                 continue
 
             router_name = match.group(1)
 
-            if not rule:
+            if not value:
                 continue
 
-            hosts = extract_hosts(rule)
+            existing = router_targets.get(router_name)
 
-            for hostname in hosts:
-                key = rewrite_key(hostname, target)
-
-                record = records.setdefault(
-                    key,
-                    {
-                        "hostname": hostname,
-                        "answer": target,
-                        "owners": [],
-                    },
+            if existing and existing != target:
+                print(
+                    "WARNING: Docker router has conflicting adguard.dns "
+                    f"targets: {router_name}: {existing} vs {target}"
                 )
+                continue
 
-                owner = {
-                    "source": "docker",
-                    "container_id": container_id,
-                    "container_name": container_name,
-                    "router": router_name,
-                }
+            router_targets[router_name] = target
 
-                if owner not in record["owners"]:
-                    record["owners"].append(owner)
-
-    return records
+    return router_targets
 
 
-# -----------------------------------------------------------------------------
-# Dynamic Traefik config discovery
-# -----------------------------------------------------------------------------
-
-def get_traefik_target(containers):
+def get_traefik_container_target(containers):
     """
-    The Traefik container's adguard.dns label is used as the target
-    for routers discovered from the file provider.
+    File-provider routers do not have an adguard.dns label of their own.
+
+    They use the target declared on the Traefik container itself.
     """
 
     for container in containers:
-        names = container.get("Names") or []
+        name = container_name(container)
 
-        if "traefik" not in [
-            name.lstrip("/").lower()
-            for name in names
-        ]:
-            continue
+        if name == "traefik":
+            target = get_adguard_target(container)
 
-        labels = container.get("Labels") or {}
-
-        target = labels.get("adguard.dns")
-
-        if target:
-            return target.strip()
+            if target:
+                return target
 
     return None
 
 
-def iter_dynamic_files():
-    if not os.path.isdir(DYNAMIC_CONFIG_DIR):
-        log.warning(
-            "Dynamic config directory does not exist: %s",
-            DYNAMIC_CONFIG_DIR,
-        )
-        return
+# -----------------------------------------------------------------------------
+# Host extraction
+# -----------------------------------------------------------------------------
 
-    for root, _, files in os.walk(DYNAMIC_CONFIG_DIR):
-        for filename in sorted(files):
-            if not filename.lower().endswith((".yml", ".yaml")):
-                continue
-
-            yield os.path.join(root, filename)
-
-
-def get_file_records(containers):
+def extract_hosts(rule):
     """
-    Discover Host() rules from Traefik file-provider configs.
+    Extract exact Host() values.
 
-    The target comes from the Traefik container's adguard.dns label.
+    HostRegexp() is intentionally ignored.
     """
 
-    target = get_traefik_target(containers)
+    if not rule:
+        return []
 
-    if not target:
-        log.warning(
-            "Traefik container has no adguard.dns label; "
-            "file-provider hosts will be ignored"
-        )
-        return {}
+    hosts = []
 
-    records = {}
+    for function_args in HOST_FUNCTION_RE.findall(rule):
+        for value in HOST_VALUE_RE.findall(function_args):
+            hostname = value.strip().lower().rstrip(".")
 
-    for path in iter_dynamic_files():
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                content = f.read()
-
-        except Exception as exc:
-            log.warning(
-                "Unable to read dynamic config %s: %s",
-                path,
-                exc,
-            )
-            continue
-
-        # We intentionally scan for Host() expressions rather than requiring
-        # PyYAML. Traefik rules are strings embedded in YAML and this keeps
-        # the companion dependency-free.
-        for line_number, line in enumerate(
-            content.splitlines(),
-            start=1,
-        ):
-            if "Host(" not in line:
+            if not hostname:
                 continue
 
-            hosts = extract_hosts(line)
-
-            if not hosts:
+            if not HOSTNAME_RE.match(hostname):
                 continue
 
-            # Try to identify the router name from the preceding YAML.
-            router_name = "unknown"
+            hosts.append(hostname)
 
-            for previous_line in reversed(
-                content.splitlines()[:line_number - 1]
-            ):
-                match = re.match(
-                    r"^\s{4}([A-Za-z0-9_.-]+):\s*$",
-                    previous_line,
-                )
-
-                if match:
-                    router_name = match.group(1)
-                    break
-
-                if re.match(
-                    r"^\S",
-                    previous_line,
-                ):
-                    break
-
-            for hostname in hosts:
-                key = rewrite_key(hostname, target)
-
-                record = records.setdefault(
-                    key,
-                    {
-                        "hostname": hostname,
-                        "answer": target,
-                        "owners": [],
-                    },
-                )
-
-                owner = {
-                    "source": "file",
-                    "file": os.path.relpath(
-                        path,
-                        DYNAMIC_CONFIG_DIR,
-                    ),
-                    "router": router_name,
-                }
-
-                if owner not in record["owners"]:
-                    record["owners"].append(owner)
-
-                log.debug(
-                    "Found file-provider host: %s -> %s "
-                    "(%s:%d)",
-                    hostname,
-                    target,
-                    os.path.relpath(
-                        path,
-                        DYNAMIC_CONFIG_DIR,
-                    ),
-                    line_number,
-                )
-
-    return records
+    return sorted(set(hosts))
 
 
 # -----------------------------------------------------------------------------
 # Desired records
 # -----------------------------------------------------------------------------
 
-def get_desired_records(containers):
-    docker_records = get_docker_records(containers)
-    file_records = get_file_records(containers)
+def get_desired_records(routers, containers):
+    """
+    Returns a set of:
 
-    desired = docker_records
+        (hostname, target)
 
-    for key, record in file_records.items():
-        if key not in desired:
-            desired[key] = record
+    Traefik API is the source of truth for the routers and rules.
+
+    Docker labels are only used to determine the DNS target.
+    """
+
+    docker_router_targets = build_docker_router_targets(containers)
+    traefik_target = get_traefik_container_target(containers)
+
+    desired = set()
+
+    for router in routers:
+        rule = router.get("rule", "")
+        provider = router.get("provider", "")
+        name = router.get("name", "")
+
+        hosts = extract_hosts(rule)
+
+        if not hosts:
+            continue
+
+        target = None
+
+        # ------------------------------------------------------------------
+        # Docker provider
+        # ------------------------------------------------------------------
+
+        if provider == "docker":
+            router_name = name
+
+            if "@" in router_name:
+                router_name = router_name.rsplit("@", 1)[0]
+
+            target = docker_router_targets.get(router_name)
+
+            if not target:
+                print(
+                    "WARNING: No adguard.dns target found for "
+                    f"Docker router {name!r}; skipping"
+                )
+                continue
+
+        # ------------------------------------------------------------------
+        # File provider
+        # ------------------------------------------------------------------
+
+        elif provider == "file":
+            target = traefik_target
+
+            if not target:
+                print(
+                    "WARNING: No adguard.dns target found on Traefik "
+                    "container; skipping file router "
+                    f"{name!r}"
+                )
+                continue
+
+        # ------------------------------------------------------------------
+        # Unknown provider
+        # ------------------------------------------------------------------
+
         else:
-            for owner in record["owners"]:
-                if owner not in desired[key]["owners"]:
-                    desired[key]["owners"].append(owner)
+            print(
+                f"WARNING: Unsupported Traefik router provider "
+                f"{provider!r} for {name!r}; skipping"
+            )
+            continue
 
-    log.info(
-        "Discovered %d Docker records and %d file-provider records",
-        len(docker_records),
-        len(file_records),
-    )
+        for hostname in hosts:
+            desired.add((hostname, target))
 
     return desired
+
+
+# -----------------------------------------------------------------------------
+# State
+# -----------------------------------------------------------------------------
+
+def load_state():
+    path = Path(STATE_FILE)
+
+    if not path.exists():
+        return set()
+
+    try:
+        with path.open("r", encoding="utf-8") as file:
+            state = json.load(file)
+
+    except (OSError, json.JSONDecodeError) as exc:
+        print(
+            f"WARNING: Could not load state file {STATE_FILE}: {exc}"
+        )
+        return set()
+
+    owned = state.get("owned", [])
+
+    result = set()
+
+    for record in owned:
+        if not isinstance(record, dict):
+            continue
+
+        domain = record.get("domain")
+        answer = record.get("answer")
+
+        if not domain or not answer:
+            continue
+
+        result.add(
+            (
+                domain.lower().rstrip("."),
+                answer,
+            )
+        )
+
+    return result
+
+
+def save_state(owned):
+    path = Path(STATE_FILE)
+
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    records = [
+        {
+            "domain": domain,
+            "answer": answer,
+        }
+        for domain, answer in sorted(owned)
+    ]
+
+    temporary = path.with_suffix(".tmp")
+
+    with temporary.open("w", encoding="utf-8") as file:
+        json.dump(
+            {
+                "owned": records,
+            },
+            file,
+            indent=2,
+            sort_keys=True,
+        )
+        file.write("\n")
+
+    temporary.replace(path)
+
+
+# -----------------------------------------------------------------------------
+# AdGuard rewrite normalization
+# -----------------------------------------------------------------------------
+
+def normalize_rewrites(rewrites):
+    """
+    Returns:
+
+        (domain, answer) -> original rewrite object
+
+    Only exact domain + answer pairs are considered equivalent.
+    """
+
+    result = {}
+
+    for rewrite in rewrites:
+        if not isinstance(rewrite, dict):
+            continue
+
+        domain = str(
+            rewrite.get("domain", "")
+        ).strip().lower().rstrip(".")
+
+        answer = str(
+            rewrite.get("answer", "")
+        ).strip()
+
+        if not domain or not answer:
+            continue
+
+        result[(domain, answer)] = rewrite
+
+    return result
 
 
 # -----------------------------------------------------------------------------
@@ -578,100 +567,145 @@ def get_desired_records(containers):
 # -----------------------------------------------------------------------------
 
 def reconcile():
-    containers = get_running_containers()
-    rewrites = get_rewrites()
+    print("Refreshing Traefik routers...")
 
-    state = load_state()
-    previous_records = state["records"]
+    routers = get_traefik_routers()
+    containers = get_docker_containers()
 
-    desired_records = get_desired_records(containers)
+    desired = get_desired_records(
+        routers,
+        containers,
+    )
 
-    current_rewrites = {
-        rewrite_key(
-            item.get("domain", ""),
-            item.get("answer", ""),
+    print(
+        f"Traefik routers: {len(routers)}, "
+        f"desired DNS records: {len(desired)}"
+    )
+
+    rewrites = get_adguard_rewrites()
+    existing = normalize_rewrites(rewrites)
+
+    owned = load_state()
+
+    # -------------------------------------------------------------------------
+    # Remove stale records that WE own.
+    #
+    # Manual records are never touched because they are not in `owned`.
+    # -------------------------------------------------------------------------
+
+    stale = owned - desired
+
+    for domain, answer in sorted(stale):
+        key = (domain, answer)
+
+        if key not in existing:
+            print(
+                f"Removing stale owned record: "
+                f"{domain} -> {answer}"
+            )
+            owned.discard(key)
+            continue
+
+        print(
+            f"Removing stale owned record: "
+            f"{domain} -> {answer}"
         )
-        for item in rewrites
-        if item.get("domain") and item.get("answer")
-    }
 
-    previous_keys = set(previous_records)
-    desired_keys = set(desired_records)
-
-    # -------------------------------------------------------------------------
-    # Delete ONLY records that were previously created/owned by us and are
-    # no longer desired.
-    # -------------------------------------------------------------------------
-
-    stale_keys = previous_keys - desired_keys
-
-    for key in sorted(stale_keys):
-        record = previous_records[key]
-
-        hostname = record["hostname"]
-        answer = record["answer"]
-
-        if key in current_rewrites:
-            delete_rewrite(hostname, answer)
-            current_rewrites.discard(key)
-
-        else:
-            log.debug(
-                "Owned rewrite already absent: %s -> %s",
-                hostname,
+        try:
+            delete_adguard_rewrite(
+                domain,
                 answer,
             )
+        except Exception as exc:
+            print(
+                f"ERROR: Failed to delete "
+                f"{domain} -> {answer}: {exc}"
+            )
+            continue
+
+        owned.discard(key)
+        existing.pop(key, None)
 
     # -------------------------------------------------------------------------
-    # Rebuild ownership state.
+    # Ensure desired records exist.
+    #
+    # Critical ownership behavior:
+    #
+    #   Existing + owned     -> keep and remain owned
+    #   Existing + unowned   -> leave untouched, DO NOT claim
+    #   Missing              -> create and claim
     # -------------------------------------------------------------------------
 
-    new_records = {}
+    for domain, answer in sorted(desired):
+        key = (domain, answer)
 
-    for key, desired in sorted(desired_records.items()):
-        hostname = desired["hostname"]
-        answer = desired["answer"]
-
-        previously_owned = key in previous_records
-        exists = key in current_rewrites
-
-        if exists:
-            if previously_owned:
-                new_records[key] = desired
-
-                log.debug(
-                    "Keeping owned rewrite: %s -> %s",
-                    hostname,
-                    answer,
+        # We already own this exact record.
+        if key in owned:
+            if key not in existing:
+                print(
+                    f"Recreating missing owned record: "
+                    f"{domain} -> {answer}"
                 )
 
-            else:
-                # Existing record was not created by us.
-                #
-                # DO NOT claim it.
-                # DO NOT modify it.
-                # DO NOT delete it later.
-                log.info(
-                    "Leaving existing unowned rewrite untouched: "
-                    "%s -> %s",
-                    hostname,
-                    answer,
-                )
+                try:
+                    add_adguard_rewrite(
+                        domain,
+                        answer,
+                    )
+                except Exception as exc:
+                    print(
+                        f"ERROR: Failed to recreate "
+                        f"{domain} -> {answer}: {exc}"
+                    )
+                    continue
 
-        else:
-            add_rewrite(hostname, answer)
+                existing[key] = {
+                    "domain": domain,
+                    "answer": answer,
+                }
 
-            current_rewrites.add(key)
-            new_records[key] = desired
+            continue
 
-    state["records"] = new_records
+        # Someone already has this exact record.
+        #
+        # This may be a manually-created rewrite. We must NOT claim it.
+        if key in existing:
+            print(
+                f"Existing unowned record preserved: "
+                f"{domain} -> {answer}"
+            )
+            continue
 
-    save_state(state)
+        # Record does not exist. We can safely create and own it.
+        print(
+            f"Creating owned record: "
+            f"{domain} -> {answer}"
+        )
 
-    log.info(
-        "Reconciliation complete: %d desired, %d owned",
-        len(desired_records),
-        len(new_records),
+        try:
+            add_adguard_rewrite(
+                domain,
+                answer,
+            )
+        except Exception as exc:
+            print(
+                f"ERROR: Failed to create "
+                f"{domain} -> {answer}: {exc}"
+            )
+            continue
+
+        owned.add(key)
+
+        existing[key] = {
+            "domain": domain,
+            "answer": answer,
+        }
+
+    save_state(owned)
+
+    print(
+        f"Reconciliation complete: "
+        f"{len(owned)} owned record(s)"
     )
 
 
@@ -680,22 +714,49 @@ def reconcile():
 # -----------------------------------------------------------------------------
 
 def healthcheck():
-    try:
-        get_running_containers()
-        get_rewrites()
+    errors = []
 
-        if not os.path.isdir(DYNAMIC_CONFIG_DIR):
-            raise RuntimeError(
-                f"Dynamic config directory does not exist: "
-                f"{DYNAMIC_CONFIG_DIR}"
+    # Docker
+    try:
+        docker_request("/_ping")
+    except Exception as exc:
+        errors.append(
+            f"Docker: {exc}"
+        )
+
+    # Traefik
+    try:
+        routers = get_traefik_routers()
+
+        if not isinstance(routers, list):
+            errors.append(
+                "Traefik API returned invalid router data"
             )
 
-        log.info("Healthcheck OK")
-        return 0
-
     except Exception as exc:
-        log.error("Healthcheck failed: %s", exc)
-        return 1
+        errors.append(
+            f"Traefik: {exc}"
+        )
+
+    # AdGuard
+    try:
+        get_adguard_rewrites()
+    except Exception as exc:
+        errors.append(
+            f"AdGuard: {exc}"
+        )
+
+    if errors:
+        for error in errors:
+            print(
+                f"ERROR: {error}",
+                file=sys.stderr,
+            )
+
+        return False
+
+    print("OK")
+    return True
 
 
 # -----------------------------------------------------------------------------
@@ -703,28 +764,54 @@ def healthcheck():
 # -----------------------------------------------------------------------------
 
 def main():
-    if "--healthcheck" in sys.argv:
-        return healthcheck()
+    if not ADGUARD_URL:
+        print(
+            "ERROR: ADGUARD_URL is not configured",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
-    log.info(
-        "Starting AdGuard DNS companion "
-        "(poll interval: %ss)",
-        POLL_INTERVAL,
-    )
+    if not ADGUARD_USERNAME:
+        print(
+            "ERROR: ADGUARD_USERNAME is not configured",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    if not ADGUARD_PASSWORD:
+        print(
+            "ERROR: ADGUARD_PASSWORD is not configured",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    if "--healthcheck" in sys.argv:
+        sys.exit(
+            0 if healthcheck() else 1
+        )
+
+    print("AdGuard DNS companion started")
+    print(f"Traefik API: {TRAEFIK_API_URL}")
+    print(f"AdGuard URL: {ADGUARD_URL}")
+    print(f"Poll interval: {POLL_INTERVAL}s")
+    print(f"State file: {STATE_FILE}")
 
     while True:
         try:
             reconcile()
 
         except KeyboardInterrupt:
-            log.info("Stopping")
-            return 0
+            print("Stopping")
+            return
 
-        except Exception:
-            log.exception("Reconciliation failed")
+        except Exception as exc:
+            print(
+                f"ERROR: Reconciliation failed: {exc}",
+                file=sys.stderr,
+            )
 
         time.sleep(POLL_INTERVAL)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

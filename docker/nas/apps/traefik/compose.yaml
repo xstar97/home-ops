@@ -29,11 +29,11 @@ services:
       - --accesslog=true
       - --api.insecure=true
       - --ping=true
+    environment:
+      TRUENAS_LOCAL_DOMAIN: "$TRUENAS_HOSTNAME_LOCAL"
+      TRUENAS_LOCAL_IP: "$TRUENAS_IP"
     networks:
       - network_internal
-    environment:
-      TRUENAS_LOCAL_DOMAIN: $TRUENAS_HOSTNAME_LOCAL
-      TRUENAS_LOCAL_IP: $TRUENAS_IP
     ports:
       - "80:80"
     volumes:
@@ -51,7 +51,7 @@ services:
       traefik.http.routers.traefik.rule: Host(`traefik.nas.local`)
       traefik.http.routers.traefik.entrypoints: web
       traefik.http.routers.traefik.service: api@internal
-      # DNS target for Docker labels and file-provider routers
+      # DNS target for Docker and file-provider routers
       adguard.dns: "${TRUENAS_HOSTNAME_LOCAL}"
   adguard-dns-companion:
     image: python:3.14-alpine@sha256:f6a589d43c42b9e7f7dc67a12d37132491f362859a5d750607710cc56da3bc72
@@ -62,12 +62,12 @@ services:
       - python
       - /app/adguard-dns-companion.py
     environment:
-      ADGUARD_URL: ${ADGUARD_URL}
-      ADGUARD_USERNAME: ${ADGUARD_USERNAME}
-      ADGUARD_PASSWORD: ${ADGUARD_PASSWORD}
+      ADGUARD_URL: "${ADGUARD_URL}"
+      ADGUARD_USERNAME: "${ADGUARD_USERNAME}"
+      ADGUARD_PASSWORD: "${ADGUARD_PASSWORD}"
+      TRAEFIK_API_URL: "http://traefik:8080"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
-      DYNAMIC_CONFIG_DIR: /etc/traefik/dynamic
       PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
@@ -78,10 +78,6 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
-        read_only: true
-      - type: bind
-        source: ./configs
-        target: /etc/traefik/dynamic
         read_only: true
       - type: bind
         source: ./adguard-dns-companion.py

@@ -18,6 +18,7 @@ services:
     container_name: traefik
     restart: on-failure
     healthcheck: *healthcheck
+
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_SEB_DOMAIN_0}"
       DOMAIN_0: "$BASE_DOMAIN_0"
@@ -83,7 +84,7 @@ services:
       homepage.widget.url: http://traefik:8080
       homepage.description: Traefik dashboard
       # AdGuard DNS companion target IP
-      adguard.dns: "${SEB_IP}"
+      adguard.dns: "${SEB_HOSTNAME_LOCAL}"
     depends_on:
       error-pages:
         condition: service_healthy
@@ -99,9 +100,9 @@ services:
       ADGUARD_URL: "${ADGUARD_URL}"
       ADGUARD_USERNAME: "${ADGUARD_USERNAME}"
       ADGUARD_PASSWORD: "${ADGUARD_PASSWORD}"
+      TRAEFIK_API_URL: "http://traefik:8080"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
-      DYNAMIC_CONFIG_DIR: /etc/traefik/dynamic
       PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
@@ -113,10 +114,6 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
-        read_only: true
-      - type: bind
-        source: ./configs
-        target: /etc/traefik/dynamic
         read_only: true
       - type: bind
         source: ./adguard-dns-companion.py
