@@ -1,0 +1,43 @@
+x-healthcheck: &healthcheck
+  test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:9999/ || exit 1"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3.41.3
+    scale: 1
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - internal
+      - network_internal
+    healthcheck: *healthcheck
+    env_file:
+      - ./gluetun.enc.env
+    environment:
+      TZ: America/New_York
+      VPN_SERVICE_PROVIDER: custom
+      VPN_TYPE: wireguard
+      IREGUARD_ALLOWED_IPS: "10.7.0.0/24,172.16.0.0/16,172.17.0.0/16"
+      FIREWALL_OUTBOUND_SUBNETS: "10.7.0.0/24,172.16.0.0/16,172.17.0.0/16"
+      WIREGUARD_MTU: 1380
+      HEALTH_VPN_DURATION_INITIAL: 30s
+      HEALTH_VPN_DURATION_ADDITION: 30s
+      HEALTH_VPN_INTERVAL: 30s
+      HEALTH_VPN_RESTART_VPN: "on"
+    volumes:
+      - /lib/modules:/lib/modules:ro
+
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
