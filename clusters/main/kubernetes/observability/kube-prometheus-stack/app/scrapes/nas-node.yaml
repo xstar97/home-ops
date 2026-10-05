@@ -8,7 +8,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - http://node-exporter.nas.local # ${SCALE_IP}:9100
+        - ${SCALE_IP}:9100 # http://node-exporter.nas.local 
   metricsPath: /metrics
   relabelings:
     - action: replace

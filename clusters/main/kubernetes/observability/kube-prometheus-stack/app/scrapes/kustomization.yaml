@@ -2,12 +2,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - nas-doco-cd.yaml
-  # - nas-docker.yaml
-  # - nas-node.yaml
-  # - speedtest.yaml
-  # - opnsense.yaml
-  # - seb-doco-cd.yaml
-  # - seb-docker.yaml
-  # - seb-node.yaml
-  - scrapeconfig.yaml
+  - nas-doco-cd.yaml
+  - nas-docker.yaml
+  - nas-node.yaml
+  - speedtest.yaml
+  - opnsense.yaml
+  - seb-doco-cd.yaml
+  - seb-docker.yaml
+  - seb-node.yaml
