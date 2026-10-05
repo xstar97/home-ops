@@ -62,7 +62,7 @@ services:
       - python
       - /app/adguard-dns-companion.py
     environment:
-      ADGUARD_URL: "${ROUTER_IP}:3000"
+      ADGUARD_URL: "http://${ROUTER_IP}:3000"
       ADGUARD_USERNAME: "${ADGUARD_USERNAME}"
       ADGUARD_PASSWORD: "${ADGUARD_PASSWORD}"
       TRAEFIK_API_URL: "http://traefik:8080"
