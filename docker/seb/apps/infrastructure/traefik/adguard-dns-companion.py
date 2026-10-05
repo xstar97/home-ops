@@ -1059,16 +1059,7 @@ def reconcile() -> None:
 # -----------------------------------------------------------------------------
 
 def healthcheck() -> None:
-    """
-    Lightweight dependency healthcheck.
-
-    The companion is healthy if:
-      - Docker API is reachable
-      - Traefik API is reachable
-      - AdGuard rewrite API is reachable
-
-    AdGuard protection state is intentionally not checked here.
-    """
+    """Verify Docker, Traefik, and AdGuard are reachable."""
 
     # Docker
     docker_request("/_ping")
@@ -1092,7 +1083,8 @@ def healthcheck() -> None:
             "AdGuard returned invalid rewrite data"
         )
 
-    print("OK")
+    print("OK", flush=True)
+
 
 # -----------------------------------------------------------------------------
 # Shutdown
