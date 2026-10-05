@@ -4,6 +4,9 @@ metadata:
   name: seb
   namespace: wireguard-system
 spec:
-  wireguardRef: metrics
+  wireguardRef: dockers
   address: 10.7.0.2
-  allowedIPs: "0.0.0.0/0"
+  allowedIPs: "10.7.0.0/24,172.16.0.0/16,172.17.0.0/16"
+  dns: 10.0.0.1,172.17.0.10
+  persistentKeepalive: 25
+  mtu: "1380"
