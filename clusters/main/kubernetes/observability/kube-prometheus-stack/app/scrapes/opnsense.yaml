@@ -8,7 +8,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - ${ROUTER_IP}:9273 # http://metrics.router.local
+        - metrics.router.local
   metricsPath: /metrics
   relabelings:
     - action: replace

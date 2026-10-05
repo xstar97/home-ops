@@ -28,7 +28,7 @@ services:
     labels:
       wud.watch: false
       traefik.enable: "true"
-      traefik.http.routers.node-exporter.rule: Host(`node-exporter.nas.local`)
+      traefik.http.routers.node-exporter.rule: Host(`metrics.node.nas.local`)
       traefik.http.routers.node-exporter.entrypoints: web
       traefik.http.services.node-exporter.loadbalancer.server.port: "9100"
 networks:

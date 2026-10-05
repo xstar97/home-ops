@@ -7,7 +7,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - ${SCALE_IP}:9120 # http://metrics.doco-cd.nas.local
+        - metrics.doco-cd.nas.local
   metricsPath: /metrics
   relabelings:
     - action: replace
