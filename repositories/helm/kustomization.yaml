@@ -21,3 +21,4 @@ resources:
   - mogenius.yaml
   - grafana-operator.yaml
   - nccloud.yaml
+  - external-dns.yaml
