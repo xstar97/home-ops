@@ -34,7 +34,7 @@ services:
       HEALTH_VPN_INTERVAL: 30s
       HEALTH_VPN_RESTART_VPN: "on"
       DNS_UPSTREAM_RESOLVER_TYPE: "plain"
-      DNS_UPSTREAM_PLAIN_ADDRESSES: "10.0.0.1:53,172.17.0.10:53"
+      DNS_UPSTREAM_PLAIN_ADDRESSES: "172.17.0.10:53"
     volumes:
       - /lib/modules:/lib/modules:ro
 
