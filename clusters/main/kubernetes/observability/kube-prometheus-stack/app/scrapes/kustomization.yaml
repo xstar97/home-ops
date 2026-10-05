@@ -9,4 +9,4 @@ resources:
   - opnsense.yaml
   - seb-doco-cd.yaml
   - seb-docker.yaml
-  - seb-node.yaml
+  - seb-node.yaml  - scrapeconfig.yaml
