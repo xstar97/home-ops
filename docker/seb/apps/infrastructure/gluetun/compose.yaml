@@ -34,7 +34,7 @@ services:
       # DNS_UPSTREAM_RESOLVER_TYPE: "plain"
       # DNS_UPSTREAM_PLAIN_ADDRESSES: "10.0.0.1,172.17.0.10"
       DNS_SERVER: "on"
-      DNS_ADDRESS: "10.0.0.1,172.17.0.10"
+      DNS_ADDRESS: "172.17.0.10"
 
     volumes:
       - /lib/modules:/lib/modules:ro
