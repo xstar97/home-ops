@@ -1055,25 +1055,55 @@ def reconcile() -> None:
     )
 
 
+def request_status(
+    url: str,
+    *,
+    headers: dict[str, str] | None = None,
+) -> int:
+    request = urllib.request.Request(
+        url,
+        headers=headers or {},
+        method="GET",
+    )
+
+    try:
+        with urllib.request.urlopen(
+            request,
+            timeout=5,
+        ) as response:
+            return response.status
+
+    except urllib.error.HTTPError as error:
+        return error.code
+
+    except urllib.error.URLError as error:
+        raise RuntimeError(
+            f"request to {url} failed: {error}"
+        ) from error
+
 # -----------------------------------------------------------------------------
 # Healthcheck
 # -----------------------------------------------------------------------------
 
 def healthcheck() -> None:
-    print("docker...", flush=True)
-    docker_request("/_ping")
-    print("docker OK", flush=True)
+    traefik_status = request_status(
+        f"{TRAEFIK_API_URL}",
+    )
 
-    print("traefik...", flush=True)
-    routers = traefik_routers()
-    print(f"traefik OK: {len(routers)} routers", flush=True)
+    if traefik_status != 200:
+        raise RuntimeError(
+            f"Traefik healthcheck returned HTTP {traefik_status}"
+        )
 
-    print("adguard...", flush=True)
-    result = request_json(
-        f"{ADGUARD_URL}/control/rewrite/list",
+    adguard_status = request_status(
+        f"{ADGUARD_URL}/control/status",
         headers=adguard_headers(),
     )
-    print(f"adguard OK: {len(result)} rewrites", flush=True)
+
+    if adguard_status != 200:
+        raise RuntimeError(
+            f"AdGuard healthcheck returned HTTP {adguard_status}"
+        )
 
     print("OK", flush=True)
 

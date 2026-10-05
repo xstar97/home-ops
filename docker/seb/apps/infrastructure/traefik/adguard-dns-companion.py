@@ -1054,33 +1054,55 @@ def reconcile() -> None:
         len(managed),
     )
 
+
+def request_status(
+    url: str,
+    *,
+    headers: dict[str, str] | None = None,
+) -> int:
+    request = urllib.request.Request(
+        url,
+        headers=headers or {},
+        method="GET",
+    )
+
+    try:
+        with urllib.request.urlopen(
+            request,
+            timeout=5,
+        ) as response:
+            return response.status
+
+    except urllib.error.HTTPError as error:
+        return error.code
+
+    except urllib.error.URLError as error:
+        raise RuntimeError(
+            f"request to {url} failed: {error}"
+        ) from error
+
 # -----------------------------------------------------------------------------
 # Healthcheck
 # -----------------------------------------------------------------------------
 
 def healthcheck() -> None:
-    """Verify Docker, Traefik, and AdGuard are reachable."""
+    traefik_status = request_status(
+        f"{TRAEFIK_API_URL}",
+    )
 
-    # Docker
-    docker_request("/_ping")
-
-    # Traefik
-    routers = traefik_routers()
-
-    if not isinstance(routers, list):
+    if traefik_status != 200:
         raise RuntimeError(
-            "Traefik returned invalid router data"
+            f"Traefik healthcheck returned HTTP {traefik_status}"
         )
 
-    # AdGuard
-    result = request_json(
-        f"{ADGUARD_URL}/control/rewrite/list",
+    adguard_status = request_status(
+        f"{ADGUARD_URL}/control/status",
         headers=adguard_headers(),
     )
 
-    if not isinstance(result, list):
+    if adguard_status != 200:
         raise RuntimeError(
-            "AdGuard returned invalid rewrite data"
+            f"AdGuard healthcheck returned HTTP {adguard_status}"
         )
 
     print("OK", flush=True)
