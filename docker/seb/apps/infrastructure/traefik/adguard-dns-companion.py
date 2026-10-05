@@ -25,6 +25,11 @@ ADGUARD_PASSWORD = os.environ["ADGUARD_PASSWORD"]
 POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "30"))
 STATE_FILE = os.getenv("STATE_FILE", "/data/state.json")
 
+DYNAMIC_CONFIG_DIR = os.getenv(
+    "DYNAMIC_CONFIG_DIR",
+    "/etc/traefik/dynamic",
+)
+
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
 logging.basicConfig(
@@ -55,7 +60,6 @@ def docker_request(method, path):
     try:
         conn.request(method, path)
         response = conn.getresponse()
-
         body = response.read()
 
         if response.status >= 400:
@@ -164,14 +168,6 @@ def rewrite_key(domain, answer):
     return f"{domain}\0{answer}"
 
 
-def rewrite_exists(rewrites, domain, answer):
-    return any(
-        item.get("domain") == domain
-        and item.get("answer") == answer
-        for item in rewrites
-    )
-
-
 def add_rewrite(domain, answer):
     log.info(
         "Adding AdGuard rewrite: %s -> %s",
@@ -271,12 +267,8 @@ def save_state(state):
 
 
 # -----------------------------------------------------------------------------
-# Traefik label parsing
+# Host extraction
 # -----------------------------------------------------------------------------
-
-ROUTER_RULE_RE = re.compile(
-    r"^traefik\.http\.routers\.([^\.]+)\.rule$"
-)
 
 HOST_FUNCTION_RE = re.compile(
     r"Host\((.*?)\)",
@@ -290,13 +282,17 @@ HOST_VALUE_RE = re.compile(
 
 def extract_hosts(rule):
     """
-    Extract all exact Host() values from a Traefik rule.
+    Extract exact Host() values.
 
-    Examples:
+    Supports:
 
-      Host(`foo.example.com`)
-      Host(`foo.example.com`, `bar.example.com`)
-      Host(`foo.example.com`) || Host(`bar.example.com`)
+        Host(`foo.example.com`)
+
+        Host(`foo.example.com`, `bar.example.com`)
+
+        Host(`foo.example.com`) || Host(`bar.example.com`)
+
+        Host(`foo.example.com`) && Path(`/metrics`)
     """
 
     hosts = set()
@@ -313,40 +309,46 @@ def extract_hosts(rule):
     return sorted(hosts)
 
 
-def get_desired_records(containers):
+# -----------------------------------------------------------------------------
+# Docker label discovery
+# -----------------------------------------------------------------------------
+
+ROUTER_RULE_RE = re.compile(
+    r"^traefik\.http\.routers\.([^\.]+)\.rule$"
+)
+
+
+def get_docker_records(containers):
     """
-    Return:
+    Discover DNS records from Docker labels.
 
-      {
-        "hostname\\0target": {
-          "hostname": "...",
-          "answer": "...",
-          "owners": [
-            {
-              "container_id": "...",
-              "container_name": "...",
-              "router": "..."
-            }
-          ]
-        }
-      }
+    Required:
 
-    Multiple containers/routers can own the same exact DNS record.
+        traefik.http.routers.<name>.rule
+        adguard.dns
+
+    Example:
+
+        traefik.http.routers.dozzle.rule=Host(`dozzle.nas.local`)
+        adguard.dns=10.0.0.171
     """
 
-    desired = {}
+    records = {}
 
     for container in containers:
         container_id = container["Id"]
 
         names = container.get("Names") or []
-        container_name = names[0].lstrip("/") if names else container_id[:12]
+        container_name = (
+            names[0].lstrip("/")
+            if names
+            else container_id[:12]
+        )
 
         labels = container.get("Labels") or {}
 
         target = labels.get("adguard.dns")
 
-        # adguard.dns is explicitly opt-in.
         if not target:
             continue
 
@@ -368,18 +370,10 @@ def get_desired_records(containers):
 
             hosts = extract_hosts(rule)
 
-            if not hosts:
-                log.debug(
-                    "Ignoring router %s/%s: no exact Host() rule found",
-                    container_name,
-                    router_name,
-                )
-                continue
-
             for hostname in hosts:
                 key = rewrite_key(hostname, target)
 
-                record = desired.setdefault(
+                record = records.setdefault(
                     key,
                     {
                         "hostname": hostname,
@@ -389,6 +383,7 @@ def get_desired_records(containers):
                 )
 
                 owner = {
+                    "source": "docker",
                     "container_id": container_id,
                     "container_name": container_name,
                     "router": router_name,
@@ -396,6 +391,184 @@ def get_desired_records(containers):
 
                 if owner not in record["owners"]:
                     record["owners"].append(owner)
+
+    return records
+
+
+# -----------------------------------------------------------------------------
+# Dynamic Traefik config discovery
+# -----------------------------------------------------------------------------
+
+def get_traefik_target(containers):
+    """
+    The Traefik container's adguard.dns label is used as the target
+    for routers discovered from the file provider.
+    """
+
+    for container in containers:
+        names = container.get("Names") or []
+
+        if "traefik" not in [
+            name.lstrip("/").lower()
+            for name in names
+        ]:
+            continue
+
+        labels = container.get("Labels") or {}
+
+        target = labels.get("adguard.dns")
+
+        if target:
+            return target.strip()
+
+    return None
+
+
+def iter_dynamic_files():
+    if not os.path.isdir(DYNAMIC_CONFIG_DIR):
+        log.warning(
+            "Dynamic config directory does not exist: %s",
+            DYNAMIC_CONFIG_DIR,
+        )
+        return
+
+    for root, _, files in os.walk(DYNAMIC_CONFIG_DIR):
+        for filename in sorted(files):
+            if not filename.lower().endswith((".yml", ".yaml")):
+                continue
+
+            yield os.path.join(root, filename)
+
+
+def get_file_records(containers):
+    """
+    Discover Host() rules from Traefik file-provider configs.
+
+    The target comes from the Traefik container's adguard.dns label.
+    """
+
+    target = get_traefik_target(containers)
+
+    if not target:
+        log.warning(
+            "Traefik container has no adguard.dns label; "
+            "file-provider hosts will be ignored"
+        )
+        return {}
+
+    records = {}
+
+    for path in iter_dynamic_files():
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+
+        except Exception as exc:
+            log.warning(
+                "Unable to read dynamic config %s: %s",
+                path,
+                exc,
+            )
+            continue
+
+        # We intentionally scan for Host() expressions rather than requiring
+        # PyYAML. Traefik rules are strings embedded in YAML and this keeps
+        # the companion dependency-free.
+        for line_number, line in enumerate(
+            content.splitlines(),
+            start=1,
+        ):
+            if "Host(" not in line:
+                continue
+
+            hosts = extract_hosts(line)
+
+            if not hosts:
+                continue
+
+            # Try to identify the router name from the preceding YAML.
+            router_name = "unknown"
+
+            for previous_line in reversed(
+                content.splitlines()[:line_number - 1]
+            ):
+                match = re.match(
+                    r"^\s{4}([A-Za-z0-9_.-]+):\s*$",
+                    previous_line,
+                )
+
+                if match:
+                    router_name = match.group(1)
+                    break
+
+                if re.match(
+                    r"^\S",
+                    previous_line,
+                ):
+                    break
+
+            for hostname in hosts:
+                key = rewrite_key(hostname, target)
+
+                record = records.setdefault(
+                    key,
+                    {
+                        "hostname": hostname,
+                        "answer": target,
+                        "owners": [],
+                    },
+                )
+
+                owner = {
+                    "source": "file",
+                    "file": os.path.relpath(
+                        path,
+                        DYNAMIC_CONFIG_DIR,
+                    ),
+                    "router": router_name,
+                }
+
+                if owner not in record["owners"]:
+                    record["owners"].append(owner)
+
+                log.debug(
+                    "Found file-provider host: %s -> %s "
+                    "(%s:%d)",
+                    hostname,
+                    target,
+                    os.path.relpath(
+                        path,
+                        DYNAMIC_CONFIG_DIR,
+                    ),
+                    line_number,
+                )
+
+    return records
+
+
+# -----------------------------------------------------------------------------
+# Desired records
+# -----------------------------------------------------------------------------
+
+def get_desired_records(containers):
+    docker_records = get_docker_records(containers)
+    file_records = get_file_records(containers)
+
+    desired = docker_records
+
+    for key, record in file_records.items():
+        if key not in desired:
+            desired[key] = record
+        else:
+            for owner in record["owners"]:
+                if owner not in desired[key]["owners"]:
+                    desired[key]["owners"].append(owner)
+
+    log.info(
+        "Discovered %d Docker records and %d file-provider records",
+        len(docker_records),
+        len(file_records),
+    )
 
     return desired
 
@@ -407,9 +580,10 @@ def get_desired_records(containers):
 def reconcile():
     containers = get_running_containers()
     rewrites = get_rewrites()
-    state = load_state()
 
+    state = load_state()
     previous_records = state["records"]
+
     desired_records = get_desired_records(containers)
 
     current_rewrites = {
@@ -425,12 +599,8 @@ def reconcile():
     desired_keys = set(desired_records)
 
     # -------------------------------------------------------------------------
-    # Remove records that were previously owned by us but are no longer
-    # required by any current Docker container/router.
-    #
-    # IMPORTANT:
-    # We only delete records present in our state file.
-    # Manual AdGuard entries are never considered here.
+    # Delete ONLY records that were previously created/owned by us and are
+    # no longer desired.
     # -------------------------------------------------------------------------
 
     stale_keys = previous_keys - desired_keys
@@ -441,10 +611,8 @@ def reconcile():
         hostname = record["hostname"]
         answer = record["answer"]
 
-        # If somebody already removed it, there is nothing to do.
         if key in current_rewrites:
             delete_rewrite(hostname, answer)
-
             current_rewrites.discard(key)
 
         else:
@@ -455,7 +623,7 @@ def reconcile():
             )
 
     # -------------------------------------------------------------------------
-    # Build the new ownership state.
+    # Rebuild ownership state.
     # -------------------------------------------------------------------------
 
     new_records = {}
@@ -469,7 +637,6 @@ def reconcile():
 
         if exists:
             if previously_owned:
-                # Still ours. Refresh owner metadata.
                 new_records[key] = desired
 
                 log.debug(
@@ -479,12 +646,11 @@ def reconcile():
                 )
 
             else:
-                # IMPORTANT:
+                # Existing record was not created by us.
                 #
-                # The record already existed before we owned it.
-                # Therefore it may be a manual record.
-                #
-                # Do NOT claim ownership.
+                # DO NOT claim it.
+                # DO NOT modify it.
+                # DO NOT delete it later.
                 log.info(
                     "Leaving existing unowned rewrite untouched: "
                     "%s -> %s",
@@ -493,7 +659,6 @@ def reconcile():
                 )
 
         else:
-            # Record does not exist, so we create it and therefore own it.
             add_rewrite(hostname, answer)
 
             current_rewrites.add(key)
@@ -518,6 +683,12 @@ def healthcheck():
     try:
         get_running_containers()
         get_rewrites()
+
+        if not os.path.isdir(DYNAMIC_CONFIG_DIR):
+            raise RuntimeError(
+                f"Dynamic config directory does not exist: "
+                f"{DYNAMIC_CONFIG_DIR}"
+            )
 
         log.info("Healthcheck OK")
         return 0

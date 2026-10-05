@@ -18,7 +18,6 @@ services:
     container_name: traefik
     restart: on-failure
     healthcheck: *healthcheck
-
     environment:
       CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_SEB_DOMAIN_0}"
       DOMAIN_0: "$BASE_DOMAIN_0"
@@ -28,52 +27,47 @@ services:
       TRUENAS_LOCAL_DOMAIN: "$TRUENAS_HOSTNAME_LOCAL"
       CUPS_LOCAL_DOMAIN: "$CUPS_HOSTNAME_LOCAL"
       CUPS_IP: "$CUPS_IP"
-
     command:
       - --certificatesresolvers.cf.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.cf.acme.dnsChallenge.delayBeforeCheck=0
       - --certificatesresolvers.cf.acme.dnsChallenge.provider=cloudflare
       - --certificatesresolvers.cf.acme.dnsChallenge.resolvers=1.1.1.1:53
       - --certificatesresolvers.cf.acme.storage=/certs/acme.json
-
       - --entryPoints.web.address=:80
       - --entryPoints.websecure.address=:443
       - --entrypoints.websecure.http.tls=true
       - --entrypoints.websecure.http.tls.certResolver=cf
       - --entrypoints.websecure.http.tls.domains[0].main=*.${BASE_DOMAIN_0}
-
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
       - --providers.docker.network=network_internal
-
       - --providers.file.directory=/etc/traefik/dynamic
       - --providers.file.watch=true
-
       - --log.level=DEBUG
       - --accesslog=true
       - --api.insecure=true
       - --ping
-
     networks:
       - network_internal
       - internal
-
     ports:
       - 80:80
       - 443:443
       - 443:443/udp
-
     volumes:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
-      - ${BASE_DOCKER_DATA_DIR}/traefik/certs:/certs
-      - ./configs:/etc/traefik/dynamic
-
+      - type: bind
+        source: ${BASE_DOCKER_DATA_DIR}/traefik/certs
+        target: /certs
+      - type: bind
+        source: ./configs
+        target: /etc/traefik/dynamic
+        read_only: true
     labels:
       traefik.enable: "true"
-
       # Traefik dashboard
       traefik.http.routers.traefik.rule: Host(`traefik.${BASE_DOMAIN_0}`)
       traefik.http.services.traefik.loadbalancer.server.port: "8080"
@@ -81,7 +75,6 @@ services:
       traefik.http.routers.traefik.tls: "true"
       traefik.http.routers.traefik.tls.certResolver: cf
       traefik.http.routers.traefik.middlewares: error-pages-middleware
-
       homepage.group: Networking
       homepage.name: Traefik
       homepage.icon: traefik.png
@@ -89,15 +82,11 @@ services:
       homepage.widget.type: traefik
       homepage.widget.url: http://traefik:8080
       homepage.description: Traefik dashboard
-
-      # AdGuard DNS companion
-      # This hostname will resolve to the target below.
-      adguard.dns: "${SEB_HOSTNAME_LOCAL}"
-
+      # AdGuard DNS companion target IP
+      adguard.dns: "${SEB_IP}"
     depends_on:
       error-pages:
         condition: service_healthy
-
   adguard-dns-companion:
     image: python:3.14-alpine@sha256:f6a589d43c42b9e7f7dc67a12d37132491f362859a5d750607710cc56da3bc72
     container_name: traefik-adguard-dns
@@ -112,6 +101,7 @@ services:
       ADGUARD_PASSWORD: "${ADGUARD_PASSWORD}"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
+      DYNAMIC_CONFIG_DIR: /etc/traefik/dynamic
       PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
@@ -123,6 +113,10 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+        read_only: true
+      - type: bind
+        source: ./configs
+        target: /etc/traefik/dynamic
         read_only: true
       - type: bind
         source: ./adguard-dns-companion.py
