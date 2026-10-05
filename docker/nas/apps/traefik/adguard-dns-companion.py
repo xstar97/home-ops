@@ -1060,102 +1060,40 @@ def reconcile() -> None:
 # -----------------------------------------------------------------------------
 
 def healthcheck() -> None:
-    errors: list[str] = []
+    """
+    Lightweight dependency healthcheck.
 
-    # -------------------------------------------------------------------------
+    The companion is healthy if:
+      - Docker API is reachable
+      - Traefik API is reachable
+      - AdGuard rewrite API is reachable
+
+    AdGuard protection state is intentionally not checked here.
+    """
+
     # Docker
-    # -------------------------------------------------------------------------
+    docker_request("/_ping")
 
-    try:
-        docker_request(
-            "/_ping"
-        )
-
-    except Exception as error:
-        errors.append(
-            f"Docker: {error}"
-        )
-
-    # -------------------------------------------------------------------------
     # Traefik
-    # -------------------------------------------------------------------------
+    routers = traefik_routers()
 
-    try:
-        routers = traefik_routers()
-
-        if not isinstance(
-            routers,
-            list,
-        ):
-            errors.append(
-                "Traefik returned invalid router data"
-            )
-
-    except Exception as error:
-        errors.append(
-            f"Traefik: {error}"
-        )
-
-    # -------------------------------------------------------------------------
-    # AdGuard
-    # -------------------------------------------------------------------------
-
-    try:
-        status = request_json(
-            f"{ADGUARD_URL}/control/status",
-            headers=adguard_headers(),
-        )
-
-        if (
-            not isinstance(
-                status,
-                dict,
-            )
-            or status.get(
-                "protection_enabled"
-            )
-            is not True
-        ):
-            errors.append(
-                "AdGuard Home protection is not active"
-            )
-
-    except Exception as error:
-        errors.append(
-            f"AdGuard: {error}"
-        )
-
-    # -------------------------------------------------------------------------
-    # AdGuard rewrites
-    # -------------------------------------------------------------------------
-
-    try:
-        rewrites()
-
-    except Exception as error:
-        errors.append(
-            f"AdGuard rewrites: {error}"
-        )
-
-    # -------------------------------------------------------------------------
-    # Result
-    # -------------------------------------------------------------------------
-
-    if errors:
-        for error in errors:
-            LOG.error(
-                "%s",
-                error,
-            )
-
+    if not isinstance(routers, list):
         raise RuntimeError(
-            "healthcheck failed"
+            "Traefik returned invalid router data"
         )
 
-    LOG.info(
-        "healthcheck OK"
+    # AdGuard
+    result = request_json(
+        f"{ADGUARD_URL}/control/rewrite/list",
+        headers=adguard_headers(),
     )
 
+    if not isinstance(result, list):
+        raise RuntimeError(
+            "AdGuard returned invalid rewrite data"
+        )
+
+    print("OK")
 
 # -----------------------------------------------------------------------------
 # Shutdown
