@@ -31,6 +31,8 @@ services:
       traefik.http.routers.node-exporter.rule: Host(`metrics.node.nas.local`)
       traefik.http.routers.node-exporter.entrypoints: web
       traefik.http.services.node-exporter.loadbalancer.server.port: "9100"
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "traefik.nas.local"
 networks:
   network_internal:
     external: true

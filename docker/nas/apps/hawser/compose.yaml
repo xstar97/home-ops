@@ -28,6 +28,8 @@ services:
       traefik.http.routers.hawser.rule: Host(`hawser.nas.local`)
       traefik.http.routers.hawser.entrypoints: web
       traefik.http.services.hawser.loadbalancer.server.port: "2376"
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "traefik.nas.local"
 networks:
   network_internal:
     external: true

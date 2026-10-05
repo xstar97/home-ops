@@ -49,6 +49,8 @@ services:
       traefik.http.routers.rustfs-web.entrypoints: web
       traefik.http.routers.rustfs-web.service: rustfs-web
       traefik.http.services.rustfs-web.loadbalancer.server.port: "30293"
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "traefik.nas.local"
 networks:
   network_internal:
     external: true
