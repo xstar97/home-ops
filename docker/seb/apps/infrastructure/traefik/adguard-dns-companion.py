@@ -1185,20 +1185,21 @@ if __name__ == "__main__":
 
         except Exception as error:
             LOG.error(
-                "%s",
+                "healthcheck failed: %s",
                 error,
             )
 
             sys.exit(1)
 
-    else:
-        try:
-            main()
+        sys.exit(0)
 
-        except Exception as error:
-            LOG.error(
-                "startup failed: %s",
-                error,
-            )
+    try:
+        main()
 
-            sys.exit(1)
+    except Exception as error:
+        LOG.error(
+            "startup failed: %s",
+            error,
+        )
+
+        sys.exit(1)
