@@ -63,7 +63,7 @@ services:
       - ssh_private_key
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/xstar97/.docker:/root/.docker:ro
+      - /home/xstar97/.docker:/root/.docker
       - doco_data:/data
     labels:
       wud.watch: false
