@@ -60,11 +60,6 @@ badges:
     icon: si:docker
     query: engine_daemon_engine_info{instance="docker-nas"}
     valueExpr: labels["version"]
-  - id: dc_nas_version
-    title: Doco-CD
-    icon: si:docker
-    query: doco_cd_info{instance="doco-cd-nas"}
-    valueExpr: labels["version"]
   - id: truenas_version
     title: TrueNAS
     icon: si:truenas
@@ -203,6 +198,13 @@ badges:
     title: Internet
     icon: mdi:web
     query: gatus_results_endpoint_success{group="connectivity",key="connectivity_cloudflare"}
+    colorExpr: 'result == 1.0 ? "green" : "red"'
+    valueExpr: 'result == 1.0 ? "UP" : "DOWN"'
+
+  - id: dc_status
+    title: Doco-CD-Status
+    icon: mdi:web
+    query: gatus_results_endpoint_success{group="external",key="seb-minipc-doco-cd"}
     colorExpr: 'result == 1.0 ? "green" : "red"'
     valueExpr: 'result == 1.0 ? "UP" : "DOWN"'
 

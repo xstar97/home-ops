@@ -171,6 +171,19 @@ spec:
             - type: discord
               description: "healthcheck failed"
               send-on-resolved: true
+        - name: seb-minipc-doco-cd
+          group: external
+          url: "https://10.0.0.102:9120/metrics"
+          interval: 5m
+          client:
+            insecure: true
+            timeout: 30s
+          conditions:
+            - "[STATUS] == 200"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
     configmap:
       gatus-config:
         enabled: true
