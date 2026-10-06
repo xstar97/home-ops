@@ -64,7 +64,11 @@ services:
       traefik.http.routers.doco-cd-metrics.entrypoints: web
       traefik.http.routers.doco-cd-metrics.service: doco-cd-metrics
       traefik.http.services.doco-cd-metrics.loadbalancer.server.port: "9120"
-      traefik.http.services.doco-cd-metrics.loadbalancer.server.scheme: http
+      traefik.http.services.doco-cd-metrics.loadbalancer.server.scheme: 
+      # Redirect /
+      traefik.http.middlewares.doco-cd-metrics-redirect.redirectregex.regex: ^/$
+      traefik.http.middlewares.doco-cd-metrics-redirect.redirectregex.replacement: /metrics
+      traefik.http.middlewares.doco-cd-metrics-redirect.redirectregex.permanent: "true"
       # Register dashboard DNS record with AdGuard.
       adguard.dns: "seb.local"
 networks:
