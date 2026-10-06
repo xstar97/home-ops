@@ -30,6 +30,8 @@ spec:
     remediation:
       retries: 3
   values:
+    gatus:
+      group: core
     defaultSettings:
       # Matches the Talos UserVolumeConfig named "longhorn".
       defaultDataPath: /var/mnt/longhorn
