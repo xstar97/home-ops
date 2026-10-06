@@ -109,7 +109,7 @@ services:
       # DNS target for Docker and file-provider routers
       adguard.dns: "${TRUENAS_HOSTNAME_LOCAL}"
   traefik-adguard-dns:
-    image: ghcr.io/xstar97/traefik-adguard-dns:0.0.1@sha256:8c16dc843c6208a25f28aeb8bc7514bec1775a95c26a8d0a1b06445f154c4994
+    image: ghcr.io/xstar97/traefik-adguard-dns:0.0.2@sha256:8f200ca88115a2cc4b2de1223df1bc775bafb8a096c9711ca27b84d3e8e4fabf
     container_name: traefik-adguard-dns
     restart: unless-stopped
     healthcheck: *healthcheckAdguardDns
