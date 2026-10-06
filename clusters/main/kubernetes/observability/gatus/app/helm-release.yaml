@@ -173,7 +173,7 @@ spec:
               send-on-resolved: true
         - name: seb-minipc-doco-cd
           group: external
-          url: "https://10.0.0.102:9120/metrics"
+          url: "http://10.0.0.102:9080/v1/health"
           interval: 5m
           client:
             insecure: true
