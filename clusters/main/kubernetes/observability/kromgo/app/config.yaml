@@ -204,7 +204,7 @@ badges:
   - id: dc_status
     title: Doco-CD-Status
     icon: mdi:web
-    query: gatus_results_endpoint_success{group="external",key="seb-minipc-doco-cd"}
+    query: gatus_results_endpoint_success{group="external", key="external_seb-minipc-doco-cd"}
     colorExpr: 'result == 1.0 ? "green" : "red"'
     valueExpr: 'result == 1.0 ? "UP" : "DOWN"'
 
