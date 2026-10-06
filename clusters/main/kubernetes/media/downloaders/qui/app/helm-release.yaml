@@ -1,0 +1,150 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qui
+  namespace: qui
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 18.23.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-downloaders
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-qui"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-qui"
+    image:
+      repository: ghcr.io/autobrr/qui
+      pullPolicy: IfNotPresent
+      tag: v1.30.0@sha256:1172ca40283330445d61189263a65a31ba703770a230b9e2a913f6e57bc2dd23
+    service:
+      main:
+        ports:
+          main:
+            port: 7476
+      metrics:
+        enabled: true
+        type: ClusterIP
+        ports:
+          metrics:
+            enabled: true
+            port: 9074
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                QUI__HOST: "0.0.0.0"
+                QUI__PORT: "{{ .Values.service.main.ports.main.port }}"
+                QUI__METRICS_ENABLED: true
+                QUI__METRICS_HOST: "0.0.0.0"
+                QUI__METRICS_PORT: "{{ .Values.service.metrics.ports.metrics.port }}"
+                # sqlite or postgres (default: sqlite)
+                QUI__DATABASE_ENGINE: postgres
+                # Full Postgres DSN (preferred for Postgres)
+                QUI__DATABASE_DSN:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: std
+                # QUI__DATABASE_HOST: localhost           # Postgres host when not using DATABASE_DSN
+                # QUI__DATABASE_PORT: 5432                # Postgres port when not using DATABASE_DSN
+                # QUI__DATABASE_USER: ...                 # Postgres user when not using DATABASE_DSN
+                # QUI__DATABASE_PASSWORD: ...             # Postgres password when not using DATABASE_DSN
+                # QUI__DATABASE_NAME: qui                 # Postgres database name when not using DATABASE_DSN
+                QUI__DATABASE_SSL_MODE: disable         # disable, require, verify-ca, verify-full
+                QUI__DATABASE_CONNECT_TIMEOUT: 10       # Connect timeout in seconds
+                QUI__DATABASE_MAX_OPEN_CONNS: 25        # Postgres pool max open connections
+                QUI__DATABASE_MAX_IDLE_CONNS: 5         # Postgres pool max idle connections
+                QUI__DATABASE_CONN_MAX_LIFETIME: 300    # Max connection lifetime in seconds
+
+                QUI__OIDC_ENABLED: true
+                QUI__OIDC_ISSUER: https://auth.${DOMAIN_2}
+                QUI__OIDC_CLIENT_ID: qui
+                QUI__OIDC_CLIENT_SECRET: ${AUTHELIA_CLIENT_QUI_SECRET}
+                QUI__OIDC_REDIRECT_URL: https://qui.${DOMAIN_2}/api/auth/oidc/callback
+                QUI__OIDC_DISABLE_BUILT_IN_LOGIN: true
+    
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: qui.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+
+    cnpg:
+      main:
+        enabled: true
+        user: qui
+        database: qui
+        mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

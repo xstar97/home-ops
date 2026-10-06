@@ -157,6 +157,13 @@ identity_providers:
           - preferred_username
           - name
 
+      qui:
+        id_token:
+          - email
+          - email_verified
+          - preferred_username
+          - name
+
     hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
 
     # Schema warning is expected because the schema cannot evaluate
@@ -316,6 +323,13 @@ identity_providers:
             subject:
               - 'group:lldap_admin'
               - 'group:lldap_bindarr'
+      qui:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:lldap_admin'
+              - 'group:lldap_qui'
 
     clients:
       - client_id: 'romm'
@@ -682,4 +696,24 @@ identity_providers:
           - 'code'
         grant_types:
           - 'authorization_code'
+        token_endpoint_auth_method: 'client_secret_basic'
+      
+      - client_id: 'qui'
+        client_name: 'qui'
+        client_secret: '{{ secret "/config/secret/clients_qui_client_secret" }}'
+        public: false
+        claims_policy: 'qui'
+        authorization_policy: 'qui'
+        grant_types:
+          - authorization_code
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://qui.${DOMAIN_2}/api/auth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+          - groups
+        userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
