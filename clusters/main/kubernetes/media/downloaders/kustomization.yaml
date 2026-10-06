@@ -6,4 +6,4 @@ resources:
   - sabnzbd/ks.yaml
   - streamrip/ks.yaml
   - ytptube/ks.yaml
-  - qui/ks.yaml
+  # - qui/ks.yaml
