@@ -1,13 +1,11 @@
 name: doco-cd
 reference: main
-context: default
 working_dir: ./docker/.doco-cd
 compose_files:
   - compose.yaml
 force_recreate: true
 ---
 name: seb
-context: default
 working_dir: ./docker/seb/apps
 auto_discovery:
   enabled: true
