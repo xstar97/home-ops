@@ -5,6 +5,20 @@ x-healthcheck: &healthcheck
   retries: 3
   start_period: 15s
 
+secrets:
+  sops_age_key:
+    file: ${FILE_SOPS_AGE_KEY}
+  webhook_secret:
+    file: ${FILE_DC_WEBHOOK}
+  ssh_private_key:
+    file: ${FILE_SSH_PRIVATE_KEY}
+  github_app_id:
+    file: ${FILE_GH_APP_ID}
+  github_app_private_key:
+    file: ${FILE_GH_APP_PRIVATE_KEY}
+  secret_provider_access_token:
+    file: ${FILE_BW_SM_ACCESS_TOKEN}
+
 services:
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.123@sha256:11b474122ed530614cbe4cb8390f94b646d3fc8ba40d74c0f0b7f55a8ca719f8
@@ -24,29 +38,29 @@ services:
       APPRISE_NOTIFY_URLS: http://apprise:8000/notify/doco-cd
       APPRISE_NOTIFY_LEVEL: success
       DOCKER_SWARM_FEATURES: "false"
-      DEPLOY_CONFIG_BASE_DIR: ./docker/nas/
+      DEPLOY_CONFIG_BASE_DIR: ./docker
       PASS_ENV: "false"
       POLL_CONFIG: |
         - url: https://github.com/xstar97/home-ops
           reference: main
           interval: 3600
+      SECRET_PROVIDER: bitwarden_sm
       SELF_UPDATE_ENABLED: "true"
       SELF_UPDATE_STRATEGY: applier
-      SECRET_PROVIDER: bitwarden_sm
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
-      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
-      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
+      GITHUB_APP_ID_FILE: /run/secrets/github_app_id
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
     secrets:
       - sops_age_key
-      - ssh_private_key
       - webhook_secret
-      - secret_provider_access_token
-      - github_app_id
       - github_app_private_key
+      - github_app_id
+      - secret_provider_access_token
+      - ssh_private_key
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - doco_data:/data
@@ -54,24 +68,23 @@ services:
       wud.watch: false
       traefik.enable: "true"
       # webhook for Doco-CD
-      traefik.http.routers.doco-cd-webhook.rule: Host(`webhook.doco-cd.nas.local`)
+      traefik.http.routers.doco-cd-webhook.rule: Host(`webhook.doco-cd.seb.local`)
       traefik.http.routers.doco-cd-webhook.entrypoints: web
       traefik.http.routers.doco-cd-webhook.service: doco-cd-webhook
       traefik.http.services.doco-cd-webhook.loadbalancer.server.port: "9080"
       traefik.http.services.doco-cd-webhook.loadbalancer.server.scheme: http
       # Doco-CD Metrics
-      traefik.http.routers.doco-cd-metrics.rule: Host(`metrics.doco-cd.nas.local`)
+      traefik.http.routers.doco-cd-metrics.rule: Host(`metrics.doco-cd.seb.local`)
       traefik.http.routers.doco-cd-metrics.entrypoints: web
       traefik.http.routers.doco-cd-metrics.service: doco-cd-metrics
       traefik.http.services.doco-cd-metrics.loadbalancer.server.port: "9120"
-      traefik.http.services.doco-cd-metrics.loadbalancer.server.scheme: http
+      traefik.http.services.doco-cd-metrics.loadbalancer.server.scheme: 
       # Redirect /
       traefik.http.middlewares.doco-cd-metrics-redirect.redirectregex.regex: ^/$
       traefik.http.middlewares.doco-cd-metrics-redirect.redirectregex.replacement: /metrics
       traefik.http.middlewares.doco-cd-metrics-redirect.redirectregex.permanent: "true"
       # Register dashboard DNS record with AdGuard.
-      adguard.dns: "traefik.nas.local"
-
+      adguard.dns: "seb.local"
 networks:
   internal:
     driver: bridge
@@ -79,16 +92,3 @@ networks:
     external: true
 volumes:
   doco_data: {}
-secrets:
-  sops_age_key:
-    file: ${FILE_AGEKEYE}
-  ssh_private_key:
-    file: ${FILE_SSH_KEY}
-  webhook_secret:
-    file: ${FILE_DC_WEBHOOK}
-  secret_provider_access_token:
-    file: ${FILE_BW_SM_ACCESS_TOKEN}
-  github_app_id:
-    file: ${FILE_GH_APP_ID}
-  github_app_private_key:
-    file: ${FILE_GH_APP_PRIVATE_KEY}
