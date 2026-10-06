@@ -43,7 +43,7 @@ configs:
           truenas-docker-metrics-redirect:
             redirectRegex:
               regex: '^http://([^/]+)/$'
-              replacement: 'http://${1}/metrics'
+              replacement: 'http://$${1}/metrics'
               permanent: false
 
         services:
