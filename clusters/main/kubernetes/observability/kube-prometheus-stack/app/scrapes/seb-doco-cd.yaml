@@ -8,7 +8,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - metrics.doco-cd.seb.local
+        - ${SEB_IP}:9120 # metrics.doco-cd.seb.local
   metricsPath: /metrics
   relabelings:
     - action: replace

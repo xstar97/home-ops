@@ -8,7 +8,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - metrics.docker.seb.local
+        - ${SEB_IP}:9323 # metrics.docker.seb.local
   metricsPath: /metrics
   relabelings:
     - action: replace
