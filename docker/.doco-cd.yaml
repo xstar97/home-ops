@@ -26,25 +26,25 @@ external_secrets:
   CF_ACCOUNT_ID_SEB: 0743511e-3763-4a64-9192-b4d6003cec19
   CF_DNS_API_TOKEN_SEB_DOMAIN_0: 9ec3bbd5-f0a2-424c-81b9-b4d6003f204a
   CF_TUNNEL_KEY_SEB_HP: 44ee8b82-fb76-432d-84d7-b4d60041514d
----
-name: nas
-context: nas
-working_dir: ./docker/nas/apps
-auto_discovery:
-  enabled: true
-  depth: 0
-  delete: true
-env_files:
-  - ./secrets.enc.env
-  - ./base.enc.env
-force_recreate: true
-reconciliation:
-  enabled: true
-  interval: 3600
-external_secrets:
-  DOCKHAND_HAWSER_TOKEN_NAS: 8a808d6d-2444-430a-832f-b4d400540184
-  RUSTFS_ACCESS_KEY: 82d19e1c-4c3f-4101-a0ff-b4d40056dd0a
-  RUSTFS_SECRET_KEY: 213abdd2-c87e-4c74-9614-b4d40057095e
-  ADGUARD_PASSWORD: 921ffc13-9f1a-4c2f-828e-b4da001e63ab
-  ADGUARD_USERNAME: 976499c7-5b7d-4f89-a67b-b4da001e3f63
-  ADGUARD_URL: ac55554b-81dc-412d-b1b5-b4da001e2845
+# ---
+# name: nas
+# context: nas
+# working_dir: ./docker/nas/apps
+# auto_discovery:
+#   enabled: true
+#   depth: 0
+#   delete: true
+# env_files:
+#   - ./secrets.enc.env
+#   - ./base.enc.env
+# force_recreate: true
+# reconciliation:
+#   enabled: true
+#   interval: 3600
+# external_secrets:
+#   DOCKHAND_HAWSER_TOKEN_NAS: 8a808d6d-2444-430a-832f-b4d400540184
+#   RUSTFS_ACCESS_KEY: 82d19e1c-4c3f-4101-a0ff-b4d40056dd0a
+#   RUSTFS_SECRET_KEY: 213abdd2-c87e-4c74-9614-b4d40057095e
+#   ADGUARD_PASSWORD: 921ffc13-9f1a-4c2f-828e-b4da001e63ab
+#   ADGUARD_USERNAME: 976499c7-5b7d-4f89-a67b-b4da001e3f63
+#   ADGUARD_URL: ac55554b-81dc-412d-b1b5-b4da001e2845
