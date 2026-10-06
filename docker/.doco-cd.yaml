@@ -12,8 +12,8 @@ auto_discovery:
   depth: 0
   delete: true
 env_files:
-  - ../../secrets.enc.env
-  - ../../base.enc.env
+  - ../../../secrets.enc.env
+  - ../../../base.enc.env
 force_recreate: true
 reconciliation:
   enabled: true
