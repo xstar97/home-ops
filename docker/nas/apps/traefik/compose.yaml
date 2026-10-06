@@ -1,3 +1,57 @@
+configs:
+  default-middlewares.yml:
+    content: |
+      http:
+        middlewares:
+          https-redirectscheme:
+            redirectScheme:
+              scheme: https
+              permanent: true
+
+          default-headers:
+            headers:
+              frameDeny: true
+              browserXssFilter: true
+              contentTypeNosniff: true
+              forceSTSHeader: true
+              stsIncludeSubdomains: true
+              stsPreload: true
+              stsSeconds: 15552000
+              customFrameOptionsValue: SAMEORIGIN
+              customRequestHeaders:
+                X-Forwarded-Proto: https
+
+  truenas-docker-metrics.yml:
+    content: |
+      http:
+        routers:
+          truenas-docker-metrics:
+            rule: 'Host(`metrics.docker.nas.local`) && Path(`/metrics`)'
+            entryPoints:
+              - web
+            service: truenas-docker-metrics-service
+
+          truenas-docker-metrics-root:
+            rule: 'Host(`metrics.docker.nas.local`) && Path(`/`)'
+            entryPoints:
+              - web
+            middlewares:
+              - truenas-docker-metrics-redirect
+            service: truenas-docker-metrics-service
+
+        middlewares:
+          truenas-docker-metrics-redirect:
+            redirectRegex:
+              regex: '^http://([^/]+)/$'
+              replacement: 'http://${1}/metrics'
+              permanent: false
+
+        services:
+          truenas-docker-metrics-service:
+            loadBalancer:
+              servers:
+                - url: 'http://{{ env "TRUENAS_LOCAL_IP" }}:9323'
+
 x-healthcheck: &healthcheck
   test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ping | grep -q '^OK$' || exit 1"]
   interval: 30s
@@ -41,10 +95,11 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
-      - type: bind
-        source: ./configs
-        target: /etc/traefik/dynamic
-        read_only: true
+    configs:
+      - source: default-middlewares.yml
+        target: /etc/traefik/dynamic/default-middlewares.yml
+      - source: truenas-docker-metrics.yml
+        target: /etc/traefik/dynamic/truenas-docker-metrics.yml
     labels:
       traefik.enable: "true"
       # Traefik dashboard
@@ -65,7 +120,6 @@ services:
       TRAEFIK_API_URL: "http://traefik:8080"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
-      # PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
         condition: service_healthy
