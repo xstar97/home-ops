@@ -6,7 +6,7 @@ x-healthcheck: &healthcheck
   start_period: 15s
 
 x-healthcheckAdguardDns: &healthcheckAdguardDns
-  test: ["CMD", "python", "/app/adguard-dns-companion.py", "--healthcheck"]
+  test: ["CMD", "python", "/app/adguard_dns.py", "--healthcheck"]
   interval: 30s
   timeout: 10s
   retries: 3
@@ -53,14 +53,11 @@ services:
       traefik.http.routers.traefik.service: api@internal
       # DNS target for Docker and file-provider routers
       adguard.dns: "${TRUENAS_HOSTNAME_LOCAL}"
-  adguard-dns-companion:
-    image: python:3.14-alpine@sha256:f6a589d43c42b9e7f7dc67a12d37132491f362859a5d750607710cc56da3bc72
+  traefik-adguard-dns:
+    image: ghcr.io/xstar97/traefik-adguard-dns:0.0.1@sha256:8c16dc843c6208a25f28aeb8bc7514bec1775a95c26a8d0a1b06445f154c4994
     container_name: traefik-adguard-dns
     restart: unless-stopped
     healthcheck: *healthcheckAdguardDns
-    command:
-      - python
-      - /app/adguard-dns-companion.py
     environment:
       ADGUARD_URL: "http://${ROUTER_IP}:3000"
       ADGUARD_USERNAME: "${ADGUARD_USERNAME}"
@@ -68,7 +65,7 @@ services:
       TRAEFIK_API_URL: "http://traefik:8080"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
-      PYTHONDONTWRITEBYTECODE: "1"
+      # PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
         condition: service_healthy
@@ -78,10 +75,6 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
-        read_only: true
-      - type: bind
-        source: adguard-dns-companion.py
-        target: /app/adguard-dns-companion.py
         read_only: true
       - adguard-dns-companion-data:/data
     read_only: true
