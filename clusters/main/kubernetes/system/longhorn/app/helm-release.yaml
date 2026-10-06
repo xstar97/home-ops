@@ -30,19 +30,36 @@ spec:
     remediation:
       retries: 3
   values:
+    # Flux manages upgrades, so disable the pre-upgrade Job that is intended
+    # for imperative Helm/Argo-style workflows.
+    preUpgradeChecker:
+      jobEnabled: false
     defaultSettings:
-      # Matches the Talos UserVolumeConfig named longhorn.
+      # Matches the Talos UserVolumeConfig named "longhorn".
       defaultDataPath: /var/mnt/longhorn
-      # Increase to 3 for a multi-node cluster
+      # Single-node cluster.
       defaultReplicaCount: "1"
-      # Overprovisioning might be needed when using volsync
+      # Required for the current VolSync workload.
       storageOverProvisioningPercentage: "100000"
-      # v2DataEngine: true
     persistence:
-      # Set to false to pick another CSI as default
+      # Use Longhorn as the default StorageClass.
       defaultClass: true
-      # Increase to 3 for a multi-node cluster
+      # Single-node cluster.
       defaultClassReplicaCount: 1
+    networkPolicies:
+      # Preserve the Longhorn network-policy model already present in the cluster.
+      enabled: true
+      # Keep Longhorn component traffic restricted to authorized components.
+      restrictInternalTraffic: true
+      # Allow only kube-prometheus-stack Prometheus pods to scrape Longhorn
+      # Manager on TCP/9500.
+      metricsScrapeSources:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-prometheus-stack
+          podSelector:
+            matchLabels:
+              prometheus: kube-prometheus-stack
     metrics:
       serviceMonitor:
         enabled: true
