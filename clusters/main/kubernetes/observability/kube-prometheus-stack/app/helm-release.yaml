@@ -484,6 +484,8 @@ spec:
                   storage: 100Gi  
     cleanPrometheusOperatorObjectNames: true
     defaultRules:
+      rules:
+        kubeApiserverAvailability: false
       ## Disabled PrometheusRule alerts
       disabled:
-         NodeMemoryHighUtilization: true
+        NodeMemoryHighUtilization: true
