@@ -129,7 +129,7 @@ spec:
         enabled: true
         user: qui
         database: qui
-        mode: standalone # recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:
