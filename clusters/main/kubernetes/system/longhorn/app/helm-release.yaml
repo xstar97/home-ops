@@ -30,10 +30,6 @@ spec:
     remediation:
       retries: 3
   values:
-    # Flux manages upgrades, so disable the pre-upgrade Job that is intended
-    # for imperative Helm/Argo-style workflows.
-    preUpgradeChecker:
-      jobEnabled: false
     defaultSettings:
       # Matches the Talos UserVolumeConfig named "longhorn".
       defaultDataPath: /var/mnt/longhorn
