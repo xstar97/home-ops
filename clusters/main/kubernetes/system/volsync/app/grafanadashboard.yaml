@@ -7,15 +7,13 @@ metadata:
   namespace: volsync
 spec:
   allowCrossNamespaceImport: true
+  folderRef: storage
   instanceSelector:
     matchLabels:
       dashboards: grafana
-  datasources:
-    - inputName: DS_PROMETHEUS
-      datasourceName: prometheus
-    - inputName: VAR_REPLICATIONDESTNAME
-      datasourceName: '.*-dest|.*-bootstrap'
   grafanaCom:
     id: 21356
     revision: 3
-  folder: "Storage"
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
