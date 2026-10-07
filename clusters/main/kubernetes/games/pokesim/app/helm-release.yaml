@@ -61,7 +61,7 @@ spec:
             main:
               probes:
                 liveness:
-                  enabled: true
+                  enabled: false
                   type: http
                   path: /health/live
                 readiness:
