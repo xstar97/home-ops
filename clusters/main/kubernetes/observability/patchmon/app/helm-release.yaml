@@ -73,8 +73,7 @@ spec:
                   path: /health
                 readiness:
                   enabled: true
-                  type: http
-                  path: /health
+                  type: tcp
                 startup:
                   enabled: true
                   type: tcp
