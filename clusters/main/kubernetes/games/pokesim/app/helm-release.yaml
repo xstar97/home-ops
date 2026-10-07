@@ -59,10 +59,9 @@ spec:
         podSpec:
           initContainers:
             microcheck:
-              type: init
-              image:
-                repository: alpine
-                tag: 3.22
+              type: install
+              enabled: true
+              imageSelector: "alpineImage"
               command:
                 - /bin/sh
                 - -c
