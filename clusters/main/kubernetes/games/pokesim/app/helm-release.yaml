@@ -69,9 +69,8 @@ spec:
                   type: http
                   path: /health/ready
                 startup:
-                  enabled: false
-                  type: http
-                  path: /health/ready
+                  enabled: true
+                  type: tcp
               args:
               - python 
               - -m 
@@ -136,7 +135,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         service:
           type: "ClusterIP"
           ports:
