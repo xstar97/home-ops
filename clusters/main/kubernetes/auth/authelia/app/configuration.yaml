@@ -164,6 +164,13 @@ identity_providers:
           - preferred_username
           - name
 
+      patchmon:
+        id_token:
+        - email
+        - email_verified
+        - preferred_username
+        - name
+
     hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
 
     # Schema warning is expected because the schema cannot evaluate
@@ -330,6 +337,17 @@ identity_providers:
             subject:
               - 'group:lldap_admin'
               - 'group:lldap_qui'
+
+      patchmon:
+        default_policy: deny
+        rules:
+          - policy: one_factor
+            subject:
+              - 'group:lldap_admin'
+              - 'group:lldap_admin_normal'
+              - 'group:lldap_patchmon_mgr'
+              - 'group:lldap_patchmon'
+              - 'group:lldap_patchmon_readonly'
 
     clients:
       - client_id: 'romm'
@@ -710,6 +728,26 @@ identity_providers:
         pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://qui.${DOMAIN_2}/api/auth/oidc/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+          - groups
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: 'patchmon'
+        client_name: 'PatchMon'
+        client_secret: '{{ secret "/config/secret/clients_patchmon_client_secret" }}'
+        public: false
+        claims_policy: 'patchmon'
+        authorization_policy: 'patchmon'
+        grant_types:
+          - authorization_code
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://patchmon.${DOMAIN_2}/api/v1/auth/oidc/callback'
         scopes:
           - openid
           - profile
