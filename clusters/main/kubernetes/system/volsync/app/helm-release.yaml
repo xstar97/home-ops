@@ -14,7 +14,7 @@ spec:
   chart:
     spec:
       chart: volsync
-      version: 4.10.0
+      version: 4.11.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -32,33 +32,3 @@ spec:
   values:
     global:
       stopAll: false
-    image:
-      repository: quay.io/backube/volsync
-      pullPolicy: IfNotPresent
-      tag: 0.16.0@sha256:f9cd9aaa33de9e71239c86bed2d255341160f6115c13767a0aed1b9fd1e5aff9
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              args:
-                - --health-probe-bind-address={{ printf ":%v" .Values.service.main.ports.main.targetPort }}
-                - --metrics-bind-address={{ printf "0.0.0.0:%v" .Values.service.metrics.ports.metrics.targetPort }}
-                - --metrics-secure=true
-                - --metrics-require-rbac=false
-                - --leader-elect
-                - --rclone-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --restic-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --rsync-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --rsync-tls-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --syncthing-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --scc-name=volsync-privileged-mover
-              probes:
-                liveness:
-                  path: "/healthz"
-                readiness:
-                  path: "/readyz"
-                startup:
-                  path: "/readyz"
-            kube-rbac-proxy:
-              enabled: false
