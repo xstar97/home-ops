@@ -42,8 +42,8 @@ spec:
           containers:
             main:
               args:
-                - --health-probe-bind-address=:{{ .Values.service.main.ports.main.targetPort }}
-                - --metrics-bind-address=0.0.0.0:{{ .Values.service.metrics.ports.metrics.targetPort }}
+                - --health-probe-bind-address={{ printf ":%v" .Values.service.main.ports.main.targetPort }}
+                - --metrics-bind-address={{ printf "0.0.0.0:%v" .Values.service.metrics.ports.metrics.targetPort }}
                 - --metrics-secure=true
                 - --metrics-require-rbac=false
                 - --leader-elect
