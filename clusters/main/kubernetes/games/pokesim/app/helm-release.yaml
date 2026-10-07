@@ -96,6 +96,13 @@ spec:
                 ROM_PATH: /roms/pokered.gb
                 SPEED: "2"
                 VIEWER_ONLY: "1"
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 2
+                  memory: 2Gi
     ingress:
       main:
         enabled: true
