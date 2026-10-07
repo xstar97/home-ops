@@ -57,17 +57,34 @@ spec:
     workload:
       main:
         podSpec:
+          initContainers:
+            microcheck:
+              type: init
+              image:
+                repository: alpine
+                tag: 3.22
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  apk add --no-cache wget
+                  wget -qO /data/httpcheck https://github.com/tarampampam/microcheck/releases/download/v1.4.0/httpcheck-linux-amd64
+                  chmod +x /data/httpcheck
           containers:
             main:
               probes:
                 liveness:
-                  enabled: false
-                  type: http
-                  path: /health/live
+                  enabled: true
+                  type: exec
+                  command:
+                    - /data/httpcheck
+                    - http://127.0.0.1:{{ .Values.service.main.ports.main.port }}/health/live
                 readiness:
-                  enabled: false
-                  type: http
-                  path: /health/ready
+                  enabled: true
+                  type: exec
+                  command:
+                    - /data/httpcheck
+                    - http://127.0.0.1:{{ .Values.service.main.ports.main.port }}/health/ready
                 startup:
                   enabled: true
                   type: tcp
