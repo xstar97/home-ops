@@ -41,7 +41,7 @@ services:
       adguard.dns: "seb.local"
   portchecker-api:
     scale: 1
-    image: ghcr.io/dsgnr/portcheckerio-api:4.1.0@sha256:75723c6a85b2fa2971becf7c32794ac3c9b69786ef14560e19eae3892f8c7bf1
+    image: ghcr.io/dsgnr/portcheckerio-api:4.2.0@sha256:135b8c0e9380d98acd27386eb3ad6e6ca50c39063cded8d4e42efb6caf1d2053
     container_name: portchecker-api
     restart: on-failure
     healthcheck: *healthcheckApi
