@@ -30,6 +30,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      stopAll: false
     image:
       repository: quay.io/backube/volsync
       pullPolicy: IfNotPresent
