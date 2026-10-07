@@ -216,6 +216,7 @@ spec:
                 # Delay between database startup connection attempts | Seconds | default: 2
                 PM_DB_CONN_WAIT_INTERVAL: 2
             quacd:
+              enabled: true
               imageSelector: quacdImage
               probes:
                 liveness:
