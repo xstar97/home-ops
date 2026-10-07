@@ -67,10 +67,9 @@ spec:
                 - -c
                 - |
                   apk add --no-cache wget
-                  mkdir /data/tools
                   wget -qO /tmp/microcheck.tar.gz https://github.com/tarampampam/microcheck/releases/download/v1.4.0/linux-amd64.tar.gz
-                  tar -xzf /tmp/microcheck.tar.gz -C /data/tools
-                  chmod +x /data/tools/httpcheck
+                  tar -xzf /tmp/microcheck.tar.gz -C /data
+                  chmod +x /data/httpcheck
           containers:
             main:
               probes:
@@ -78,13 +77,13 @@ spec:
                   enabled: false
                   type: exec
                   command:
-                    - /data/tools/httpcheck
+                    - /data/httpcheck
                     - http://127.0.0.1:{{ .Values.service.main.ports.main.port }}/health/live
                 readiness:
                   enabled: false
                   type: exec
                   command:
-                    - /data/tools/httpcheck
+                    - /data/httpcheck
                     - http://127.0.0.1:{{ .Values.service.main.ports.main.port }}/health/ready
                 startup:
                   enabled: true
