@@ -53,6 +53,8 @@ spec:
                 - --rsync-tls-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
                 - --syncthing-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
                 - --scc-name=volsync-privileged-mover
+            kube-rbac-proxy:
+              enabled: false
               command: []
               probes:
                 liveness:
