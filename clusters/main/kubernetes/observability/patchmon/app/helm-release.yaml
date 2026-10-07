@@ -93,12 +93,30 @@ spec:
                 #   secretKeyRef:
                 #     name: cnpg-main-user
                 #     key: password
-                # Redis connection URL | Supplied by the Redis deployment
-                REDIS_URL:
+                REDIS_HOST:
                   secretKeyRef:
                     expandObjectName: false
-                    name: '{{ printf "%s-rediscreds" .Release.Name }}'
-                    key: url
+                    name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                    key: plainhost
+                REDIS_PASSWORD:
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                    key: redis-password
+                REDIS_USER: "{{ .Values.redis.redisUsername }}"
+                # Redis database number | default: 0
+                REDIS_DB: 0
+                # Enable Redis TLS | default: false
+                REDIS_TLS: false
+                # Verify Redis TLS certificate | default: false
+                REDIS_TLS_VERIFY: false
+                # Redis connection timeout | Milliseconds | default: 60000
+                REDIS_CONNECT_TIMEOUT_MS: 60000
+                # Redis command timeout | Milliseconds | default: 60000
+                REDIS_COMMAND_TIMEOUT_MS: 60000
+                # Port the Redis server listens on.
+                REDIS_PORT: 6379
+
                 # Guacamole daemon URL | Internal Kubernetes service endpoint
                 GUACD_URL: '{{ printf "http://%v-quacd:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.quacd.ports.quacd.port }}'
                 # JWT signing secret | Generate with: openssl rand -hex 64
@@ -127,16 +145,6 @@ spec:
                 DB_IDLE_TIMEOUT: 300
                 # Database connection maximum lifetime | Seconds | default: 1800
                 DB_MAX_LIFETIME: 1800
-                # Redis database number | default: 0
-                REDIS_DB: 0
-                # Enable Redis TLS | default: false
-                REDIS_TLS: false
-                # Verify Redis TLS certificate | default: false
-                REDIS_TLS_VERIFY: false
-                # Redis connection timeout | Milliseconds | default: 60000
-                REDIS_CONNECT_TIMEOUT_MS: 60000
-                # Redis command timeout | Milliseconds | default: 60000
-                REDIS_COMMAND_TIMEOUT_MS: 60000
                 # Authentication JWT expiration | default: 1h
                 JWT_EXPIRES_IN: "1h"
                 # Maximum login attempts before account lockout | default: 5
