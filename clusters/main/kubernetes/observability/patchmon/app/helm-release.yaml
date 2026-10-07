@@ -229,11 +229,11 @@ spec:
               probes:
                 liveness:
                   enabled: true
-                  type: tcp
+                  type: http
                   port: "{{ .Values.service.quacd.ports.quacd.port }}"
                 readiness:
                   enabled: true
-                  type: tcp
+                  type: http
                   port: "{{ .Values.service.quacd.ports.quacd.port }}"
                 startup:
                   enabled: true
