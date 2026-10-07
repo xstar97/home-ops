@@ -70,11 +70,11 @@ spec:
                 liveness:
                   enabled: true
                   type: http
-                  path: /api/health
+                  path: /health
                 readiness:
                   enabled: true
                   type: http
-                  path: /api/health
+                  path: /health
                 startup:
                   enabled: true
                   type: tcp
@@ -274,3 +274,4 @@ spec:
 
     redis:
       enabled: true
+      redisUsername: default
