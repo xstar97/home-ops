@@ -118,7 +118,7 @@ spec:
                 REDIS_PORT: 6379
 
                 # Guacamole daemon URL | Internal Kubernetes service endpoint
-                GUACD_URL: '{{ printf "http://%v-quacd:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.quacd.ports.quacd.port }}'
+                # GUACD_URL: '{{ printf "http://%v-quacd:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.quacd.ports.quacd.port }}'
                 # JWT signing secret | Generate with: openssl rand -hex 64
                 JWT_SECRET: "${PATCHMON_JWT_SECRET}"
                 # Session encryption secret | Generate with: openssl rand -hex 64
@@ -224,7 +224,7 @@ spec:
                 # Delay between database startup connection attempts | Seconds | default: 2
                 PM_DB_CONN_WAIT_INTERVAL: 2
             quacd:
-              enabled: true
+              enabled: false
               imageSelector: quacdImage
               probes:
                 liveness:
