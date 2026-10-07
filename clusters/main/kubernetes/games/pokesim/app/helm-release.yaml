@@ -65,7 +65,7 @@ spec:
                   type: http
                   path: /health/live
                 readiness:
-                  enabled: true
+                  enabled: false
                   type: http
                   path: /health/ready
                 startup:
