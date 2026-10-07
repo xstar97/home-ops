@@ -174,7 +174,7 @@ spec:
                 # Enable OIDC authentication | default: false
                 OIDC_ENABLED: true
                 # OIDC issuer URL | Required when OIDC is enabled
-                OIDC_ISSUER_URL: "https://patchmon.${DOMAIN_2}"
+                OIDC_ISSUER_URL: "https://auth.${DOMAIN_2}"
                 # OIDC client ID | Required when OIDC is enabled
                 OIDC_CLIENT_ID: "patchmon"
                 # OIDC client secret | Required when OIDC is enabled
