@@ -22,3 +22,4 @@ resources:
   - grafana-operator.yaml
   - nccloud.yaml
   - external-dns.yaml
+  - backube.yaml
