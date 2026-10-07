@@ -747,7 +747,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://patchmon.${DOMAIN_2}/api/v1/auth/oidc/callback'
+          - 'https://patchmon.${DOMAIN_2}/api/v1/auth/oidc/login'
         scopes:
           - openid
           - profile
