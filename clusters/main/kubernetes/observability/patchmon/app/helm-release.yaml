@@ -180,7 +180,7 @@ spec:
                 # OIDC client secret | Required when OIDC is enabled
                 OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_PATCHMON}"
                 # OIDC callback URL | Required when OIDC is enabled
-                OIDC_REDIRECT_URI: "https://patchmon.${DOMAIN_2}/api/v1/auth/oidc/login"
+                OIDC_REDIRECT_URI: "https://patchmon.${DOMAIN_2}/api/v1/auth/oidc/callback"
                 # OIDC scopes | default: openid email profile groups
                 OIDC_SCOPES: "openid email profile groups"
                 # Automatically create users from OIDC | default: false
