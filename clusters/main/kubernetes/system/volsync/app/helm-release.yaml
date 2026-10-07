@@ -30,68 +30,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    proxyImage:
-      repository: quay.io/brancz/kube-rbac-proxy
-      pullPolicy: IfNotPresent
-      tag: v0.23.0
     global:
       stopAll: false
     configmap:
       dashboard-volsync:
         enabled: false
-    workload:
-      main:
-        replicas: 1
-        strategy: RollingUpdate
-        podSpec:
-          containers:
-            main:
-              args:
-                - --health-probe-bind-address=:8081
-                - --metrics-bind-address=127.0.0.1:8443
-                - --leader-elect
-                - --rclone-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --restic-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --rsync-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --rsync-tls-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --syncthing-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-                - --scc-name=volsync-privileged-mover
-              command:
-                - /manager
-              probes:
-                liveness:
-                  path: "/healthz"
-                readiness:
-                  path: "/readyz"
-                startup:
-                  path: "/readyz"
-            kube-rbac-proxy:
-              enabled: false
-              imageSelector: proxyImage
-              args:
-                - --secure-listen-address=0.0.0.0:8443
-                - --upstream=http://127.0.0.1:8080/
-                - --proxy-endpoints-port=8888
-                - "--tls-min-version=VersionTLS12"
-                - --v=0
-                - --ignore-paths=/metrics
-              resources:
-                limits:
-                  cpu: 500m
-                  memory: 128Mi
-                requests:
-                  cpu: 5m
-                  memory: 64Mi
-              probes:
-                liveness:
-                  type: https
-                  port: 8888
-                  path: /healthz
-                readiness:
-                  type: https
-                  port: 8888
-                  path: /healthz
-                startup:
-                  type: https
-                  port: 8888
-                  path: /healthz
