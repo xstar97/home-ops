@@ -53,8 +53,7 @@ spec:
                 - --rsync-tls-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
                 - --syncthing-container-image={{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
                 - --scc-name=volsync-privileged-mover
-              command:
-                - /manager
+              command: []
               probes:
                 liveness:
                   path: "/healthz"
