@@ -73,13 +73,13 @@ spec:
             main:
               probes:
                 liveness:
-                  enabled: true
+                  enabled: false
                   type: exec
                   command:
                     - /data/httpcheck
                     - http://127.0.0.1:{{ .Values.service.main.ports.main.port }}/health/live
                 readiness:
-                  enabled: true
+                  enabled: false
                   type: exec
                   command:
                     - /data/httpcheck
