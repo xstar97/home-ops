@@ -101,7 +101,7 @@ spec:
                   cpu: 100m
                   memory: 256Mi
                 limits:
-                  cpu: 4000m
+                  # cpu: 4000m
                   memory: 3Gi
     ingress:
       main:
