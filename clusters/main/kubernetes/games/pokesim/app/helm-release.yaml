@@ -102,7 +102,7 @@ spec:
                   memory: 256Mi
                 limits:
                   cpu: 4000m
-                  memory: 2Gi
+                  memory: 3Gi
     ingress:
       main:
         enabled: true
