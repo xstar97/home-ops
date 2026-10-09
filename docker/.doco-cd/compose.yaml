@@ -92,4 +92,5 @@ networks:
   network_internal:
     external: true
 volumes:
-  doco_data: {}
+  doco_data:
+    external: true
