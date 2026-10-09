@@ -41,7 +41,7 @@ spec:
     image:
       repository: ghcr.io/chnapy/pkvault
       pullPolicy: IfNotPresent
-      tag: 2.4.0@sha256:a0d3b8d06f4d73de22373417d1b3c8e288635c8ec16da8a9be44c80636298bdf
+      tag: 2.4.1@sha256:20eb8f8408d119d5d7d658ad9794bc6bd23f02be735e56e9a34c570dbeb941b1
     securityContext:
       container:
         readOnlyRootFilesystem: false
