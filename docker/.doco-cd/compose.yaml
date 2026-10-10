@@ -21,7 +21,7 @@ secrets:
 
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.125@sha256:9a0752d71f098295963673ea09d4e3001a6bf520d5d5dc7b91a5a4dbfabd41f5
+    image: ghcr.io/kimdre/doco-cd:0.125@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
     container_name: doco-cd
     restart: unless-stopped
     networks:
