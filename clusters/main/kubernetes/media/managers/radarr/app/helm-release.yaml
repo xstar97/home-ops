@@ -53,18 +53,18 @@ spec:
                 RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 RADARR__APP__THEME: dark
 
-                RADARR__POSTGRES__HOST:
-                  secretKeyRef:
-                    name: cnpg-main-urls
-                    key: host
-                RADARR__POSTGRES__PORT: 5432
-                RADARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
-                RADARR__POSTGRES__PASSWORD:
-                  secretKeyRef:
-                    name: cnpg-main-user
-                    key: password
-                RADARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
-                RADARR__LOG__DBENABLED: "false"
+                # RADARR__POSTGRES__HOST:
+                #   secretKeyRef:
+                #     name: cnpg-main-urls
+                #     key: host
+                # RADARR__POSTGRES__PORT: 5432
+                # RADARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                # RADARR__POSTGRES__PASSWORD:
+                #   secretKeyRef:
+                #     name: cnpg-main-user
+                #     key: password
+                # RADARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
+                # RADARR__LOG__DBENABLED: "false"
                 
     ingress:
       main:
@@ -118,7 +118,7 @@ spec:
 
     cnpg:
       main:
-        enabled: true
+        enabled: false
         user: radarr
         database: radarr
         # mode: recovery
