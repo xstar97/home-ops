@@ -52,6 +52,20 @@ spec:
                 PROWLARR__AUTH__METHOD: External
                 PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 PROWLARR__APP__THEME: dark
+
+                PROWLARR__POSTGRES__HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                PROWLARR__POSTGRES__PORT: 5432
+                PROWLARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                PROWLARR__POSTGRES__PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                PROWLARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
+                PROWLARR__LOG__DBENABLED: "false"
+
     ingress:
       main:
         enabled: true
@@ -83,3 +97,28 @@ spec:
               enabled: true
             src:
               enabled: true
+
+    cnpg:
+      main:
+        enabled: true
+        user: prowlarr
+        database: prowlarr
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
