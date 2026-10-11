@@ -53,20 +53,19 @@ spec:
                 RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 RADARR__APP__THEME: dark
 
-                DB_TYPE: postgres
-                DB_HOST:
+                RADARR__POSTGRES__HOST:
                   secretKeyRef:
                     name: cnpg-main-urls
                     key: host
-                DB_PORT: "5432"
-                DB_USER: "{{ .Values.cnpg.main.user }}"
-                DB_PASSWORD:
+                RADARR__POSTGRES__PORT: 5432
+                RADARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                RADARR__POSTGRES__PASSWORD:
                   secretKeyRef:
                     name: cnpg-main-user
                     key: password
-                DB_DATABASE: "{{ .Values.cnpg.main.database }}"
-                DB_LOGSDB: radarr-log
+                RADARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
                 RADARR__LOG__DBENABLED: "false"
+                
     ingress:
       main:
         enabled: true
