@@ -53,18 +53,18 @@ spec:
                 PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 PROWLARR__APP__THEME: dark
 
-                PROWLARR__POSTGRES__HOST:
-                  secretKeyRef:
-                    name: cnpg-main-urls
-                    key: host
-                PROWLARR__POSTGRES__PORT: 5432
-                PROWLARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
-                PROWLARR__POSTGRES__PASSWORD:
-                  secretKeyRef:
-                    name: cnpg-main-user
-                    key: password
-                PROWLARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
-                PROWLARR__LOG__DBENABLED: "false"
+                # PROWLARR__POSTGRES__HOST:
+                #   secretKeyRef:
+                #     name: cnpg-main-urls
+                #     key: host
+                # PROWLARR__POSTGRES__PORT: 5432
+                # PROWLARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                # PROWLARR__POSTGRES__PASSWORD:
+                #   secretKeyRef:
+                #     name: cnpg-main-user
+                #     key: password
+                # PROWLARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
+                # PROWLARR__LOG__DBENABLED: "false"
 
     ingress:
       main:
@@ -100,7 +100,7 @@ spec:
 
     cnpg:
       main:
-        enabled: true
+        enabled: false
         user: prowlarr
         database: prowlarr
         # mode: recovery
