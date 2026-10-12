@@ -100,7 +100,7 @@ spec:
 
     cnpg:
       main:
-        enabled: false
+        enabled: true
         user: prowlarr
         database: prowlarr
         # mode: recovery
