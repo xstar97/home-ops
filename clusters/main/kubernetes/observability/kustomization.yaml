@@ -12,4 +12,4 @@ resources:
   - speedtest-tracker/ks.yaml
   - gatus/ks.yaml
   - unpoller/ks.yaml
-  - patchmon/ks.yaml
+  # - patchmon/ks.yaml
