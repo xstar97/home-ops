@@ -117,14 +117,3 @@ spec:
               enabled: true
             src:
               enabled: true
-      models:
-        enabled: true
-        mountPath: "/app/database/models"
-        volsync:
-          - name: models
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
