@@ -48,7 +48,7 @@ spec:
           containers:
             main:
               env:
-                PROWLARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
+                # PROWLARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
                 PROWLARR__AUTH__METHOD: External
                 PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 PROWLARR__APP__THEME: dark
