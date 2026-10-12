@@ -5,3 +5,4 @@ resources:
   - homebox/ks.yaml
   - paperless-ngx/ks.yaml
   # - yarnl/ks.yaml
+  - bindarr/ks.yaml

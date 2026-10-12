@@ -32,7 +32,7 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: tools
+      group: assets
     global:
       stopAll: false
     credentials:
