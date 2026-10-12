@@ -4,4 +4,3 @@ resources:
   - flaresolverr/ks.yaml
   - prowlarr/ks.yaml
   - jackett/ks.yaml
-  # - prowlarr-test/ks.yaml

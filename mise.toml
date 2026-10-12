@@ -12,6 +12,7 @@ weave-gitops = "0.38.0"
 codex = "0.149.0"
 aws-cli = "2.37.12"
 k9s = "0.51.0"
+java = "27.0.0"
 
 [settings]
 auto_install = true
