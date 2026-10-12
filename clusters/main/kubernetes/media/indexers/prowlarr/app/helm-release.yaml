@@ -59,7 +59,7 @@ spec:
                 #     key: host
                 # PROWLARR__POSTGRES__PORT: 5432
                 # PROWLARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
-                # PROWLARR__POSTGRES__PASSWORD:
+                # PROWLARR__POSTGRES__PAfalseSSWORD:
                 #   secretKeyRef:
                 #     name: cnpg-main-user
                 #     key: password
