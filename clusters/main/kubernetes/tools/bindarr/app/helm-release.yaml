@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/thenotoriousjeremy/bindarr
       pullPolicy: IfNotPresent
-      tag: 1.8.6@sha256:7d62dfafe4217668f1622d071105194ad1441de0288651cbdf851596b3d77dcf
+      tag: 1.8.7@sha256:a848a93d4f396d79cd0c3261a0b1686400942ff55838eb6f689634423827560e
     securityContext:
       container:
         readOnlyRootFilesystem: false
