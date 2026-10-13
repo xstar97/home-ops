@@ -103,7 +103,7 @@ spec:
         enabled: true
         user: prowlarr
         database: prowlarr
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:
