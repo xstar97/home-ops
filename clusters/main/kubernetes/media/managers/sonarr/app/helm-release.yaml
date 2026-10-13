@@ -65,6 +65,7 @@ spec:
                     key: password
                 SONARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
                 SONARR__LOG__DBENABLED: "false"
+                SONARR__SERVER__BINDADDRESS: localhost
   
     ingress:
       main:
