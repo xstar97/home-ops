@@ -18,9 +18,15 @@ services:
     container_name: traefik
     restart: on-failure
     healthcheck: *healthcheck
-
+    networks:
+      - network_internal
+      - internal
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
     environment:
-      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_SEB_DOMAIN_0}"
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN_0}"
       DOMAIN_0: "$BASE_DOMAIN_0"
       HA_LOCAL_DOMAIN: "$HOME_ASSISTANT_HOSTNAME_LOCAL"
       ROUTER_LOCAL_DOMAIN: "$ROUTER_HOSTNAME_LOCAL"
@@ -48,13 +54,6 @@ services:
       - --accesslog=true
       - --api.insecure=true
       - --ping
-    networks:
-      - network_internal
-      - internal
-    ports:
-      - 80:80
-      - 443:443
-      - 443:443/udp
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -94,13 +93,12 @@ services:
     restart: unless-stopped
     healthcheck: *healthcheckAdguardDns
     environment:
-      ADGUARD_URL: "http://${ROUTER_IP}:3000"
-      ADGUARD_USERNAME: "${ADGUARD_USERNAME}"
-      ADGUARD_PASSWORD: "${ADGUARD_PASSWORD}"
+      ADGUARD_URL: "${ROUTER_ADGUARD_URL}"
+      ADGUARD_USERNAME: "${ROUTER_ADGUARD_USERNAME}"
+      ADGUARD_PASSWORD: "${ROUTER_ADGUARD_PASSWORD}"
       TRAEFIK_API_URL: "http://traefik:8080"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json
-      # PYTHONDONTWRITEBYTECODE: "1"
     depends_on:
       traefik:
         condition: service_healthy

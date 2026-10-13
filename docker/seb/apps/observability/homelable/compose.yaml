@@ -71,6 +71,11 @@ services:
       - homelable.enc.env
     environment:
       SQLITE_PATH: /app/data/homelab.db
+      AUTH_MODE: oidc
+      OIDC_SCOPES: "openid profile email"
+      OIDC_COOKIE_SECURE: true
+      OIDC_SESSION_EXPIRE_MINUTES: 480
+      OIDC_TRANSACTION_EXPIRE_SECONDS: 600
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/homelable/data:/app/data
   mcp:

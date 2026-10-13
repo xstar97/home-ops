@@ -114,9 +114,9 @@ services:
     restart: unless-stopped
     healthcheck: *healthcheckAdguardDns
     environment:
-      ADGUARD_URL: "http://${ROUTER_IP}:3000"
-      ADGUARD_USERNAME: "${ADGUARD_USERNAME}"
-      ADGUARD_PASSWORD: "${ADGUARD_PASSWORD}"
+      ADGUARD_URL: "${ROUTER_ADGUARD_URL}"
+      ADGUARD_USERNAME: "${ROUTER_ADGUARD_USERNAME}"
+      ADGUARD_PASSWORD: "${ROUTER_ADGUARD_PASSWORD}"
       TRAEFIK_API_URL: "http://traefik:8080"
       POLL_INTERVAL: "30"
       STATE_FILE: /data/state.json

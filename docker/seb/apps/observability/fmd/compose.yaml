@@ -17,14 +17,13 @@ services:
       - "8080"
     networks:
       - network_internal
-    # env_file:
-    #   - ./fmd.enc.env
+    env_file:
+      - ./fmd.enc.env
     environment:
       FMD_DATABASEDIR: /var/lib/fmd-server/db
       FMD_PORTINSECURE: "8080"
       FMD_PORTSECURE: "8443"
-      FMD_METRICSADDRPORT: "[::1]:9100"
-      FMD_REGISTRATIONTOKEN: ${FMD_REGISTRATIONTOKEN}
+      FMD_METRICSADDRPORT: ":9100"
       #FMD_WEBDIR=
     volumes:
       - ${BASE_DOCKER_DATA_DIR}/fmd/db/:/var/lib/fmd-server/db/

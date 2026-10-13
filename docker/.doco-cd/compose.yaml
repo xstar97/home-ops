@@ -16,8 +16,8 @@ secrets:
     file: ${FILE_GH_APP_ID}
   github_app_private_key:
     file: ${FILE_GH_APP_PRIVATE_KEY}
-  secret_provider_access_token:
-    file: ${FILE_BW_SM_ACCESS_TOKEN}
+  # secret_provider_access_token:
+  #   file: ${FILE_BW_SM_ACCESS_TOKEN}
 
 services:
   doco-cd:
@@ -53,13 +53,13 @@ services:
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       GITHUB_APP_ID_FILE: /run/secrets/github_app_id
-      SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
+      # SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
     secrets:
       - sops_age_key
       - webhook_secret
       - github_app_private_key
       - github_app_id
-      - secret_provider_access_token
+      # - secret_provider_access_token
       - ssh_private_key
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
