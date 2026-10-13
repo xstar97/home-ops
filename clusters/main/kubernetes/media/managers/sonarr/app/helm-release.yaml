@@ -53,6 +53,19 @@ spec:
                 SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 SONARR__APP__THEME: dark
 
+                # SONARR__POSTGRES__HOST:
+                #   secretKeyRef:
+                #     name: cnpg-main-urls
+                #     key: host
+                # SONARR__POSTGRES__PORT: 5432
+                # SONARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                # SONARR__POSTGRES__PASSWORD:
+                #   secretKeyRef:
+                #     name: cnpg-main-user
+                #     key: password
+                # SONARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
+                # SONARR__LOG__DBENABLED: "false"
+  
     ingress:
       main:
         enabled: true
@@ -60,7 +73,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
-          - host: series.sonarr.${DOMAIN_2}
+          - host: sonarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -106,3 +119,28 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
+
+    cnpg:
+      main:
+        enabled: true
+        user: sonarr
+        database: sonarr
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
