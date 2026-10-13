@@ -782,7 +782,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://sonarr.${DOMAIN_2}/login/sso'
+          - 'https://sonarr.${DOMAIN_2}/signin-oidc'
         scopes:
           - openid
           - profile
