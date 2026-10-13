@@ -114,6 +114,24 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
+---
+# doco-cd dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: doco-cd-seb
+  namespace: grafana
+spec:
+  folderRef: gitops
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 23980
+    revision: 1
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
 
 
 ### kubernetes
