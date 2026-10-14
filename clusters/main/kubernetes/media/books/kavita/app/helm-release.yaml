@@ -120,13 +120,6 @@ spec:
               enabled: true
             src:
               enabled: true
-          - name: kavita-config
-            type: restic
-            credentials: rfs-restic
-            dest:
-              enabled: false
-            src:
-              enabled: false
       media:
         enabled: true
         type: nfs
