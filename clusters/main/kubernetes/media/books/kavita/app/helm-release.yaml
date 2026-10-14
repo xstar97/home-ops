@@ -124,9 +124,9 @@ spec:
             type: restic
             credentials: rfs-restic
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
       media:
         enabled: true
         type: nfs
