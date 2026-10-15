@@ -289,4 +289,21 @@ spec:
       datasourceName: Prometheus
 
 ### network
-# ---
+---
+# node-exporter opnsense dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-exporter-opnsense
+  namespace: grafana
+spec:
+  folderRef: network
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 19366
+    revision: 9
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
