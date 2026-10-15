@@ -9,3 +9,4 @@ resources:
   - seb-node.yaml
   - seb-docker.yaml
   - seb-doco-cd.yaml
+  - adguard.yaml
