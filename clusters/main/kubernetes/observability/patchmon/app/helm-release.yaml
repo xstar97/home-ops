@@ -259,7 +259,7 @@ spec:
         enabled: true
         user: patchmon
         database: patchmon
-        mode: standalone  # recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:
