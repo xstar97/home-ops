@@ -41,7 +41,7 @@ spec:
     image:
       repository: ghcr.io/patchmon/patchmon-server
       pullPolicy: IfNotPresent
-      tag: 2.1.4@sha256:c6b2a932fc29bfa4a87cd2d2dd1bfeceb84919cb8975eb6aa53a8797523b7128
+      tag: 2.1.6@sha256:f27e1a059caf97331473de9e907d9592428b88857abb9f4b221cb80027b5a67f
     quacdImage:
       repository: guacamole/guacd
       pullPolicy: IfNotPresent
