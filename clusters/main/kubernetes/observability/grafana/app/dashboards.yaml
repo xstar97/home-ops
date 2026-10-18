@@ -40,6 +40,10 @@ spec:
   variables:
     - name: VAR_BLOCKY_URL
       value: https://blocky.${DOMAIN_2}
+    - name: var_blocky_url
+      value: https://blocky.${DOMAIN_2}
+    - name: blocky_url
+      value: https://blocky.${DOMAIN_2}
 ---
 # cnpg dashboard
 apiVersion: grafana.integreatly.org/v1beta1
