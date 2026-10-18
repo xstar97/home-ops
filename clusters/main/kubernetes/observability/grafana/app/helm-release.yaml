@@ -103,8 +103,12 @@ spec:
             enabled: true
             group: Monitoring
             widget:
-              enabled: false
+              enabled: true
               url: http://grafana.grafana.svc.cluster.local:3000
+              custom:
+                version: 2
+                username: ${HP_GRAFANA_USER}
+                password: ${HP_GRAFANA_PASS}
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -302,23 +306,24 @@ spec:
       sc-dashboard-config:
         enabled: false
 
-    main:
-      mode: recovery
-      cluster:
-        singleNode: true
-      monitoring:
-        enablePodMonitor: true
-      backups:
-        enabled: true
-        credentials: cf-restic
-        retentionPolicy: "7d"
-        scheduledBackups:
-          - name: daily-backup
-            # https://crontab.guru/#10_0_*_*_*
-            schedule: "10 0 * * *"
-            backupOwnerReference: self
-            immediate: true
-            suspend: false
-      recovery:
-        method: object_store
-        credentials: cf-restic
+    cnpg:
+      main:
+        mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#10_0_*_*_*
+              schedule: "10 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
