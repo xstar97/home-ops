@@ -34,6 +34,7 @@ spec:
     # and/or disable its service
     global:
       stopAll: false
+    
     service:
       dns:
         externalTrafficPolicy: Local
@@ -42,6 +43,7 @@ spec:
         integrations:
           metallb:
             enabled: true
+    
     k8sgateway:
       # -- list of processed domains
       domains:
@@ -85,6 +87,22 @@ spec:
         enabled: false
       datasource:
         enabled: false
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: blocky.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
 
     cnpg:
       main:
