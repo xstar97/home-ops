@@ -42,7 +42,7 @@ spec:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-grocy"
     image:
       repository: ghcr.io/trueforge-org/grocy
-      tag: 4.7.1@sha256:fc1e083f0d72b8de68799c5948a45b6b9a1cb92830927a1d196249b7238451ab
+      tag: 4.7.1@sha256:d393e7d1f52932215217151feef931aba66f75d0b6eca79e0414157409d1d643
       pullPolicy: IfNotPresent
 
     securityContext:
