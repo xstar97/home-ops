@@ -102,19 +102,7 @@ spec:
             enabled: true
             group: Monitoring
             widget:
-              enabled: true
-              type: prometheusmetric
-              url: http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090
-              refreshInterval: 10000 # optional - in milliseconds, defaults to 10s
-              metrics:
-                  - label: Dashboards
-                    query: grafana_stat_totals_dashboard
-                  - label: Data sources
-                    query: grafana_stat_totals_datasource
-                  - label: Total alerts
-                    query: grafana_stat_totals_alert_rules
-                  - label: Alerts triggered
-                    query: grafana_alerting_alerts{state="alerting"}
+              enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
