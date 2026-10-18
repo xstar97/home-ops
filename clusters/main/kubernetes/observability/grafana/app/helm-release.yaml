@@ -106,8 +106,8 @@ spec:
               url: http://grafana.grafana.svc.cluster.local:3000
               custom:
                 version: "2"
-                username: "${HP_GRAFANA_USER}"
-                password: "${HP_GRAFANA_PASS}"
+                # username: "${HP_GRAFANA_USER}"
+                # password: "${HP_GRAFANA_PASS}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
