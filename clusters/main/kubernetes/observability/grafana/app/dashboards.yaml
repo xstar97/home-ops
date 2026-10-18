@@ -30,7 +30,10 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
-  url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
+  grafanaCom:
+    id: 13768
+    revision: 8
+  # url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: Prometheus
