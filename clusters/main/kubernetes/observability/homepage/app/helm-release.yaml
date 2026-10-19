@@ -196,6 +196,7 @@ spec:
                     accountid: ${CF_ACCOUNT_ID} 
                     tunnelid: ${CF_TUNNEL_ID} 
                     key: ${CF_TUNNEL_KEY}
+                    fields: ["status"]
 
             - Monitoring:
 
