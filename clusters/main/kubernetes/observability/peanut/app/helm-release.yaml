@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: peanut
-      version: 11.1.1
+      version: 11.1.2
       sourceRef:
         kind: HelmRepository
         name: truecharts
