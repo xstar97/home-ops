@@ -1,5 +1,7 @@
 # home-ops
 
+*A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
+
 <div align="center">
 
 ## Infrastructure at a Glance
@@ -34,11 +36,16 @@
 />
 </details>
 
+<br>
+
 ---
 
-### Talos Cluster
+#### Kubernetes
 
-*A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
+<details open>
+<summary>Talos</summary>
+
+<br>
 
 [![Talos](https://badges.greenehomelab.com/badges/talos_version?style=for-the-badge&logo=talos&logoColor=white&label=%20&color=blue)](https://www.talos.dev/)
 [![Kubernetes](https://badges.greenehomelab.com/badges/kubernetes_version?style=for-the-badge&logo=kubernetes&logoColor=white&label=%20&color=blue)](https://kubernetes.io/)
@@ -56,16 +63,21 @@
 [![Memory](https://badges.greenehomelab.com/badges/cluster_memory_usage?style=flat-square&label=Memory)](https://github.com/home-operations/kromgo)
 [![Etcd](https://badges.greenehomelab.com/badges/cluster_etcd_fragmentation?style=flat-square&label=Etcd)](https://github.com/home-operations/kromgo)
 
+</details>
+
 ---
 
-### Doco-CD
+### Docker
 
-*A self-hosted docker gitops!*
+<details open>
+<summary>Doco-CD</summary>
 
 [![DC](https://badges.greenehomelab.com/badges/dc_seb_version?style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 [![doco-cd-status](https://badges.greenehomelab.com/badges/dc_status?style=for-the-badge&logo=docker&logoColor=white&label=Status)](https://doco.cd)
 
-#### Docker
+</details>
+
+<br>
 
 <details open>
 <summary>🖥️ Seb</summary>
@@ -77,6 +89,8 @@
 [![Uptime](https://badges.greenehomelab.com/badges/seb_uptime_days?style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo) [![CPU](https://badges.greenehomelab.com/badges/seb_cpu_usage?style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) [![Memory](https://badges.greenehomelab.com/badges/seb_memory_usage?style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) [![Apps](https://badges.greenehomelab.com/badges/docker_seb_service_count?style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
 
 </details>
+
+<br>
 
 <details open>
 <summary>🗄️ NAS</summary>
