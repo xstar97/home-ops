@@ -74,7 +74,7 @@
 
 [![OS](https://badges.greenehomelab.com/badges/os_seb_version?format&shields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/) [![Docker](https://badges.greenehomelab.com/badges/docker_seb_version?format&shields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
 
-[![Uptime](https://badges.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square&label=Uptime)](https://img.shields.io/endpoint?url=https://github.com/home-operations/kromgo) [![CPU](https://badges.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) [![Memory](https://badges.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) [![Apps](https://badges.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
+[![Uptime](https://badges.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo) [![CPU](https://badges.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) [![Memory](https://badges.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) [![Apps](https://badges.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
 
 </details>
 
