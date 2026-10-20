@@ -13,4 +13,4 @@ resources:
   - gatus/ks.yaml
   - unpoller/ks.yaml
   - adguard-exporter/ks.yaml
-  - patchmon/ks.yaml
+  # - patchmon/ks.yaml
