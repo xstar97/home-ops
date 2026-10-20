@@ -4,25 +4,25 @@
 
 ## Infrastructure at a Glance
 
-![HomeLabPower](https://badges.greenehomelab.com/badges/home_lab_power?style=for-the-badge&link=https://github.com/home-operations/kromgo)
-![All Alerts](https://badges.greenehomelab.com/badges/homelab_alert_all_count?style=for-the-badge&link=https://github.com/home-operations/kromgo)
+[![HomeLabPower](https://badges.greenehomelab.com/badges/home_lab_power?style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![All Alerts](https://badges.greenehomelab.com/badges/homelab_alert_all_count?style=for-the-badge)](https://github.com/home-operations/kromgo)
 
 ### Alerts
 
-![Alerts Sev-None](https://badges.greenehomelab.com/badges/homelab_alert_sev_none_count?style=for-the-badge)
-![Alerts Sev-Info](https://badges.greenehomelab.com/badges/homelab_alert_sev_info_count?style=for-the-badge)
-![Alerts Sev-Warn](https://badges.greenehomelab.com/badges/homelab_alert_sev_warn_count?style=for-the-badge)
-![Alerts Sev-Crit](https://badges.greenehomelab.com/badges/homelab_alert_sev_crit_count?style=for-the-badge)
+[![Alerts Sev-None](https://badges.greenehomelab.com/badges/homelab_alert_sev_none_count?style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts Sev-Info](https://badges.greenehomelab.com/badges/homelab_alert_sev_info_count?style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts Sev-Warn](https://badges.greenehomelab.com/badges/homelab_alert_sev_warn_count?style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Alerts Sev-Crit](https://badges.greenehomelab.com/badges/homelab_alert_sev_crit_count?style=for-the-badge)](https://github.com/home-operations/kromgo)
 
 ### Networking
 
-![Internet](https://badges.greenehomelab.com/badges/internet_status?logo=opnsense&style=for-the-badge)
-![Download-Speed](https://badges.greenehomelab.com/badges/speedtest_download?logo=opnsense&style=for-the-badge)
-![upload-Speed](https://badges.greenehomelab.com/badges/speedtest_upload?logo=opnsense&style=for-the-badge)
+[![Internet](https://badges.greenehomelab.com/badges/internet_status?&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![Download-Speed](https://badges.greenehomelab.com/badges/speedtest_download?&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![upload-Speed](https://badges.greenehomelab.com/badges/speedtest_upload?&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
-![router-uptime](https://badges.greenehomelab.com/badges/opnsense_uptime_days?style=for-the-badge)
-![router-cpu](https://badges.greenehomelab.com/badges/opnsense_cpu_usage?style=for-the-badge)
-![router-mem](https://badges.greenehomelab.com/badges/opnsense_memory_usage?style=for-the-badge)
+[![router-uptime](https://badges.greenehomelab.com/badges/opnsense_uptime_days?style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![router-cpu](https://badges.greenehomelab.com/badges/opnsense_cpu_usage?style=for-the-badge)](https://github.com/home-operations/kromgo)
+[![router-mem](https://badges.greenehomelab.com/badges/opnsense_memory_usage?style=for-the-badge)](https://github.com/home-operations/kromgo)
 
 <details>
 <summary>The 15U Rack</summary>
@@ -46,15 +46,15 @@
 
 <br>
 
-![Age](https://badges.greenehomelab.com/badges/cluster_age_days?style=flat-square&label=Age)
-![Uptime](https://badges.greenehomelab.com/badges/cluster_uptime_days?style=flat-square&label=Uptime)
-![Nodes](https://badges.greenehomelab.com/badges/cluster_node_count?style=flat-square&label=Nodes)
+[![Age](https://badges.greenehomelab.com/badges/cluster_age_days?style=flat-square&label=Age)](https://github.com/home-operations/kromgo)
+[![Uptime](https://badges.greenehomelab.com/badges/cluster_uptime_days?style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo)
+[![Nodes](https://badges.greenehomelab.com/badges/cluster_node_count?style=flat-square&label=Nodes)](https://github.com/home-operations/kromgo)
 
-![Pods](https://badges.greenehomelab.com/badges/cluster_pod_count?style=flat-square&label=Pods)
-![Services](https://badges.greenehomelab.com/badges/cluster_ns_count?style=flat-square&label=Charts)
-![CPU](https://badges.greenehomelab.com/badges/cluster_cpu_usage?style=flat-square&label=CPU)
-![Memory](https://badges.greenehomelab.com/badges/cluster_memory_usage?style=flat-square&label=Memory)
-![Etcd](https://badges.greenehomelab.com/badges/cluster_etcd_fragmentation?style=flat-square&label=Etcd)
+[![Pods](https://badges.greenehomelab.com/badges/cluster_pod_count?style=flat-square&label=Pods)](https://github.com/home-operations/kromgo)
+[![Services](https://badges.greenehomelab.com/badges/cluster_ns_count?style=flat-square&label=Charts)](https://github.com/home-operations/kromgo)
+[![CPU](https://badges.greenehomelab.com/badges/cluster_cpu_usage?style=flat-square&label=CPU)](https://github.com/home-operations/kromgo)
+[![Memory](https://badges.greenehomelab.com/badges/cluster_memory_usage?style=flat-square&label=Memory)](https://github.com/home-operations/kromgo)
+[![Etcd](https://badges.greenehomelab.com/badges/cluster_etcd_fragmentation?style=flat-square&label=Etcd)](https://github.com/home-operations/kromgo)
 
 ---
 
@@ -74,7 +74,7 @@
 
 [![OS](https://badges.greenehomelab.com/badges/os_seb_version?style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/) [![Docker](https://badges.greenehomelab.com/badges/docker_seb_version?style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
 
-![Uptime](https://badges.greenehomelab.com/badges/seb_uptime_days?style=flat-square&label=Uptime) ![CPU](https://badges.greenehomelab.com/badges/seb_cpu_usage?style=flat-square&label=CPU) ![Memory](https://badges.greenehomelab.com/badges/seb_memory_usage?style=flat-square&label=Memory) ![Apps](https://badges.greenehomelab.com/badges/docker_seb_service_count?style=flat-square&label=Apps)
+[![Uptime](https://badges.greenehomelab.com/badges/seb_uptime_days?style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo) [![CPU](https://badges.greenehomelab.com/badges/seb_cpu_usage?style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) [![Memory](https://badges.greenehomelab.com/badges/seb_memory_usage?style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) [![Apps](https://badges.greenehomelab.com/badges/docker_seb_service_count?style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
 
 </details>
 
@@ -85,7 +85,7 @@
 
 [![TrueNAS](https://badges.greenehomelab.com/badges/truenas_version?style=for-the-badge&logo=truenas&logoColor=white&label=TrueNAS&color=blue)](https://www.truenas.com/) [![Docker](https://badges.greenehomelab.com/badges/docker_nas_version?style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
 
-![Uptime](https://badges.greenehomelab.com/badges/nas_uptime_days?style=flat-square&label=Uptime) ![CPU](https://badges.greenehomelab.com/badges/nas_cpu_usage?style=flat-square&label=CPU) ![Memory](https://badges.greenehomelab.com/badges/nas_memory_usage?style=flat-square&label=Memory) ![Apps](https://badges.greenehomelab.com/badges/docker_nas_service_count?style=flat-square&label=Apps)
+[![Uptime](https://badges.greenehomelab.com/badges/nas_uptime_days?style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo) [![CPU](https://badges.greenehomelab.com/badges/nas_cpu_usage?style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) [![Memory](https://badges.greenehomelab.com/badges/nas_memory_usage?style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) [![Apps](https://badges.greenehomelab.com/badges/docker_nas_service_count?style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
 
 </details>
 
