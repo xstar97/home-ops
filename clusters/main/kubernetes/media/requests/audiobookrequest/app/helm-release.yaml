@@ -43,7 +43,7 @@ spec:
     image:
       repository: markbeep/audiobookrequest
       pullPolicy: IfNotPresent
-      tag: 1.10.7@sha256:7b7df351abece608fb84147dc43705f0eb1b350fc1427e0a7e5fea84a7852a19
+      tag: 1.10.8@sha256:f039f88c6e08cec72038685991a26696d3c57d4acc1b319d6cc9f9ddb1e1dda1
     securityContext:
       container:
         readOnlyRootFilesystem: false
