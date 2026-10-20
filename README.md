@@ -2,6 +2,8 @@
 
 <div align="center">
 
+## Infrastructure at a Glance
+
 [![HomeLabPower](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fhome_lab_power%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![All Alerts](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_all_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
@@ -9,25 +11,9 @@
 [![Alerts Sev-Info](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_info_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Alerts Sev-Warn](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_warn_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Alerts Sev-Crit](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/homelab_alert_sev_crit_count%3Fformat%3Dshields&style=for-the-badge)](https://github.com/home-operations/kromgo)
-
-
-My entire HomeLab stack in a single 15u rack!
-
 <br>
 
-<details open>
-<summary>The Rack</summary>
-<br>
-<img
-  src="https://docs.xstar97thenoob.com/_astro/2026.B83xqnbu_Z6BoCJ.webp"
-  alt="2026 Homelab Rack"
-  width="400"
-/>
-</details>
-
-<br>
-
-## Networking
+### Networking
 
 [![Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Finternet_status%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![Download-Speed](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fspeedtest_download%3Fformat%3Dshields&logo=opnsense&style=for-the-badge)](https://github.com/home-operations/kromgo)
@@ -37,9 +23,19 @@ My entire HomeLab stack in a single 15u rack!
 [![router-cpu](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/opnsense_cpu_usage?format=shields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 [![router-mem](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/opnsense_memory_usage?format=shields&style=for-the-badge)](https://github.com/home-operations/kromgo)
 
+<details>
+<summary>The 15U Rack</summary>
+<br>
+<img
+  src="https://docs.xstar97thenoob.com/_astro/2026.B83xqnbu_Z6BoCJ.webp"
+  alt="2026 Homelab Rack"
+  width="400"
+/>
+</details>
+
 ---
 
-## Talos Kubernetes Cluster
+### Talos Cluster
 
 *A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
 
@@ -61,96 +57,75 @@ My entire HomeLab stack in a single 15u rack!
 
 ---
 
-## 🐳 Doco-CD
+### Doco-CD
 
 *A self-hosted docker gitops!*
 
 [![DC](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 [![doco-cd-status](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdc_status%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Status)](https://doco.cd)
 
-### Nas
+#### Docker
 
-[![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Ftruenas_version%3Fformat%3Dshields&style=for-the-badge&logo=truenas&logoColor=white&label=TrueNAS&color=blue)](http://truenas.com/)
-[![docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
-
-<br>
-
-[![uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_uptime_days?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-
-[![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
-
-### Seb
-
-[![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/)
-[![docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd)
-
-<br>
-
-[![uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-
-[![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square)](https://github.com/home-operations/kromgo)
-[![services](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo)
+| 🗄️ NAS | 🖥️ Seb |
+|:--|:--|
+| [![TrueNAS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Ftruenas_version%3Fformat%3Dshields&style=for-the-badge&logo=truenas&logoColor=white&label=TrueNAS&color=blue)](https://www.truenas.com/) | [![OS](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fos_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=debian&logoColor=white&label=OS&color=blue)](https://www.debian.org/) |
+| [![Docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_nas_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd) | [![Docker](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.greenehomelab.com%2Fbadges%2Fdocker_seb_version%3Fformat%3Dshields&style=for-the-badge&logo=docker&logoColor=white&label=Docker&color=blue)](https://doco.cd) |
+| [![Uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo) | [![Uptime](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_uptime_days?format=shields&style=flat-square&label=Uptime)](https://github.com/home-operations/kromgo) |
+| [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) | [![CPU](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_cpu_usage?format=shields&style=flat-square&label=CPU)](https://github.com/home-operations/kromgo) |
+| [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/nas_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) | [![Memory](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/seb_memory_usage?format=shields&style=flat-square&label=Memory)](https://github.com/home-operations/kromgo) |
+| [![Apps](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_nas_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo) | [![Apps](https://img.shields.io/endpoint?url=https://kromgo.greenehomelab.com/badges/docker_seb_service_count?format=shields&style=flat-square&label=Apps)](https://github.com/home-operations/kromgo) |
 
 </div>
 
 ---
 
-### 🖥️ Hardware Setup
+## Hardware Setup
 
-* **Device:**  AX5400 Ceiling Mount WiFi 6 Access Point
-  * **Role:** Rack WIFI
+### Network & Infrastructure
 
-* **Device:** Pi Zero 2W
-  * **Role:** NUT server
-  * **CPU:** Broadcom BCM2710A1
-  * **RAM:** 512MB
+| Device | Role | Hardware |
+|:--|:--|:--|
+| AX5400 Ceiling Mount Wi-Fi 6 Access Point | Rack Wi-Fi | — |
+| Pi Zero 2W | NUT server | Broadcom BCM2710A1 · 512MB RAM |
+| Raspberry Pi CM5 Development Kit | Home Assistant | Broadcom BCM2712 · 4GB RAM · 512GB SSD |
+| UniFi Cable Modem | Internet connection | — |
+| Ubiquiti Pro XG 10 PoE | Rack switch | — |
+| OPNsense Firewall | Router / firewall | MPG X570 GAMING PLUS · AMD Ryzen 7 5700G · 32GB Kingston RAM · Intel X550 10GbE |
 
-* **Device:** RAS PI CM5 DEVELOPMENT KIT
-  * **Role:** Home Assistant
-  * **CPU:** Broadcom BCM2712
-  * **RAM:** 4GB
-  * **Storage:** 512GB SSD
 
-* **Device:** Beelink Mini PC (AZW MINI S)
-  * **Role:** Primary Docker host and kubernetes cluster manager
-  * **CPU:** N150
-  * **RAM:** 16GB
-  * **Storage:** 512GB SSD
-  
-* **Device:** Unifi Cable Modem
-  * **Role:** The internet!
+### Docker Host
 
-* **Device:**  Pro XG 10 PoE
-  * **Role:** Rack Switch <3
+| Component | Specification |
+|:--|:--|
+| Device | Beelink Mini PC (AZW MINI S) |
+| Role | Primary Docker host and Kubernetes cluster manager |
+| CPU | Intel N150 |
+| RAM | 16GB |
+| Storage | 512GB SSD |
 
-* **Device:** OpnSense Firewall
-  * **Role:** The internet!
-  * **MOBO:** MPG X570 GAMING PLUS
-  * **CPU:** AMD Ryzen 7 5700G
-  * **RAM:** 32GB kingston generic RAM
-  * **Network** 10GB Intel X550 ethernet card
-  * **Storage:**  
-    * Samsung SSD 970 EVO Plus 500GB
-    * Samsung SSD 870 EVO 500GB
-  
-* **Device:** Custom 4U server
-  * **Role:** TrueNAS Storage and talos kubernetes Server
-  * **MOBO:** X570S PG Riptide AsRock
-  * **CPU:** AMD Ryzen 9 5900 12-Core Processor
-  * **GPU:** GTX 1060 6gb PNY
-  * **RAM:** Corsair VENGEANCE LPX 128GB (4 x 32GB) DDR4 DRAM 3200MHz C16
-  * **Network** generic 10gb ethernet card
-  * **Storage:**  
-    * Intel Optane Memory M10 SSD M.2 2280 32GB (boot pool)
-    * 2 X 16TB seagate EXOS HDD (media pool)
-    * Samsung SATA SSD 860 EVO 1TB (SSD pool)
-    * Samsung NVME SSD 990 EVO 2TB (kubernetes pool/talos zvol)
+### TrueNAS / Talos Server
 
-* **Device:** Tripp Lite SMART1500LCDXL 1500VA
-  * **Role:** UPS
+| Component | Specification |
+|:--|:--|
+| Device | Custom 4U server |
+| Role | TrueNAS storage and Talos Kubernetes server |
+| Motherboard | ASRock X570S PG Riptide |
+| CPU | AMD Ryzen 9 5900 12-Core Processor |
+| GPU | PNY GTX 1060 6GB |
+| RAM | Corsair Vengeance LPX 128GB (4 × 32GB) DDR4-3200 C16 |
+| Network | Generic 10GbE network card |
+| Boot pool | Intel Optane Memory M10 32GB M.2 2280 |
+| Media pool | 2 × 16TB Seagate Exos HDDs |
+| SSD pool | Samsung 860 EVO 1TB SATA SSD |
+| Kubernetes pool | Samsung 990 EVO 2TB NVMe SSD (Talos zvol) |
+
+### Power
+
+| Device | Role |
+|:--|:--|
+| Tripp Lite SMART1500LCDXL 1500VA | UPS |
+
+</details>
 
 ---
 ## Acknowledgements
