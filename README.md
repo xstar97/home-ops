@@ -72,6 +72,8 @@
 <details open>
 <summary>Doco-CD</summary>
 
+<br>
+
 [![DC](https://badges.greenehomelab.com/badges/dc_seb_version?style=for-the-badge&logo=docker&logoColor=white&label=Doco-CD&color=blue)](https://doco.cd)
 [![doco-cd-status](https://badges.greenehomelab.com/badges/dc_status?style=for-the-badge&logo=docker&logoColor=white&label=Status)](https://doco.cd)
 
