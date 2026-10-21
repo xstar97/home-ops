@@ -1,6 +1,6 @@
 # home-ops
 
-*A self-hosted Kubernetes platform powered by Talos Linux, managed entirely through GitOps workflows with FluxCD.*
+*A self-hosted Kubernetes & docker platforms powered by Talos Linux, managed entirely through GitOps workflows with FluxCD & doco-cd.*
 
 <div align="center">
 
