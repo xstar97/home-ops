@@ -1,10 +1,12 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: metallb
   namespace: metallb
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: metallb
@@ -13,14 +15,10 @@ spec:
         kind: HelmRepository
         name: metallb
         namespace: flux-system
-      interval: 5m
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
   values:
     speaker:
       ignoreExcludeLB: true
+    prometheus:
+      rbacPrometheus: false
+      serviceMonitor:
+        enabled: true
