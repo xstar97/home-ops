@@ -43,7 +43,7 @@ spec:
     image:
       repository: ghcr.io/notifiarr/starrproxy
       pullPolicy: IfNotPresent
-      tag: main@sha256:7bf8c9ce34c5d2b05e53aea0a8c221bfa0c0ed9bb7797e33968e378023adcebc
+      tag: main@sha256:72f58617d155fca94da1e2baea1b0ed1ebb943eb56482acd4a979ab5369fb7cc
 
     securityContext:
       container:
