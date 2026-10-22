@@ -24,7 +24,8 @@
         "!/longhorn/",
         "!/cilium/",
         "!/plex/",
-        "!/minecraft-java/"
+        "!/minecraft-java/",
+        "!/metallb/"
       ],
       "automerge": true,
       "addLabels": [
@@ -38,7 +39,8 @@
       "matchPackageNames": [
         "!/siderolabs/",
         "!/plex/",
-        "!/minecraft-java/"
+        "!/minecraft-java/",
+        "!/metallb/"
       ],
       "automerge": true,
       "addLabels": [
