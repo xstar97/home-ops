@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - namespace.yaml
+  - grafanadashboard.yaml
 components:
   - ../../../../components/restic
   - ../../../../components/notifications/discord
