@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 services:
   code-server:
     scale: 1
-    image: ghcr.io/coder/code-server:4.141.0@sha256:72ab24b5680ee597dd647b30d82625752f40109b5f61bef90ffbf1ea1f02dbb8
+    image: ghcr.io/coder/code-server:4.143.1@sha256:377b66bec5645510ed52549bb00e648c273edc604d230a3f90fd2b2433afcb97
     container_name: code
     restart: on-failure
     networks:
