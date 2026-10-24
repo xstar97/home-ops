@@ -56,3 +56,18 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+    networkPolicies:
+      # Preserve the Longhorn network-policy model already present in the cluster.
+      enabled: true
+      # Keep Longhorn component traffic restricted to authorized components.
+      restrictInternalTraffic: true
+      # Allow only kube-prometheus-stack Prometheus pods to scrape Longhorn
+      # Manager on TCP/9500.
+      metricsScrapeSources:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-prometheus-stack
+          podSelector:
+            matchLabels:
+              prometheus: kube-prometheus-stack
+  
