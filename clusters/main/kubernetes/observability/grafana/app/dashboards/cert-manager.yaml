@@ -1,0 +1,19 @@
+---
+# cert-manager
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: cert-manager
+  namespace: grafana
+spec:
+  folderRef: infrastructure
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    # renovate: depName="Cert-manager-Kubernetes"
+    id: 20842
+    revision: 3
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

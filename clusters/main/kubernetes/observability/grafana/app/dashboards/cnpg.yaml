@@ -1,0 +1,19 @@
+---
+# cnpg dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: cnpg
+  namespace: grafana
+spec:
+  folderRef: infrastructure
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    # renovate: depName="CloudNativePG"
+    id: 20417
+    revision: 4
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

@@ -7,5 +7,5 @@ components:
 resources:
   - helm-release.yaml
   - namespace.yaml
-  - dashboards.yaml
+  - dashboards
   # - datasource.yaml

@@ -1,0 +1,17 @@
+---
+# arrs dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: arrs
+  namespace: grafana
+spec:
+  folderRef: media
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  # renovate: depName="Exportarr"
+  url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/main/examples/grafana/dashboard2.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

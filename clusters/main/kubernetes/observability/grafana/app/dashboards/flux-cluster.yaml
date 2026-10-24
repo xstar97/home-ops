@@ -1,0 +1,17 @@
+---
+# flux-cluster dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: flux-cluster
+  namespace: grafana
+spec:
+  folderRef: gitops
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  # renovate: depName="FluxCD"
+  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/cluster.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

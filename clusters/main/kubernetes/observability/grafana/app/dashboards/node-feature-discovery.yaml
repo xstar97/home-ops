@@ -1,0 +1,17 @@
+---
+# node-feature-discovery dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-feature-discovery
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  # renovate: depName="Node Feature Discovery" datasource=github-tags
+  url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/refs/tags/v0.18.3/examples/grafana-dashboard.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

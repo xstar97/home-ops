@@ -1,0 +1,26 @@
+---
+# blocky
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: blocky
+  namespace: grafana
+spec:
+  folderRef: infrastructure
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 13768
+    revision: 8
+  # url: https://raw.githubusercontent.com/0xERR0R/blocky/refs/heads/main/docs/blocky-grafana.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus
+  variables:
+    - name: VAR_BLOCKY_URL
+      value: https://blocky.${DOMAIN_2}
+    - name: var_blocky_url
+      value: https://blocky.${DOMAIN_2}
+    - name: blocky_url
+      value: https://blocky.${DOMAIN_2}

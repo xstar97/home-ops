@@ -1,0 +1,19 @@
+---
+# longhorn dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: longhorn
+  namespace: grafana
+spec:
+  folderRef: infrastructure
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    # renovate: depName="Longhorn"
+    id: 23521
+    revision: 2
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

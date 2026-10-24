@@ -1,0 +1,17 @@
+---
+# ingress-nginx dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: nginx
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  # renovate: depName="ingress-nginx" datasource=github-tags
+  url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/refs/tags/ingress-nginx-3.15.2/deploy/grafana/dashboards/nginx.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

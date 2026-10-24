@@ -1,0 +1,19 @@
+---
+# grafana kubernetes dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kubernetes
+  namespace: grafana
+spec:
+  folderRef: kubernetes
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    # renovate: depName="k8s"
+    id: 15661
+    revision: 2
+  datasources:
+    - inputName: DS_VICTORIAMETRICS_PROD_ALL
+      datasourceName: Prometheus
