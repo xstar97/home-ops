@@ -33,31 +33,26 @@ spec:
     gatus:
       group: core
     defaultSettings:
-      # Matches the Talos UserVolumeConfig named "longhorn".
+      # Matches the Talos UserVolumeConfig named longhorn.
       defaultDataPath: /var/mnt/longhorn
-      # Single-node cluster.
+      # Increase to 3 for a multi-node cluster
       defaultReplicaCount: "1"
-      # Required for the current VolSync workload.
+      # Overprovisioning might be needed when using volsync
       storageOverProvisioningPercentage: "100000"
+      # Percentage of the total allocatable CPU resources on each node to be reserved for each instance manager pod. The default value is {"v1":"12","v2":"12"}.
+      guaranteedInstanceManagerCPU: 5
     persistence:
-      # Use Longhorn as the default StorageClass.
+      # Set to false to pick another CSI as default
       defaultClass: true
-      # Single-node cluster.
-      defaultClassReplicaCount: 1
-    networkPolicies:
-      # Preserve the Longhorn network-policy model already present in the cluster.
-      enabled: true
-      # Keep Longhorn component traffic restricted to authorized components.
-      restrictInternalTraffic: true
-      # Allow only kube-prometheus-stack Prometheus pods to scrape Longhorn
-      # Manager on TCP/9500.
-      metricsScrapeSources:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-prometheus-stack
-          podSelector:
-            matchLabels:
-              prometheus: kube-prometheus-stack
+      # Increase to 3 for a multi-node cluster
+      defaultClassReplicaCount: "1"
+    csi:
+      attacherReplicaCount: "1"
+      provisionerReplicaCount: "1"
+      resizerReplicaCount: "1"
+      snapshotterReplicaCount: "1"
+    longhornUI:
+      replicas: "1"
     metrics:
       serviceMonitor:
         enabled: true
