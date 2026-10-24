@@ -11,4 +11,24 @@ spec:
     kind: OCIRepository
     name: tuppr
     namespace: flux-system     
-  values: {}
+  values:
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+      dashboards:
+        enabled: true
+        namespace: grafana
+        grafanaOperator:
+          enabled: true
+          allowCrossNamespaceImport: true
+          resyncPeriod: 10m
+          matchLabels:
+            dashboards: grafana
+          folder: infrastructure
+
+    notification:
+      enabled: true
+      secretName: tuppr-notifications
+      secretKey: url
