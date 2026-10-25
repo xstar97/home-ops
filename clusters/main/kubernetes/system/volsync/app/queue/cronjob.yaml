@@ -2,10 +2,11 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: &name volsync-queue
+  namespace: volsync
 spec:
   suspend: false
   schedule: "0 5 * * *"
-  timeZone: Europe/Amsterdam
+  timeZone: America/New_York
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
