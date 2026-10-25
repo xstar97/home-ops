@@ -51,6 +51,8 @@ services:
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       GITHUB_APP_PRIVATE_KEY_FILE: /run/secrets/github_app_private_key
+      GIT_AUTH_DOMAINS: |
+        - domains: [github.com]
       WEBHOOK_SECRET_FILE: /run/secrets/webhook_secret
       GITHUB_APP_ID_FILE: /run/secrets/github_app_id
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/secret_provider_access_token
