@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-    name: tuppr-notifications
-    namespace: system-upgrade
-type: Opaque
-stringData:
-    url: "discord://1535718743047405678/A_5B7PW9jUV10fG4emD4MCXyZp6G1yFnX3s5IA7HgOYLPMO_rzt2FSJdnO5Ye6nMqfOK"
