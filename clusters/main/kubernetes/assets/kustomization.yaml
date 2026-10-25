@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - grocy/ks.yaml
   - homebox/ks.yaml
-  - paperless-ngx/ks.yaml
+  # - paperless-ngx/ks.yaml
   # - yarnl/ks.yaml
   - bindarr/ks.yaml

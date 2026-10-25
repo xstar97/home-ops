@@ -5,9 +5,9 @@ resources:
   - kube-prometheus-stack/ks.yaml
   - grafana/ks.yaml
   - homepage/ks.yaml
-  - iperf3-webui/ks.yaml
+  # - iperf3-webui/ks.yaml
   - kromgo/ks.yaml
-  - magicmirror/ks.yaml
+  # - magicmirror/ks.yaml
   - peanut/ks.yaml
   - speedtest-tracker/ks.yaml
   - gatus/ks.yaml
