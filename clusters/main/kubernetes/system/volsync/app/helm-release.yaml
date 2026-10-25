@@ -6,11 +6,7 @@ metadata:
   name: volsync
   namespace: volsync
 spec:
-  interval: 5m
-  timeout: 25m
-  maxHistory: 3
-  driftDetection:
-    mode: enabled
+  interval: 1h
   chart:
     spec:
       chart: volsync
@@ -19,17 +15,11 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
+    image:
+      repository: quay.io/backube/volsync
+      pullPolicy: IfNotPresent
+      tag: 0.17.0@sha256:bbc884d4fa108534260025bf1255a1010ebb6bb8dac9ba4f4a77f437ca7f8fbd
     global:
       stopAll: false
     configmap:
