@@ -10,4 +10,5 @@ resources:
   - prometheusrule.yaml
   - grafanadashboard.yaml
   - mutatingadmissionpolicy.yaml
-  # - queue
+  - queue
+  
