@@ -2,7 +2,7 @@
 bitwarden = "latest"
 bitwarden-secrets-manager = "2.1.0"
 flux2 = "2.10.0"
-kubectl = "1.37.1"
+kubectl = "1.37.2"
 kubecolor = "0.8.0"
 oxker = "0.13.4"
 talosctl = "1.14.5"
