@@ -12,6 +12,7 @@ resources:
   - flux-control-plane.yaml
   - grafana-operator.yaml
   - grafana.yaml
+  - kubernetes.yaml
   - longhorn.yaml
   - node-exporter-opnsense.yaml
   - node-exporter.yaml
