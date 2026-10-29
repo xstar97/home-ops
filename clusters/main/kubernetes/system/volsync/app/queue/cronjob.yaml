@@ -4,9 +4,9 @@ metadata:
   name: &name volsync-queue
   namespace: volsync
 spec:
-  suspend: false
   schedule: "0 5 * * *"
   timeZone: America/New_York
+  suspend: false
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
@@ -21,24 +21,25 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          volumes:
-            - name: script
-              configMap:
-                name: volsync-queue-script
-                defaultMode: 0555
           containers:
             - name: queue
               image: bitnami/kubectl@sha256:bedd34c910e2a5ce9836813d16444af449d7fe07a29136d59f34e861e8e660c5
-              # env:
-              #   - name: VOLSYNC_QUEUE_EXCLUDE_TARGETS
-              #     value: plex/plex-data
+              command:
+                - /bin/sh
+                - -eu
+                - /scripts/volsync-queue.sh
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
-                  drop: ["ALL"]
+                  drop:
+                    - ALL
                 runAsNonRoot: true
               volumeMounts:
                 - name: script
                   mountPath: /scripts
                   readOnly: true
-              command: ["/bin/sh", "-eu", "/scripts/volsync-queue.sh"]
+          volumes:
+            - name: script
+              configMap:
+                name: volsync-queue-script
+                defaultMode: 0555

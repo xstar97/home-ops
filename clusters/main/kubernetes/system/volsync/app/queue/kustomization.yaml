@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - cronjob.yaml
   - rbac.yaml
+configMapGenerator:
+  - name: volsync-queue-script
+    namespace: volsync
+    files:
+      - volsync-queue.sh=volsync-queue.sh
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
-configMapGenerator:
-  - name: volsync-queue-scripte
-    namespace: volsync
-    files:
-      - ./volsync-queue.sh=/scripts/volsync-queue.sh
