@@ -40,7 +40,7 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-pokesim"
     image:
       repository: ghcr.io/afk-sapien/pokesim
-      tag: 0.5.3@sha256:5c61bad3d4405da3b58244d5c6c7c094ef0da18aa9a0560aba86863e78bc895d
+      tag: 0.6.0@sha256:d0d8822b5969d335931c57c6b698d04754d1927bec71e4f87fdb194b2d45e9c7
       pullPolicy: IfNotPresent
     securityContext:
       container:
