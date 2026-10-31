@@ -6,6 +6,7 @@ metadata:
   namespace: grafana
 spec:
   title: Kubernetes
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -17,6 +18,7 @@ metadata:
   namespace: grafana
 spec:
   title: Infrastructure
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -28,6 +30,7 @@ metadata:
   namespace: grafana
 spec:
   title: GitOps
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -39,6 +42,7 @@ metadata:
   namespace: grafana
 spec:
   title: Storage
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -50,6 +54,7 @@ metadata:
   namespace: grafana
 spec:
   title: Media
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: grafana
@@ -61,6 +66,7 @@ metadata:
   namespace: grafana
 spec:
   title: Network
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: grafana
