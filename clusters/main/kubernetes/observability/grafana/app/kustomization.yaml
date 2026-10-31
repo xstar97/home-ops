@@ -7,5 +7,6 @@ components:
 resources:
   - helm-release.yaml
   - namespace.yaml
+  - grafana-folders.yaml
   - dashboards
   # - datasource.yaml
