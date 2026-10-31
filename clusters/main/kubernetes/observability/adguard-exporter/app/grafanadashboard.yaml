@@ -7,7 +7,8 @@ metadata:
   namespace: adguard-exporter
 spec:
   allowCrossNamespaceImport: true
-  folderRef: network
+  # folderRef: network
+  folderUID: 09ca8040-3cc6-491c-8304-549c9ebb1190
   instanceSelector:
     matchLabels:
       dashboards: grafana
