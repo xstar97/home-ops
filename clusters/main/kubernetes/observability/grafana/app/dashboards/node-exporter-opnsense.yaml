@@ -7,7 +7,7 @@ metadata:
   namespace: grafana
 spec:
   # folderRef: network
-  folderUID: 1744b96470b51bf30935e2748b237a708d226a0430063f92accf90961cd28d86
+  folderUID: 09ca8040-3cc6-491c-8304-549c9ebb1190
   instanceSelector:
     matchLabels:
       dashboards: grafana

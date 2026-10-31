@@ -8,7 +8,7 @@ metadata:
 spec:
   allowCrossNamespaceImport: true
   # folderRef: infrastructure
-  folderUID: ce0cff719a94747617230dde819ab25812021d6b80c236bf0c6891c0d46e45be
+  folderUID: 43b99d0e-7ffc-45b5-9931-8774526e4ba7
   instanceSelector:
     matchLabels:
       dashboards: grafana
