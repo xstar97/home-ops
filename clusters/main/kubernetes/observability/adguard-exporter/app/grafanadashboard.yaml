@@ -3,8 +3,8 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: adguard-home
-  namespace: adguard-home
+  name: adguard-exporter
+  namespace: adguard-exporter
 spec:
   allowCrossNamespaceImport: true
   folderRef: network
