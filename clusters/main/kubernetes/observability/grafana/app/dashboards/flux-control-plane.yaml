@@ -6,7 +6,8 @@ metadata:
   name: flux-control-plane
   namespace: grafana
 spec:
-  folderRef: gitops
+  # folderRef: gitops
+  folderUID: 4012e2e70e0eab52805488de507f7964fab04d7515daff79f3f8060ba7c95a78
   instanceSelector:
     matchLabels:
       dashboards: grafana

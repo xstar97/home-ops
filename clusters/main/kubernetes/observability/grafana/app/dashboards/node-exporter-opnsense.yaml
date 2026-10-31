@@ -6,7 +6,8 @@ metadata:
   name: node-exporter-opnsense
   namespace: grafana
 spec:
-  folderRef: network
+  # folderRef: network
+  folderUID: 1744b96470b51bf30935e2748b237a708d226a0430063f92accf90961cd28d86
   instanceSelector:
     matchLabels:
       dashboards: grafana

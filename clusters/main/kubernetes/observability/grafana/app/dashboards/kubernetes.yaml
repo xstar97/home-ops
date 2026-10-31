@@ -6,7 +6,8 @@ metadata:
   name: kubernetes
   namespace: grafana
 spec:
-  folderRef: kubernetes
+  # folderRef: kubernetes
+  folderUID: a37d07fe30048d3ae9db9a02c8c16da029bb44a586c5adaea2a1ce7be2c9d904
   instanceSelector:
     matchLabels:
       dashboards: grafana

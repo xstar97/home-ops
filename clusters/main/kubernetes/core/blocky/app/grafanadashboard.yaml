@@ -7,7 +7,8 @@ metadata:
   namespace: blocky
 spec:
   allowCrossNamespaceImport: true
-  folderRef: infrastructure
+  # folderRef: infrastructure
+  folderUID: ce0cff719a94747617230dde819ab25812021d6b80c236bf0c6891c0d46e45be
   instanceSelector:
     matchLabels:
       dashboards: grafana

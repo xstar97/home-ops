@@ -6,7 +6,8 @@ metadata:
   name: arrs
   namespace: grafana
 spec:
-  folderRef: media
+  # folderRef: media
+  folderUID: d357175cfe8978d39b0f86552dcd9404973493e2816101d9ff6c05ee248ef6bd
   instanceSelector:
     matchLabels:
       dashboards: grafana

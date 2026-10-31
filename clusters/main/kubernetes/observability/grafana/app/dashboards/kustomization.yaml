@@ -3,7 +3,6 @@ kind: Kustomization
 # namespace: grafana
 resources:
   - arrs.yaml
-  # - blocky.yaml
   - cert-manager.yaml
   - cilium.yaml
   - cnpg.yaml
