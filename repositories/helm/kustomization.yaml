@@ -23,3 +23,4 @@ resources:
   - nccloud.yaml
   - external-dns.yaml
   - backube.yaml
+  - ingress-nginx.yaml
