@@ -13,6 +13,6 @@ resources:
   - grafana.yaml
   - kubernetes.yaml
   - longhorn.yaml
-  - node-exporter-opnsense.yaml
+  # - node-exporter-opnsense.yaml
   - node-exporter.yaml
   - node-feature-discovery.yaml

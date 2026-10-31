@@ -87,7 +87,7 @@ spec:
       serviceMonitor:
         enabled: true
       dashboard:
-        enabled: true
+        enabled: false
         labels:
           grafana_dashboard: "1"
         namespace: grafana
