@@ -35,7 +35,7 @@ services:
 
   scrutiny-web:
     scale: 1
-    image: ghcr.io/analogj/scrutiny:v0.9.5-web@sha256:4f2ec0c874aec7fb0da5505b8ee127a8d7ac5b9d2b0622b53cf27fb47693877c
+    image: ghcr.io/analogj/scrutiny:v0.10.0-web@sha256:1a3eb7802907e48c960c06b412592969efe5514b9c01b70fa634076f7e675adf
     container_name: scrutiny-web
     restart: on-failure
     healthcheck: *healthcheckWeb
