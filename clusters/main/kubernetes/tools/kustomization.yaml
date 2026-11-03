@@ -5,6 +5,7 @@ resources:
   - dozzle/ks.yaml
   - doublecommander/ks.yaml
   - feedcord/ks.yaml
+  - selkies/ks.yaml
   # - fileshelter/ks.yaml
   # - it-tools/ks.yaml
   # - omni-tools/ks.yaml

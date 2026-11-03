@@ -1,0 +1,132 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: selkies
+  namespace: selkies
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 21.0.16
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    image:
+      repository: ghcr.io/selkies-project/selkies/desktop
+      pullPolicy: IfNotPresent
+      tag: 2.2.0-debiantrixie@sha256:d3f4b42f1c443b645fb7ad3ff1def7b45742ee361ae7147c1f05c343214675db
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                SELKIES_PORT: "{{ .Values.service.main.ports.main.port }}"
+                SELKIES_DEV_SOURCE: "{{ .Values.persistence.config.mountPath }}"
+                          
+                # Streaming mode: websockets, webrtc, or both with dual mode
+                # SELKIES_MODE: ${SELKIES_MODE:-websockets}
+                # SELKIES_ENABLE_DUAL_MODE: ${SELKIES_ENABLE_DUAL_MODE:-true}
+                # One switch: Selkies mints a self-signed certificate when the configured
+                # one is absent, so nothing else has to be prepared for it
+                # SELKIES_ENABLE_HTTPS: ${SELKIES_ENABLE_HTTPS:-false}
+                # SELKIES_ENABLE_BASIC_AUTH: ${SELKIES_ENABLE_BASIC_AUTH:-}
+                # SELKIES_BASIC_AUTH_USER: ${SELKIES_BASIC_AUTH_USER:-}
+                # SELKIES_BASIC_AUTH_PASSWORD: ${SELKIES_BASIC_AUTH_PASSWORD:-}
+                # Left empty, the entrypoint starts an internal coTURN for WebRTC
+                # SELKIES_TURN_SHARED_SECRET: ${SELKIES_TURN_SHARED_SECRET:-}
+                # SELKIES_TURN_HOST: ${SELKIES_TURN_HOST:-}
+                # SELKIES_TURN_PORT: ${SELKIES_TURN_PORT:-}
+                # SELKIES_TURN_USERNAME: ${SELKIES_TURN_USERNAME:-}
+                # SELKIES_TURN_PASSWORD: ${SELKIES_TURN_PASSWORD:-}
+                # SELKIES_TURN_REST_URI: ${SELKIES_TURN_REST_URI:-}
+                # SELKIES_TURN_REST_USERNAME: ${SELKIES_TURN_REST_USERNAME:-}
+                # SELKIES_TURN_REST_USERNAME_AUTH_HEADER: ${SELKIES_TURN_REST_USERNAME_AUTH_HEADER:-}
+                # SELKIES_ENABLE_RESIZE: ${SELKIES_ENABLE_RESIZE:-}
+                # SELKIES_DEBUG_CURSORS: ${SELKIES_DEBUG_CURSORS:-false}
+                # Login password of the unprivileged user
+                # PASSWD: ${PASSWD:-mypasswd}
+                # Start a full LXQt session, vs just the display server.
+                # START_LXQT: ${START_LXQT:-true}
+                # Use the headless Wayland backend instead of X11 (default: X11 Xvfb).
+                # SELKIES_WAYLAND: ${SELKIES_WAYLAND:-false}
+                # Session compositor nested in the capture compositor, supplying window
+                # management, decorations, and XWayland; empty picks labwc, "none" drops it
+                # SELKIES_WAYLAND_COMPOSITOR: ${SELKIES_WAYLAND_COMPOSITOR:-}
+                # Render/encode GPU selection; empty means auto-detect
+                # SELKIES_RENDER_DRI: ${SELKIES_RENDER_DRI:-}
+                # DRI_NODE: ${DRI_NODE:-}
+                # Serve the bind-mounted checkout below rather than the installed package
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+        hosts:
+          - host: dc.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "/data/media"
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: "/data/downloads"
+      documents:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOCS_NFS}
+        mountPath: "/data/documents"
