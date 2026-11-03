@@ -104,7 +104,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
         hosts:
-          - host: dc.${DOMAIN_2}
+          - host: selkies.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
