@@ -44,7 +44,7 @@ spec:
     image:
       repository: ghcr.io/selkies-project/selkies/desktop
       pullPolicy: IfNotPresent
-      tag: 2.2.0-debiantrixie@sha256:d3f4b42f1c443b645fb7ad3ff1def7b45742ee361ae7147c1f05c343214675db
+      tag: 2.2.1-debiantrixie@sha256:086393859765776522fc21526545b8b5dc38b732f29119d55ea31fd272e66a72
     service:
       main:
         type: ClusterIP
