@@ -8,7 +8,7 @@ x-healthcheckWeb: &healthcheck
 services:
   fmd:
     scale: 1
-    image: registry.gitlab.com/fmd-foss/fmd-server:0.17.1-alpine@sha256:83552b0ff23d0049904934eef6c6cede64000dc3c3fa5edb78ee9cbd94b7c8b9
+    image: registry.gitlab.com/fmd-foss/fmd-server:0.17.1-alpine@sha256:1be9767f3f2b4c6387776424232b0fe8d19b49f8479758017545da617b71b1ec
     container_name: fmd
     restart: on-failure
     healthcheck: *healthcheck
