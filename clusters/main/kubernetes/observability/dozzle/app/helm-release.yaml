@@ -33,7 +33,7 @@ spec:
   values:
     global:
       stopAll: false
-      skipEmptyWalArchiveCheck: true
+      # skipEmptyWalArchiveCheck: true
     image:
       repository: amir20/dozzle
       pullPolicy: IfNotPresent
