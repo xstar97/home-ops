@@ -37,7 +37,7 @@ spec:
       group: auth
     global:
       stopAll: false
-      skipEmptyWalArchiveCheck: true
+      # skipEmptyWalArchiveCheck: true
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-authelia"

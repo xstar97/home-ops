@@ -42,10 +42,10 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-sabnzbd"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-sabnzbd"
-    image:
-      repository: ghcr.io/home-operations/sabnzbd
-      pullPolicy: IfNotPresent
-      tag: 5.1.3@sha256:c89b0322721c3eba47221e5f916505e7e742684651f73c5215717340b6b5402f
+    # image:
+    #   repository: ghcr.io/home-operations/sabnzbd
+    #   pullPolicy: IfNotPresent
+    #   tag: 5.1.3@sha256:c89b0322721c3eba47221e5f916505e7e742684651f73c5215717340b6b5402f
     workload:
       main:
         podSpec:
@@ -95,13 +95,9 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
+    exportarr:
+      # Required for exportarr
+      apiKey: "${SAB_KEY}"    
     metrics:
       main:
         enabled: true
-        type: "servicemonitor"
-        endpoints:
-          - port: metrics
-            path: /metrics
-        targetSelector: metrics
-        # Required for exportarr
-        apiKey: "${SAB_KEY}"
