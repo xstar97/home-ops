@@ -40,8 +40,8 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-radarr"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-radarr"
-    securityContext:
-      readOnlyRootFilesystem: false
+    # securityContext:
+    #   readOnlyRootFilesystem: false
     workload:
       main:
         podSpec:
@@ -121,7 +121,7 @@ spec:
         enabled: true
         user: radarr
         database: radarr
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:

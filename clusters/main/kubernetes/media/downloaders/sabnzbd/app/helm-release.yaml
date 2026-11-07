@@ -35,8 +35,8 @@ spec:
       group: media-downloaders
     global:
       stopAll: false
-    securityContext:
-      readOnlyRootFilesystem: false
+    # securityContext:
+    #   readOnlyRootFilesystem: false
     credentials:
       cf-restic:
         bucket: "${CF_S3_RESTIC_BUCKET}-sabnzbd"

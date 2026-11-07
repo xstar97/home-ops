@@ -40,8 +40,8 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-lidarr"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-lidarr"
-    securityContext:
-      readOnlyRootFilesystem: false
+    # securityContext:
+    #   readOnlyRootFilesystem: false
     workload:
       main:
         podSpec:
