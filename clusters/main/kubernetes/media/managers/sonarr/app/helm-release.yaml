@@ -40,8 +40,8 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-sonarr"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-sonarr"   
-    securityContext:
-      readOnlyRootFilesystem: false
+    # securityContext:
+    #   readOnlyRootFilesystem: false
     workload:
       main:
         podSpec:
@@ -92,9 +92,9 @@ spec:
             enabled: true
           homepage:
             enabled: true
-            name: Sonarr (Series)
+            # name: Sonarr 
             group: "Media Manager"
-            siteMonitor: http://sonarr.sonarr.svc.cluster.local:8989
+            # siteMonitor: http://sonarr.sonarr.svc.cluster.local:8989
             widget:
               custom:
                 key: "${SONARR_SERIES_KEY}"
@@ -135,7 +135,7 @@ spec:
         enabled: true
         user: sonarr
         database: sonarr
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:
