@@ -40,8 +40,8 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-metube"
       rfs-restic:
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-metube"
-    securityContext:
-      readOnlyRootFilesystem: false
+    # securityContext:
+    #   readOnlyRootFilesystem: false
     workload:
       main:
         podSpec:
