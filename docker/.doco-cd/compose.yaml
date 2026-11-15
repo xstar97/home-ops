@@ -67,7 +67,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/xstar97/.docker:/root/.docker
       - doco_data:/data
-      - ~/.ssh:/root/.ssh:ro  
+      - /home/xstar97/.ssh:/root/.ssh:ro  
     labels:
       wud.watch: false
       traefik.enable: "true"
