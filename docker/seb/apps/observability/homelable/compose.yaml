@@ -29,7 +29,7 @@ x-healthcheckMCP: &healthcheckMCP
   start_period: 15s
 services:
   frontend:
-    image: ghcr.io/pouzor/homelable-frontend:3.7.0@sha256:edb040f2bfe172d155643e190cb2f9eadc7d140a2300f88d7ed8dc7bdd5acfd7
+    image: ghcr.io/pouzor/homelable-frontend:3.7.1@sha256:2e52e1ba1cd0142c03988b247ca38f1fcbcf668efe39fb5849d432298a56a518
     container_name: homelable-frontend
     restart: unless-stopped
     expose:
