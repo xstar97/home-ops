@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: exporter-adguard
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - adguard-exporter-app-template.adguard-exporter.svc.cluster.local:9618
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      sourceLabels: ["server"]
+      regex: http(|s):\/\/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}).*
+      replacement: $2
+      targetLabel: exporter-adguard

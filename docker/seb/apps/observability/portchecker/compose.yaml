@@ -1,0 +1,58 @@
+x-healthcheckWeb: &healthcheckWeb
+  test: ["CMD", "wget", "--spider", "-S", "http://127.0.0.1"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+x-healthcheckApi: &healthcheckApi
+  test: ["CMD", "wget", "--spider", "-S", "http://127.0.0.1:8000/healthz"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+services:
+  portchecker-web:
+    scale: 1
+    image: ghcr.io/dsgnr/portcheckerio-web:4.2.0@sha256:fdd68afeaaa73628ae0f92251e19fe615eaa33bc8d4272d011ceaad8f51da1cc
+    container_name: portchecker
+    restart: on-failure
+    healthcheck: *healthcheckWeb
+    networks:
+      - network_internal
+      - internal
+    expose:
+      - "80"
+    environment:
+      # DEFAULT_HOST: ""  # Optional, Populates a default host address value to be populataed in the in the UI input. Defaults to external/WAN IP.
+      # DEFAULT_PORT: 443  # Optional, Populates a default port value to be populataed in the in the UI input
+      API_URL: http://portchecker-api:8000  # Optional, the URL of the API service. The scheme and port is required. Defaults to http://api:8000 if not set.
+      ALLOW_PRIVATE: true  # Prevent usage of private IP addresses
+    labels:
+      traefik.enable: true
+      traefik.http.routers.portchecker.rule: Host(`portchecker.${BASE_DOMAIN_0}`)
+      traefik.http.services.portchecker.loadbalancer.server.port: 80
+      traefik.http.routers.portchecker.entrypoints: websecure
+      traefik.http.routers.portchecker.tls: true
+      traefik.http.routers.portchecker.tls.certResolver: cf
+      traefik.http.routers.portchecker.middlewares: error-pages-middleware
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
+  portchecker-api:
+    scale: 1
+    image: ghcr.io/dsgnr/portcheckerio-api:4.2.0@sha256:135b8c0e9380d98acd27386eb3ad6e6ca50c39063cded8d4e42efb6caf1d2053
+    container_name: portchecker-api
+    restart: on-failure
+    healthcheck: *healthcheckApi
+    networks:
+      - internal
+    expose:
+      - "8000"
+    environment:
+      ALLOW_PRIVATE: true  # Prevent usage of private IP addresses
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

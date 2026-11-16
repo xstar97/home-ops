@@ -1,0 +1,40 @@
+x-healthcheck: &healthcheck
+  test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  apprise:
+    image: caronc/apprise:2.1.0@sha256:bd7dc73b75882326b97d2963b7c3dd2a5e033df27d84c51f0090465d583fb316
+    container_name: apprise
+    restart: unless-stopped
+    networks:
+      - internal
+      - network_internal
+    expose:
+      - "8000"
+    healthcheck: *healthcheck
+    environment:
+      TZ: America/New_York
+      APPRISE_WORKER_COUNT: 1
+      APPRISE_STATEFUL_MODE: simple
+      # APPRISE_ADMIN: "y"
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/apprise/config:/config
+      - ${BASE_DOCKER_DATA_DIR}/apprise/attach:/attach
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.apprise.rule: Host(`apprise.seb.local`)
+      traefik.http.routers.apprise.entrypoints: web
+      traefik.http.routers.apprise.service: apprise
+      traefik.http.services.apprise.loadbalancer.server.port: "8000"
+      traefik.http.services.apprise.loadbalancer.server.scheme: http
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

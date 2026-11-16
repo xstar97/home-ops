@@ -1,0 +1,61 @@
+x-healthcheck: &healthcheck
+  test: [
+          "CMD",
+          "sh", "-c",
+          "curl -f http://127.0.0.1:30292/health && curl -f http://127.0.0.1:30293/rustfs/console/health"
+        ]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+services:
+  rustfs:
+    image: rustfs/rustfs:1.0.0-beta.4@sha256:f7cb98ef492fa3c3ed0dbd65df3ce2dd205c666e24e7d7234d9402c9ed1001f9
+    container_name: rustfs
+    restart: unless-stopped
+    healthcheck: *healthcheck
+    networks:
+      - network_internal
+      - internal
+    ports:
+      - "30292:30292" # S3 API port
+      - "30293:30293" # Console port
+    # env_file:
+    #   - ./secrets.enc.env
+    environment:
+      RUSTFS_ACCESS_KEY: "${RUSTFS_ACCESS_KEY}"
+      RUSTFS_SECRET_KEY: "${RUSTFS_SECRET_KEY}"
+      RUSTFS_OBS_LOGGER_LEVEL: "warn"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_CORS_ALLOWED_ORIGINS: "*"
+      RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: "*"
+      RUSTFS_OBS_ENVIRONMENT: "production"
+      RUSTFS_VOLUMES: "/rustfs/data0"
+      RUSTFS_ADDRESS: ":30292"
+      RUSTFS_OBS_LOG_DIRECTORY: ""
+      RUSTFS_CONSOLE_ADDRESS: ":30293"
+    user: "568:568"
+    volumes:
+      - /mnt/kubernetes/backups:/rustfs/data0
+      - logs:/app/logs
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.rustfs.rule: Host(`s3.rustfs.nas.local`)
+      traefik.http.routers.rustfs.entrypoints: web
+      traefik.http.routers.rustfs.service: rustfs
+      traefik.http.services.rustfs.loadbalancer.server.port: "30292"
+      # RustFS Console
+      traefik.http.routers.rustfs-web.rule: Host(`web.rustfs.nas.local`)
+      traefik.http.routers.rustfs-web.entrypoints: web
+      traefik.http.routers.rustfs-web.service: rustfs-web
+      traefik.http.services.rustfs-web.loadbalancer.server.port: "30293"
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "traefik.nas.local"
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  logs:

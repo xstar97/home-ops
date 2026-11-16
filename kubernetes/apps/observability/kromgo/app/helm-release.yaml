@@ -1,0 +1,70 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kromgo
+  namespace: kromgo
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: kromgo
+      version: 4.1.5
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    gatus:
+      group: observability
+
+    workload:
+      main:
+        podSpec:
+          annotations:
+            reloader.stakater.com/search: "true"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: kromgo.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    persistence:
+      configfile:
+        enabled: true
+        type: configmap
+        objectName: kromgo-config-file
+        expandObjectName: false
+        mountPath: /config/config.yaml
+        subPath: config.yaml
+        readOnly: true
+      config:
+        enabled: false
+        mountPath: /config
+        targetSelectAll: true

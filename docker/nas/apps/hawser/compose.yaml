@@ -1,0 +1,40 @@
+x-healthcheck: &healthcheck
+  test: ["CMD-SHELL","wget -q --spider http://localhost:2376/_hawser/health || exit 1"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  hawser:
+    scale: 1
+    image: ghcr.io/finsys/hawser:0.2.53@sha256:bbeebc96c2d03b2721c6bfc88e1b250eb852c66ed3914335a6fe8ced4218f059
+    container_name: hawser
+    restart: on-failure
+    networks:
+      - internal
+      - network_internal
+    expose:
+      - "2376"
+    env_file:
+      - ./hawser.enc.env
+    environment:
+      STACKS_DIR: "/opt/hawser-stacks"
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - hawser_data:/opt/hawser-stacks
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.hawser.rule: Host(`hawser.nas.local`)
+      traefik.http.routers.hawser.entrypoints: web
+      traefik.http.services.hawser.loadbalancer.server.port: "2376"
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "traefik.nas.local"
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
+volumes:
+  hawser_data: {}

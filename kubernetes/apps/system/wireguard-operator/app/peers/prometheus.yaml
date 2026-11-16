@@ -1,0 +1,9 @@
+apiVersion: vpn.wireguard-operator.io/v1alpha1
+kind: WireguardPeer
+metadata:
+  name: prometheus
+  namespace: wireguard-system
+spec:
+  wireguardRef: metrics
+  address: 10.7.0.4
+  allowedIPs: "0.0.0.0/0"

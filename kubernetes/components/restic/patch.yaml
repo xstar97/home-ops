@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: not-used
+spec:
+  interval: 30m
+  values:
+    credentials:
+      cf-restic:
+        type: s3
+        url: "https://${CF_S3_RESTIC_URL_NO_HTTPS:https://-s3.example.com}"
+        accessKey: "${CF_S3_RESTIC_ID:-restic}"
+        secretKey: "${CF_S3_RESTIC_KEY:-changeme}"
+        encrKey: "${CF_S3_RESTIC_KEY:-changeme}"
+
+      rfs-restic:
+        type: s3
+        url: "http://${RUSTFS_S3_RESTIC_URL_NO_HTTP:http://-s3.example.com}"
+        accessKey: "${RUSTFS_S3_RESTIC_ID:-restic}"
+        secretKey: "${RUSTFS_S3_RESTIC_KEY:-changeme}"
+        encrKey: "${RUSTFS_S3_RESTIC_KEY:-changeme}"

@@ -1,0 +1,156 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sonarr
+  namespace: sonarr
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: sonarr
+      version: 28.1.5
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-managers
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-sonarr"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-sonarr"   
+    # securityContext:
+    #   readOnlyRootFilesystem: false
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # SONARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
+                SONARR__APP__THEME: dark
+                SONARR__AUTH__METHOD: External
+                SONARR__AUTH__REQUIRED: DisabledForLocalAddresses # Enabled
+
+                # SONARR__AUTH__METHOD: Oidc
+                # SONARR__AUTH__OIDC_AUTHORITY: "https://auth.${DOMAIN_2}"
+                # SONARR__AUTH__OIDC_CLIENTID: "sonarr"
+                # SONARR__AUTH__OIDC_CLIENTSECRET: "${AUTHELIA_CLIENT_SECRET_SONARR}"
+                # SONARR__AUTH__OIDC_USERIDENTIFIER: "preferred_username"
+                # SONARR__AUTH__OIDC_SCOPES: "openid profile email"
+
+                SONARR__POSTGRES__HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                SONARR__POSTGRES__PORT: 5432
+                SONARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                SONARR__POSTGRES__PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                SONARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
+                SONARR__LOG__DBENABLED: "false"
+                SONARR__SERVER__BINDADDRESS: 0.0.0.0
+                # SONARR__SERVER__ALLOWEDHOSTS: "${PODNET},${SVCNET},10.0.0.0/8"
+                SONARR__SERVER__TRUSTEDNETWORKS: "${PODNET},${SVCNET},10.0.0.0/8"
+  
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+        hosts:
+          - host: sonarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            # name: Sonarr 
+            group: "Media Manager"
+            # siteMonitor: http://sonarr.sonarr.svc.cluster.local:8989
+            widget:
+              custom:
+                key: "${SONARR_SERIES_KEY}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      covers:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: /config/MediaCover
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "${MEDIA_LOCAL}"
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: "${DOWNLOADS_LOCAL}"
+
+    cnpg:
+      main:
+        enabled: true
+        user: sonarr
+        database: sonarr
+        mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

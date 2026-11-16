@@ -1,0 +1,36 @@
+services:
+  # postgres:
+    # image: postgres:16-alpine
+    # networks:
+    #   - internal # Assign to the custom network
+    # volumes:
+    #   - ${BASE_DOCKER_DATA_DIR}/dockhand/db:/var/lib/postgresql/data
+  dockhand:
+    scale: 1
+    container_name: dockhand
+    image: fnsys/dockhand:v1.0.58@sha256:515c6e0f28cf3922c51a2dfd3463b972880e40418c2464b1bc91b8a3afe66c7f
+    restart: on-failure
+    networks:
+      - network_internal
+    expose:
+      - "3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${BASE_DOCKER_DATA_DIR}/dockhand/data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dockhand.rule: Host(`dockhand.${BASE_DOMAIN_0}`)
+      traefik.http.services.dockhand.loadbalancer.server.port: 3000
+      traefik.http.routers.dockhand.entrypoints: websecure
+      traefik.http.routers.dockhand.tls: true
+      traefik.http.routers.dockhand.tls.certResolver: cf
+      traefik.http.routers.dockhand.middlewares: error-pages-middleware
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
+    # depends_on:
+    #   - postgres
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

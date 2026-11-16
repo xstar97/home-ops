@@ -1,0 +1,158 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jelu
+  namespace: jelu
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 21.3.6
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-books
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-jelu"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-jelu"
+    image:
+      repository: wabayang/jelu
+      pullPolicy: IfNotPresent
+      tag: 0.88.4@sha256:5b381c6e66df043e53215da8722576ab2a22ac01ecebd607b6541290df97f7aa
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 11111
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: jelu.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
+                JELU_DATABASE_PATH: "{{.Values.persistence.db.mountPath }}"
+                JELU_FILES_IMPORTS: "{{.Values.persistence.imports.mountPath }}"
+                JELU_FILES_IMAGES: "{{.Values.persistence.images.mountPath }}"
+                # JELU_SESSION_DURATION: 604800
+                LANGUAGE: en_US:en
+                
+                JELU_AUTH_LDAP_ENABLED: "false"
+                JELU_AUTH_PROXY_ENABLED: "true"
+                SPRINGDOC_API_DOCS_ENABLED: "false"
+                SPRINGDOC_SWAGGER_UI_ENABLED: "false"
+
+                JELU_AUTH_PROXY_ADMINNAME: "${LLDAP_LDAP_USER_DN}"
+                JELU_AUTH_PROXY_HEADER: "Remote-User"
+                
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_PROVIDER: authelia
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_ID: jelu
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_JELU}"
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_CLIENT_NAME: Authelia
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_SCOPE: openid,email
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_AUTHORIZATION_GRANT_TYPE: authorization_code
+                # SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AUTHELIA_REDIRECT_URI: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+
+                # SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_USER_NAME_ATTRIBUTE: sub
+                # SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_AUTHELIA_ISSUER_URI: https://auth.${DOMAIN_2}
+
+                JELU_AUTH_OAUTH2_ACCOUNT_CREATION: "true"
+                JELU_AUTH_OIDC_EMAIL_VERIFICATION: "true"
+
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      db:
+        enabled: true
+        mountPath: /db
+        volsync:
+          - name: db
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      images:
+        enabled: true
+        mountPath: /images
+        volsync:
+          - name: images
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      imports:
+        enabled: true
+        mountPath: /imports
+        volsync:
+          - name: imports
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: false

@@ -1,0 +1,145 @@
+configs:
+  default-middlewares.yml:
+    content: |
+      http:
+        middlewares:
+          https-redirectscheme:
+            redirectScheme:
+              scheme: https
+              permanent: true
+
+          default-headers:
+            headers:
+              frameDeny: true
+              browserXssFilter: true
+              contentTypeNosniff: true
+              forceSTSHeader: true
+              stsIncludeSubdomains: true
+              stsPreload: true
+              stsSeconds: 15552000
+              customFrameOptionsValue: SAMEORIGIN
+              customRequestHeaders:
+                X-Forwarded-Proto: https
+
+  truenas-docker-metrics.yml:
+    content: |
+      http:
+        routers:
+          truenas-docker-metrics:
+            rule: 'Host(`metrics.docker.nas.local`) && Path(`/metrics`)'
+            entryPoints:
+              - web
+            service: truenas-docker-metrics-service
+
+          truenas-docker-metrics-root:
+            rule: 'Host(`metrics.docker.nas.local`) && Path(`/`)'
+            entryPoints:
+              - web
+            middlewares:
+              - truenas-docker-metrics-redirect
+            service: truenas-docker-metrics-service
+
+        middlewares:
+          truenas-docker-metrics-redirect:
+            redirectRegex:
+              regex: '^http://([^/]+)/$'
+              replacement: 'http://$${1}/metrics'
+              permanent: false
+
+        services:
+          truenas-docker-metrics-service:
+            loadBalancer:
+              servers:
+                - url: 'http://{{ env "TRUENAS_LOCAL_IP" }}:9323'
+
+x-healthcheck: &healthcheck
+  test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ping | grep -q '^OK$' || exit 1"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 15s
+
+x-healthcheckAdguardDns: &healthcheckAdguardDns
+  test: ["CMD", "python", "/app/adguard_dns.py", "--healthcheck"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 30s
+
+services:
+  traefik:
+    image: traefik:v3.7.19@sha256:aa942a00bce033c909bf1f7e861d93761be4b31a035f10d2410d33e38a8f41cf
+    container_name: traefik
+    restart: on-failure
+    healthcheck: *healthcheck
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.network=network_internal
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --providers.file.watch=true
+      - --log.level=INFO
+      - --accesslog=true
+      - --api.insecure=true
+      - --ping=true
+    environment:
+      TRUENAS_LOCAL_DOMAIN: "$TRUENAS_HOSTNAME_LOCAL"
+      TRUENAS_LOCAL_IP: "$TRUENAS_IP"
+    networks:
+      - network_internal
+    ports:
+      - "80:80"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+    configs:
+      - source: default-middlewares.yml
+        target: /etc/traefik/dynamic/default-middlewares.yml
+      - source: truenas-docker-metrics.yml
+        target: /etc/traefik/dynamic/truenas-docker-metrics.yml
+    labels:
+      traefik.enable: "true"
+      # Traefik dashboard
+      traefik.http.routers.traefik.rule: Host(`traefik.nas.local`)
+      traefik.http.routers.traefik.entrypoints: web
+      traefik.http.routers.traefik.service: api@internal
+      # DNS target for Docker and file-provider routers
+      adguard.dns: "${TRUENAS_HOSTNAME_LOCAL}"
+  traefik-adguard-dns:
+    image: ghcr.io/xstar97/traefik-adguard-dns:0.0.2@sha256:8f200ca88115a2cc4b2de1223df1bc775bafb8a096c9711ca27b84d3e8e4fabf
+    container_name: traefik-adguard-dns
+    restart: unless-stopped
+    healthcheck: *healthcheckAdguardDns
+    environment:
+      ADGUARD_URL: "${ROUTER_ADGUARD_URL}"
+      ADGUARD_USERNAME: "${ROUTER_ADGUARD_USERNAME}"
+      ADGUARD_PASSWORD: "${ROUTER_ADGUARD_PASSWORD}"
+      TRAEFIK_API_URL: "http://traefik:8080"
+      POLL_INTERVAL: "30"
+      STATE_FILE: /data/state.json
+    depends_on:
+      traefik:
+        condition: service_healthy
+    networks:
+      - network_internal
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+      - adguard-dns-companion-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+networks:
+  network_internal:
+    external: true
+volumes:
+  adguard-dns-companion-data: {}

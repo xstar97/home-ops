@@ -1,0 +1,19 @@
+---
+# doco-cd dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: doco-cd-seb
+  namespace: grafana
+spec:
+  # folderRef: gitops
+  folderUID: 40ac49f1-168e-476d-8114-c56818ef80df
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 23980
+    revision: 1
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

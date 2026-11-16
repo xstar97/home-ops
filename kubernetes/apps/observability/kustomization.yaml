@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - headlamp/ks.yaml
+  - kube-prometheus-stack/ks.yaml
+  - grafana/ks.yaml
+  - homepage/ks.yaml
+  # - iperf3-webui/ks.yaml
+  - kromgo/ks.yaml
+  # - magicmirror/ks.yaml
+  - peanut/ks.yaml
+  - speedtest-tracker/ks.yaml
+  - gatus/ks.yaml
+  - unpoller/ks.yaml
+  - adguard-exporter/ks.yaml
+  - dozzle/ks.yaml
+  - patchmon/ks.yaml

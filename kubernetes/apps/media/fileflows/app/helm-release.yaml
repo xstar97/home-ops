@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: fileflows
+  namespace: fileflows
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: fileflows
+      version: 17.1.4
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: docker.io/revenz/fileflows
+      tag: modded-26.09@sha256:861a525b82d96acd371b1405416a60e2ee5e031a86956b21ed2db93d6df56a41
+      pullPolicy: IfNotPresent
+    gatus:
+      group: media
+      path: "/api/system/version"
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-fileflows"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-fileflows"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: fileflows.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: Media Transcoder
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      logs:
+        enabled: true
+        type: emptyDir
+        mountPath: /app/Logs
+        medium: ""
+      temp:
+        enabled: true
+        type: emptyDir
+        mountPath: /temp
+        medium: "" # Memory
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: ${MEDIA_LOCAL}
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: ${DOWNLOADS_LOCAL}

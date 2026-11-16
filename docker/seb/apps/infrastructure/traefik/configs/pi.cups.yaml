@@ -1,0 +1,20 @@
+http:
+  routers:
+    pi-cups:
+      rule: 'Host(`cups.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: pi-cups-service
+      tls:
+        certResolver: cf
+
+  services:
+    pi-cups-service:
+      loadBalancer:
+        servers:
+          - url: 'https://{{ env "CUPS_LOCAL_DOMAIN" }}'
+        serversTransport: pi-cups-transport
+
+  serversTransports:
+    pi-cups-transport:
+      insecureSkipVerify: true

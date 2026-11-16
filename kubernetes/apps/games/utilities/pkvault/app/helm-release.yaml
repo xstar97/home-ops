@@ -1,0 +1,123 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pkvault
+  namespace: pkvault
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 21.3.6
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    gatus:
+      group: games-utilities
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-pkvault"
+      rfs-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-pkvault"
+    image:
+      repository: ghcr.io/chnapy/pkvault
+      pullPolicy: IfNotPresent
+      tag: 2.5.3@sha256:4a02daecf73745ed291cd8cfdfec45294a82458922dc40b0e1ed3f8c7cf86f04
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+      pod:
+        fsGroup: 568
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                HTTP_PORTS: "{{ .Values.service.main.ports.main.port }}"
+    
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: pkvault.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /pkvault
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      config-saves:
+        enabled: true
+        mountPath: /pkvault/saves
+        volsync:
+          - name: config-saves
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      saves:
+        enabled: true
+        mountPath: /data/saves
+        volsync:
+          - name: saves
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      run:
+        enabled: true
+        type: emptyDir
+        mountPath: /run/nginx
+      varrun:
+        enabled: false
+        type: emptyDir
+        mountPath: /var/run

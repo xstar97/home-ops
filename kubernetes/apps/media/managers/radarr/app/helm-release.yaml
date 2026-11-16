@@ -1,0 +1,142 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: radarr
+  namespace: radarr
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: radarr
+      version: 29.1.8
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-managers
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-radarr"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-radarr"
+    # securityContext:
+    #   readOnlyRootFilesystem: false
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # RADARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
+                RADARR__AUTH__METHOD: External
+                RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+                RADARR__APP__THEME: dark
+
+                RADARR__POSTGRES__HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                RADARR__POSTGRES__PORT: 5432
+                RADARR__POSTGRES__USER: "{{ .Values.cnpg.main.user }}"
+                RADARR__POSTGRES__PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                RADARR__POSTGRES__MAINDB: "{{ .Values.cnpg.main.database }}"
+                RADARR__LOG__DBENABLED: "false"
+                
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: radarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: "Media Manager"
+            widget:
+              custom:
+                key: "${RADARR_KEY}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      covers:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: /config/MediaCover
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "${MEDIA_LOCAL}"
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: "${DOWNLOADS_LOCAL}"
+
+    cnpg:
+      main:
+        enabled: true
+        user: radarr
+        database: radarr
+        mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

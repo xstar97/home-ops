@@ -1,0 +1,18 @@
+---
+# flux-control-plane dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: flux-control-plane
+  namespace: grafana
+spec:
+  # folderRef: gitops
+  folderUID: 40ac49f1-168e-476d-8114-c56818ef80df
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  # renovate: depName="FluxCD"
+  url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/refs/heads/main/monitoring/configs/dashboards/control-plane.json
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

@@ -1,0 +1,48 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "/usr/bin/mc-monitor", "status-bedrock", "--host", "127.0.0.1", "--port", "19132"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  bedrockconnect:
+    scale: 1
+    container_name: bedrockconnect
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bedrockconnect-custom:1.66
+    restart: unless-stopped
+    healthcheck: *healthcheck
+    ports:
+      - "19132:19132/udp"
+    network_mode: host
+    environment:
+      BC_SERVER_LIMIT: 100
+      BC_PORT: 19132
+      BC_BINDIP: 0.0.0.0
+      BC_ONLINE_MODE: true
+      BC_AUTO_RECONNECT: false
+      BC_GENERATEDNS: false
+      BC_KICK_INACTIVE: true
+      BC_USER_SERVERS: false
+      BC_FEATURED_SERVERS: false
+      BC_FETCH_FEATURED_IPS: true
+      BC_FETCH_IPS: false
+      BC_DEBUG: false
+      BC_MOTD_FIRST_JOIN: true
+      BC_MOTD_COOLDOWN: 0
+      BC_STORE_DISPLAY_NAMES: true
+      BC_PACKET_LIMIT: 200
+      BC_GLOBAL_PACKET_LIMIT: 100000
+      BC_CUSTOM_SERVERS: /app/custom_servers.json
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/bedrockconnect/config/custom_servers.json:/app/custom_servers.json
+    labels:
+      wud.watch: false
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

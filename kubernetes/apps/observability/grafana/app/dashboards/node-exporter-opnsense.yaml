@@ -1,0 +1,19 @@
+---
+# node-exporter opnsense dashboard
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-exporter-opnsense
+  namespace: grafana
+spec:
+  # folderRef: network
+  folderUID: 09ca8040-3cc6-491c-8304-549c9ebb1190
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  grafanaCom:
+    id: 19366
+    revision: 9
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: Prometheus

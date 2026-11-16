@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter-opnsense
+  namespace: kube-prometheus-stack
+spec:
+  staticConfigs:
+    - targets:
+        - ${ROUTER_IP}:9100 # metrics.node.opnsense.local
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: instance
+      replacement: node-opnsense
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter

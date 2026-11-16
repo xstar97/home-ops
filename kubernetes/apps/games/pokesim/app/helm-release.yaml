@@ -1,0 +1,192 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pokesim
+  namespace: pokesim
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 21.3.6
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    gatus:
+      group: games
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-pokesim"
+      rfs-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-pokesim"
+    image:
+      repository: ghcr.io/afk-sapien/pokesim
+      tag: 0.7.4@sha256:43a448c5afd8488eca9bb1f173d5af8ff099b1f76a93c7f6cab0f04a97944068
+      pullPolicy: IfNotPresent
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - python
+                    - -m
+                    - pokesim.healthcheck
+                    - --manager
+                readiness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - python
+                    - -m
+                    - pokesim.healthcheck
+                    - --manager
+                startup:
+                  enabled: true
+                  type: tcp
+              args:
+              - python 
+              - -m 
+              - pokesim
+              - serve
+              - --data-dir
+              - /data
+              - --host
+              - 0.0.0.0
+              env:
+                # application settings
+                PORT: "{{ .Values.service.main.ports.main.port }}"
+                HOST: 0.0.0.0
+                PUBLIC_URL: "{{ .Values.chartContext.appUrl }}"
+                ROM_PATH: /roms/pokered.gb
+                SPEED: "2"
+                VIEWER_ONLY: "1"
+
+                # Authentication
+                AUTH: accounts
+
+                OIDC_ISSUER: "https://auth.${DOMAIN_2}"
+                OIDC_CLIENT_ID: pokesim
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_POKESIM}"
+                OIDC_SCOPES: "openid profile email groups"
+                OIDC_GROUPS_CLAIM: groups
+
+                # Map Authelia groups to PokeSim roles
+                AUTH_ADMIN_GROUP: lldap_admin
+                AUTH_MEMBER_GROUP: lldap_pokesim
+
+                # Optional: disable local username/password login
+                DISABLE_PASSWORD_LOGIN: "true"
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 4000m
+                  memory: 3Gi
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: pokesim.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      data:
+        enabled: true
+        mountPath: /data
+        targetSelectAll: true
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      roms:
+        enabled: true
+        mountPath: /roms
+        targetSelectAll: true
+        volsync:
+          - name: roms
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+
+    addons:
+      codeserver:
+        enabled: false
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.pokesim.${DOMAIN_2}
+              paths:
+                - path: /
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod

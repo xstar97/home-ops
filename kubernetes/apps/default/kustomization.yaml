@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # - librespeed/ks.yaml
+  # - renovate-config-debugger/ks.yaml
+  # - cloudcmd/ks.yaml
+  - doublecommander/ks.yaml
+  - feedcord/ks.yaml
+  # - fileshelter/ks.yaml
+  # - it-tools/ks.yaml
+  # - omni-tools/ks.yaml
+  # - pgadmin/ks.yaml
+  # - restreamer/ks.yaml
+  # - reubah/ks.yaml
+  # - selkies/ks.yaml
+  # - snippet-box/ks.yaml
+  # - stirling-pdf/ks.yaml
+  # - string-is/ks.yaml

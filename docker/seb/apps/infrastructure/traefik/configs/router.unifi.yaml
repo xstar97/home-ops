@@ -1,0 +1,21 @@
+http:
+  routers:
+    router-unifi:
+      rule: 'Host(`unifi.{{ env "DOMAIN_0" }}`)'
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      entryPoints:
+        - websecure
+      service: router-unifi-service
+      tls:
+        certResolver: cf
+
+
+  services:
+    router-unifi-service:
+      loadBalancer:
+        serversTransport: myInsecureTransport
+        servers:
+          - url: 'https://{{ env "ROUTER_LOCAL_DOMAIN" }}:8443'
+        passHostHeader: true

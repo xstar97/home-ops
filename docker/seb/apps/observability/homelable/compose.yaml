@@ -1,0 +1,101 @@
+x-healthcheckFE: &healthcheckFE
+  test: curl -f http://localhost:80/api/v1/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+x-healthcheckBE: &healthcheckBE
+  test: curl -f http://localhost:8000/api/v1/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+  
+x-healthcheckMCP: &healthcheckMCP
+  test:
+    - CMD
+    - python
+    - -c
+    - |
+      import json
+      import urllib.request
+      r = urllib.request.urlopen("http://localhost:8001/health", timeout=5)
+      data = json.load(r)
+      raise SystemExit(0 if r.status == 200 and data.get("status") == "ok" else 1)
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+services:
+  frontend:
+    image: ghcr.io/pouzor/homelable-frontend:3.7.1@sha256:2e52e1ba1cd0142c03988b247ca38f1fcbcf668efe39fb5849d432298a56a518
+    container_name: homelable-frontend
+    restart: unless-stopped
+    expose:
+      - "80"
+    healthcheck: *healthcheckFE
+    depends_on:
+      - backend
+    networks:
+      - internal
+      - network_internal
+    labels:
+      traefik.enable: true
+      traefik.http.routers.homelable.rule: Host(`homelable.${BASE_DOMAIN_0}`)
+      traefik.http.services.homelable.loadbalancer.server.port: 80
+      traefik.http.routers.homelable.entrypoints: websecure
+      traefik.http.routers.homelable.tls: true
+      traefik.http.routers.homelable.tls.certResolver: cf
+      traefik.http.routers.homelable.middlewares: error-pages-middleware
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
+  backend:
+    image: ghcr.io/pouzor/homelable-backend:3.7.1@sha256:f0f5f26461991bb8c14bd835f06244755fed9e63f818fa184b237f2d55f7f188
+    container_name: homelable-backend
+    restart: unless-stopped
+    networks:
+      - internal
+    expose:
+      - "8000"
+    healthcheck: *healthcheckBE
+    cap_add:
+      - NET_RAW
+    # MAC addresses: on this bridge network the scanner can never see them —
+    # ARP is layer 2 and every LAN host is one hop away behind the Docker
+    # gateway. To collect MACs (and so keep DHCP devices matched across an IP
+    # change), put the backend on the LAN: comment out the `networks:` key
+    # above and uncomment the line below (Linux hosts only).
+    # network_mode: host
+    env_file:
+      - homelable.enc.env
+    environment:
+      SQLITE_PATH: /app/data/homelab.db
+      AUTH_MODE: oidc
+      OIDC_SCOPES: "openid profile email"
+      OIDC_COOKIE_SECURE: true
+      OIDC_SESSION_EXPIRE_MINUTES: 480
+      OIDC_TRANSACTION_EXPIRE_SECONDS: 600
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/homelable/data:/app/data
+  mcp:
+    image: ghcr.io/pouzor/homelable-mcp:3.7.1@sha256:8c62fcf9354e125c0609ca3409dea22430fc44559e625b4847972df155ec6c47
+    container_name: homelable-mcp
+    restart: unless-stopped
+    expose:
+      - "8001"
+    healthcheck: *healthcheckMCP
+    env_file:
+      - homelable.enc.env
+    environment:
+      BACKEND_URL: "http://homelable-backend:8000"
+    depends_on:
+      - backend
+    networks:
+      - internal
+
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

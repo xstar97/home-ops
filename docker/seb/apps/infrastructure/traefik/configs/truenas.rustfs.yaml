@@ -1,0 +1,38 @@
+http:
+  routers:
+    truenas-rustfs-web:
+      rule: 'Host(`web.rustfs.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: truenas-traefik-service
+      middlewares:
+        - truenas-rustfs-web-host
+      tls:
+        certResolver: cf
+
+    truenas-rustfs-s3:
+      rule: 'Host(`s3.rustfs.{{ env "DOMAIN_0" }}`)'
+      entryPoints:
+        - websecure
+      service: truenas-traefik-service
+      middlewares:
+        - truenas-rustfs-s3-host
+      tls:
+        certResolver: cf
+
+  middlewares:
+    truenas-rustfs-web-host:
+      headers:
+        customRequestHeaders:
+          Host: 'web.rustfs.nas.local'
+
+    truenas-rustfs-s3-host:
+      headers:
+        customRequestHeaders:
+          Host: 's3.rustfs.nas.local'
+
+  services:
+    truenas-traefik-service:
+      loadBalancer:
+        servers:
+          - url: 'http://{{ env "TRUENAS_LOCAL_DOMAIN" }}:80'

@@ -1,0 +1,40 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "/dozzle", "healthcheck"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  dozzle:
+    scale: 1
+    image: amir20/dozzle:v11.4.3@sha256:244f218c876d6ed766277e71a537f34bfb2c01829e1927737e3673a8327deeb8
+    container_name: dozzle
+    restart: on-failure
+    environment:
+      DOZZLE_ADDR: :8080
+      DOZZLE_ENABLE_ACTIONS: true
+      DOZZLE_ENABLE_SHELL: true
+      DOZZLE_NO_ANALYTICS: true
+    networks:
+      - network_internal
+    expose:
+      - "8080"
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dozzle.rule: Host(`dozzle.${BASE_DOMAIN_0}`)
+      traefik.http.services.dozzle.loadbalancer.server.port: 8080
+      traefik.http.routers.dozzle.entrypoints: websecure
+      traefik.http.routers.dozzle.tls: true
+      traefik.http.routers.dozzle.tls.certResolver: cf
+      traefik.http.routers.dozzle.middlewares: error-pages-middleware
+      # Register dashboard DNS record with AdGuard.
+      adguard.dns: "seb.local"
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

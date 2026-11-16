@@ -1,0 +1,37 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+- Networking:
+    - opnsense:
+        icon: opnsense.png
+        href: "https://router.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}"
+        siteMonitor: "{{HOMEPAGE_VAR_OPNSENSE_URL_INTERNAL}}"
+        widget:
+          type: opnsense
+          url: "{{HOMEPAGE_VAR_OPNSENSE_URL_INTERNAL}}"
+          username: "{{HOMEPAGE_VAR_OPNSENSE_USER}}"
+          password: "{{HOMEPAGE_VAR_OPNSENSE_PASS}}"
+          # wan: opt1 # optional, defaults to wan
+    - adguard-home:
+        icon: adguard-home.png
+        href: "https://adg.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}"
+        siteMonitor: "{{HOMEPAGE_VAR_ADGUARD_URL_INTERNAL}}"
+        widget:
+          type: adguard
+          url: "{{HOMEPAGE_VAR_ADGUARD_URL_INTERNAL}}"
+          username: "{{HOMEPAGE_VAR_ADGUARD_USER}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASS}}"
+          # wan: opt1 # optional, defaults to wan
+
+- Servers:
+    - Truenas:
+        icon: truenas.svg
+        href: "https://truenas.{{HOMEPAGE_VAR_BASE_DOMAIN_0}}"
+        siteMonitor: "{{HOMEPAGE_VAR_TRUENAS_HOST}}"
+        description: "Nas"
+        widget:
+          type: truenas
+          url: "{{HOMEPAGE_VAR_TRUENAS_HOST}}"
+          key: "{{HOMEPAGE_VAR_TRUENAS_API}}" # not required if using username / password
+          enablePools: true # optional, defaults to false
+          nasType: scale # defaults to scale, must be set to 'core' if using enablePools with TrueNAS Core
