@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: metallb
+  namespace: metallb
+spec:
+  allowCrossNamespaceImport: true
+  # folder: kubernetes
+  folderUID: 7bff9c1a-f1dd-4d71-8cb1-0cfe83b10c9c
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: prometheus
+  grafanaCom:
+    id: 20162
+    revision: 6
