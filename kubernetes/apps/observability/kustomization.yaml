@@ -14,4 +14,4 @@ resources:
   - unpoller/ks.yaml
   - adguard-exporter/ks.yaml
   - dozzle/ks.yaml
-  - patchmon/ks.yaml
+  # - patchmon/ks.yaml
