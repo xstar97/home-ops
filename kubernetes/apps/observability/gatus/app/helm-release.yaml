@@ -228,6 +228,7 @@ spec:
         # mode: recovery
         cluster:
           singleNode: true
+          skipEmptyWalArchiveCheck: true
           walStorage:
             size: 10Gi
         backups:
