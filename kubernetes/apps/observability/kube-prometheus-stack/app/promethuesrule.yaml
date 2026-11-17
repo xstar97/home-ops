@@ -10,33 +10,82 @@ spec:
     # --------------------------------------------------------------------------
     - name: node-exporter.rules
       rules:
-        # TrueNAS → 98%
-        - alert: NodeMemoryHighUtilizationTrueNAS
+        # All nodes except TrueNAS → 25%
+        - alert: NodeMemoryUtilization25
           expr: |
             100 * (
               1 - (
                 node_memory_MemAvailable_bytes{
                   job="node-exporter",
-                  instance="${SCALE_IP}:9100"
+                  instance!="${SCALE_IP}:9100"
                 }
                 /
                 node_memory_MemTotal_bytes{
                   job="node-exporter",
-                  instance="${SCALE_IP}:9100"
+                  instance!="${SCALE_IP}:9100"
                 }
               )
-            ) > 98
+            ) > 25
+          for: 15m
+          labels:
+            severity: info
+          annotations:
+            summary: Host memory utilization above 25%
+            description: |
+              Memory usage is above 25% on {{ $labels.instance }}.
+              Current value: {{ printf "%.2f" $value }}%.
+
+        # All nodes except TrueNAS → 50%
+        - alert: NodeMemoryUtilization50
+          expr: |
+            100 * (
+              1 - (
+                node_memory_MemAvailable_bytes{
+                  job="node-exporter",
+                  instance!="${SCALE_IP}:9100"
+                }
+                /
+                node_memory_MemTotal_bytes{
+                  job="node-exporter",
+                  instance!="${SCALE_IP}:9100"
+                }
+              )
+            ) > 50
+          for: 15m
+          labels:
+            severity: info
+          annotations:
+            summary: Host memory utilization above 50%
+            description: |
+              Memory usage is above 50% on {{ $labels.instance }}.
+              Current value: {{ printf "%.2f" $value }}%.
+
+        # All nodes except TrueNAS → 75%
+        - alert: NodeMemoryUtilization75
+          expr: |
+            100 * (
+              1 - (
+                node_memory_MemAvailable_bytes{
+                  job="node-exporter",
+                  instance!="${SCALE_IP}:9100"
+                }
+                /
+                node_memory_MemTotal_bytes{
+                  job="node-exporter",
+                  instance!="${SCALE_IP}:9100"
+                }
+              )
+            ) > 75
           for: 15m
           labels:
             severity: warning
           annotations:
-            summary: Host is running out of memory (TrueNAS)
+            summary: Host memory utilization above 75%
             description: |
-              TrueNAS uses RAM aggressively as ZFS ARC cache.
-              Memory usage is above 98% on {{ $labels.instance }}.
+              Memory usage is above 75% on {{ $labels.instance }}.
               Current value: {{ printf "%.2f" $value }}%.
 
-        # All other nodes → 90%
+        # All nodes except TrueNAS → 90%
         - alert: NodeMemoryHighUtilization
           expr: |
             100 * (
@@ -54,7 +103,7 @@ spec:
             ) > 90
           for: 15m
           labels:
-            severity: warning
+            severity: critical
           annotations:
             summary: Host is running out of memory
             description: |
