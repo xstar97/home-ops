@@ -17,12 +17,12 @@ spec:
               1 - (
                 node_memory_MemAvailable_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
                 /
                 node_memory_MemTotal_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
               )
             ) > 25
@@ -42,12 +42,12 @@ spec:
               1 - (
                 node_memory_MemAvailable_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
                 /
                 node_memory_MemTotal_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
               )
             ) > 50
@@ -67,12 +67,12 @@ spec:
               1 - (
                 node_memory_MemAvailable_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
                 /
                 node_memory_MemTotal_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
               )
             ) > 75
@@ -92,12 +92,12 @@ spec:
               1 - (
                 node_memory_MemAvailable_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
                 /
                 node_memory_MemTotal_bytes{
                   job="node-exporter",
-                  instance!="${SCALE_IP}:9100"
+                  instance!="node-nas"
                 }
               )
             ) > 90
