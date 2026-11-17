@@ -23,8 +23,8 @@ services:
     env_file:
       - ./rustfs.enc.env
     environment:
-      RUSTFS_ACCESS_KEY: "${RUSTFS_ACCESS_KEY}"
-      RUSTFS_SECRET_KEY: "${RUSTFS_SECRET_KEY}"
+      # RUSTFS_ACCESS_KEY: "${RUSTFS_ACCESS_KEY}"
+      # RUSTFS_SECRET_KEY: "${RUSTFS_SECRET_KEY}"
       RUSTFS_OBS_LOGGER_LEVEL: "warn"
       RUSTFS_CONSOLE_ENABLE: "true"
       RUSTFS_CORS_ALLOWED_ORIGINS: "*"
