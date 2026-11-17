@@ -14,7 +14,7 @@ x-healthcheckApi: &healthcheckApi
 
 services:
   portchecker-web:
-    scale: 1
+    scale: 0
     image: ghcr.io/dsgnr/portcheckerio-web:4.2.0@sha256:fdd68afeaaa73628ae0f92251e19fe615eaa33bc8d4272d011ceaad8f51da1cc
     container_name: portchecker
     restart: on-failure
@@ -40,7 +40,7 @@ services:
       # Register dashboard DNS record with AdGuard.
       adguard.dns: "seb.local"
   portchecker-api:
-    scale: 1
+    scale: 0
     image: ghcr.io/dsgnr/portcheckerio-api:4.2.0@sha256:135b8c0e9380d98acd27386eb3ad6e6ca50c39063cded8d4e42efb6caf1d2053
     container_name: portchecker-api
     restart: on-failure
