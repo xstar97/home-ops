@@ -13,22 +13,28 @@ spec:
         # All nodes except TrueNAS → 25%
         - alert: NodeMemoryUtilization25
           expr: |
-            100 * (
-              1 - (
-                node_memory_MemAvailable_bytes{
-                  job="node-exporter",
-                  instance!="node-nas"
-                }
-                /
-                node_memory_MemTotal_bytes{
-                  job="node-exporter",
-                  instance!="node-nas"
-                }
+            (
+              100 * (
+                1 - (
+                  node_memory_MemAvailable_bytes{job="node-exporter", instance!="node-nas"}
+                  /
+                  node_memory_MemTotal_bytes{job="node-exporter", instance!="node-nas"}
+                )
               )
             ) > 25
+            and
+            (
+              100 * (
+                1 - (
+                  node_memory_MemAvailable_bytes{job="node-exporter", instance!="node-nas"}
+                  /
+                  node_memory_MemTotal_bytes{job="node-exporter", instance!="node-nas"}
+                )
+              )
+            ) <= 49
           for: 15m
           labels:
-            severity: info
+            severity: none
           annotations:
             summary: Host memory utilization above 25%
             description: |
@@ -50,7 +56,7 @@ spec:
                   instance!="node-nas"
                 }
               )
-            ) > 50
+            ) >= 50
           for: 15m
           labels:
             severity: info
@@ -75,7 +81,7 @@ spec:
                   instance!="node-nas"
                 }
               )
-            ) > 75
+            ) >= 75
           for: 15m
           labels:
             severity: warning
@@ -100,7 +106,7 @@ spec:
                   instance!="node-nas"
                 }
               )
-            ) > 90
+            ) >= 90
           for: 15m
           labels:
             severity: critical
