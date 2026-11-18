@@ -20,3 +20,6 @@ creation_rules:
   # docker
   - path_regex: ^docker/.+\.enc\.env$
     age: age1tjamjeztwth5x76q52tftufdhmq97uluww3upcacps0zl04szqcqdetaan
+
+  # - path_regex: ^docker/.+\.enc\.txt$
+  #   age: age1tjamjeztwth5x76q52tftufdhmq97uluww3upcacps0zl04szqcqdetaan
