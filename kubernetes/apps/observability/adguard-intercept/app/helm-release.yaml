@@ -42,6 +42,12 @@ spec:
       repository: ghcr.io/m00grin/ph-intercept
       pullPolicy: IfNotPresent
       tag: 1.5.8@sha256:c787ed70a7258860d1e73b4179865272ac97b744110b74acc3e5b5703711f286
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
     service:
       main:
         ports:
