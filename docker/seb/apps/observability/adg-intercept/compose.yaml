@@ -40,6 +40,8 @@ services:
       # Optional: "true" drops the client name/IP from every query on the server,
       # so it never reaches the browser. Also hides the in-app CLIENT toggle.
       HIDE_CLIENT: "true"
+    volumes:
+      - ${BASE_DOCKER_DATA_DIR}/adg-intercept/data:/app/data
     labels:
       traefik.enable: true
       traefik.http.routers.gotify.rule: Host(`adgvis.${BASE_DOMAIN_0}`)
