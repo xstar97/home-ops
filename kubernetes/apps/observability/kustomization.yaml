@@ -15,3 +15,5 @@ resources:
   - adguard-exporter/ks.yaml
   - dozzle/ks.yaml
   # - patchmon/ks.yaml
+  - adguard-intercept/ks.yaml
+  

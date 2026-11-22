@@ -1,0 +1,119 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: adguard-intercept
+  namespace: adguard-intercept
+spec:
+  interval: 30m
+  timeout: 25m
+  maxHistory: 3
+  # enabled | warn
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: app-template
+      version: 21.3.7
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    gatus:
+      group: observability
+    credentials:
+      cf-restic:
+        bucket: "${CF_S3_RESTIC_BUCKET}-adg-intercept"
+      rfs-restic:
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-adg-intercept"
+    image:
+      repository: ghcr.io/m00grin/ph-intercept
+      pullPolicy: IfNotPresent
+      tag: 1.5.8@sha256:c787ed70a7258860d1e73b4179865272ac97b744110b74acc3e5b5703711f286
+    service:
+      main:
+        ports:
+          main:
+            port: 4663
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                ADGUARD_URL: "${ADGUARD_HOME_URL}/control"
+                ADGUARD_USERNAME: "${ADGUARD_HOME_USER}"
+                ADGUARD_PASSWORD: "${ADGUARD_HOME_PASS}"
+                # Optional: where ESC navigates to (like your homelab dashboard or homepage)
+                # Accepts http://, https://, protocol-relative (//), relative paths, and custom app schemes
+                # Leave blank ("") to disable ESC entirely
+                RETURN_URL: "https://homepage.${DOMAIN_2}"
+                
+                # Background. These set the DEFAULT; each user can also switch the background live
+                # from the in-app settings menu, and their choice is remembered per-browser.
+                # Style: starfield | nebula | outrun | dark
+                BG_MODE: starfield
+
+                # Sky region shown for the starfield:
+                #   summer_triangle | orion | scorpius | southern_cross
+                SKY_PRESET: summer_triangle
+          
+                # Optional: "true" makes the page view-only. The server refuses the blocking
+                # toggle, filter update and 2-player mode switch; the HUD controls go inert.
+                READ_ONLY: "true"
+
+                # Optional: "true" drops the client name/IP from every query on the server,
+                # so it never reaches the browser. Also hides the in-app CLIENT toggle.
+                HIDE_CLIENT: "true"
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: adgvis.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    persistence:
+      data:
+        enabled: true
+        mountPath: /app/data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      bg:
+        enabled: true
+        mountPath: /app/static/bg
+        volsync:
+          - name: bg
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
