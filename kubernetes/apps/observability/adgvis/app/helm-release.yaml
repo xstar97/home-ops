@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: adguard-intercept
-  namespace: adguard-intercept
+  name: adgvis
+  namespace: adgvis
 spec:
   interval: 30m
   timeout: 25m
@@ -35,9 +35,9 @@ spec:
       group: observability
     credentials:
       cf-restic:
-        bucket: "${CF_S3_RESTIC_BUCKET}-adg-intercept"
+        bucket: "${CF_S3_RESTIC_BUCKET}-adgvis"
       rfs-restic:
-        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-adg-intercept"
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-adgvis"
     image:
       repository: ghcr.io/m00grin/ph-intercept
       pullPolicy: IfNotPresent
