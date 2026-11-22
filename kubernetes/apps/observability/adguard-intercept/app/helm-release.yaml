@@ -58,6 +58,16 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: /api/2p/status
+                readiness:
+                  enabled: true
+                  path: /api/2p/status
+                startup:
+                  enabled: true
+                  type: tcp
               env:
                 ADGUARD_URL: "${ADGUARD_HOME_URL}/control"
                 ADGUARD_USERNAME: "${ADGUARD_HOME_USER}"
