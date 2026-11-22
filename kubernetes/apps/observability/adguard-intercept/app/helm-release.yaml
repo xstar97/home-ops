@@ -30,7 +30,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: true
+      stopAll: false
     gatus:
       group: observability
     credentials:
@@ -52,7 +52,7 @@ spec:
       main:
         ports:
           main:
-            port: 4663
+            port: 4653
     workload:
       main:
         podSpec:
@@ -60,13 +60,13 @@ spec:
             main:
               probes:
                 liveness:
-                  enabled: false
+                  enabled: true
                   path: /api/2p/status
                 readiness:
-                  enabled: false
+                  enabled: true
                   path: /api/2p/status
                 startup:
-                  enabled: false
+                  enabled: true
                   type: tcp
               env:
                 ADGUARD_URL: "${ADGUARD_HOME_URL}/control"

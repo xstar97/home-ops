@@ -14,7 +14,7 @@ services:
     networks:
       - network_internal
     expose:
-      - "4663"
+      - "4653"
     healthcheck: *healthcheck
     env_file:
       - ./adgvis.enc.env
