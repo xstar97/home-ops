@@ -1,5 +1,5 @@
 x-healthcheck: &healthcheck
-  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:4663/api/2p/status"]
+  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:4653/api/2p/status"]
   interval: 30s
   timeout: 10s
   retries: 3
@@ -45,7 +45,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.adgvis.rule: Host(`adgvis.${BASE_DOMAIN_0}`)
-      traefik.http.services.adgvis.loadbalancer.server.port: 4663
+      traefik.http.services.adgvis.loadbalancer.server.port: 4653
       traefik.http.routers.adgvis.entrypoints: websecure
       traefik.http.routers.adgvis.tls: true
       traefik.http.routers.adgvis.tls.certResolver: cf
