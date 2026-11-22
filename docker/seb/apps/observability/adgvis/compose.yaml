@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   adgvis:
-    scale: 1
+    scale: 0
     image: ghcr.io/m00grin/ph-intercept:1.5.8@sha256:c787ed70a7258860d1e73b4179865272ac97b744110b74acc3e5b5703711f286
     container_name: adgvis
     restart: on-failure
@@ -19,6 +19,7 @@ services:
     env_file:
       - ./adgvis.enc.env
     environment:
+      PROVIDER: adguard
       # Optional: where ESC navigates to (like your homelab dashboard or homepage)
       # Accepts http://, https://, protocol-relative (//), relative paths, and custom app schemes
       # Leave blank ("") to disable ESC entirely

@@ -69,6 +69,7 @@ spec:
                   enabled: true
                   type: tcp
               env:
+                PROVIDER: adguard
                 ADGUARD_URL: "${ADGUARD_HOME_URL}/control"
                 ADGUARD_USERNAME: "${ADGUARD_HOME_USER}"
                 ADGUARD_PASSWORD: "${ADGUARD_HOME_PASS}"
