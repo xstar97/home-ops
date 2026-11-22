@@ -6,10 +6,10 @@ x-healthcheck: &healthcheck
   start_period: 15s
 
 services:
-  adguard-intercept:
+  adgvis:
     scale: 1
     image: ghcr.io/m00grin/ph-intercept:1.5.8@sha256:c787ed70a7258860d1e73b4179865272ac97b744110b74acc3e5b5703711f286
-    container_name: adguard-intercept
+    container_name: adgvis
     restart: on-failure
     networks:
       - network_internal
@@ -17,7 +17,7 @@ services:
       - "4663"
     healthcheck: *healthcheck
     env_file:
-      - ./adg.enc.env
+      - ./adgvis.enc.env
     environment:
       # Optional: where ESC navigates to (like your homelab dashboard or homepage)
       # Accepts http://, https://, protocol-relative (//), relative paths, and custom app schemes
