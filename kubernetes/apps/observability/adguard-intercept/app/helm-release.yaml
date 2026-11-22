@@ -60,13 +60,13 @@ spec:
             main:
               probes:
                 liveness:
-                  enabled: true
+                  enabled: false
                   path: /api/2p/status
                 readiness:
-                  enabled: true
+                  enabled: false
                   path: /api/2p/status
                 startup:
-                  enabled: true
+                  enabled: false
                   type: tcp
               env:
                 ADGUARD_URL: "${ADGUARD_HOME_URL}/control"
