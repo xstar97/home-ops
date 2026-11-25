@@ -51,7 +51,7 @@ services:
       # Register dashboard DNS record with AdGuard.
       adguard.dns: "seb.local"
   backend:
-    image: ghcr.io/pouzor/homelable-backend:3.7.1@sha256:f0f5f26461991bb8c14bd835f06244755fed9e63f818fa184b237f2d55f7f188
+    image: ghcr.io/pouzor/homelable-backend:3.8.0@sha256:f4f8b8061af27084c793803614e0009f3440fbbf7cc12033438868a86452d60a
     container_name: homelable-backend
     restart: unless-stopped
     networks:
