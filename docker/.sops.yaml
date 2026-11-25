@@ -1,3 +1,0 @@
-creation_rules:
-  - path_regex: ^[^/]+/(.*\/)?[^/]+\.enc\.txt$
-    age: age1tjamjeztwth5x76q52tftufdhmq97uluww3upcacps0zl04szqcqdetaan
