@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 resources:
   - cilium.yaml
-  - cloudnative-pg.yaml
+  - cnpg.yaml
   - home-ops-mirror.yaml
   - ingress-nginx.yaml
   - jetstack.yaml

@@ -4,7 +4,7 @@ resources:
   - longhorn/ks.yaml
   - system-upgrade
   - cert-manager/ks.yaml
-  - cloudnative-pg/ks.yaml
+  - cnpg-system
   - clusterissuer/ks.yaml
   - kubernetes-reflector/ks.yaml
   - metallb/ks.yaml
