@@ -33,6 +33,7 @@ nodes:
 bootstrap:
   crd:
     - kube-prometheus-stack
+    - grafana-operator
   steps:
     - manifest: kubernetes/config/cluster-secrets.sops.yaml
     - manifest: kubernetes/apps/flux-system/flux-instance/app/deploy-key.sops.yaml
@@ -47,6 +48,7 @@ bootstrap:
     - manifest: kubernetes/apps/system/longhorn/app/volumeSnapshotClass.yaml
     - chart: volsync
     - chart: cloudnative-pg
+    - chart: plugin-barman-cloud
     - chart: flux-operator
     - chart: flux-instance
       wait: false
