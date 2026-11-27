@@ -6,7 +6,7 @@ metadata:
   name: nginx-internal
   namespace: nginx-internal
 spec:
-  interval: 30m
+  interval: 1h
   timeout: 25m
   maxHistory: 3
   # enabled | warn
