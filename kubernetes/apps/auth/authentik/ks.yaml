@@ -4,10 +4,11 @@ metadata:
   name: authentik
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 1h
+  retryInterval: 10m
+  timeout: 10m
   path: kubernetes/apps/auth/authentik/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: authentik
