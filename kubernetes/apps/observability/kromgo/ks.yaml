@@ -4,7 +4,9 @@ metadata:
   name: kromgo
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 1h
+  retryInterval: 10m
+  timeout: 10m
   path: kubernetes/apps/observability/kromgo/app
   prune: true
   sourceRef:

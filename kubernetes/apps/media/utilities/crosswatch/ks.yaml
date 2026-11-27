@@ -4,7 +4,9 @@ metadata:
   name: crosswatch
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 1h
+  retryInterval: 10m
+  timeout: 10m
   path: kubernetes/apps/media/utilities/crosswatch/app
   prune: true
   sourceRef:

@@ -5,7 +5,9 @@ metadata:
   name: wireguard-operator
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 1h
+  retryInterval: 10m
+  timeout: 10m
   path: kubernetes/apps/system/wireguard-operator/app
   prune: true
   sourceRef:
