@@ -1,17 +1,12 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/trueforge-org/websites/refs/heads/main/truecharts/public/schemas/helm-release/32.8.5.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: checkrr
   namespace: checkrr
 spec:
-  interval: 30m
-  timeout: 25m
-  maxHistory: 3
-  # enabled | warn
-  driftDetection:
-    mode: enabled
+  interval: 1h
   chart:
     spec:
       chart: app-template
@@ -20,16 +15,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
     gatus:
       group: media
